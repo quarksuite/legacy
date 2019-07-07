@@ -1,4 +1,4 @@
-xdescribe('basic scheme generation', () => {
+describe('basic scheme generation', () => {
   describe('for analogous schemes', () => {
     test('with a base defined', () => {
       const data = {

@@ -1,21 +1,7 @@
-interface ColorSchemeParams {
-  base: string;
-  options?: ColorAdjustments;
-  scheme?: string;
-}
-
-interface ColorAdjustments {
-  mode: InterpolationMode;
-  variants: number;
-  intensity?: number;
-}
-
-let data: ColorSchemeParams;
-
 describe('basic scheme generation', () => {
   describe('for split complementary schemes', () => {
     test('with a base defined', () => {
-      data = {
+      const data = {
         base: '#DEADED',
         scheme: 'split complementary'
       };
@@ -47,7 +33,7 @@ describe('basic scheme generation', () => {
   });
   describe('triadic schemes', () => {
     test('with a base defined', () => {
-      data = {
+      const data = {
         base: '#DEADED',
         scheme: 'triadic'
       };
@@ -79,7 +65,7 @@ describe('basic scheme generation', () => {
   });
   describe('clash schemes', () => {
     test('with a base defined', () => {
-      data = {
+      const data = {
         base: '#DEADED',
         scheme: 'clash'
       };
