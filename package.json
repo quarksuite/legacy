@@ -1,0 +1,59 @@
+{
+  "name": "@quarksilver/core",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "unpkg": "dist/index.umd.js",
+  "source": "src/index.ts",
+  "types": "dist/index.d.ts",
+  "description": "A rather particular toolkit for generating design systems.",
+  "author": "Chatman R. Jr",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "chroma-js": "^2.0.4",
+    "cosmiconfig": "^5.2.1",
+    "modularscale-js": "^3.0.1",
+    "style-dictionary": "^2.8.1",
+    "write-data": "^1.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.0",
+    "@babel/preset-env": "^7.5.0",
+    "@types/chroma-js": "^1.4.1",
+    "@types/cosmiconfig": "^5.0.3",
+    "@types/jest": "^24.0.15",
+    "@typescript-eslint/eslint-plugin": "^1.11.0",
+    "@typescript-eslint/parser": "^1.11.0",
+    "babel-eslint": "^10.0.2",
+    "babel-jest": "^24.8.0",
+    "eslint": "^6.0.1",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "husky": "^3.0.0",
+    "jest": "^24.8.0",
+    "lint-staged": "^9.1.0",
+    "microbundle": "^0.12.0-next.3",
+    "prettier": "1.18.2",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "ts-jest": "^24.0.2"
+  },
+  "scripts": {
+    "dev": "microbundle watch --name quarksilver",
+    "build": "microbundle --name quarksilver --target node",
+    "test": "jest"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "git add"
+    ]
+  }
+}
