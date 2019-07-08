@@ -1,3 +1,5 @@
+import {Custom} from '../../../colors/custom';
+
 describe('Manual mode', () => {
   describe('can generate custom palettes', () => {
     describe('from color data', () => {
@@ -45,19 +47,18 @@ describe('Manual mode', () => {
 
           white: { value: expect.any(String) }
         };
+
+        expect(Custom.createColors(data)).toMatchObject(schema);
       });
       test('as objects', () => {
         const data = {
           teal: {
             value: '#39cccc',
-            options: {
-              variants: 2
-            }
           },
           orange: {
             value: '#ff851b',
             options: {
-              variants: 1
+              variants: 2
             }
           }
         };
@@ -76,6 +77,8 @@ describe('Manual mode', () => {
             300: { value: expect.any(String) }
           }
         };
+
+        expect(Custom.createPalette(data)).toMatchObject(schema);
       });
     });
   });
