@@ -1,9 +1,33 @@
 describe('basic scheme generation', () => {
-  describe('for analogous schemes', () => {
+  describe('for complementary schemes', () => {
     test('with a base defined', () => {
       const data = {
         base: '#DEADED',
-        type: 'analogous'
+        scheme: 'complementary'
+      };
+
+      const schema = {
+        primary: {
+          100: { value: expect.any(String) },
+          200: { value: expect.any(String) },
+          300: { value: expect.any(String) },
+          400: { value: expect.any(String) },
+          500: { value: expect.any(String) }
+        },
+        secondary: {
+          100: { value: expect.any(String) },
+          200: { value: expect.any(String) },
+          300: { value: expect.any(String) },
+          400: { value: expect.any(String) },
+          500: { value: expect.any(String) }
+        }
+      };
+    });
+    test('with neutral palette', () => {
+      const data = {
+        base: '#DEADED',
+        scheme: 'complementary',
+        neutral: true
       };
 
       const schema = {
@@ -21,14 +45,7 @@ describe('basic scheme generation', () => {
           400: { value: expect.any(String) },
           500: { value: expect.any(String) }
         },
-        tertiary: {
-          100: { value: expect.any(String) },
-          200: { value: expect.any(String) },
-          300: { value: expect.any(String) },
-          400: { value: expect.any(String) },
-          500: { value: expect.any(String) }
-        },
-        quaternary: {
+        neutral: {
           100: { value: expect.any(String) },
           200: { value: expect.any(String) },
           300: { value: expect.any(String) },

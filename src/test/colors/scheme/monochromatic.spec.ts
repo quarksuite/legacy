@@ -1,3 +1,5 @@
+import {Scheme} from '../../../colors/scheme';
+
 describe('basic scheme generation', () => {
   describe('for monochromatic schemes (default)', () => {
     test('with a base defined', () => {
@@ -14,12 +16,14 @@ describe('basic scheme generation', () => {
           500: { value: expect.any(String) }
         }
       };
+
+      expect(Scheme.monochromatic(data)).toMatchObject(schema);
     });
     test('with a contrast intensity', () => {
       const data = {
         base: '#DEADED',
         options: {
-          intensity: 0.5
+          contrast: 0.5
         }
       };
 
@@ -32,12 +36,14 @@ describe('basic scheme generation', () => {
           500: { value: expect.any(String) }
         }
       };
+
+      expect(Scheme.monochromatic(data)).toMatchObject(schema);
     });
     test('with fewer colors', () => {
       const data = {
         base: '#DEADED',
         options: {
-          colors: 2
+          variants: 2
         }
       };
 
@@ -48,12 +54,14 @@ describe('basic scheme generation', () => {
           300: { value: expect.any(String) }
         }
       };
+
+      expect(Scheme.monochromatic(data)).toMatchObject(schema);
     });
     test('with more colors', () => {
       const data = {
         base: '#DEADED',
         options: {
-          colors: 4
+          variants: 4
         }
       };
 
@@ -68,6 +76,8 @@ describe('basic scheme generation', () => {
           700: { value: expect.any(String) }
         }
       };
+
+      expect(Scheme.monochromatic(data)).toMatchObject(schema);
     });
   });
 });
