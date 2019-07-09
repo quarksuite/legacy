@@ -1,9 +1,10 @@
 import {Scheme} from '../../../colors/scheme';
+import {ColorBasicPaletteSchema} from '../../../helpers/interfaces';
 
 describe('basic scheme generation', () => {
   describe('for monochromatic schemes (default)', () => {
     test('with a base defined', () => {
-      const data = {
+      const data: ColorBasicPaletteSchema = {
         base: '#DEADED'
       };
 
@@ -19,11 +20,11 @@ describe('basic scheme generation', () => {
 
       expect(Scheme.monochromatic(data)).toMatchObject(schema);
     });
-    test('with a contrast intensity', () => {
-      const data = {
+    test('with a contrast', () => {
+      const data: ColorBasicPaletteSchema = {
         base: '#DEADED',
         options: {
-          contrast: 0.5
+          contrast: 'med'
         }
       };
 
@@ -40,10 +41,10 @@ describe('basic scheme generation', () => {
       expect(Scheme.monochromatic(data)).toMatchObject(schema);
     });
     test('with fewer colors', () => {
-      const data = {
+      const data: ColorBasicPaletteSchema = {
         base: '#DEADED',
         options: {
-          variants: 2
+          range: 'minimal'
         }
       };
 
@@ -58,10 +59,10 @@ describe('basic scheme generation', () => {
       expect(Scheme.monochromatic(data)).toMatchObject(schema);
     });
     test('with more colors', () => {
-      const data = {
+      const data: ColorBasicPaletteSchema = {
         base: '#DEADED',
         options: {
-          variants: 4
+          range: 4
         }
       };
 

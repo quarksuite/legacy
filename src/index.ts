@@ -1,21 +1,21 @@
 import {Custom} from './colors/custom';
 import {Scheme} from './colors/scheme';
 
-import {Utility} from './utils';
-import {Config} from './config';
+import {Utility} from './helpers/utility';
+import {Config} from './helpers/config';
 
 /**
- * Module encapsulating [[Custom]], [[Scheme]] color configuration modules
+ * [[Colors]] encapsulates [[Custom]], [[Scheme]] modules.
  */
-export const Colors = {
-  Custom,
+export namespace Colors {
+  Custom
   Scheme
 }
 
 /**
- * Module encapsulating [[Utility]] and [[Config]] helper modules.
+ * [[Helpers]] encapsulates [[Utility]], [[Config]] modules.
  */
-export const Quarks = {
-  Config,
+export namespace Helpers {
+  Config
   Utility
 }

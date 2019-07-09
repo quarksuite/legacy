@@ -13,11 +13,12 @@
     /* Module Resolution Options */
     "esModuleInterop": true                   /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
   },
+  "exclude": ["node_modules", "dist"],
   "typedocOptions": {
     "exclude": "**/*+(.spec).ts",
-    "mode": "file",
+    "excludeNotExported": true,
+    "mode": "modules",
     "out": "docs",
-    "name": "Quarksilver (Core)",
-    "theme": "minimal"
+    "name": "Quarksilver (Core)"
   }
 }

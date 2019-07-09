@@ -1,10 +1,11 @@
 import {Custom} from '../../../colors/custom';
+import {ColorCustomSwatchSchema, ColorCustomPaletteSchema} from '../../../helpers/interfaces';
 
-describe('Manual mode', () => {
-  describe('can generate custom palettes', () => {
-    describe('from color data', () => {
-      test('as strings', () => {
-        const data = {
+describe('Colors.Custom', () => {
+  describe('can generate custom', () => {
+    describe('colors from color objects', () => {
+      test('as swatches', () => {
+        const data: ColorCustomSwatchSchema = {
           navy: '#001f3f',
           blue: '#0074d9',
           aqua: '#7fdbff',
@@ -48,17 +49,17 @@ describe('Manual mode', () => {
           white: { value: expect.any(String) }
         };
 
-        expect(Custom.createColors(data)).toMatchObject(schema);
+        expect(Custom.createSwatches(data)).toMatchObject(schema);
       });
-      test('as objects', () => {
-        const data = {
+      test('as palettes', () => {
+        const data: ColorCustomPaletteSchema = {
           teal: {
             value: '#39cccc',
           },
           orange: {
             value: '#ff851b',
             options: {
-              variants: 2
+              range: 'minimal'
             }
           }
         };
