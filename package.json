@@ -37,14 +37,22 @@
     "jest": "^24.8.0",
     "lint-staged": "^9.1.0",
     "microbundle": "^0.12.0-next.3",
+    "npm-run-all": "^4.1.5",
+    "onchange": "^6.0.0",
     "prettier": "1.18.2",
     "rollup-plugin-node-builtins": "^2.1.2",
+    "serve": "^11.0.2",
     "ts-jest": "^24.0.2",
     "typedoc": "^0.14.2"
   },
   "scripts": {
-    "dev": "microbundle watch --name quarksilver",
-    "build": "microbundle --name quarksilver --target node",
+    "dev": "run-p -n dev:*",
+    "build": "run-s -n test build:microbundle build:docs",
+    "dev:microbundle": "microbundle watch --name quarksilver",
+    "build:microbundle": "microbundle --name quarksilver --target node",
+    "dev:docs": "onchange -i -k 'src/**/*.ts' -- yarn build:docs",
+    "build:docs": "typedoc",
+    "dev:serve": "serve docs",
     "test": "jest"
   },
   "husky": {
