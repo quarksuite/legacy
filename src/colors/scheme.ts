@@ -1,5 +1,5 @@
 /**
- * The [[Scheme]] module creates basic palettes for Quarksilver color tokens.
+ * The [[ColorsScheme]] module creates basic palettes for Quarksilver color tokens.
  */
 import chroma from 'chroma-js';
 
@@ -23,7 +23,7 @@ const setNeutralPalette = (color: string, options: ColorOptionAdjustments): obje
  * [[analogous]], [[tetradic]] methods for generating color schemes.
  * ```
  */
-export const Scheme = {
+export const ColorsScheme = {
   /**
    * Generates monochromatic color schemes.
    * Parses data of type: [[ColorBasicPaletteSchema]]
@@ -41,7 +41,7 @@ export const Scheme = {
    *   }
    * }
    *
-   * const palette = Colors.Scheme.monochromatic(data)
+   * const palette = Colors.ColorsScheme.monochromatic(data)
    * ```
    */
   monochromatic(data: ColorBasicPaletteSchema): object {
@@ -71,7 +71,7 @@ export const Scheme = {
    *   }
    * }
    *
-   * const palette = Colors.Scheme.complementary(data);
+   * const palette = Colors.ColorsScheme.complementary(data);
    * ```
    */
   complementary(data: ColorBasicPaletteSchema): object {
@@ -105,9 +105,9 @@ export const Scheme = {
    *   }
    * }
    *
-   * const palette = Colors.Scheme.splitComplementary(data);
-   * const triadicPalette = Colors.Scheme.splitComplementary(data, 'triadic');
-   * const clashPalette = Colors.Scheme.splitComplementary(data, 'clash');
+   * const palette = Colors.ColorsScheme.splitComplementary(data);
+   * const triadicPalette = Colors.ColorsScheme.splitComplementary(data, 'triadic');
+   * const clashPalette = Colors.ColorsScheme.splitComplementary(data, 'clash');
    * ```
    */
   splitComplementary(data: ColorBasicPaletteSchema, scheme?: 'triadic' | 'clash'): object {
@@ -155,7 +155,7 @@ export const Scheme = {
    *   }
    * }
    *
-   * const palette = Colors.Scheme.analogous(data);
+   * const palette = Colors.ColorsScheme.analogous(data);
    * ```
    */
   analogous(data: ColorBasicPaletteSchema): object {
@@ -193,7 +193,7 @@ export const Scheme = {
    *   }
    * }
    *
-   * const palette = Colors.Scheme.tetradic(data);
+   * const palette = Colors.ColorsScheme.tetradic(data);
    * ```
    */
   tetradic(data: ColorBasicPaletteSchema): object {
