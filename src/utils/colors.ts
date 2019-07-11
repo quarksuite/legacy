@@ -18,13 +18,17 @@ const removeBaseColor = (palette: string[]): string[] => {
 const generateColors = (colorRange: string[], options: ColorOptionAdjustments = {}): string[] => {
   const { mode = <InterpolationMode>'lab', range = 'material' } = options
   const colorScale = chroma.scale(colorRange).mode(mode);
+  let rangePlus = 0;
 
   // If named range, set output colors explicitly
-  if (range === 'minimal') return removeBaseColor(colorScale.colors(2));
+  if (range === 'minimal') return removeBaseColor(colorScale.colors(3));
   if (range === 'material') return removeBaseColor(colorScale.colors(5));
 
+  // Range must be incremented to fill removed base color
+  if (typeof range === 'number') rangePlus += range + 1;
+
   // Otherwise numeric range 
-  return removeBaseColor(colorScale.colors(range));
+  return removeBaseColor(colorScale.colors(rangePlus));
 }
 
 const convertPercent = (percent: number): number => parseFloat((percent / 100).toPrecision(2))
@@ -76,4 +80,4 @@ export const split = (color: string, distance: number = 30): [string, string] =>
 ]
 
 export const spread = (color: string): string[] =>
-  generateColors([color, setHue(color, '+60')], { range: 4 })
+  generateColors([color, setHue(color, '+60')], { range: 3 })
