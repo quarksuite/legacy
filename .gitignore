@@ -119,7 +119,8 @@ tags
 # Persistent undo
 [._]*.un~
 
-# Hide dist
+# Hide dist and generated docs from source
 dist
+docs
 
 # End of https://www.gitignore.io/api/vim,node,code
