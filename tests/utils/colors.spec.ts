@@ -44,8 +44,8 @@ describe('color utilities', () => {
     })
   })
   describe('spread(color, rotation?)', () => {
-    test('returns a range of colors adjacent from base', () => {
-      expect(spread(color)).toStrictEqual(['#ff7f00', '#ffc200', '#ffff00'])
+    test('returns a range of colors fanned from base', () => {
+      expect(spread(color)).toStrictEqual(['#ff00ff', '#ffa6a6', '#ffff00'])
     })
   })
 })
