@@ -63,15 +63,15 @@ const triColorScheme = (
 
   return neutral
     ? {
-        main: palette(base, options),
-        accent: palette(colors[0], options),
-        spot: palette(colors[1], options),
+        main: palette(colors[0], options),
+        accent: palette(colors[1], options),
+        spot: palette(colors[2], options),
         neutral: setNeutralPalette(base, options)
       }
     : {
-        main: palette(base, options),
-        accent: palette(colors[0], options),
-        spot: palette(colors[1], options)
+        main: palette(colors[0], options),
+        accent: palette(colors[1], options),
+        spot: palette(colors[2], options)
       };
 };
 
@@ -120,7 +120,7 @@ const quadColorScheme = (
         accent: palette(colors[1], options),
         spot: palette(colors[2], options),
         flourish: palette(colors[3], options),
-        neutral: setNeutralPalette(base, options)
+        neutral: setNeutralPalette(colors[0], options)
       }
     : {
         main: palette(colors[0], options),

@@ -1,5 +1,9 @@
-import * as Colors from './colors';
+import * as Custom from './colors/custom';
+import * as Scheme from './colors/scheme';
+import * as ColorsKit from './colors/kit';
 
-export default {
-  Colors
+export const Colors = {
+  Custom,
+  Scheme,
+  Kit: ColorsKit
 };
