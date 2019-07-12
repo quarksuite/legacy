@@ -1,12 +1,12 @@
-import { ColorCustomPaletteSchema } from "../../src/utils/interfaces";
-import { createPalette } from "../../src/colors/custom";
+import { ColorCustomPaletteSchema } from '../../src/colors/kit/schema';
+import { createPalette } from '../../src/colors/custom';
 
 describe('Custom color modules', () => {
   describe('createPalette(data)', () => {
     test('creates a palette from color collection', () => {
       const data: ColorCustomPaletteSchema = {
         teal: {
-          value: '#39cccc',
+          value: '#39cccc'
         },
         orange: {
           value: '#ff851b',
@@ -17,10 +17,10 @@ describe('Custom color modules', () => {
         }
       };
 
-      type CustomPaletteTokenOutput = {
+      interface CustomPaletteTokenOutput {
         [index: string]: {
-          [index: string]: { value: string }
-        }
+          [index: string]: { value: string };
+        };
       }
 
       const schema: CustomPaletteTokenOutput = {
@@ -44,7 +44,9 @@ describe('Custom color modules', () => {
         }
       };
 
-      expect(createPalette(data)).toMatchObject<CustomPaletteTokenOutput>(schema);
-    })
-  })
-})
+      expect(createPalette(data)).toMatchObject<CustomPaletteTokenOutput>(
+        schema
+      );
+    });
+  });
+});

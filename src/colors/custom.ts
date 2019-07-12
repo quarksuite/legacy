@@ -1,5 +1,8 @@
-import { ColorCustomSwatchSchema, ColorCustomPaletteSchema } from '../utils/interfaces';
-import {loadPalette} from '../utils/colors';
+import {
+  ColorCustomSwatchSchema,
+  ColorCustomPaletteSchema
+} from './kit/schema';
+import { loadPalette } from './kit';
 
 /**
  * Creates a 1:1 output of color tokens from a collection.
@@ -12,16 +15,16 @@ import {loadPalette} from '../utils/colors';
  *  green: '#0f0',
  *  blue: '#00f'
  * }
- * 
+ *
  * createSwatches(data)
  * ```
  */
 export const createSwatches = (data: ColorCustomSwatchSchema): object => {
   return Object.keys(data).reduce((container, color) => {
     const value = data[color];
-    return { ...container, ...{ [color]: { value } } }
-  }, {})
-}
+    return { ...container, ...{ [color]: { value } } };
+  }, {});
+};
 
 /**
  * Creates a user defined palette with tints and shades from color objects.
@@ -60,4 +63,4 @@ export const createPalette = (data: ColorCustomPaletteSchema): object => {
     const { value, options = {} } = data[category];
     return { ...container, ...{ [category]: loadPalette(value, options) } };
   }, {});
-} 
+};

@@ -1,7 +1,7 @@
 import chroma from 'chroma-js';
 
-import { ColorBasicPaletteSchema, ColorOptionAdjustments } from '../utils/interfaces';
-import * as Color from '../utils/colors';
+import { ColorBasicPaletteSchema, ColorOptionAdjustments } from './kit/schema';
+import * as Color from './kit';
 
 // for convenience
 const palette = Color.loadPalette;
@@ -12,18 +12,21 @@ const spread = Color.spread;
 /**
  * Neutralizes a color with its complement
  */
-const fetchNegation = (color: string): string => chroma.mix(color, complement(color), 0.5, 'lab').hex();
+const fetchNegation = (color: string): string =>
+  chroma.mix(color, complement(color), 0.5, 'lab').hex();
 
 /**
  * Creates a palette from the neutralization
  */
-const setNeutralPalette = (color: string, options: ColorOptionAdjustments): object =>
-  palette(fetchNegation(color), options);
+const setNeutralPalette = (
+  color: string,
+  options: ColorOptionAdjustments
+): object => palette(fetchNegation(color), options);
 
-  /**
-   * Inscribes a triangle of colors from point A.
-   * rotation = 120 is an equilateral triad
-   * rotation = 90 is an isosceles clash
+/**
+ * Inscribes a triangle of colors from point A.
+ * rotation = 120 is an equilateral triad
+ * rotation = 90 is an isosceles clash
  */
 const inscribeTriangle = (color: string, rotation: number = 60): string[] => {
   const a = color;
@@ -35,7 +38,10 @@ const inscribeTriangle = (color: string, rotation: number = 60): string[] => {
 /**
  * Constructs tri-color schemes ('split complement', 'triadic', 'clash')
  */
-const triColorScheme = (data: ColorBasicPaletteSchema, scheme: 'split complement' | 'triadic' | 'clash'): object => {
+const triColorScheme = (
+  data: ColorBasicPaletteSchema,
+  scheme: 'split complement' | 'triadic' | 'clash'
+): object => {
   const { base, options = {}, neutral } = data;
   let colors: string[];
 
@@ -50,19 +56,23 @@ const triColorScheme = (data: ColorBasicPaletteSchema, scheme: 'split complement
       colors = inscribeTriangle(base, 90);
       break;
     default:
-      throw Error('scheme: expected one of ("split complement", "triadic", "clash")');
+      throw Error(
+        'scheme: expected one of ("split complement", "triadic", "clash")'
+      );
   }
 
-  return neutral ? {
-    main: palette(base, options),
-    accent: palette(colors[0], options),
-    spot: palette(colors[1], options),
-    neutral: setNeutralPalette(base, options)
-  } : {
-      main: palette(base, options),
-      accent: palette(colors[0], options),
-      spot: palette(colors[1], options)
-    }
+  return neutral
+    ? {
+        main: palette(base, options),
+        accent: palette(colors[0], options),
+        spot: palette(colors[1], options),
+        neutral: setNeutralPalette(base, options)
+      }
+    : {
+        main: palette(base, options),
+        accent: palette(colors[0], options),
+        spot: palette(colors[1], options)
+      };
 };
 
 /**
@@ -81,19 +91,21 @@ const inscribeRectangle = (color: string, rotation: number = 60) => {
   const d = complement(b);
 
   return [a, c, b, d];
-}
-
+};
 
 /**
  * Constructs quad-color schemes ('tetradic', 'square')
  */
-const quadColorScheme = (data: ColorBasicPaletteSchema, scheme: 'tetradic' | 'square'): object => {
+const quadColorScheme = (
+  data: ColorBasicPaletteSchema,
+  scheme: 'tetradic' | 'square'
+): object => {
   const { base, options = {}, neutral } = data;
   let colors: string[];
-  
+
   switch (scheme) {
     case 'tetradic':
-      colors = inscribeRectangle(base)
+      colors = inscribeRectangle(base);
       break;
     case 'square':
       colors = inscribeRectangle(base, 90);
@@ -102,23 +114,25 @@ const quadColorScheme = (data: ColorBasicPaletteSchema, scheme: 'tetradic' | 'sq
       throw Error('scheme: expected one of ("tetradic", "square"');
   }
 
-  return neutral ? {
-    main: palette(colors[0], options),
-    accent: palette(colors[1], options),
-    spot: palette(colors[2], options),
-    flourish: palette(colors[3], options),
-    neutral: setNeutralPalette(base, options)
-  } : {
-      main: palette(colors[0], options),
-      accent: palette(colors[1], options),
-      spot: palette(colors[2], options),
-      flourish: palette(colors[3], options)
-    }
-}
+  return neutral
+    ? {
+        main: palette(colors[0], options),
+        accent: palette(colors[1], options),
+        spot: palette(colors[2], options),
+        flourish: palette(colors[3], options),
+        neutral: setNeutralPalette(base, options)
+      }
+    : {
+        main: palette(colors[0], options),
+        accent: palette(colors[1], options),
+        spot: palette(colors[2], options),
+        flourish: palette(colors[3], options)
+      };
+};
 
 /**
  * Outputs a basic monochromatic scheme.
- * 
+ *
  * ```ts
  * import {monochromatic} from '@quarksilver/core';
  *
@@ -149,18 +163,20 @@ const quadColorScheme = (data: ColorBasicPaletteSchema, scheme: 'tetradic' | 'sq
  * ```
  */
 export const monochromatic = (data: ColorBasicPaletteSchema): object => {
-  const { base, options = {}, neutral, } = data;
-  return neutral ? {
-    main: palette(base, options),
-    neutral: setNeutralPalette(base, options)
-  } : {
-      main: palette(base, options)
-    }
-}
+  const { base, options = {}, neutral } = data;
+  return neutral
+    ? {
+        main: palette(base, options),
+        neutral: setNeutralPalette(base, options)
+      }
+    : {
+        main: palette(base, options)
+      };
+};
 
 /**
  * Outputs a complementary scheme.
- * 
+ *
  * ```ts
  * import {complementary} from '@quarksilver/core';
  *
@@ -191,22 +207,24 @@ export const monochromatic = (data: ColorBasicPaletteSchema): object => {
  * ```
  */
 export const complementary = (data: ColorBasicPaletteSchema): object => {
-  const { base, options = {}, neutral, } = data;
+  const { base, options = {}, neutral } = data;
   const opposite = complement(base);
 
-  return neutral ? {
-    main: palette(base, options),
-    accent: palette(opposite, options),
-    neutral: setNeutralPalette(base, options)
-  } : {
-      main: palette(base, options),
-      accent: palette(opposite, options)
-    }
-}
+  return neutral
+    ? {
+        main: palette(base, options),
+        accent: palette(opposite, options),
+        neutral: setNeutralPalette(base, options)
+      }
+    : {
+        main: palette(base, options),
+        accent: palette(opposite, options)
+      };
+};
 
 /**
  * Outputs a split complement scheme.
- * 
+ *
  * ```ts
  * import {splitComplement} from '@quarksilver/core';
  *
@@ -236,11 +254,12 @@ export const complementary = (data: ColorBasicPaletteSchema): object => {
  * splitComplement(data)
  * ```
  */
-export const splitComplement = (data: ColorBasicPaletteSchema): object => triColorScheme(data, 'split complement');
+export const splitComplement = (data: ColorBasicPaletteSchema): object =>
+  triColorScheme(data, 'split complement');
 
 /**
  * Outputs a triadic scheme.
- * 
+ *
  * ```ts
  * import {triadic} from '@quarksilver/core';
  *
@@ -270,11 +289,12 @@ export const splitComplement = (data: ColorBasicPaletteSchema): object => triCol
  * triadic(data)
  * ```
  */
-export const triadic = (data: ColorBasicPaletteSchema): object => triColorScheme(data, 'triadic');
+export const triadic = (data: ColorBasicPaletteSchema): object =>
+  triColorScheme(data, 'triadic');
 
 /**
  * Outputs a clash scheme.
- * 
+ *
  * ```ts
  * import {clash} from '@quarksilver/core';
  *
@@ -304,11 +324,12 @@ export const triadic = (data: ColorBasicPaletteSchema): object => triColorScheme
  * clash(data)
  * ```
  */
-export const clash = (data: ColorBasicPaletteSchema): object => triColorScheme(data, 'clash');
+export const clash = (data: ColorBasicPaletteSchema): object =>
+  triColorScheme(data, 'clash');
 
 /**
  * Outputs a analogous scheme.
- * 
+ *
  * ```ts
  * import {analogous} from '@quarksilver/core';
  *
@@ -341,24 +362,26 @@ export const clash = (data: ColorBasicPaletteSchema): object => triColorScheme(d
 export const analogous = (data: ColorBasicPaletteSchema): object => {
   const { base, options = {}, neutral } = data;
   const analogues = spread(base);
-  
-  return neutral ? {
-    main: palette(base, options),
-    accent: palette(analogues[0], options),
-    spot: palette(analogues[1], options),
-    flourish: palette(analogues[2], options),
-    neutral: setNeutralPalette(base, options)
-  } : {
-    main: palette(base, options),
-    accent: palette(analogues[0], options),
-    spot: palette(analogues[1], options),
-    flourish: palette(analogues[2], options)
-    }
-}
+
+  return neutral
+    ? {
+        main: palette(base, options),
+        accent: palette(analogues[0], options),
+        spot: palette(analogues[1], options),
+        flourish: palette(analogues[2], options),
+        neutral: setNeutralPalette(base, options)
+      }
+    : {
+        main: palette(base, options),
+        accent: palette(analogues[0], options),
+        spot: palette(analogues[1], options),
+        flourish: palette(analogues[2], options)
+      };
+};
 
 /**
  * Outputs a tetradic scheme.
- * 
+ *
  * ```ts
  * import {tetradic} from '@quarksilver/core';
  *
@@ -388,11 +411,12 @@ export const analogous = (data: ColorBasicPaletteSchema): object => {
  * tetradic(data)
  * ```
  */
-export const tetradic = (data: ColorBasicPaletteSchema): object => quadColorScheme(data, 'tetradic');
+export const tetradic = (data: ColorBasicPaletteSchema): object =>
+  quadColorScheme(data, 'tetradic');
 
 /**
  * Outputs a square scheme.
- * 
+ *
  * ```ts
  * import {square} from '@quarksilver/core';
  *
@@ -422,4 +446,5 @@ export const tetradic = (data: ColorBasicPaletteSchema): object => quadColorSche
  * square(data)
  * ```
  */
-export const square = (data: ColorBasicPaletteSchema): object => quadColorScheme(data, 'square');
+export const square = (data: ColorBasicPaletteSchema): object =>
+  quadColorScheme(data, 'square');

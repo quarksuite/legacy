@@ -1,5 +1,5 @@
-import { ColorCustomSwatchSchema } from "../../src/utils/interfaces";
-import { createSwatches } from "../../src/colors/custom";
+import { ColorCustomSwatchSchema } from '../../src/colors/kit/schema';
+import { createSwatches } from '../../src/colors/custom';
 
 describe('Custom color modules', () => {
   describe('createSwatches(data)', () => {
@@ -26,8 +26,8 @@ describe('Custom color modules', () => {
         white: '#ffffff'
       };
 
-      type CustomSwatchTokenOutput = {
-        [index: string]: { value: string }
+      interface CustomSwatchTokenOutput {
+        [index: string]: { value: string };
       }
 
       const schema: CustomSwatchTokenOutput = {
@@ -52,7 +52,9 @@ describe('Custom color modules', () => {
         white: { value: expect.any(String) }
       };
 
-      expect(createSwatches(data)).toMatchObject<CustomSwatchTokenOutput>(schema);
-    })
-  })
-})
+      expect(createSwatches(data)).toMatchObject<CustomSwatchTokenOutput>(
+        schema
+      );
+    });
+  });
+});
