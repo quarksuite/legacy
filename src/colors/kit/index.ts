@@ -4,109 +4,117 @@
  */
 
 import chroma, { InterpolationMode } from 'chroma-js';
-import { ColorOptionAdjustments } from './schema';
-
-/** 
- * Maps a color palette to hex format.
- */
-const maptoCSS = (palette: string[]): string[] => palette.map(c => chroma(c).hex());
+import { ColorOptions } from './schema';
 
 /**
- * Removes base color from a palette so it isn't needless repeated in color manipulations
+ * Maps a color palette to hex format.
  */
-const removeBaseColor = (palette: string[]): string[] => {
-  const [, ...colors] = palette;
-  return maptoCSS(colors);
-};
+const maptoCSS = (palette: string[]): string[] =>
+  palette.map((c): string => chroma(c).hex());
 
 /**
  * Generates a range of colors.
  */
-const generateColors = (colorRange: string[], options: ColorOptionAdjustments = {}): string[] => {
-  const { mode = <InterpolationMode>'lab', range = 'material' } = options;
+const generate = (
+  colorRange: string[],
+  options: ColorOptions = {}
+): string[] => {
+  const { mode = 'lab' as InterpolationMode, range = 'material' } = options;
   const colorScale = chroma.scale(colorRange).mode(mode);
-  let rangePlus = 0;
 
   // If named range, set output colors explicitly
-  if (range === 'minimal') return removeBaseColor(colorScale.colors(3));
-  if (range === 'material') return removeBaseColor(colorScale.colors(5));
+  if (range === 'minimal') return colorScale.colors(2);
+  if (range === 'material') return colorScale.colors(4);
 
-  // Range must be incremented to fill removed base color
-  if (typeof range === 'number') rangePlus += range + 1;
+  // Otherwise numeric range
+  return colorScale.colors(range);
+};
 
-  // Otherwise numeric range 
-  return removeBaseColor(colorScale.colors(rangePlus));
-}
+/** Converts a percentage to a ratio */
+const convert = (percent: number): number =>
+  parseFloat((percent / 100).toPrecision(2));
 
-const convertPercent = (percent: number): number => parseFloat((percent / 100).toPrecision(2))
+/** Parses the named contrast options into something usable by chroma */
 const setContrast = (contrast: number | 'low' | 'med' | 'high'): number => {
-  if (contrast === 'low') return convertPercent(30);
-  if (contrast === 'med') return convertPercent(50);
-  if (contrast === 'high') return convertPercent(95);
+  if (contrast === 'low') return convert(30);
+  if (contrast === 'med') return convert(50);
+  if (contrast === 'high') return convert(95);
 
   // Limit input from 0 to 100 (percent)
-  if (contrast < 0 || contrast > 100) throw Error(`contrast: expected value 0 < x < 100 but received ${contrast}`);
+  if (contrast < 0 || contrast > 100)
+    throw Error(
+      `contrast: expected value 0 < x < 100 but received ${contrast}`
+    );
 
-  return convertPercent(contrast);
-}
+  return convert(contrast);
+};
 
 /**
- * Merges tints and shades for a complete palette.
+ * Merges a base color with a target to blend
  */
-const mergeVariants = (target: string, options: ColorOptionAdjustments = {}): string[] => {
+const blend = (
+  color: string,
+  target: string,
+  options: ColorOptions = {}
+): string[] => {
   const { contrast = 'high', mode } = options;
 
-  const baseHue = chroma(target).hex();
+  const base = chroma(color).hex();
 
-  // Deepest shade and lightest tint of target
-  const black = chroma.mix(target, '#111111', setContrast(contrast), mode).hex();
-  const white = chroma.mix(target, '#FFFFFF', setContrast(contrast), mode).hex();
+  // blend color with target
+  const blend = chroma.mix(color, target, setContrast(contrast), mode).hex();
 
-  // Generate full range of variants
-  const shades = generateColors([baseHue, black], options).reverse();
-  const tints = generateColors([baseHue, white], options);
+  // Generate variants
+  const variants = generate([base, blend], options);
 
   // Format them for consumption
-  return [...shades, baseHue, ...tints];
-}
+  return [...variants];
+};
 
 /**
- * Alters the hue of a color a relative distance from origin ('+45' degrees from #f00000 )
+ * Alters the hue of a color
  */
-const setHue = (color: string, angle: string): string => chroma(color).set('hsl.h', angle).hex();
+const setHue = (color: string, rotation: string): string =>
+  chroma(color)
+    .set('hsl.h', rotation)
+    .hex();
+
+/** Returns a collection of tints for a color */
+const tints = (color: string, options: ColorOptions = {}): string[] =>
+  blend(color, '#fff', options);
+
+/** Returns a collection of tones for a color */
+const tones = (color: string, options: ColorOptions = {}): string[] =>
+  blend(color, '#aaa', options);
+
+/** Returns a collection of shades for a color */
+const shades = (color: string, options: ColorOptions = {}): string[] =>
+  blend(color, '#111', options);
+
+type TokenizeFormat = (color: {}, category: string, index: number) => {};
 
 /**
- * Outputs color tokens in a form that can be consumed by Style Dictionary.
+ * Transforms a collection of colors into tokens consumable by Style Dictionary
  */
-const formatColorTokens = (palette: string[]): object => palette
-  .reduce((container, value, index) => {
-    const indexToOne = ++index;
-    return { ...container, ...{ [indexToOne.toString().padEnd(3, '0')]: { value } } }
-  }, {});
-
-/**
- * Loads a full color palette with options from a QuarksilverConfigSchema interface
- * @param color - any valid CSS color
- *
- * ```ts
- * import {loadPalette} from '@quarksilver/core';
- *
- * loadPalette('#f00', { range: 'minimal' })
- * ```
- */
-export const loadPalette = (color: string, options: ColorOptionAdjustments = {}): object =>
-  formatColorTokens(mergeVariants(color, options));
+const tokenize = (format: TokenizeFormat, palette: string[]): object =>
+  palette.reduce(format, {});
 
 /**
  * Fetches the complement (opposite) of a color.
  *
  * ```ts
- * import {getComplement} from '@quarksilver/core';
+ * import {complement} from '@quarksilver/core';
  *
- * getComplement('#f00') // #0ff;
+ * complement('#f00') // #0ff;
  * ```
  */
-export const getComplement = (color: string): string => setHue(color, '+180');
+const complement = (color: string): string => setHue(color, '+180');
+
+/**
+ * Neutralizes a color with its complement
+ */
+const neutralize = (color: string): string =>
+  chroma.mix(color, complement(color), 0.5).hex();
 
 /**
  * Splits a color on either side. Tuple represents [leftOfTarget, rightOfTarget]
@@ -119,7 +127,7 @@ export const getComplement = (color: string): string => setHue(color, '+180');
  * split('#f00', 60) // ['#f0f', '#ff0']
  * ```
  */
-export const split = (color: string, distance: number = 30): [string, string] => [
+const split = (color: string, distance: number = 30): [string, string] => [
   setHue(color, `-${distance}`),
   setHue(color, `+${distance}`)
 ];
@@ -133,7 +141,71 @@ export const split = (color: string, distance: number = 30): [string, string] =>
  * spread('#f00');
  * ```
  */
-export const spread = (color: string): string[] => {
+const spread = (color: string, range: number = 3): string[] => {
   const terminals = split(color, 60);
-  return maptoCSS(chroma.scale([...terminals]).mode('lab').colors(3))
-}
+  return maptoCSS(
+    chroma
+      .scale([...terminals])
+      .mode('lab')
+      .colors(range)
+  );
+};
+
+/**
+ * Inscribes a triangle of colors.
+ * A = origin
+ * BC = Equidistant points split from A
+ * degrees = 120 is an equilateral triad
+ * degrees = 90 is an isosceles clash
+ */
+const inscribeTriad = (
+  color: string,
+  degrees: number = 60
+): [string, ...string[]] => {
+  const a = color;
+  const bc = split(color, degrees);
+
+  return [a, ...bc];
+};
+
+/**
+ * Inscribes a rectangle of colors
+ * A = origin
+ * B = degrees right of a
+ * C = complement of a
+ * D = complement of b
+ *
+ * degrees = 90 is a perfect square
+ * degrees = 60 is tetradic
+ */
+const inscribeTetrad = (
+  color: string,
+  degrees: number = 60
+): [string, string, string, string] => {
+  const a = color;
+  const b = split(a, degrees)[1];
+  const c = complement(a);
+  const d = complement(b);
+
+  return [a, c, b, d];
+};
+
+export const swatch = {
+  neutralize,
+  complement
+};
+
+export const variant = {
+  tints,
+  tones,
+  shades
+};
+
+export const palette = {
+  triad: inscribeTriad,
+  tetrad: inscribeTetrad,
+  split,
+  spread
+};
+
+export const format = { tokenize };
