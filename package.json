@@ -24,6 +24,7 @@
     "@typescript-eslint/parser": "^1.11.0",
     "babel-eslint": "^10.0.2",
     "babel-jest": "^24.8.0",
+    "doctoc": "^1.4.0",
     "eslint": "^6.0.1",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-prettier": "^3.1.0",
@@ -42,7 +43,7 @@
   "scripts": {
     "dev": "run-p -n dev:*",
     "build": "run-s -n test build:docs:*",
-    "dev:docs": "onchange -i -k 'src/**/*.ts' -- yarn build:docs:api",
+    "dev:docs": "onchange -i -k 'src/**/*.ts' '*.md' -- yarn build:docs:api",
     "build:docs:api": "typedoc --out docs/api",
     "build:docs:md": "typedoc --theme markdown --platform gitbook --out docs",
     "dev:serve": "serve docs/api",
@@ -73,6 +74,9 @@
     "*.ts": [
       "eslint --fix",
       "git add"
+    ],
+    "*.md": [
+      "doctoc README.md CHANGELOG.md --gitlab --title 'Table of Contents'"
     ]
   }
 }
