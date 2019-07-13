@@ -42,7 +42,7 @@
   "scripts": {
     "dev": "run-p -n dev:*",
     "build": "run-s -n test build:docs:*",
-    "dev:docs": "onchange -i -k 'src/**/*.ts' -- yarn build:docs",
+    "dev:docs": "onchange -i -k 'src/**/*.ts' -- yarn build:docs:api",
     "build:docs:api": "typedoc --out docs/api",
     "build:docs:md": "typedoc --theme markdown --platform gitbook --out docs",
     "dev:serve": "serve docs/api",

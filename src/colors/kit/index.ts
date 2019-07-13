@@ -52,6 +52,12 @@ const generate = (
 /**
  * Merges a color with a target to blend. Strips
  * color from output to avoid redundancy.
+ *
+ * ```ts
+ * import {blend} from '@quarksilver/core';
+ *
+ * blend('#f00', '#00f');
+ * ```
  */
 export const blend = (
   color: string,
@@ -79,15 +85,39 @@ const setHue = (color: string, rotation: string): string =>
     .set('hsl.h', rotation)
     .hex();
 
-/** Returns a collection of tints for a color */
+/**
+ * Returns a collection of tints for a color
+ *
+ * ```ts
+ * import {tints} from '@quarksilver/core';
+ *
+ * tints('#f00');
+ * ```
+ * */
 export const tints = (color: string, options: ColorOptions = {}): string[] =>
   blend(color, '#fff', options);
 
-/** Returns a collection of tones for a color */
+/**
+ * Returns a collection of tones for a color
+ *
+ * ```ts
+ * import {tones} from '@quarksilver/core';
+ *
+ * tones('#f00');
+ * ```
+ * */
 export const tones = (color: string, options: ColorOptions = {}): string[] =>
   blend(color, '#aaa', options);
 
-/** Returns a collection of shades for a color */
+/**
+ * Returns a collection of shades for a color
+ *
+ * ```ts
+ * import {shades} from '@quarksilver/core';
+ *
+ * shades('#f00');
+ * ```
+ * */
 export const shades = (color: string, options: ColorOptions = {}): string[] =>
   blend(color, '#111', options);
 
@@ -103,7 +133,13 @@ export const shades = (color: string, options: ColorOptions = {}): string[] =>
 export const complement = (color: string): string => setHue(color, '+180');
 
 /**
- * Neutralizes a color with its complement
+ * Neutralizes a color with its complement;
+ *
+ * ```ts
+ * import {neutralize} from '@quarksilver/core';
+ *
+ * neutralize('#f00') // #aaa
+ * ```
  */
 export const neutralize = (color: string): string =>
   chroma.mix(color, complement(color), 0.5).hex();
@@ -147,10 +183,18 @@ export const spread = (
 
 /**
  * Inscribes a triangle of colors.
- * A = origin
- * BC = Equidistant points split from A
+ *
+ * A = origin, BC = Equidistant points split from A
+ *
  * degrees = 120 is an equilateral triad
+ *
  * degrees = 90 is an isosceles clash
+ *
+ * ```ts
+ * import {triad} from '@quarksilver/core';
+ *
+ * triad('f00'); // ['#f00', '#00f', '#0f0']
+ * ```
  */
 export const triad = (
   color: string,
@@ -164,13 +208,20 @@ export const triad = (
 
 /**
  * Inscribes a rectangle of colors
- * A = origin
- * B = degrees right of a
- * C = complement of a
- * D = complement of b
+ *
+ * A = origin, B = degrees right of a
+ *
+ * C = complement of a, D = complement of b
  *
  * degrees = 90 is a perfect square
+ *
  * degrees = 60 is a tetrad
+ *
+ * ```ts
+ * import {tetrad} from '@quarksilver/core';
+ *
+ * tetrad('#f00'); // ['#f00', '#0ff', '#ff0', '#f0f']
+ * ```
  */
 export const tetrad = (
   color: string,
@@ -215,8 +266,20 @@ const transform = (
 
 /**
  * Transforms a collection of colors into tokens consumable by Style Dictionary
+ *
+ * `palette` outputs a scale, otherwise it assumes a swatch
+ *
+ * ```ts
+ * import {tokenize, blend} from '@quarksilver/core';
+ *
+ * tokenize(blend('#f00', '#ff0'), 'main', true)
+ * ```
  */
-export const tokenize = (data: string[], key: string, palette?: boolean) => {
+export const tokenize = (
+  data: string[],
+  key: string,
+  palette: boolean = false
+) => {
   if (!key) throw Error(`key: expected a string, received ${key}`);
   return palette ? transform(data, key, palette) : transform(data, key);
 };
