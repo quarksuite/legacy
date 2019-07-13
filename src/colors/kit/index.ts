@@ -80,24 +80,16 @@ const setHue = (color: string, rotation: string): string =>
     .hex();
 
 /** Returns a collection of tints for a color */
-const tints = (color: string, options: ColorOptions = {}): string[] =>
+export const tints = (color: string, options: ColorOptions = {}): string[] =>
   blend(color, '#fff', options);
 
 /** Returns a collection of tones for a color */
-const tones = (color: string, options: ColorOptions = {}): string[] =>
+export const tones = (color: string, options: ColorOptions = {}): string[] =>
   blend(color, '#aaa', options);
 
 /** Returns a collection of shades for a color */
-const shades = (color: string, options: ColorOptions = {}): string[] =>
+export const shades = (color: string, options: ColorOptions = {}): string[] =>
   blend(color, '#111', options);
-
-type TokenizeFormat = (color: {}, category: string, index: number) => {};
-
-/**
- * Transforms a collection of colors into tokens consumable by Style Dictionary
- */
-const tokenize = (format: TokenizeFormat, palette: string[]): object =>
-  palette.reduce(format, {});
 
 /**
  * Fetches the complement (opposite) of a color.
@@ -108,12 +100,12 @@ const tokenize = (format: TokenizeFormat, palette: string[]): object =>
  * complement('#f00') // #0ff;
  * ```
  */
-const complement = (color: string): string => setHue(color, '+180');
+export const complement = (color: string): string => setHue(color, '+180');
 
 /**
  * Neutralizes a color with its complement
  */
-const neutralize = (color: string): string =>
+export const neutralize = (color: string): string =>
   chroma.mix(color, complement(color), 0.5).hex();
 
 /**
@@ -127,9 +119,12 @@ const neutralize = (color: string): string =>
  * split('#f00', 60) // ['#f0f', '#ff0']
  * ```
  */
-const split = (color: string, distance: number = 30): [string, string] => [
-  setHue(color, `-${distance}`),
-  setHue(color, `+${distance}`)
+export const split = (
+  color: string,
+  degrees: number = 60
+): [string, string] => [
+  setHue(color, `-${degrees}`),
+  setHue(color, `+${degrees}`)
 ];
 
 /**
@@ -141,8 +136,12 @@ const split = (color: string, distance: number = 30): [string, string] => [
  * spread('#f00');
  * ```
  */
-const spread = (color: string, range: number = 3): string[] => {
-  const terminals = split(color, 60);
+export const spread = (
+  color: string,
+  degrees: number = 60,
+  range: number = 3
+): string[] => {
+  const terminals = split(color, degrees);
   return maptoCSS(
     chroma
       .scale([...terminals])
@@ -158,9 +157,9 @@ const spread = (color: string, range: number = 3): string[] => {
  * degrees = 120 is an equilateral triad
  * degrees = 90 is an isosceles clash
  */
-const inscribeTriad = (
+export const triad = (
   color: string,
-  degrees: number = 60
+  degrees: number = 120
 ): [string, ...string[]] => {
   const a = color;
   const bc = split(color, degrees);
@@ -176,9 +175,9 @@ const inscribeTriad = (
  * D = complement of b
  *
  * degrees = 90 is a perfect square
- * degrees = 60 is tetradic
+ * degrees = 60 is a tetrad
  */
-const inscribeTetrad = (
+export const tetrad = (
   color: string,
   degrees: number = 60
 ): [string, string, string, string] => {
@@ -190,22 +189,39 @@ const inscribeTetrad = (
   return [a, c, b, d];
 };
 
-export const swatch = {
-  neutralize,
-  complement
+const scale = (array: string[]) =>
+  array.reduce((container, value, i) => {
+    const indexToOne = ++i;
+    const scaleKey =
+      indexToOne < 10
+        ? indexToOne.toString().padEnd(3, '0')
+        : indexToOne.toString().padEnd(4, '0');
+    return { ...container, [scaleKey]: { value } };
+  }, {});
+
+const transform = (
+  collection: string[],
+  key: string,
+  palette?: boolean
+): object => {
+  return collection.reduce(
+    (container: {}, value: string, _, array: string[]) => {
+      // If index, then we've got a palette
+      if (palette) {
+        return { ...container, ...{ [key]: scale(array) } };
+      }
+
+      // otherwise, it's a swatch
+      return { ...container, ...{ [key]: { value } } };
+    },
+    {}
+  );
 };
 
-export const variant = {
-  tints,
-  tones,
-  shades
+/**
+ * Transforms a collection of colors into tokens consumable by Style Dictionary
+ */
+export const tokenize = (data: string[], key: string, palette?: boolean) => {
+  if (!key) throw Error(`key: expected a string, received ${key}`);
+  return palette ? transform(data, key, palette) : transform(data, key);
 };
-
-export const palette = {
-  triad: inscribeTriad,
-  tetrad: inscribeTetrad,
-  split,
-  spread
-};
-
-export const format = { tokenize };
