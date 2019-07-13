@@ -199,7 +199,13 @@ export const spread = (
 export const triad = (
   color: string,
   degrees: number = 120
-): [string, ...string[]] => [color, ...split(color, degrees)];
+): [string, string, string] => {
+  const a = color;
+  const b = split(a, degrees)[0],
+    c = split(a, degrees)[1];
+
+  return [a, b, c];
+};
 
 /**
  * Inscribes a rectangle of colors
