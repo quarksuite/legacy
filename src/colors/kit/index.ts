@@ -165,7 +165,7 @@ export const split = (
 
 /**
  * Spreads a range of colors on either side of target
- *
+
  * ```ts
  * import {spread} from '@quarksilver/core';
  *
@@ -199,11 +199,14 @@ export const spread = (
 export const triad = (
   color: string,
   degrees: number = 120
-): [string, ...string[]] => {
+): [string, string, string] => {
   const a = color;
-  const bc = split(color, degrees);
+  const targets = split(color, degrees);
 
-  return [a, ...bc];
+  const b = targets[0];
+  const c = targets[1];
+
+  return [a, b, c];
 };
 
 /**
