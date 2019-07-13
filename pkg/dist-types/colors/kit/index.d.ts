@@ -88,7 +88,7 @@ export declare const split: (
 ) => [string, string];
 /**
  * Spreads a range of colors on either side of target
- *
+
  * ```ts
  * import {spread} from '@quarksilver/core';
  *
@@ -118,7 +118,7 @@ export declare const spread: (
 export declare const triad: (
   color: string,
   degrees?: number
-) => [string, ...string[]];
+) => [string, string, string];
 /**
  * Inscribes a rectangle of colors
  *

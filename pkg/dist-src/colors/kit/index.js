@@ -4,12 +4,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
 function _toArray(arr) { return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -188,7 +182,7 @@ export var split = function split(color) {
 };
 /**
  * Spreads a range of colors on either side of target
- *
+
  * ```ts
  * import {spread} from '@quarksilver/core';
  *
@@ -224,8 +218,10 @@ export var spread = function spread(color) {
 export var triad = function triad(color) {
   var degrees = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 120;
   var a = color;
-  var bc = split(color, degrees);
-  return [a].concat(_toConsumableArray(bc));
+  var targets = split(color, degrees);
+  var b = targets[0];
+  var c = targets[1];
+  return [a, b, c];
 };
 /**
  * Inscribes a rectangle of colors
