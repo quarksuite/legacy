@@ -270,9 +270,8 @@ var spread = function spread(color) {
 var triad = function triad(color) {
   var degrees = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 120;
   var a = color;
-  var targets = split(color, degrees);
-  var b = targets[0];
-  var c = targets[1];
+  var b = split(a, degrees)[0],
+      c = split(a, degrees)[1];
   return [a, b, c];
 };
 /**
