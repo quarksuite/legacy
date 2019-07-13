@@ -12,24 +12,6 @@ import { ColorOptions } from './schema';
 const maptoCSS = (palette: string[]): string[] =>
   palette.map((c): string => chroma(c).hex());
 
-/**
- * Generates a range of colors.
- */
-const generate = (
-  colorRange: string[],
-  options: ColorOptions = {}
-): string[] => {
-  const { mode = 'lab' as InterpolationMode, range = 'material' } = options;
-  const colorScale = chroma.scale(colorRange).mode(mode);
-
-  // If named range, set output colors explicitly
-  if (range === 'minimal') return colorScale.colors(2);
-  if (range === 'material') return colorScale.colors(4);
-
-  // Otherwise numeric range
-  return colorScale.colors(range);
-};
-
 /** Converts a percentage to a ratio */
 const convert = (percent: number): number =>
   parseFloat((percent / 100).toPrecision(2));
@@ -50,9 +32,28 @@ const setContrast = (contrast: number | 'low' | 'med' | 'high'): number => {
 };
 
 /**
- * Merges a base color with a target to blend
+ * Generates a range of colors.
  */
-const blend = (
+const generate = (
+  colorRange: string[],
+  options: ColorOptions = {}
+): string[] => {
+  const { mode = 'lab' as InterpolationMode, range = 'material' } = options;
+  const colorScale = chroma.scale(colorRange).mode(mode);
+
+  // If named range, set output colors explicitly
+  if (range === 'minimal') return colorScale.colors(2 + 1);
+  if (range === 'material') return colorScale.colors(4 + 1);
+
+  // Otherwise numeric range
+  return colorScale.colors(range + 1);
+};
+
+/**
+ * Merges a color with a target to blend. Strips
+ * color from output to avoid redundancy.
+ */
+export const blend = (
   color: string,
   target: string,
   options: ColorOptions = {}
@@ -65,10 +66,9 @@ const blend = (
   const blend = chroma.mix(color, target, setContrast(contrast), mode).hex();
 
   // Generate variants
-  const variants = generate([base, blend], options);
+  const [, ...variants] = generate([base, blend], options);
 
-  // Format them for consumption
-  return [...variants];
+  return variants;
 };
 
 /**
@@ -139,15 +139,10 @@ export const split = (
 export const spread = (
   color: string,
   degrees: number = 60,
-  range: number = 3
+  range: number = 2
 ): string[] => {
   const terminals = split(color, degrees);
-  return maptoCSS(
-    chroma
-      .scale([...terminals])
-      .mode('lab')
-      .colors(range)
-  );
+  return maptoCSS(generate(terminals, { range, mode: 'lab' }));
 };
 
 /**
