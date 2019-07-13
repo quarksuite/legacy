@@ -120,7 +120,7 @@ tags
 [._]*.un~
 
 # Hide dist and generated docs from source
-dist
+pkg
 docs
 
 # End of https://www.gitignore.io/api/vim,node,code
