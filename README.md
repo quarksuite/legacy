@@ -12,7 +12,8 @@ Table of Contents
         - [Make Room](#make-room)
 - [How to Use Quarksilver](#how-to-use-quarksilver)
     - [Installation](#installation)
-- [Usage](#usage)
+    - [Usage](#usage)
+        - [Quickstart](#quickstart)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
