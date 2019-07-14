@@ -236,8 +236,8 @@ export const tetrad = (
   return [a, c, b, d];
 };
 
-const scale = (array: string[]) =>
-  array.reduce((container, value, i) => {
+const scale = (data: string[]) =>
+  data.reduce((container, value, i) => {
     const indexToOne = ++i;
     const scaleKey =
       indexToOne < 10
@@ -246,21 +246,12 @@ const scale = (array: string[]) =>
     return { ...container, [scaleKey]: { value } };
   }, {});
 
-const transform = (
-  collection: string[],
-  key: string,
-  palette?: boolean
-): object => {
-  return collection.reduce(
-    (container: {}, value: string, _, array: string[]) => {
-      // If index, then we've got a palette
-      if (palette) {
-        return { ...container, ...{ [key]: scale(array) } };
-      }
-
-      // otherwise, it's a swatch
-      return { ...container, ...{ [key]: { value } } };
-    },
+const format = (data: string[], key: string): object => {
+  return data.reduce(
+    (container, _value, _i, array) => ({
+      ...container,
+      ...{ [key]: scale(array) }
+    }),
     {}
   );
 };
@@ -276,11 +267,10 @@ const transform = (
  * tokenize(blend('#f00', '#ff0'), 'main', true)
  * ```
  */
-export const tokenize = (
-  data: string[],
-  key: string,
-  palette: boolean = false
-) => {
+export const tokenize = (data: string[] | string, key: string) => {
   if (!key) throw Error(`key: expected a string, received ${key}`);
-  return palette ? transform(data, key, palette) : transform(data, key);
+  // Check the type of input. String indicates swatch, array indicates palette
+  return typeof data === 'string'
+    ? { [key]: { value: data } }
+    : format(data, key);
 };
