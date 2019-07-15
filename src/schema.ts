@@ -14,12 +14,12 @@ export interface ContentSchema {
 }
 
 export interface ColorCustomSwatchSchema {
-  [index: string]: string | string[];
+  [index: string]: string;
 }
 
 export interface ColorCustomPaletteSchema {
   [index: string]: {
-    value: string;
+    base: string;
     options?: ColorOptions;
   };
 }

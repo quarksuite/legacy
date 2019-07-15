@@ -4,7 +4,7 @@
  */
 
 import chroma, { InterpolationMode } from 'chroma-js';
-import { ColorOptions } from './schema';
+import { ColorOptions } from '../schema';
 
 /**
  * Maps a color palette to hex format.
