@@ -25,6 +25,7 @@ Proof of concept
 ### Added
 
 + Color toolkit for building schemes from the ground up
++ Custom color module for working with config-like objects
 
 
 ### Changed
