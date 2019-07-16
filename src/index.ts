@@ -1,5 +1,6 @@
-import * as ColorsKit from './colors/kit';
+import * as Colors from './colors/kit';
 import * as Custom from './colors/custom';
+import * as Scheme from './colors/scheme';
 
 /**
  * Exposes the public API of Quarksilver
@@ -14,6 +15,7 @@ import * as Custom from './colors/custom';
 export default {
   colors: {
     custom: Custom,
-    kit: ColorsKit
+    scheme: Scheme,
+    kit: Colors
   }
 };

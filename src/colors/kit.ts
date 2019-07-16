@@ -236,7 +236,7 @@ export const tetrad = (
   return [a, c, b, d];
 };
 
-const scale = (data: string[]) =>
+const scale = (data: string[]): object =>
   data.reduce((container, value, i) => {
     const indexToOne = ++i;
     const scaleKey =
@@ -268,7 +268,10 @@ const format = (data: string[], key: string): object => {
  * ```
  */
 export const tokenize = (data: string[] | string, key: string) => {
+  // Can't create an object without a key
   if (!key) throw Error(`key: expected a string, received ${key}`);
+  // Can't populate a palette without data
+  if (!data) return {};
   // Check the type of input. String indicates swatch, array indicates palette
   return typeof data === 'string'
     ? { [key]: { value: data } }

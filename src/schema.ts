@@ -26,6 +26,7 @@ export interface ColorCustomPaletteSchema {
 
 export interface ColorBasicPaletteSchema {
   base: string;
+  scheme?: string; // for the CLI, unused in the module
   options?: ColorOptions;
 }
 
