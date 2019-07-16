@@ -6,9 +6,7 @@
   "license": "MIT",
   "dependencies": {
     "chroma-js": "^2.0.4",
-    "jsonfile": "^5.0.0",
-    "modularscale-js": "^3.0.1",
-    "style-dictionary": "^2.8.1"
+    "modularscale-js": "^3.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.5.0",

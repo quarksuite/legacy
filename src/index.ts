@@ -14,24 +14,17 @@ import * as scale from './composition/scale';
  *  scheme generation. Exports several convenience functions
  *    + colors.custom - for custom palettes and swatch collections
  *    + colors.scheme - for basic color scheme generation
- *  + content - responsible for content
+ *  + content - responsible for content output and transformations
  *    + content.fonts - for outputing font tokens
- *    + content.styles - for creating a modular scale that encompasses
- *    typography and composition
  *  + composition - responsible for layout
- *    + composition.scale - for content proportion
- *    + composition.spacing - uniform spacing units
+ *    + composition.scale - for sizing and proportion scales
  *  + toolkit - the baremetal utilities of Quarksilver
+ *    + toolkit.colors - all color utilities
+ *    + toolkit.content - all content utilities
  * */
 export default {
   colors: { custom, scheme },
-  content: {
-    fonts
-    // styles
-  },
-  composition: {
-    scale
-    // spacing
-  },
+  content: { fonts },
+  composition: { scale },
   toolkit: { colors, content }
 };

@@ -1,6 +1,23 @@
 import { ContentScaleSchema } from '../schema';
 import { scaleValues } from '../toolkit/content';
 
+/**
+ * Processes modular scale data to output layout, sizing,
+ * and spacing tokens
+ *
+ * ```ts
+ * import quarks from '@quarksilver/core';
+ *
+ * const tokenizeScale = quarks.composition.scale;
+ *
+ * const data = {
+ *   base: '1em',
+ *   ratio: 1.25
+ * }
+ *
+ * tokenizeScale(data)
+ * ```
+ */
 export const tokenize = (data: ContentScaleSchema): object => {
   const { base, ratio, limit = 'full' } = data;
   let count = 0;
