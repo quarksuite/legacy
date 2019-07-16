@@ -19,7 +19,7 @@ const convert = (percent: number): number =>
 /** Parses the named contrast options into something usable by chroma */
 const setContrast = (contrast: number | 'low' | 'med' | 'high'): number => {
   if (contrast === 'low') return convert(30);
-  if (contrast === 'med') return convert(50);
+  if (contrast === 'med') return convert(60);
   if (contrast === 'high') return convert(95);
 
   // Limit input from 0 to 100 (percent)
