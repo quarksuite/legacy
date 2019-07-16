@@ -19,7 +19,7 @@ const tokens = (data: string[][]): object => ({
 
 /** Helper function to build full palette with variants */
 const palette = (color: string, options: ColorOptions = {}): string[] => [
-  ...shades(color, options),
+  ...shades(color, options).reverse(),
   chroma(color).hex(),
   ...tints(color, options)
 ];
