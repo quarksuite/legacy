@@ -1,6 +1,6 @@
 import chroma from 'chroma-js';
 import { ColorCustomSwatchSchema, ColorCustomPaletteSchema } from '../schema';
-import { tokenize, shades, tints } from './kit';
+import { tokenize, shades, tints } from '../toolkit/colors';
 
 /**
  * Outputs a collection of swatch tokens from a custom color palette.

@@ -83,12 +83,12 @@ export interface ContentScaleSchema {
   ratio:
     | number
     | 'augmented4th'
-    | 'goldenRatio'
+    | 'goldenSection'
     | 'minor2nd'
     | 'minor3rd'
     | 'major2nd'
     | 'major3rd'
     | 'perfect4th'
     | 'perfect5th';
-  range: number | [number, number] | 'fullScale' | 'half' | 'minimal';
+  limit?: number | 'full' | 'half';
 }

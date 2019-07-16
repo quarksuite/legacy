@@ -1,5 +1,12 @@
 import chroma from 'chroma-js';
-import { tints, shades, complement, triad, tetrad, tokenize } from './kit';
+import {
+  tints,
+  shades,
+  complement,
+  triad,
+  tetrad,
+  tokenize
+} from '../toolkit/colors';
 import { ColorBasicPaletteSchema, ColorOptions } from '../schema';
 
 /** Helper function to load tokens by category */

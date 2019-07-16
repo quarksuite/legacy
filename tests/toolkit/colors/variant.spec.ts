@@ -1,4 +1,4 @@
-import { tints, tones, shades } from '../../../src/colors/kit';
+import { tints, tones, shades } from '../../../src/toolkit/colors';
 
 describe('Utilities for color variants', () => {
   const color = '#f00000';

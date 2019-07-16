@@ -1,4 +1,4 @@
-import { complement, neutralize } from '../../../src/colors/kit';
+import { complement, neutralize } from '../../../src/toolkit/colors';
 
 describe('Utilities for color swatches', () => {
   const color = '#f00000';

@@ -1,4 +1,4 @@
-import { split, spread, triad, tetrad } from '../../../src/colors/kit';
+import { split, spread, triad, tetrad } from '../../../src/toolkit/colors';
 
 describe('Utilities for color palettes', () => {
   const color = '#f00000';

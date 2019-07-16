@@ -1,4 +1,4 @@
-import { tokenize, shades } from '../../../src/colors/kit';
+import { tokenize, shades } from '../../../src/toolkit/colors';
 
 describe('Utilities for formatting tokens', () => {
   const color = '#f00000';
