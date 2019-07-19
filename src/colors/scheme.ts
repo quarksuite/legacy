@@ -5,6 +5,7 @@ import {
   complement,
   triad,
   tetrad,
+  spread,
   tokenize
 } from '../toolkit/colors';
 import { ColorBasicPaletteSchema, ColorOptions } from '../schema';
@@ -61,6 +62,31 @@ export const complementary = (data: ColorBasicPaletteSchema): object => {
   const opposite = complement(base);
 
   return tokens([palette(base, options), palette(opposite, options)]);
+};
+
+/**
+ * Generates a analogous scheme from basic color configuration.
+ *
+ * ```ts
+ * import {analogous} from '@quarksilver/core';
+ *
+ * const data = {
+ *   base: '#f00'
+ * }
+ *
+ * analogous(data)
+ * ```
+ */
+export const analogous = (data: ColorBasicPaletteSchema): object => {
+  const { base, options } = data;
+  const analogues = spread(base, 30);
+
+  return tokens([
+    palette(base, options),
+    palette(analogues[0], options),
+    palette(analogues[1], options),
+    palette(analogues[2], options)
+  ]);
 };
 
 /** A helper function for building triadic color palettes */

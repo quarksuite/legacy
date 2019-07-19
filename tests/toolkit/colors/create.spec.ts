@@ -35,7 +35,7 @@ describe('Utilities for color palettes', () => {
   });
   describe('spread(color, degrees?, range?)', () => {
     test('outputs a range of colors from the split of target color', () => {
-      expect(spread(color)).toStrictEqual(['#f000f0', '#ff9c9c', '#f0f000']);
+      expect(spread(color)).toStrictEqual(['#ff1781', '#ff5751', '#ff8926']);
     });
   });
 });

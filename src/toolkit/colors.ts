@@ -69,7 +69,7 @@ export const blend = (
   const base = chroma(color).hex();
 
   // blend color with target
-  const blend = chroma.mix(color, target, setContrast(contrast), mode).hex();
+  const blend = chroma.mix(base, target, setContrast(contrast), mode).hex();
 
   // Generate variants
   const [, ...variants] = generate([base, blend], options);
@@ -174,11 +174,15 @@ export const split = (
  */
 export const spread = (
   color: string,
-  degrees: number = 60,
-  range: number = 2
+  degrees: number = 45,
+  range: number = 4
 ): string[] => {
   const terminals = split(color, degrees);
-  return maptoCSS(generate(terminals, { range, mode: 'lab' }));
+  return maptoCSS(generate(terminals, { range, mode: 'lch' })).filter(
+    (_value, index, array) => {
+      return index !== 0 && index !== array.length - 1;
+    }
+  );
 };
 
 /**
