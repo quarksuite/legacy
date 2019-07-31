@@ -12,7 +12,7 @@ const namedRatios = (name: string): number | undefined =>
     ['goldenSection', 1.6180339875]
   ]).get(name);
 
-export const scaleValues = (
+export const scale = (
   n: number,
   settings: { base: string; ratio: string | number }
 ) => {

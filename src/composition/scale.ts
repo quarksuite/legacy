@@ -1,5 +1,5 @@
 import { ContentScaleSchema } from '../schema';
-import { scaleValues } from '../toolkit/composition';
+import { scale } from '../toolkit/composition';
 
 /**
  * Processes modular scale data to output layout, sizing,
@@ -21,14 +21,14 @@ import { scaleValues } from '../toolkit/composition';
 export const tokenize = (data: ContentScaleSchema): object => {
   const { base, ratio, limit = 'full' } = data;
   let count = 0;
-  let scale = [];
+  let collection = [];
 
   if (limit === 'full') count = 17;
   if (limit === 'half') count = 9;
 
-  for (let i = 0; i < count; i++) scale.push(scaleValues(i, { base, ratio }));
+  for (let i = 0; i < count; i++) collection.push(scale(i, { base, ratio }));
 
-  return scale
+  return collection
     .map((value: number) =>
       [parseFloat(value.toPrecision(4)), base.replace(/[0-9.]+/g, '')].join('')
     )
