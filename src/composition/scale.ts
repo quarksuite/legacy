@@ -1,5 +1,5 @@
 import { ContentScaleSchema } from '../schema';
-import { scaleValues } from '../toolkit/content';
+import { scaleValues } from '../toolkit/composition';
 
 /**
  * Processes modular scale data to output layout, sizing,
@@ -8,7 +8,7 @@ import { scaleValues } from '../toolkit/content';
  * ```ts
  * import quarks from '@quarksilver/core';
  *
- * const tokenizeScale = quarks.composition.scale;
+ * const tokenizeScale = quarks.composition.tokenize;
  *
  * const data = {
  *   base: '1em',

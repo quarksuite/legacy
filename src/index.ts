@@ -2,8 +2,9 @@ import * as colors from './toolkit/colors';
 import * as custom from './colors/custom';
 import * as scheme from './colors/scheme';
 
-import * as content from './toolkit/content';
 import * as fonts from './content/fonts';
+
+import * as composition from './toolkit/composition';
 import * as scale from './composition/scale';
 
 /**
@@ -20,11 +21,11 @@ import * as scale from './composition/scale';
  *    + composition.scale - for sizing and proportion scales
  *  + toolkit - the baremetal utilities of Quarksilver
  *    + toolkit.colors - all color utilities
- *    + toolkit.content - all content utilities
+ *    + toolkit.composition - all composition utilities
  * */
 export default {
   colors: { custom, scheme },
   content: { fonts },
   composition: { scale },
-  toolkit: { colors, content }
+  toolkit: { colors, composition }
 };
