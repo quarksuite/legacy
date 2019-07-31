@@ -25,7 +25,7 @@ export const tokenize = (data: ContentScaleSchema): object => {
 
   if (limit === 'full') count = 17;
   if (limit === 'half') count = 9;
-  count = limit;
+  count = limit as number;
 
   for (let i = 0; i < count; i++) collection.push(scale(i, { base, ratio }));
 
