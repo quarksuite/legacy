@@ -59,7 +59,8 @@ const generate = (
  * blend('#f00', '#00f');
  * ```
  */
-export const blend = (
+
+const blend = (
   color: string,
   target: string,
   options: ColorOptions = {}
@@ -94,7 +95,7 @@ const setHue = (color: string, rotation: string): string =>
  * tints('#f00');
  * ```
  * */
-export const tints = (color: string, options: ColorOptions = {}): string[] =>
+const tints = (color: string, options: ColorOptions = {}): string[] =>
   blend(color, '#fff', options);
 
 /**
@@ -106,7 +107,7 @@ export const tints = (color: string, options: ColorOptions = {}): string[] =>
  * tones('#f00');
  * ```
  * */
-export const tones = (color: string, options: ColorOptions = {}): string[] =>
+const tones = (color: string, options: ColorOptions = {}): string[] =>
   blend(color, '#aaa', options);
 
 /**
@@ -118,7 +119,7 @@ export const tones = (color: string, options: ColorOptions = {}): string[] =>
  * shades('#f00');
  * ```
  * */
-export const shades = (color: string, options: ColorOptions = {}): string[] =>
+const shades = (color: string, options: ColorOptions = {}): string[] =>
   blend(color, '#111', options);
 
 /**
@@ -130,7 +131,7 @@ export const shades = (color: string, options: ColorOptions = {}): string[] =>
  * complement('#f00') // #0ff;
  * ```
  */
-export const complement = (color: string): string => setHue(color, '+180');
+const complement = (color: string): string => setHue(color, '+180');
 
 /**
  * Neutralizes a color with its complement;
@@ -141,7 +142,7 @@ export const complement = (color: string): string => setHue(color, '+180');
  * neutralize('#f00') // #aaa
  * ```
  */
-export const neutralize = (color: string): string =>
+const neutralize = (color: string): string =>
   chroma.mix(color, complement(color), 0.5).hex();
 
 /**
@@ -155,10 +156,7 @@ export const neutralize = (color: string): string =>
  * split('#f00', 60) // ['#f0f', '#ff0']
  * ```
  */
-export const split = (
-  color: string,
-  degrees: number = 60
-): [string, string] => [
+const split = (color: string, degrees: number = 60): [string, string] => [
   setHue(color, `-${degrees}`),
   setHue(color, `+${degrees}`)
 ];
@@ -172,7 +170,7 @@ export const split = (
  * spread('#f00');
  * ```
  */
-export const spread = (
+const spread = (
   color: string,
   degrees: number = 45,
   range: number = 4
@@ -200,7 +198,7 @@ export const spread = (
  * triad('f00'); // ['#f00', '#00f', '#0f0']
  * ```
  */
-export const triad = (
+const triad = (
   color: string,
   degrees: number = 120
 ): [string, string, string] => {
@@ -228,7 +226,7 @@ export const triad = (
  * tetrad('#f00'); // ['#f00', '#0ff', '#ff0', '#f0f']
  * ```
  */
-export const tetrad = (
+const tetrad = (
   color: string,
   degrees: number = 60
 ): [string, string, string, string] => {
@@ -271,7 +269,7 @@ const format = (data: string[], key: string): object => {
  * tokenize(blend('#f00', '#ff0'), 'main', true)
  * ```
  */
-export const tokenize = (data: string[] | string, key: string) => {
+const tokenize = (data: string[] | string, key: string) => {
   // Can't create an object without a key
   if (!key) throw Error(`key: expected a string, received ${key}`);
   // Can't populate a palette without data
@@ -280,4 +278,11 @@ export const tokenize = (data: string[] | string, key: string) => {
   return typeof data === 'string'
     ? { [key]: { value: data } }
     : format(data, key);
+};
+
+export default {
+  swatch: { hue: setHue, complement, neutralize },
+  variants: { tints, tones, shades },
+  palette: { split, spread, triad, tetrad },
+  tokenize
 };

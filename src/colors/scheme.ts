@@ -1,14 +1,8 @@
 import chroma from 'chroma-js';
-import {
-  tints,
-  shades,
-  complement,
-  triad,
-  tetrad,
-  spread,
-  tokenize
-} from '../toolkit/colors';
+import colors from '../toolkit/colors';
 import { ColorBasicPaletteSchema, ColorOptions } from '../schema';
+
+const { swatch, variants, tokenize } = colors;
 
 /** Helper function to load tokens by category */
 const tokens = (data: string[][]): object => ({
@@ -20,9 +14,9 @@ const tokens = (data: string[][]): object => ({
 
 /** Helper function to build full palette with variants */
 const palette = (color: string, options: ColorOptions = {}): string[] => [
-  ...shades(color, options).reverse(),
+  ...variants.shades(color, options).reverse(),
   chroma(color).hex(),
-  ...tints(color, options)
+  ...variants.shades(color, options)
 ];
 
 /**
@@ -59,7 +53,7 @@ export const monochromatic = (data: ColorBasicPaletteSchema): object => {
  */
 export const complementary = (data: ColorBasicPaletteSchema): object => {
   const { base, options } = data;
-  const opposite = complement(base);
+  const opposite = swatch.complement(base);
 
   return tokens([palette(base, options), palette(opposite, options)]);
 };
@@ -79,7 +73,7 @@ export const complementary = (data: ColorBasicPaletteSchema): object => {
  */
 export const analogous = (data: ColorBasicPaletteSchema): object => {
   const { base, options } = data;
-  const analogues = spread(base, 30);
+  const analogues = colors.palette.spread(base, 30);
 
   return tokens([
     palette(base, options),
@@ -95,12 +89,12 @@ const triColorScheme = (
   degrees: number = 120
 ): object => {
   const { base, options } = data;
-  const colors = triad(base, degrees);
+  const p = colors.palette.triad(base, degrees);
 
   return tokens([
-    palette(colors[0], options),
-    palette(colors[1], options),
-    palette(colors[2], options)
+    palette(p[0], options),
+    palette(p[1], options),
+    palette(p[2], options)
   ]);
 };
 
@@ -158,13 +152,13 @@ const quadColorScheme = (
   degrees: number = 60
 ): object => {
   const { base, options } = data;
-  const colors = tetrad(base, degrees);
+  const p = colors.palette.tetrad(base, degrees);
 
   return tokens([
-    palette(colors[0], options),
-    palette(colors[1], options),
-    palette(colors[2], options),
-    palette(colors[3], options)
+    palette(p[0], options),
+    palette(p[1], options),
+    palette(p[2], options),
+    palette(p[3], options)
   ]);
 };
 

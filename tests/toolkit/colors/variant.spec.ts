@@ -1,10 +1,10 @@
-import { tints, tones, shades } from '../../../src/toolkit/colors';
+import colors from '../../../src/toolkit/colors';
 
 describe('Utilities for color variants', () => {
   const color = '#f00000';
   describe('tints(color, options?)', () => {
     test('returns tints of color', () => {
-      expect(tints(color)).toStrictEqual([
+      expect(colors.variants.tints(color)).toStrictEqual([
         '#ff6343',
         '#ff987d',
         '#ffc9ba',
@@ -14,7 +14,7 @@ describe('Utilities for color variants', () => {
   });
   describe('tones(color, options?)', () => {
     test('returns tones of a color', () => {
-      expect(tones(color)).toStrictEqual([
+      expect(colors.variants.tones(color)).toStrictEqual([
         '#e84e32',
         '#db7058',
         '#c98d7f',
@@ -24,7 +24,7 @@ describe('Utilities for color variants', () => {
   });
   describe('shades(color, options?)', () => {
     test('returns shades of a color', () => {
-      expect(shades(color)).toStrictEqual([
+      expect(colors.variants.shades(color)).toStrictEqual([
         '#be130b',
         '#8f1710',
         '#621612',
