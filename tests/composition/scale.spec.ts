@@ -60,5 +60,26 @@ describe('Content scale module', () => {
 
       expect(tokenize(data)).toMatchObject<ScaleOutput>(schema);
     });
+    test('works with a numeric limit', () => {
+      const data: ContentScaleSchema = {
+        base: '1em',
+        ratio: 'major2nd',
+        limit: 5
+      };
+
+      interface ScaleOutput {
+        [index: string]: { value: string };
+      }
+
+      const schema: ScaleOutput = {
+        0: { value: expect.any(String) },
+        1: { value: expect.any(String) },
+        2: { value: expect.any(String) },
+        3: { value: expect.any(String) },
+        4: { value: expect.any(String) }
+      };
+
+      expect(tokenize(data)).toMatchObject<ScaleOutput>(schema);
+    });
   });
 });
