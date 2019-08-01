@@ -18,7 +18,7 @@ Table of Contents
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## [v0.1.0]
+## v0.1.0
 
 Proof of concept
 
@@ -27,7 +27,8 @@ Proof of concept
 + Color toolkit for building schemes from the ground up
 + Custom color module for working with config-like objects
 + Color scheme module for building basic palettes
-
++ Content module for typography
++ Composition toolkit for creating layout and sizing from modular scale and spacing
 
 ### Changed
 
