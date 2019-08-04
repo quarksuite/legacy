@@ -12,13 +12,25 @@ const namedRatios = (name: string): number | undefined =>
     ['goldenSection', 1.6180339875]
   ]).get(name);
 
+/**
+ * Outputs a value at index `i` from settings.
+ *
+ * ```ts
+ * import quarks from '@quarksilver/core';
+ *
+ * const { scale } = quarks.toolkit.composition;
+ *
+ * scale(1, { base: '1em', ratio: 'perfect4th' });
+ * scale(1, { base: '1em', ratio: 2 });
+ * ```
+ */
 export const scale = (
-  n: number,
+  i: number,
   settings: { base: string; ratio: string | number }
 ) => {
   const { base, ratio } = settings;
 
-  return ms(n, {
+  return ms(i, {
     base: base.replace(/[a-z]+/g, ''),
     ratio: typeof ratio === 'string' ? namedRatios(ratio) : ratio
   });
