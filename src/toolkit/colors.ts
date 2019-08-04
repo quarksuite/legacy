@@ -269,7 +269,7 @@ const format = (data: string[], key: string): object => {
  * tokenize(blend('#f00', '#ff0'), 'main', true)
  * ```
  */
-const tokenize = (data: string[] | string, key: string) => {
+export const tokenize = (data: string[] | string, key: string) => {
   // Can't create an object without a key
   if (!key) throw Error(`key: expected a string, received ${key}`);
   // Can't populate a palette without data
@@ -280,9 +280,21 @@ const tokenize = (data: string[] | string, key: string) => {
     : format(data, key);
 };
 
-export default {
-  swatch: { hue: setHue, complement, neutralize },
-  variants: { tints, tones, shades },
-  palette: { split, spread, triad, tetrad },
-  tokenize
+export const swatch = {
+  hue: setHue,
+  complement,
+  neutralize
+};
+
+export const variants = {
+  tints,
+  tones,
+  shades
+};
+
+export const palette = {
+  split,
+  spread,
+  triad,
+  tetrad
 };
