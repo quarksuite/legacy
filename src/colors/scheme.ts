@@ -1,8 +1,6 @@
 import chroma from 'chroma-js';
-import colors from '../toolkit/colors';
+import { swatch, variants, palette, tokenize } from '../toolkit/colors';
 import { ColorBasicPaletteSchema, ColorOptions } from '../schema';
-
-const { swatch, variants, tokenize } = colors;
 
 /** Helper function to load tokens by category */
 const tokens = (data: string[][]): object => ({
@@ -13,7 +11,7 @@ const tokens = (data: string[][]): object => ({
 });
 
 /** Helper function to build full palette with variants */
-const palette = (color: string, options: ColorOptions = {}): string[] => [
+const output = (color: string, options: ColorOptions = {}): string[] => [
   ...variants.shades(color, options).reverse(),
   chroma(color).hex(),
   ...variants.shades(color, options)
@@ -35,7 +33,7 @@ const palette = (color: string, options: ColorOptions = {}): string[] => [
 export const monochromatic = (data: ColorBasicPaletteSchema): object => {
   const { base, options } = data;
 
-  return tokens([palette(base, options)]);
+  return tokens([output(base, options)]);
 };
 
 /**
@@ -55,7 +53,7 @@ export const complementary = (data: ColorBasicPaletteSchema): object => {
   const { base, options } = data;
   const opposite = swatch.complement(base);
 
-  return tokens([palette(base, options), palette(opposite, options)]);
+  return tokens([output(base, options), output(opposite, options)]);
 };
 
 /**
@@ -73,13 +71,13 @@ export const complementary = (data: ColorBasicPaletteSchema): object => {
  */
 export const analogous = (data: ColorBasicPaletteSchema): object => {
   const { base, options } = data;
-  const analogues = colors.palette.spread(base, 30);
+  const analogues = palette.spread(base, 30);
 
   return tokens([
-    palette(base, options),
-    palette(analogues[0], options),
-    palette(analogues[1], options),
-    palette(analogues[2], options)
+    output(base, options),
+    output(analogues[0], options),
+    output(analogues[1], options),
+    output(analogues[2], options)
   ]);
 };
 
@@ -89,12 +87,12 @@ const triColorScheme = (
   degrees: number = 120
 ): object => {
   const { base, options } = data;
-  const p = colors.palette.triad(base, degrees);
+  const colors = palette.triad(base, degrees);
 
   return tokens([
-    palette(p[0], options),
-    palette(p[1], options),
-    palette(p[2], options)
+    output(colors[0], options),
+    output(colors[1], options),
+    output(colors[2], options)
   ]);
 };
 
@@ -152,13 +150,13 @@ const quadColorScheme = (
   degrees: number = 60
 ): object => {
   const { base, options } = data;
-  const p = colors.palette.tetrad(base, degrees);
+  const colors = palette.tetrad(base, degrees);
 
   return tokens([
-    palette(p[0], options),
-    palette(p[1], options),
-    palette(p[2], options),
-    palette(p[3], options)
+    output(colors[0], options),
+    output(colors[1], options),
+    output(colors[2], options),
+    output(colors[3], options)
   ]);
 };
 

@@ -1,15 +1,15 @@
-import colors from '../../../src/toolkit/colors';
+import { palette } from '../../../src/toolkit/colors';
 
 describe('Utilities for color palettes', () => {
   const color = '#f00000';
   describe('split(color, degrees?)', () => {
     test('outputs the colors on either side of target color', () => {
-      expect(colors.palette.split(color)).toStrictEqual(['#f000f0', '#f0f000']);
+      expect(palette.split(color)).toStrictEqual(['#f000f0', '#f0f000']);
     });
   });
   describe('spread(color, degrees?, range?)', () => {
     test('outputs a range of colors from the split of target color', () => {
-      expect(colors.palette.spread(color)).toStrictEqual([
+      expect(palette.spread(color)).toStrictEqual([
         '#ff1781',
         '#ff5751',
         '#ff8926'
@@ -18,14 +18,14 @@ describe('Utilities for color palettes', () => {
   });
   describe('triad(color, degrees?)', () => {
     test('outputs a triad from the target color', () => {
-      expect(colors.palette.triad(color)).toStrictEqual([
+      expect(palette.triad(color)).toStrictEqual([
         '#f00000',
         '#0000f0',
         '#00f000'
       ]);
     });
     test('when degrees = 90 is a clash', () => {
-      expect(colors.palette.triad(color, 90)).toStrictEqual([
+      expect(palette.triad(color, 90)).toStrictEqual([
         '#f00000',
         '#7800f0',
         '#78f000'
@@ -34,7 +34,7 @@ describe('Utilities for color palettes', () => {
   });
   describe('tetrad(color, degrees?)', () => {
     test('outputs a tetrad from the target color', () => {
-      expect(colors.palette.tetrad(color)).toStrictEqual([
+      expect(palette.tetrad(color)).toStrictEqual([
         '#f00000',
         '#00f0f0',
         '#f0f000',
@@ -42,7 +42,7 @@ describe('Utilities for color palettes', () => {
       ]);
     });
     test('when degrees = 90 is a square', () => {
-      expect(colors.palette.tetrad(color, 90)).toStrictEqual([
+      expect(palette.tetrad(color, 90)).toStrictEqual([
         '#f00000',
         '#00f0f0',
         '#78f000',

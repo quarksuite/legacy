@@ -1,15 +1,15 @@
-import colors from '../../../src/toolkit/colors';
+import { swatch } from '../../../src/toolkit/colors';
 
 describe('Utilities for color swatches', () => {
   const color = '#f00000';
   describe('complement(color)', () => {
     test('returns the complement (opposite) of a color', () => {
-      expect(colors.swatch.complement(color)).toBe('#00f0f0');
+      expect(swatch.complement(color)).toBe('#00f0f0');
     });
   });
   describe('neutralize(color)', () => {
     test('neutralizes a color with its opposite', () => {
-      expect(colors.swatch.neutralize(color)).toBe('#aaaaaa');
+      expect(swatch.neutralize(color)).toBe('#aaaaaa');
     });
   });
 });
