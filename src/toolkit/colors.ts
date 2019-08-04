@@ -52,14 +52,7 @@ const generate = (
 /**
  * Merges a color with a target to blend. Strips
  * color from output to avoid redundancy.
- *
- * ```ts
- * import {blend} from '@quarksilver/core';
- *
- * blend('#f00', '#00f');
- * ```
  */
-
 const blend = (
   color: string,
   target: string,
@@ -90,9 +83,11 @@ const setHue = (color: string, rotation: string): string =>
  * Returns a collection of tints for a color
  *
  * ```ts
- * import {tints} from '@quarksilver/core';
+ * import quarks from '@quarksilver/core';
  *
- * tints('#f00');
+ * const { variants } = quarks.toolkit.colors;
+ *
+ * variants.tints('#f00000');
  * ```
  * */
 const tints = (color: string, options: ColorOptions = {}): string[] =>
@@ -102,9 +97,11 @@ const tints = (color: string, options: ColorOptions = {}): string[] =>
  * Returns a collection of tones for a color
  *
  * ```ts
- * import {tones} from '@quarksilver/core';
+ * import quarks from '@quarksilver/core';
  *
- * tones('#f00');
+ * const { variants } = quarks.toolkit.colors;
+ *
+ * variants.tones('#f00000');
  * ```
  * */
 const tones = (color: string, options: ColorOptions = {}): string[] =>
@@ -114,9 +111,11 @@ const tones = (color: string, options: ColorOptions = {}): string[] =>
  * Returns a collection of shades for a color
  *
  * ```ts
- * import {shades} from '@quarksilver/core';
+ * import quarks from '@quarksilver/core';
  *
- * shades('#f00');
+ * const { variants } = quarks.toolkit.colors;
+ *
+ * variants.shades('#f00000');
  * ```
  * */
 const shades = (color: string, options: ColorOptions = {}): string[] =>
@@ -126,9 +125,11 @@ const shades = (color: string, options: ColorOptions = {}): string[] =>
  * Fetches the complement (opposite) of a color.
  *
  * ```ts
- * import {complement} from '@quarksilver/core';
+ * import quarks from '@quarksilver/core';
  *
- * complement('#f00') // #0ff;
+ * const { swatch } = quarks.toolkit.colors;
+ *
+ * swatch.complement('#f00')
  * ```
  */
 const complement = (color: string): string => setHue(color, '+180');
@@ -137,9 +138,11 @@ const complement = (color: string): string => setHue(color, '+180');
  * Neutralizes a color with its complement;
  *
  * ```ts
- * import {neutralize} from '@quarksilver/core';
+ * import quarks from '@quarksilver/core';
  *
- * neutralize('#f00') // #aaa
+ * const { swatch } = quarks.toolkit.colors;
+ *
+ * swatch.neutralize('#f00');
  * ```
  */
 const neutralize = (color: string): string =>
@@ -147,13 +150,13 @@ const neutralize = (color: string): string =>
 
 /**
  * Splits a color on either side. Tuple represents [leftOfTarget, rightOfTarget]
- * @param color - any valid CSS color
- * @param distance - angular distance to split from target
  *
  * ```ts
- * import {split} from '@quarksilver/core';
+ * import quarks from '@quarksilver/core';
  *
- * split('#f00', 60) // ['#f0f', '#ff0']
+ * const { palette } = quarks.toolkit.colors;
+ *
+ * palette.split('#f00')
  * ```
  */
 const split = (color: string, degrees: number = 60): [string, string] => [
@@ -163,11 +166,13 @@ const split = (color: string, degrees: number = 60): [string, string] => [
 
 /**
  * Spreads a range of colors on either side of target
-
- * ```ts
- * import {spread} from '@quarksilver/core';
  *
- * spread('#f00');
+ * ```ts
+ * import quarks from '@quarksilver/core';
+ *
+ * const { palette } = quarks.toolkit.colors;
+ *
+ * palette.spread('#f00')
  * ```
  */
 const spread = (
@@ -193,9 +198,11 @@ const spread = (
  * degrees = 90 is an isosceles clash
  *
  * ```ts
- * import {triad} from '@quarksilver/core';
+ * import quarks from '@quarksilver/core';
  *
- * triad('f00'); // ['#f00', '#00f', '#0f0']
+ * const { palette } = quarks.toolkit.colors;
+ *
+ * palette.triad('#f00')
  * ```
  */
 const triad = (
@@ -221,9 +228,11 @@ const triad = (
  * degrees = 60 is a tetrad
  *
  * ```ts
- * import {tetrad} from '@quarksilver/core';
+ * import quarks from '@quarksilver/core';
  *
- * tetrad('#f00'); // ['#f00', '#0ff', '#ff0', '#f0f']
+ * const { palette } = quarks.toolkit.colors;
+ *
+ * palette.tetrad('#f00')
  * ```
  */
 const tetrad = (
@@ -261,12 +270,15 @@ const format = (data: string[], key: string): object => {
 /**
  * Transforms a collection of colors into tokens consumable by Style Dictionary
  *
- * `palette` outputs a scale, otherwise it assumes a swatch
+ * Swatch will be translated directly, palette will be formatted
  *
  * ```ts
- * import {tokenize, blend} from '@quarksilver/core';
+ * import quarks from '@quarksilver/core';
  *
- * tokenize(blend('#f00', '#ff0'), 'main', true)
+ * const { tokenize, variants } = quarks.toolkit.colors;
+ *
+ * tokenize('#f00', 'red');
+ * tokenize(variants.tints('#f00'), 'tints')
  * ```
  */
 export const tokenize = (data: string[] | string, key: string) => {
@@ -281,7 +293,6 @@ export const tokenize = (data: string[] | string, key: string) => {
 };
 
 export const swatch = {
-  hue: setHue,
   complement,
   neutralize
 };
