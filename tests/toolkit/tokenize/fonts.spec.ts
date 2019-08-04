@@ -1,5 +1,5 @@
-import { ContentFontsSchema } from '../../src/schema';
-import { tokenize } from '../../src/content/fonts';
+import { ContentFontsSchema } from '../../../src/schema';
+import * as tokenize from '../../../src/toolkit/tokenize';
 
 describe('Content font module', () => {
   describe('tokenize(data)', () => {
@@ -30,7 +30,7 @@ describe('Content font module', () => {
         }
       };
 
-      expect(tokenize(data)).toMatchObject<FontsOutput>(schema);
+      expect(tokenize.fonts(data)).toMatchObject<FontsOutput>(schema);
     });
     test('can input more than one font', () => {
       const data: ContentFontsSchema = {
@@ -71,7 +71,7 @@ describe('Content font module', () => {
         }
       };
 
-      expect(tokenize(data)).toMatchObject<FontsOutput>(schema);
+      expect(tokenize.fonts(data)).toMatchObject<FontsOutput>(schema);
     });
   });
 });

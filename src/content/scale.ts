@@ -3,19 +3,19 @@ import { scale } from '../toolkit/content';
 
 /**
  * Processes modular scale data to output layout, sizing,
- * and spacing tokens
+ * and spacing units
  *
  * ```ts
  * import quarks from '@quarksilver/core';
  *
- * const tokenizeScale = quarks.composition.tokenize;
+ * const { scale } = quarks.content;
  *
  * const data = {
  *   base: '1em',
  *   ratio: 1.25
  * }
  *
- * tokenizeScale(data)
+ * scale.tokenize(data)
  * ```
  */
 export const tokenize = (data: ContentScaleSchema): object => {

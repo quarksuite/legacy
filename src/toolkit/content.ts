@@ -18,13 +18,13 @@ const namedRatios = (name: string): number | undefined =>
  * ```ts
  * import quarks from '@quarksilver/core';
  *
- * const { scale } = quarks.toolkit.composition;
+ * const { scaleValues } = quarks.toolkit.content;
  *
- * scale(1, { base: '1em', ratio: 'perfect4th' });
- * scale(1, { base: '1em', ratio: 2 });
+ * scaleValues(1, { base: '1em', ratio: 'perfect4th' });
+ * scaleValues(1, { base: '1em', ratio: 2 });
  * ```
  */
-export const scale = (
+export const scaleValues = (
   i: number,
   settings: { base: string; ratio: string | number }
 ) => {

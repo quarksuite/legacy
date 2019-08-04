@@ -247,51 +247,6 @@ const tetrad = (
   return [a, c, b, d];
 };
 
-const scale = (data: string[]): object =>
-  data.reduce((container, value, i) => {
-    const indexToOne = ++i;
-    const scaleKey =
-      indexToOne < 10
-        ? indexToOne.toString().padEnd(3, '0')
-        : indexToOne.toString().padEnd(4, '0');
-    return { ...container, [scaleKey]: { value } };
-  }, {});
-
-const format = (data: string[], key: string): object => {
-  return data.reduce(
-    (container, _value, _i, array) => ({
-      ...container,
-      ...{ [key]: scale(array) }
-    }),
-    {}
-  );
-};
-
-/**
- * Transforms a collection of colors into tokens consumable by Style Dictionary
- *
- * Swatch will be translated directly, palette will be formatted
- *
- * ```ts
- * import quarks from '@quarksilver/core';
- *
- * const { tokenize, variants } = quarks.toolkit.colors;
- *
- * tokenize('#f00', 'red');
- * tokenize(variants.tints('#f00'), 'tints')
- * ```
- */
-export const tokenize = (data: string[] | string, key: string) => {
-  // Can't create an object without a key
-  if (!key) throw Error(`key: expected a string, received ${key}`);
-  // Can't populate a palette without data
-  if (!data) return {};
-  // Check the type of input. String indicates swatch, array indicates palette
-  return typeof data === 'string'
-    ? { [key]: { value: data } }
-    : format(data, key);
-};
-
 export const swatch = {
   complement,
   neutralize

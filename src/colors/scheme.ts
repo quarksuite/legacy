@@ -1,13 +1,14 @@
 import chroma from 'chroma-js';
-import { swatch, variants, palette, tokenize } from '../toolkit/colors';
+import { swatch, variants, palette } from '../toolkit/colors';
+import * as tokenize from '../toolkit/tokenize';
 import { ColorBasicPaletteSchema, ColorOptions } from '../schema';
 
 /** Load tokens by category */
 const tokens = (data: string[][]): object => ({
-  ...tokenize(data[0], 'main'),
-  ...tokenize(data[1], 'accent'),
-  ...tokenize(data[2], 'spot'),
-  ...tokenize(data[3], 'flourish')
+  ...tokenize.colors(data[0], 'main'),
+  ...tokenize.colors(data[1], 'accent'),
+  ...tokenize.colors(data[2], 'spot'),
+  ...tokenize.colors(data[3], 'flourish')
 });
 
 /** Output full palette with variants */
@@ -21,10 +22,12 @@ const output = (color: string, options: ColorOptions = {}): string[] => [
  * Generates a monochromatic scheme from basic color configuration.
  *
  * ```ts
- * import {monochromatic} from '@quarksilver/core';
+ * import quarks from '@quarksilver/core';
+ *
+ * const { monochromatic } = quarks.colors.scheme;
  *
  * const data = {
- *   base: '#f00'
+ *   base: '#f00000'
  * }
  *
  * monochromatic(data)
@@ -40,10 +43,12 @@ export const monochromatic = (data: ColorBasicPaletteSchema): object => {
  * Generates a complementary scheme from basic color configuration.
  *
  * ```ts
- * import {complementary} from '@quarksilver/core';
+ * import quarks from '@quarksilver/core';
+ *
+ * const { complementary } = quarks.colors.scheme;
  *
  * const data = {
- *   base: '#f00'
+ *   base: '#f00000'
  * }
  *
  * complementary(data)
@@ -60,10 +65,12 @@ export const complementary = (data: ColorBasicPaletteSchema): object => {
  * Generates a analogous scheme from basic color configuration.
  *
  * ```ts
- * import {analogous} from '@quarksilver/core';
+ * import quarks from '@quarksilver/core';
+ *
+ * const { analogous } = quarks.colors.scheme;
  *
  * const data = {
- *   base: '#f00'
+ *   base: '#f00000'
  * }
  *
  * analogous(data)
@@ -97,13 +104,15 @@ const triColorScheme = (
 };
 
 /**
- * Generates a splitComplementary scheme from basic color configuration.
+ * Generates a split complement scheme from basic color configuration.
  *
  * ```ts
- * import {splitComplementary} from '@quarksilver/core';
+ * import quarks from '@quarksilver/core';
+ *
+ * const { splitComplementary } = quarks.colors.scheme;
  *
  * const data = {
- *   base: '#f00'
+ *   base: '#f00000'
  * }
  *
  * splitComplementary(data)
@@ -116,10 +125,12 @@ export const splitComplementary = (data: ColorBasicPaletteSchema): object =>
  * Generates a triadic scheme from basic color configuration.
  *
  * ```ts
- * import {triadic} from '@quarksilver/core';
+ * import quarks from '@quarksilver/core';
+ *
+ * const { triadic } = quarks.colors.scheme;
  *
  * const data = {
- *   base: '#f00'
+ *   base: '#f00000'
  * }
  *
  * triadic(data)
@@ -132,10 +143,12 @@ export const triadic = (data: ColorBasicPaletteSchema): object =>
  * Generates a clash scheme from basic color configuration.
  *
  * ```ts
- * import {clash} from '@quarksilver/core';
+ * import quarks from '@quarksilver/core';
+ *
+ * const { clash } = quarks.colors.scheme;
  *
  * const data = {
- *   base: '#f00'
+ *   base: '#f00000'
  * }
  *
  * clash(data)
@@ -164,10 +177,12 @@ const quadColorScheme = (
  * Generates a tetradic scheme from basic color configuration.
  *
  * ```ts
- * import {tetradic} from '@quarksilver/core';
+ * import quarks from '@quarksilver/core';
+ *
+ * const { tetradic } = quarks.colors.scheme;
  *
  * const data = {
- *   base: '#f00'
+ *   base: '#f00000'
  * }
  *
  * tetradic(data)
@@ -179,10 +194,12 @@ export const tetradic = (data: ColorBasicPaletteSchema): object =>
  * Generates a square scheme from basic color configuration.
  *
  * ```ts
- * import {square} from '@quarksilver/core';
+ * import quarks from '@quarksilver/core';
+ *
+ * const { square } = quarks.colors.scheme;
  *
  * const data = {
- *   base: '#f00'
+ *   base: '#f00000'
  * }
  *
  * square(data)

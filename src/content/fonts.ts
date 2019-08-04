@@ -6,7 +6,7 @@ import { ContentFontsSchema } from '../schema';
  * ```ts
  * import quarks from '@quarksilver/core';
  *
- * const tokenizeFonts = quarks.content.fonts.tokenize;
+ * const { fonts } = quarks.content;
  *
  * const data = {
  *   primary: {
@@ -16,7 +16,7 @@ import { ContentFontsSchema } from '../schema';
  *   }
  * }
  *
- * tokenizeFonts(data)
+ * fonts.tokenize(data)
  * ```
  */
 export const tokenize = (data: ContentFontsSchema): object =>

@@ -1,6 +1,7 @@
 import chroma from 'chroma-js';
 import { ColorCustomSwatchSchema, ColorCustomPaletteSchema } from '../schema';
-import { variants, tokenize } from '../toolkit/colors';
+import { variants } from '../toolkit/colors';
+import * as tokenize from '../toolkit/tokenize';
 
 /**
  * Outputs a collection of swatch tokens from a custom color palette.
@@ -22,7 +23,7 @@ import { variants, tokenize } from '../toolkit/colors';
 export const swatches = (data: ColorCustomSwatchSchema): object =>
   Object.keys(data).reduce((container, key: string): object => {
     const color = chroma(data[key]).hex();
-    return { ...container, ...tokenize(color, key) };
+    return { ...container, ...tokenize.colors(color, key) };
   }, {});
 
 /**
@@ -50,5 +51,5 @@ export const palette = (data: ColorCustomPaletteSchema) =>
       chroma(base).hex(),
       ...variants.tints(base, options)
     ];
-    return { ...container, ...tokenize(withVariants, category) };
+    return { ...container, ...tokenize.colors(withVariants, category) };
   }, {});

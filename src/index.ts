@@ -6,6 +6,8 @@ import * as content from './toolkit/content';
 import * as fonts from './content/fonts';
 import * as scale from './content/scale';
 
+import * as tokenize from './toolkit/tokenize';
+
 /**
  * Exposes the public API of Quarksilver
  *
@@ -24,5 +26,5 @@ import * as scale from './content/scale';
 export default {
   colors: { custom, scheme },
   content: { fonts, scale },
-  toolkit: { colors, content }
+  toolkit: { colors, content, tokenize }
 };
