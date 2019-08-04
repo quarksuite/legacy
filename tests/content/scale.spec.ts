@@ -1,5 +1,5 @@
 import { ContentScaleSchema } from '../../src/schema';
-import { tokenize } from '../../src/composition/scale';
+import { tokenize } from '../../src/content/scale';
 
 describe('Content scale module', () => {
   describe('tokenize(data)', () => {

@@ -6,13 +6,15 @@ import { variants, tokenize } from '../toolkit/colors';
  * Outputs a collection of swatch tokens from a custom color palette.
  *
  * ```ts
- * import {swatches} from '@quarksilver/core';
+ * import quarks from '@quarksilver/core';
+ *
+ * const { swatches } = quarks.colors.custom;
  *
  * const data = {
- *   red: '#f00',
- *   green: '#0f0',
- *   blue: '#00f'
- * }
+ *   red: '#f00000',
+ *   green: '#00f000',
+ *   blue: '#0000f0'
+ * };
  *
  * swatches(data);
  * ```
@@ -27,19 +29,15 @@ export const swatches = (data: ColorCustomSwatchSchema): object =>
  * Outputs palette tokens from color category objects
  *
  * ```ts
- * import {palette} from '@quarksilver/core';
+ * import quarks from '@quarksilver/core';
+ *
+ * const { palette } = quarks.colors.custom;
  *
  * const data = {
- *   red: {
- *     base: '#f00'
- *   }
- *   green: {
- *     base: '#0f0'
- *   }
- *   blue: {
- *     base: '#00f'
- *   }
- * }
+ *   red: { base: '#f00000'},
+ *   green: { base: '#00f000' }
+ *   blue: { base: '#0000f0' }
+ * };
  *
  * palette(data);
  * ```

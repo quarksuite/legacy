@@ -2,7 +2,7 @@ import chroma from 'chroma-js';
 import { swatch, variants, palette, tokenize } from '../toolkit/colors';
 import { ColorBasicPaletteSchema, ColorOptions } from '../schema';
 
-/** Helper function to load tokens by category */
+/** Load tokens by category */
 const tokens = (data: string[][]): object => ({
   ...tokenize(data[0], 'main'),
   ...tokenize(data[1], 'accent'),
@@ -10,11 +10,11 @@ const tokens = (data: string[][]): object => ({
   ...tokenize(data[3], 'flourish')
 });
 
-/** Helper function to build full palette with variants */
+/** Output full palette with variants */
 const output = (color: string, options: ColorOptions = {}): string[] => [
   ...variants.shades(color, options).reverse(),
   chroma(color).hex(),
-  ...variants.shades(color, options)
+  ...variants.tints(color, options)
 ];
 
 /**

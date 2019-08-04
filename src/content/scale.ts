@@ -1,5 +1,5 @@
 import { ContentScaleSchema } from '../schema';
-import { scale } from '../toolkit/composition';
+import { scale } from '../toolkit/content';
 
 /**
  * Processes modular scale data to output layout, sizing,
