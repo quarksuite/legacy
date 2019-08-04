@@ -150,14 +150,6 @@ const neutralize = (color: string): string =>
 
 /**
  * Splits a color on either side. Tuple represents [leftOfTarget, rightOfTarget]
- *
- * ```ts
- * import quarks from '@quarksilver/core';
- *
- * const { palette } = quarks.toolkit.colors;
- *
- * palette.split('#f00')
- * ```
  */
 const split = (color: string, degrees: number = 60): [string, string] => [
   setHue(color, `-${degrees}`),
@@ -177,15 +169,13 @@ const split = (color: string, degrees: number = 60): [string, string] => [
  */
 const spread = (
   color: string,
-  degrees: number = 45,
-  range: number = 4
+  degrees: number = 60,
+  range: number = 3
 ): string[] => {
-  const terminals = split(color, degrees);
-  return maptoCSS(generate(terminals, { range, mode: 'lch' })).filter(
-    (_value, index, array) => {
-      return index !== 0 && index !== array.length - 1;
-    }
-  );
+  const terminals = [color, setHue(color, `+${degrees}`)];
+  return maptoCSS(generate(terminals, { range })).filter((_value, index) => {
+    return index !== 0;
+  });
 };
 
 /**
@@ -259,7 +249,6 @@ export const variants = {
 };
 
 export const palette = {
-  split,
   spread,
   triad,
   tetrad

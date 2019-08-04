@@ -2,17 +2,37 @@ import { palette } from '../../../src/toolkit/colors';
 
 describe('Utilities for color palettes', () => {
   const color = '#f00000';
-  describe('split(color, degrees?)', () => {
-    test('outputs the colors on either side of target color', () => {
-      expect(palette.split(color)).toStrictEqual(['#f000f0', '#f0f000']);
-    });
-  });
+  const second = '#348ec9';
   describe('spread(color, degrees?, range?)', () => {
     test('outputs a range of colors from the split of target color', () => {
-      expect(palette.spread(color)).toStrictEqual([
-        '#ff1781',
-        '#ff5751',
-        '#ff8926'
+      expect(palette.spread(color, 60)).toStrictEqual([
+        '#f77700',
+        '#f8b600',
+        '#f0f000'
+      ]);
+    });
+    test('example: second color', () => {
+      expect(palette.spread(second)).toStrictEqual([
+        '#5474c9',
+        '#6558c9',
+        '#6f34c9'
+      ]);
+    });
+    test('can input the degrees to spread by', () => {
+      expect(palette.spread(color, 45)).toStrictEqual([
+        '#f35e00',
+        '#f38c00',
+        '#f0b400'
+      ]);
+    });
+    test('can adjust the range of colors to output', () => {
+      expect(palette.spread(color, 60, 6)).toStrictEqual([
+        '#f45000',
+        '#f77700',
+        '#f89800',
+        '#f8b600',
+        '#f5d300',
+        '#f0f000'
       ]);
     });
   });

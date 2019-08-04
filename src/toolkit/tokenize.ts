@@ -48,7 +48,7 @@ export const colors = (data: string[] | string, key: string) => {
 };
 
 /**
- * Formats fonts for consumption by Style Dictionary.
+ * Formats font data for consumption by Style Dictionary.
  *
  * ```ts
  * import quarks from '@quarksilver/core';
