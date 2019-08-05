@@ -1,4 +1,5 @@
 import { ContentScaleSchema } from '../../../src/schema';
+import { scale } from '../../../src/toolkit/content';
 import * as tokenize from '../../../src/toolkit/tokenize';
 
 describe('Content scale module', () => {
@@ -33,7 +34,7 @@ describe('Content scale module', () => {
         16: { value: expect.any(String) }
       };
 
-      expect(tokenize.scale(data)).toMatchObject<ScaleOutput>(schema);
+      expect(tokenize.scale(scale(data))).toMatchObject<ScaleOutput>(schema);
     });
     test('outputs half the scale', () => {
       const data: ContentScaleSchema = {
@@ -58,7 +59,7 @@ describe('Content scale module', () => {
         8: { value: expect.any(String) }
       };
 
-      expect(tokenize.scale(data)).toMatchObject<ScaleOutput>(schema);
+      expect(tokenize.scale(scale(data))).toMatchObject<ScaleOutput>(schema);
     });
     test('works with a numeric limit', () => {
       const data: ContentScaleSchema = {
@@ -79,7 +80,7 @@ describe('Content scale module', () => {
         4: { value: expect.any(String) }
       };
 
-      expect(tokenize.scale(data)).toMatchObject<ScaleOutput>(schema);
+      expect(tokenize.scale(scale(data))).toMatchObject<ScaleOutput>(schema);
     });
   });
 });

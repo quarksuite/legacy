@@ -1,6 +1,4 @@
 import { ContentFontsSchema } from '../schema';
-import { ContentScaleSchema } from '../schema';
-import { scaleValues } from './content';
 
 const colorScale = (data: string[]): object =>
   data.reduce((container, value, i) => {
@@ -98,23 +96,8 @@ export const fonts = (data: ContentFontsSchema): object =>
  * tokenize.scale(data)
  * ```
  */
-export const scale = (data: ContentScaleSchema): object => {
-  const { base, ratio, limit = 'full' } = data;
-  let count = 0;
-  let collection = [];
-
-  if (limit === 'full') count = 17;
-  if (limit === 'half') count = 9;
-  if (typeof limit === 'number') count = limit;
-
-  for (let i = 0; i < count; i++)
-    collection.push(scaleValues(i, { base, ratio }));
-
-  return collection
-    .map((value: number) =>
-      [parseFloat(value.toPrecision(4)), base.replace(/[0-9.]+/g, '')].join('')
-    )
-    .reduce((container, value: string, i: number) => {
-      return { ...container, ...{ [i]: { value } } };
-    }, {});
+export const scale = (values: string[]): object => {
+  return values.reduce((container, value: string, i: number) => {
+    return { ...container, ...{ [i]: { value } } };
+  }, {});
 };

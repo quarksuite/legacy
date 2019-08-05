@@ -1,5 +1,7 @@
 import ms from 'modularscale-js';
+import { ContentScaleSchema } from '../schema';
 
+/** Translate named ratios to numeric value */
 const namedRatios = (name: string): number | undefined =>
   new Map([
     ['minor2nd', 1.067],
@@ -13,18 +15,9 @@ const namedRatios = (name: string): number | undefined =>
   ]).get(name);
 
 /**
- * Outputs a value at index `i` from settings.
- *
- * ```ts
- * import quarks from '@quarksilver/core';
- *
- * const { scaleValues } = quarks.toolkit.content;
- *
- * scaleValues(1, { base: '1em', ratio: 'perfect4th' });
- * scaleValues(1, { base: '1em', ratio: 2 });
- * ```
+ * Outputs a value at index `i`.
  */
-export const scaleValues = (
+const scaleValues = (
   i: number,
   settings: { base: string; ratio: string | number }
 ) => {
@@ -34,4 +27,37 @@ export const scaleValues = (
     base: base.replace(/[a-z]+/g, ''),
     ratio: typeof ratio === 'string' ? namedRatios(ratio) : ratio
   });
+};
+
+/**
+ * Processes data to output a modular scale.
+ *
+ * ```ts
+ * import quarks from '@quarksilver/core';
+ *
+ * const { scale } = quarks.content;
+ *
+ * const data = {
+ *   base: '1em',
+ *   ratio: 1.25
+ * }
+ *
+ * scale(data)
+ * ```
+ */
+export const scale = (data: ContentScaleSchema): string[] => {
+  const { base, ratio, limit = 'full' } = data;
+  let count = 0;
+
+  // translate named limit to corresponding number
+  if (limit === 'full') count = 17;
+  if (limit === 'half') count = 9;
+  if (typeof limit === 'number') count = limit;
+
+  // Fill an array with the output
+  return Array.from(Array(count).fill(0))
+    .map((_value, index: number) => scaleValues(index, { base, ratio }))
+    .map((value: number) =>
+      [parseFloat(value.toPrecision(4)), base.replace(/[0-9.]+/g, '')].join('')
+    );
 };
