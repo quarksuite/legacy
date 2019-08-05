@@ -1,4 +1,4 @@
-![Quarksilver Logo](/home/cr-jr/Code/project/@quarksilver/core/assets/logo-fullcolor-with-text.png)
+![Quarksilver Logo](assets/logo-fullcolor-with-text.png)
 
 # Quarksilver (Core)
 
