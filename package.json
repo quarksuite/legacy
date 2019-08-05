@@ -60,7 +60,7 @@
     "build": "run-s -n test build:docs:*",
     "dev:docs": "onchange -i -k 'src/**/*.ts' '*.md' -- yarn build:docs:api",
     "build:docs:api": "typedoc --out docs/api",
-    "build:docs:md": "typedoc --theme markdown --platform gitbook --out docs",
+    "build:docs:md": "typedoc --theme markdown --platform gitbook --out docs/gitbook",
     "dev:serve": "serve docs/api",
     "test": "jest",
     "version": "npm run build"
