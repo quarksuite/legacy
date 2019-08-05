@@ -103,14 +103,14 @@ yarn add @quarksilver/core
 
 ### Using Quarksilver
 
-Quarksilver is organized under three main modules: `colors`, `content`, and `toolkit`. The first contains convenience functions for generating palettes from color data. The second contains functionality for building a modular scale. The last is the bare metal toolkit for working with the core.  
+Quarksilver is organized under two main modules: `colors` and `toolkit`. The first contains convenience functions for generating palettes from color data. The second contains the bare metal utilities for constructing design systems.  
 
 You can copy the block of code below if you’d just like to get going with a simple system that’s ready for consumption and token output by Style Dictionary.
 
 ```typescript
 import quarks from '@quarksilver/core';
 
-const { colors, content, toolkit } = quarks;
+const { colors, toolkit } = quarks;
 
 // A simple monochromatic color scheme with a wide range
 // of variants.
@@ -148,7 +148,7 @@ const scaleConfig = {
   limit: 9
 }
 
-const ms = toolkit.tokenize.scale(content.scale(scaleConfig));
+const ms = toolkit.tokenize.scale(scaleConfig);
 
 // Output
 export default JSON.stringify({ color, font, ms }, null, 2)
