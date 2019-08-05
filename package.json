@@ -2,7 +2,16 @@
   "name": "@quarksilver/core",
   "version": "0.1.0",
   "description": "A tiny toolkit for generating design systems.",
-  "author": "Chatman R. Jr",
+  "author": "Chatman R. Jr <crjr.code@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/quarksilver/core.git"
+  },
+  "bugs": {
+    "url": "https://gitlab.com/quarksilver/core/issues"
+  },
+  "homepage": "https://gitlab.com/quarksilver/core",
+  "keywords": ["design systems", "toolkit", "quarksilver", "design tokens"],
   "license": "MIT",
   "dependencies": {
     "chroma-js": "^2.0.4",
@@ -63,9 +72,6 @@
       ],
       [
         "@pika/plugin-build-types"
-      ],
-      [
-        "@pika/plugin-copy-assets"
       ]
     ]
   },
