@@ -11,7 +11,12 @@
     "url": "https://gitlab.com/quarksilver/core/issues"
   },
   "homepage": "https://gitlab.com/quarksilver/core",
-  "keywords": ["design systems", "toolkit", "quarksilver", "design tokens"],
+  "keywords": [
+    "design systems",
+    "toolkit",
+    "quarksilver",
+    "design tokens"
+  ],
   "license": "MIT",
   "dependencies": {
     "chroma-js": "^2.0.4",
@@ -57,7 +62,8 @@
     "build:docs:api": "typedoc --out docs/api",
     "build:docs:md": "typedoc --theme markdown --platform gitbook --out docs",
     "dev:serve": "serve docs/api",
-    "test": "jest"
+    "test": "jest",
+    "version": "npm run build"
   },
   "@pika/pack": {
     "pipeline": [
