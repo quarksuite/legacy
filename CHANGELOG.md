@@ -20,15 +20,14 @@ Table of Contents
 
 ## v0.1.0
 
-Proof of concept
+Initial release.
 
 ### Added
 
 + Color toolkit for building schemes from the ground up
 + Custom color module for working with config-like objects
 + Color scheme module for building basic palettes
-+ Content module for typography
-+ Composition toolkit for creating layout and sizing from modular scale and spacing
++ toolkit for tokenizing data to pass on to Style Dictionary
 
 ### Changed
 

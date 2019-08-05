@@ -15,7 +15,7 @@
     "@pika/plugin-build-node": "^0.4.0",
     "@pika/plugin-build-types": "^0.4.0",
     "@pika/plugin-build-web": "^0.4.0",
-    "@pika/plugin-copy-assets": "^0.4.0",
+    "@pika/plugin-copy-assets": "^0.6.0",
     "@pika/plugin-standard-pkg": "^0.4.0",
     "@types/chroma-js": "^1.4.1",
     "@types/cosmiconfig": "^5.0.3",
@@ -63,6 +63,9 @@
       ],
       [
         "@pika/plugin-build-types"
+      ],
+      [
+        "@pika/plugin-copy-assets"
       ]
     ]
   },

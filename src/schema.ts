@@ -70,16 +70,23 @@ export interface ColorOptions {
   contrast?: number | 'low' | 'med' | 'high';
 }
 
+/** Models the correct format for configuring fonts */
 export interface ContentFontsSchema {
   [index: string]: {
+    /** Human readable name for font */
     name: string;
+    /** CSS font-family stack */
     stack: string | string[];
+    /** Styles expected when using font */
     styles: (string | number)[];
   };
 }
 
+/** Models the correct format for defining a modular scale. */
 export interface ContentScaleSchema {
+  /** Scale base. Accepts relative and absolute values. */
   base: string;
+  /** Ratio to scale by. Named values correspond with [modularscale.com](https://modularscale.com). */
   ratio:
     | number
     | 'augmented4th'
@@ -90,5 +97,12 @@ export interface ContentScaleSchema {
     | 'major3rd'
     | 'perfect4th'
     | 'perfect5th';
+
+  /**
+   * Optionally sets a limit for the scale output.
+   *
+   * `'full'` = 17
+   * `'half'` = 9
+   */
   limit?: number | 'full' | 'half';
 }

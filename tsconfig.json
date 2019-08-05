@@ -18,8 +18,7 @@
     "exclude": "**/*+(.spec).ts",
     "excludeNotExported": true,
     "mode": "modules",
-    "out": "docs",
     "name": "Quarksilver (Core)",
-    "readme": "README.md"
+    "theme": "minimal"
   }
 }
