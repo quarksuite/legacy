@@ -1,6 +1,6 @@
 {
   "name": "@quarksilver/core",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A tiny toolkit for generating design systems.",
   "author": "Chatman R. Jr <crjr.code@gmail.com>",
   "repository": {
@@ -78,6 +78,9 @@
       ],
       [
         "@pika/plugin-build-types"
+      ],
+      [
+        "@pika/plugin-copy-assets"
       ]
     ]
   },
