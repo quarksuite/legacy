@@ -18,6 +18,16 @@ Table of Contents
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+## v0.2.2
+
+### Changed
+
++ Updates the logo
+
+### Fixed
+
++ Documentation assets are properly included in the package
+
 ## v0.1.0
 
 Initial release.
@@ -29,12 +39,3 @@ Initial release.
 + Color scheme module for building basic palettes
 + toolkit for tokenizing data to pass on to Style Dictionary
 
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security

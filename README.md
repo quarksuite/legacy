@@ -1,4 +1,4 @@
-![Quarksilver Logo](assets/logo-fullcolor-with-text.png)
+![Quarksilver Logo](assets/logo-core-with-text.png)
 
 # Quarksilver (Core)
 
