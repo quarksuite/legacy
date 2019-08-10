@@ -1,11 +1,36 @@
 /**
  * A set of utilities to streamline color token generation and modification.
- * Made available in case you require baremetal manipulation of colors.
  */
 
 import chroma, { InterpolationMode } from 'chroma-js';
-import { ColorOptions } from '../schema';
 
+/** Models options available when modifying color palettes */
+export interface ColorOptions {
+  /**
+   * The range of variants (each) to output.
+   *
+   * The named values are for convenience.
+   *
+   * `minimal` = 2
+   *
+   * `material` = 4 (default)
+   */
+  range?: number | 'minimal' | 'material';
+  /** The color space used to build the palette (lab is the default) */
+  mode?: InterpolationMode;
+  /**
+   * The palette contrast.
+   *
+   * Accepts a value from 0-100.
+   *
+   * `low` = 30
+   *
+   * `med` = 60
+   *
+   * `high` = 95
+   */
+  contrast?: number | 'low' | 'med' | 'high';
+}
 /**
  * Maps a color palette to hex format.
  */
@@ -253,3 +278,4 @@ export const palette = {
   triad,
   tetrad
 };
+
