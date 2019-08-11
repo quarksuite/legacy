@@ -1,4 +1,4 @@
-import { variants } from '../../../src/toolkit/colors';
+import { variants } from '../../src/colors';
 
 describe('Utilities for color variants', () => {
   const color = '#f00000';

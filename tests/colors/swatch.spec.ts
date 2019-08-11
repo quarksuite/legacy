@@ -1,4 +1,4 @@
-import { swatch } from '../../../src/toolkit/colors';
+import { swatch } from '../../src/colors';
 
 describe('Utilities for color swatches', () => {
   const color = '#f00000';

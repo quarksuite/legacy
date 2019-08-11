@@ -34,7 +34,7 @@ function* fibonacci(n: number): Generator {
  * @param value - generate from this value
  * @param limit - number of values to generate
  */
-function* ratio(value = 2, limit = 8): Generator {
+function* create(value: number, limit: number) {
   yield value ** limit;
 }
 
@@ -44,7 +44,7 @@ function* ratio(value = 2, limit = 8): Generator {
  * @param type - the kind of ratio to process
  * @param limit - number of values to generate
  */
-function scale(type: (limit: number) => Generator, limit = 8): number[] {
+function build(type: (limit: number) => Generator, limit = 8): number[] {
   return Array.from(
     Array(limit).fill(0),
     (_, index) => type(index).next().value
@@ -52,7 +52,7 @@ function scale(type: (limit: number) => Generator, limit = 8): number[] {
 }
 
 /**
- * Threads a scale through an internal ratio
+ * Fragments a scale through an internal ratio
  */
 const fragment = (scale: number[], ratio = 2): number[] => {
   const internal = (r: number) => scale.map((v, _, a) => v * median(a) * r);
@@ -63,11 +63,8 @@ const fragment = (scale: number[], ratio = 2): number[] => {
   return combined;
 };
 
-/**
- * Creates a multithreaded scale
- */
-const segment = (scale: number[], ratio = [2, 1.618]): number[] => {
-  const values = ratio.map(r => fragment(scale, r));
+const multistrand = (scale: number[], ratios: number[]): number[] => {
+  const values = ratios.map(r => fragment(scale, r));
 
   return order(
     values
@@ -76,34 +73,46 @@ const segment = (scale: number[], ratio = [2, 1.618]): number[] => {
   );
 };
 
-/** Generates an octave scale */
-const octave = (limit: number = 4): Generator => ratio(2, limit);
+// Some common scales are included already, you can always add your own
 
-/** Generates a golden ratio scale */
-const golden = (limit: number = 6): Generator => {
-  const f = scale(fibonacci, 16);
+const major3rd = (limit: number) => create(1.25, limit);
+const perfect4th = (limit: number) => create(1.333, limit);
+const perfect5th = (limit: number) => create(1.5, limit);
+const golden = (limit: number = 6) => {
+  const f = build(fibonacci, 16);
   const a = f[f.length - 2];
   const b = f[f.length - 1];
 
-  return ratio(b / a, limit);
+  return create(b / a, limit);
 };
+const major6th = (limit: number) => create(1.667, limit);
+const octave = (limit: number) => create(2, limit);
 
-export const build = {
-  scale,
-  ratio
-};
-
-export const modify = {
-  thread: fragment,
-  multithread: segment
-};
-
-export const use = {
-  golden,
-  octave
-};
+const augment = (
+  base: number,
+  scale: number[],
+  transform: (base: number, v: number) => number
+) => scale.map(v => parseFloat(transform(base, v).toPrecision(4)));
 
 export const output = (
   scale: number[],
-  { unit = 'rem', precision = 3 }
-): string[] => scale.map(v => parseFloat(v.toPrecision(precision)) + unit);
+  { precision = 4, unit = 'rem' } = {}
+): string[] => {
+  return scale.map(v => parseFloat(v.toPrecision(precision)) + unit);
+};
+
+export const scale = {
+  create,
+  build,
+  augment,
+  output,
+  multistrand,
+  ratios: {
+    major3rd,
+    perfect4th,
+    perfect5th,
+    golden,
+    major6th,
+    octave
+  }
+};
