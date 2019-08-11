@@ -12,7 +12,6 @@ Table of Contents
     - [Added](#added)
     - [Changed](#changed)
     - [Removed](#removed)
-    - [Deprecated](#deprecated)
 - [v0.2.2](#v022)
     - [Changed](#changed-1)
     - [Fixed](#fixed)
