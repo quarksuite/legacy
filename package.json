@@ -5,12 +5,12 @@
   "author": "Chatman R. Jr <crjr.code@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/quarksilver/core.git"
+    "url": "https://github.com/quarksilver/core.git"
   },
   "bugs": {
-    "url": "https://gitlab.com/quarksilver/core/issues"
+    "url": "https://github.com/quarksilver/core/issues"
   },
-  "homepage": "https://gitlab.com/quarksilver/core",
+  "homepage": "https://github.com/quarksilver/core",
   "keywords": [
     "design systems",
     "toolkit",
