@@ -84,12 +84,15 @@ const golden = (limit: number = 6) => {
 const major6th = (limit: number) => create(1.667, limit);
 const octave = (limit: number) => create(2, limit);
 
-/** Applies a transformation */
+/** Applies a transformation to the scale from a significant design figure */
 export const augment = (
   significantFig: number,
   scale: number[],
   transform: (significantFig: number, scaleValue: number) => number
-) => scale.map(scaleValue => parseFloat(transform(significantFig, scaleValue).toPrecision(4)));
+) =>
+  scale.map(scaleValue =>
+    parseFloat(transform(significantFig, scaleValue).toPrecision(4))
+  );
 
 /** Outputs the scale with units and value precision */
 export const output = (
@@ -107,4 +110,4 @@ export const ratios = {
   golden,
   major6th,
   octave
-}
+};

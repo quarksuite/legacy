@@ -15,12 +15,11 @@
     "design systems",
     "toolkit",
     "quarksilver",
-    "design tokens"
+    "minimal"
   ],
   "license": "MIT",
   "dependencies": {
-    "chroma-js": "^2.0.4",
-    "modularscale-js": "^3.0.1"
+    "chroma-js": "^2.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.5.0",
@@ -58,11 +57,7 @@
   },
   "scripts": {
     "dev": "run-p -n dev:*",
-    "build": "run-s -n test build:docs:*",
-    "dev:docs": "onchange -i -k 'src/**/*.ts' '*.md' -- yarn build:docs:api",
-    "build:docs:api": "typedoc --out docs/api",
-    "build:docs:md": "typedoc --theme markdown --platform gitbook --out docs/gitbook",
-    "dev:serve": "serve docs/api",
+    "build": "run-s -n test",
     "test": "jest",
     "version": "npm run build"
   },
@@ -93,6 +88,9 @@
   "lint-staged": {
     "*.ts": [
       "eslint --fix",
+      "jest --rootDir tests",
+      "typedoc --out docs/api",
+    "typedoc --theme markdown --platform gitbook --out docs/gitbook",
       "pack build",
       "git add"
     ],
