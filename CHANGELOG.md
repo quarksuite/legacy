@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+Table of Contents
+
+- [v1.0.0](#v100)
+    - [Added](#added)
+    - [Changed](#changed)
+    - [Removed](#removed)
+    - [Deprecated](#deprecated)
+- [v0.2.2](#v022)
+    - [Changed](#changed-1)
+    - [Fixed](#fixed)
+- [v0.1.0](#v010)
+    - [Added](#added-1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
