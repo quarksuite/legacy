@@ -1,6 +1,6 @@
 {
-  "name": "@quarksilver/core",
-  "version": "0.2.2",
+  "name": "@quarksuite/core",
+  "version": "1.0.0",
   "description": "A tiny toolkit for generating design systems.",
   "author": "Chatman R. Jr <crjr.code@gmail.com>",
   "repository": {
@@ -23,7 +23,9 @@
   },
   "devDependencies": {
     "@babel/core": "^7.5.0",
+    "@babel/plugin-transform-runtime": "^7.5.5",
     "@babel/preset-env": "^7.5.0",
+    "@babel/runtime": "^7.5.5",
     "@pika/plugin-build-deno": "^0.4.0",
     "@pika/plugin-build-node": "^0.4.0",
     "@pika/plugin-build-types": "^0.4.0",
@@ -61,6 +63,9 @@
     "test": "jest",
     "version": "npm run build"
   },
+  "browserslist": [
+    "since 2017-06"
+  ],
   "@pika/pack": {
     "pipeline": [
       [
@@ -88,9 +93,8 @@
   "lint-staged": {
     "*.ts": [
       "eslint --fix",
-      "jest --rootDir tests",
       "typedoc --out docs/api",
-    "typedoc --theme markdown --platform gitbook --out docs/gitbook",
+      "typedoc --theme markdown --platform gitbook --out docs/gitbook",
       "pack build",
       "git add"
     ],
