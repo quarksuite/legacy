@@ -1,4 +1,4 @@
-import { variants } from '../../src/colors';
+import { variants } from '../../src/color';
 
 describe('Utilities for color variants', () => {
   const color = '#f00000';

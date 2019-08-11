@@ -1,5 +1,5 @@
 /**
- * A set of utilities to streamline color token generation and modification.
+ * A set of utilities for color generation and palettes.
  */
 
 import chroma, { InterpolationMode } from 'chroma-js';
@@ -7,11 +7,11 @@ import chroma, { InterpolationMode } from 'chroma-js';
 /** Options available when modifying variants */
 export interface VariantOptions {
   /** How many variants to output */
-  range?: number | 'minimal' | 'material';
+  range?: number;
   /** The color space (lab is the default) */
   mode?: InterpolationMode;
-  /** Allows a number < 100 or 'low', 'med', 'high' */
-  contrast?: number | 'low' | 'med' | 'high';
+  /** Sets the contrast */
+  contrast?: number;
 }
 /**
  * Maps a color palette to hex format.
@@ -23,21 +23,6 @@ const maptoCSS = (palette: string[]): string[] =>
 const convert = (percent: number): number =>
   parseFloat((percent / 100).toPrecision(2));
 
-/** Parses the named contrast options into something usable by chroma */
-const setContrast = (contrast: number | 'low' | 'med' | 'high'): number => {
-  if (contrast === 'low') return convert(30);
-  if (contrast === 'med') return convert(60);
-  if (contrast === 'high') return convert(95);
-
-  // Limit input from 0 to 100 (percent)
-  if (contrast < 0 || contrast > 100)
-    throw Error(
-      `contrast: expected value 0 < x < 100 but received ${contrast}`
-    );
-
-  return convert(contrast);
-};
-
 /**
  * Generates a range of colors.
  */
@@ -45,12 +30,8 @@ const generate = (
   colorRange: string[],
   options: VariantOptions = {}
 ): string[] => {
-  const { mode = 'lab' as InterpolationMode, range = 'material' } = options;
+  const { mode = 'lab' as InterpolationMode, range = 4 } = options;
   const colorScale = chroma.scale(colorRange).mode(mode);
-
-  // If named range, set output colors explicitly
-  if (range === 'minimal') return colorScale.colors(2 + 1);
-  if (range === 'material') return colorScale.colors(4 + 1);
 
   // Otherwise numeric range
   return colorScale.colors(range + 1);
@@ -65,12 +46,12 @@ const blend = (
   target: string,
   options: VariantOptions = {}
 ): string[] => {
-  const { contrast = 'high', mode } = options;
+  const { contrast = 95, mode } = options;
 
   const base = chroma(color).hex();
 
   // blend color with target
-  const blend = chroma.mix(base, target, setContrast(contrast), mode).hex();
+  const blend = chroma.mix(base, target, convert(contrast), mode).hex();
 
   // Generate variants
   const [, ...variants] = generate([base, blend], options);
@@ -123,18 +104,6 @@ const split = (color: string, degrees: number = 60): [string, string] => [
   setHue(color, `+${degrees}`)
 ];
 
-/** Creates analogous schemes and multi-color schemes beyond tetrads */
-const spread = (
-  color: string,
-  degrees: number = 60,
-  range: number = 3
-): string[] => {
-  const terminals = [color, setHue(color, `+${degrees}`)];
-  return maptoCSS(generate(terminals, { range })).filter((_value, index) => {
-    return index !== 0;
-  });
-};
-
 /** Used to create tri color schemes */
 const triad = (
   color: string,
@@ -161,7 +130,7 @@ const tetrad = (
 };
 
 /** Creates analogous schemes and multi-color schemes beyond tetrads */
-const multi = (
+const range = (
   color: string,
   degrees: number = 60,
   range: number = 3
@@ -172,11 +141,13 @@ const multi = (
   });
 };
 
+/** Exposes swatch level functionality */
 export const swatch = {
   complement,
   neutralize
 };
 
+/** Exposes variant features */
 export const variants = {
   tints,
   tones,
@@ -186,5 +157,5 @@ export const variants = {
 export const palette = {
   triad,
   tetrad,
-  multi
+  range
 };

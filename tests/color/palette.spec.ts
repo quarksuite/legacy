@@ -1,9 +1,9 @@
-import { palette } from '../../src/colors';
+import { palette } from '../../src/color';
 
 describe('Utilities for color palettes', () => {
   const color = '#f00000';
   const second = '#348ec9';
-  describe('multi(color, degrees?, range?)', () => {
+  describe('range(color, degrees?, range?)', () => {
     test('outputs multi-color schemes from color origin', () => {
       expect(palette.multi(color, 60)).toStrictEqual([
         '#f77700',
