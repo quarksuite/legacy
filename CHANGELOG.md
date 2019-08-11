@@ -8,11 +8,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 Table of Contents
 
+- [v0.2.3](#v023)
+    - [Added](#added)
 - [v0.2.2](#v022)
     - [Changed](#changed)
     - [Fixed](#fixed)
 - [v0.1.0](#v010)
-    - [Added](#added)
+    - [Added](#added-1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
