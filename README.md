@@ -27,7 +27,7 @@ Table of Contents
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-*IMPORTANT: If you’re using Quarksuite Components and you attempt to update the library to v1.0.0, everything will break. And not gracefully. The v1.x.x API is entirely incompatible with previous versions and functionality. Tread carefully from here on if you’re an early adopter.*
+*IMPORTANT: If you’ve arrived from one of the other projects, it would be a good idea to get up to speed on Quarksuite’s new objectives and design. We’re on the road to v1 now. Stay tuned.*
 
 ## Introduction
 
@@ -49,42 +49,3 @@ You like Webpack? You can use Quarksuite. You like React? Quarksuite is for you,
 
 I get it, it’s overused. I mean it earnestly in this case. Quarksuite augments your design workflow with single, or multiple data sets organized around **your** project. You can use a design system built with this toolkit in any interface that reads and writes data. Which is **every** interface. 
 
-## How to Use Quarksuite
-
-### Quarksuite Installation
-
-> Quarksuite requires **at least** Node.js LTS (v10.16.2 at the time of this writing). Also recommend getting the latest version of yarn.
-
-When you’re all set, time to install.
-
-```bash
-npm i @quarksuite/core
-
-# OR
-
-yarn add @quarksuite/core
-```
-
-### Using Quarksuite
-
-Quarksuite is organized under two main modules: `colors` and `scale`. The first helps you work with color down to the swatch level, output variants, change their range, color mode, etc… The second is the beginning and end of creating sizing and proportion for your design.
-
-## How to Build Design Systems with Quarksuite
-
-### Quickstart
-
-## Quarksuite API Documentation
-
-### color.scale
-
-#### create()
-
-#### build()
-
-#### multistrand()
-
-#### augment()
-
-#### output()
-
-#### ratios

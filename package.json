@@ -1,21 +1,22 @@
 {
   "name": "@quarksuite/core",
-  "version": "0.3.0",
+  "version": "0.2.3",
   "description": "A tiny toolkit for generating design systems.",
   "author": "Chatman R. Jr <crjr.code@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/quarksilver/core.git"
+    "url": "https://gitlab.com/quarksuite/core.git"
   },
   "bugs": {
-    "url": "https://gitlab.com/quarksilver/core/issues"
+    "url": "https://gitlab.com/quarksuite/core/issues"
   },
-  "homepage": "https://gitlab.com/quarksilver/core",
+  "homepage": "https://gitlab.com/quarksuite/core",
   "keywords": [
     "design systems",
     "toolkit",
     "quarksilver",
-    "minimal"
+    "minimal",
+    "ninja"
   ],
   "license": "MPL-2.0",
   "dependencies": {
