@@ -14,10 +14,12 @@ Table of Contents
     - [Removed](#removed)
     - [Deprecated](#deprecated)
 - [v0.2.2](#v022)
-    - [Changed](#changed-1)
+    - [Changed](#changed)
+    - [Deprecated](#deprecated)
+    - [Removed](#removed)
     - [Fixed](#fixed)
 - [v0.1.0](#v010)
-    - [Added](#added-1)
+    - [Added](#added)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -66,3 +68,4 @@ Initial release.
 + Custom color module for working with config-like objects
 + Color scheme module for building basic palettes
 + toolkit for tokenizing data to pass on to Style Dictionary
+
