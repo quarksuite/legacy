@@ -11,19 +11,6 @@ Table of Contents
     - [Designed for Consistency](#designed-for-consistency)
     - [Works How You Work Best](#works-how-you-work-best)
     - [Single Source of Truth](#single-source-of-truth)
-- [How to Use Quarksuite](#how-to-use-quarksuite)
-    - [Quarksuite Installation](#quarksuite-installation)
-    - [Using Quarksuite](#using-quarksuite)
-- [How to Build Design Systems with Quarksuite](#how-to-build-design-systems-with-quarksuite)
-    - [Quickstart](#quickstart)
-- [Quarksuite API Documentation](#quarksuite-api-documentation)
-    - [color.scale](#colorscale)
-        - [create()](#create)
-        - [build()](#build)
-        - [multistrand()](#multistrand)
-        - [augment()](#augment)
-        - [output()](#output)
-        - [ratios](#ratios)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
