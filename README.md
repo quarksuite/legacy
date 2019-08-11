@@ -51,6 +51,12 @@ Table of Contents
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+*IMPORTANT: This project is technically no longer maintained as I’ve started to rebuild with a clearer idea of what Quarksuite (note the name change) is supposed to be. [Check out the new package](https://npmjs.com/@quarksuite/core) if you want to follow along. Otherwise, you can continue to fiddle with what’s already here.*
+
+*Find out more about what’s coming in v1 and later by [following the Twitter account](https://twitter.com/Quarksuite). I think you’ll like what’s coming. [Head to the new repo](https://github.com/quarksuite) and stay tuned.*
+
+*This documentation otherwises exists as is in the v0.2.x package.*
+
 ## What?
 
 Quarksilver is a tiny toolkit for making, modifying and manipulating design systems. What you’re viewing now is the core module. The one that makes everything go. Other planned nodes in the Quarksilver network include a CLI and a web application.
