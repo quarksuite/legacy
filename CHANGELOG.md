@@ -16,6 +16,36 @@ Table of Contents
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+## v1.0.0
+
+This project has undergone a refactor apocalypse. It’s a lot tinier and a lot more focused.
+
+### Added
+
++ Brand new functionality for working with content and layout
+
+### Changed
+
++ The entire API has shrunk to prioritize its utilities
++ Documentation has a lot of new information
++ The footprint of the resources is lighter
+
+
+
+### Removed
+
++ modularscale-js is no longer a dependency
++ `tokenize` was outside the scope of this project and removed. See the docs for more details 
+
+### Deprecated
+
++ All of the previous API except the color modules
+
+>>>>>>> Stashed changes
 ## v0.2.2
 
 ### Changed
@@ -26,6 +56,10 @@ Table of Contents
 
 + Documentation assets are properly included in the package
 
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 ## v0.1.0
 
 Initial release.
