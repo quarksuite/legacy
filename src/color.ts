@@ -148,12 +148,13 @@ export const swatch = {
 };
 
 /** Exposes variant features */
-export const variants = {
+export const variant = {
   tints,
   tones,
   shades
 };
 
+/** Exposes palette functionality */
 export const palette = {
   triad,
   tetrad,

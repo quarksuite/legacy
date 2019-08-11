@@ -1,5 +1,5 @@
 /**
- * A set of utilities responsible for generating and modifying content and composition;
+ * A set of utilities responsible for generating and modifying content and composition.
  */
 
 /** Sorts an array in ascending order */
@@ -30,21 +30,16 @@ function* fibonacci(n: number): Generator {
 }
 
 /**
- * Ratio generator.
- * @param value - generate from this value
- * @param limit - number of values to generate
+ * A utility for creating new ratios.
  */
-function* create(value: number, limit: number) {
+export function* create(value: number, limit: number) {
   yield value ** limit;
 }
 
 /**
- * Runs the generator passed in up to a given limit
- *
- * @param type - the kind of ratio to process
- * @param limit - number of values to generate
+ * A utility for building scales.
  */
-function build(type: (limit: number) => Generator, limit = 8): number[] {
+export function build(type: (limit: number) => Generator, limit = 8): number[] {
   return Array.from(
     Array(limit).fill(0),
     (_, index) => type(index).next().value
@@ -52,7 +47,7 @@ function build(type: (limit: number) => Generator, limit = 8): number[] {
 }
 
 /**
- * Fragments a scale through an internal ratio
+ * A helper for multistranding scales.
  */
 const fragment = (scale: number[], ratio = 2): number[] => {
   const internal = (r: number) => scale.map((v, _, a) => v * median(a) * r);
@@ -63,7 +58,8 @@ const fragment = (scale: number[], ratio = 2): number[] => {
   return combined;
 };
 
-const multistrand = (scale: number[], ratios: number[]): number[] => {
+/** Includes intermediate values between a scale with multiple internal ratios */
+export const multistrand = (scale: number[], ratios: number[]): number[] => {
   const values = ratios.map(r => fragment(scale, r));
 
   return order(
@@ -88,12 +84,14 @@ const golden = (limit: number = 6) => {
 const major6th = (limit: number) => create(1.667, limit);
 const octave = (limit: number) => create(2, limit);
 
-const augment = (
-  base: number,
+/** Applies a transformation */
+export const augment = (
+  significantFig: number,
   scale: number[],
-  transform: (base: number, v: number) => number
-) => scale.map(v => parseFloat(transform(base, v).toPrecision(4)));
+  transform: (significantFig: number, scaleValue: number) => number
+) => scale.map(scaleValue => parseFloat(transform(significantFig, scaleValue).toPrecision(4)));
 
+/** Outputs the scale with units and value precision */
 export const output = (
   scale: number[],
   { precision = 4, unit = 'rem' } = {}
@@ -101,18 +99,12 @@ export const output = (
   return scale.map(v => parseFloat(v.toPrecision(precision)) + unit);
 };
 
-export const scale = {
-  create,
-  build,
-  augment,
-  output,
-  multistrand,
-  ratios: {
-    major3rd,
-    perfect4th,
-    perfect5th,
-    golden,
-    major6th,
-    octave
-  }
-};
+/** Exposes popular common ratios used in design and art */
+export const ratios = {
+  major3rd,
+  perfect4th,
+  perfect5th,
+  golden,
+  major6th,
+  octave
+}
