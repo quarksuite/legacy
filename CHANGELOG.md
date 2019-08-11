@@ -14,12 +14,10 @@ Table of Contents
     - [Removed](#removed)
     - [Deprecated](#deprecated)
 - [v0.2.2](#v022)
-    - [Changed](#changed)
-    - [Deprecated](#deprecated)
-    - [Removed](#removed)
+    - [Changed](#changed-1)
     - [Fixed](#fixed)
 - [v0.1.0](#v010)
-    - [Added](#added)
+    - [Added](#added-1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -44,10 +42,6 @@ This project has undergone a refactor apocalypse. It’s a lot tinier and a lot 
 + modularscale-js is no longer a dependency
 + `tokenize` was outside the scope of this project and removed. See the docs for more details 
 
-### Deprecated
-
-+ All of the previous API. All. Of. It.
-
 ## v0.2.2
 
 ### Changed
@@ -68,4 +62,3 @@ Initial release.
 + Custom color module for working with config-like objects
 + Color scheme module for building basic palettes
 + toolkit for tokenizing data to pass on to Style Dictionary
-
