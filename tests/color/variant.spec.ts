@@ -32,4 +32,38 @@ describe('Utilities for color variants', () => {
       ]);
     });
   });
+  describe('temperature(color, kelvin?, options?)', () => {
+    test('blends a color with a number on the temperature scale', () => {
+      expect(variant.temperature(color)).toStrictEqual([
+        '#f85127',
+        '#fd7a47',
+        '#ff9d67',
+        '#febe87'
+      ]);
+    });
+    test('test candlelight', () => {
+      expect(variant.temperature(color)).toStrictEqual([
+        '#f85127',
+        '#fd7a47',
+        '#ff9d67',
+        '#febe87'
+      ]);
+    });
+    test('test sunset', () => {
+      expect(variant.temperature(color)).toStrictEqual([
+        '#f85127',
+        '#fd7a47',
+        '#ff9d67',
+        '#febe87'
+      ]);
+    });
+    test('test daylight', () => {
+      expect(variant.temperature(color)).toStrictEqual([
+        '#f85127',
+        '#fd7a47',
+        '#ff9d67',
+        '#febe87'
+      ]);
+    });
+  });
 });

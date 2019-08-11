@@ -68,6 +68,23 @@ const setHue = (color: string, rotation: string): string =>
     .hex();
 
 /**
+ * Fetches the complement (opposite) of a color.
+ */
+const complement = (color: string): string => setHue(color, '+180');
+
+/**
+ * Neutralizes a color with its complement;
+ */
+const neutralize = (color: string): string =>
+  chroma.mix(color, complement(color), 0.5).hex();
+
+/** Outputs a collection of colors derived from temparture */
+const temperature = (
+  color: string,
+  kelvin: number = 3500,
+  options: VariantOptions = {}
+): string[] => blend(color, chroma.temperature(kelvin).hex(), options);
+/**
  * Returns a collection of tints for a color
  * */
 const tints = (color: string, options: VariantOptions = {}): string[] =>
@@ -84,17 +101,6 @@ const tones = (color: string, options: VariantOptions = {}): string[] =>
  **/
 const shades = (color: string, options: VariantOptions = {}): string[] =>
   blend(color, '#111', options);
-
-/**
- * Fetches the complement (opposite) of a color.
- */
-const complement = (color: string): string => setHue(color, '+180');
-
-/**
- * Neutralizes a color with its complement;
- */
-const neutralize = (color: string): string =>
-  chroma.mix(color, complement(color), 0.5).hex();
 
 /**
  * Splits a color on either side. Tuple represents [leftOfTarget, rightOfTarget]
@@ -151,7 +157,8 @@ export const swatch = {
 export const variant = {
   tints,
   tones,
-  shades
+  shades,
+  temperature
 };
 
 /** Exposes palette functionality */
