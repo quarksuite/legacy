@@ -5,17 +5,18 @@
   "author": "Chatman R. Jr <crjr.code@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/quarksilver/core.git"
+    "url": "https://github.com/quarksuite/core.git"
   },
   "bugs": {
-    "url": "https://github.com/quarksilver/core/issues"
+    "url": "https://github.com/quarksuite/core/issues"
   },
-  "homepage": "https://github.com/quarksilver/core",
+  "homepage": "https://github.com/quarksuite/core",
   "keywords": [
     "design systems",
     "toolkit",
     "quarksilver",
-    "design tokens"
+    "unmaintained",
+    "archived"
   ],
   "license": "MIT",
   "dependencies": {
