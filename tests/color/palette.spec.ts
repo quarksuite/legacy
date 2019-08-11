@@ -5,28 +5,28 @@ describe('Utilities for color palettes', () => {
   const second = '#348ec9';
   describe('range(color, degrees?, range?)', () => {
     test('outputs multi-color schemes from color origin', () => {
-      expect(palette.multi(color, 60)).toStrictEqual([
+      expect(palette.range(color, 60)).toStrictEqual([
         '#f77700',
         '#f8b600',
         '#f0f000'
       ]);
     });
     test('example: second color', () => {
-      expect(palette.multi(second)).toStrictEqual([
+      expect(palette.range(second)).toStrictEqual([
         '#5474c9',
         '#6558c9',
         '#6f34c9'
       ]);
     });
     test('can input the degrees to spread by', () => {
-      expect(palette.multi(color, 45)).toStrictEqual([
+      expect(palette.range(color, 45)).toStrictEqual([
         '#f35e00',
         '#f38c00',
         '#f0b400'
       ]);
     });
     test('can adjust the range of colors to output', () => {
-      expect(palette.multi(color, 60, 6)).toStrictEqual([
+      expect(palette.range(color, 60, 6)).toStrictEqual([
         '#f45000',
         '#f77700',
         '#f89800',

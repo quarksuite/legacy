@@ -1,10 +1,10 @@
-import { variants } from '../../src/color';
+import { variant } from '../../src/color';
 
 describe('Utilities for color variants', () => {
   const color = '#f00000';
   describe('tints(color, options?)', () => {
     test('returns tints of color', () => {
-      expect(variants.tints(color)).toStrictEqual([
+      expect(variant.tints(color)).toStrictEqual([
         '#ff6343',
         '#ff987d',
         '#ffc9ba',
@@ -14,7 +14,7 @@ describe('Utilities for color variants', () => {
   });
   describe('tones(color, options?)', () => {
     test('returns tones of a color', () => {
-      expect(variants.tones(color)).toStrictEqual([
+      expect(variant.tones(color)).toStrictEqual([
         '#e84e32',
         '#db7058',
         '#c98d7f',
@@ -24,7 +24,7 @@ describe('Utilities for color variants', () => {
   });
   describe('shades(color, options?)', () => {
     test('returns shades of a color', () => {
-      expect(variants.shades(color)).toStrictEqual([
+      expect(variant.shades(color)).toStrictEqual([
         '#be130b',
         '#8f1710',
         '#621612',

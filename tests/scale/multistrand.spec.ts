@@ -1,10 +1,10 @@
-import { scale } from '../../../src/typography';
+import { ratios, build, output, multistrand } from '../../src/scale';
 
-describe('quarks.typography.scale modules', () => {
+describe('quarks.scale modules', () => {
   describe('multistrand(scale, ratios)', () => {
     test('Can output a multistranded scale', () => {
-      const data = scale.output(
-        scale.multistrand(scale.build(scale.ratios.golden, 6), [1.5, 2]),
+      const data = output(
+        multistrand(build(ratios.golden, 6), [1.5, 2]),
         { precision: 6 }
       );
 
@@ -22,8 +22,8 @@ describe('quarks.typography.scale modules', () => {
       ]);
     });
     test('works with ratios less than 1', () => {
-      const data = scale.output(
-        scale.multistrand(scale.build(scale.ratios.golden, 6), [0.5, 0.25]),
+      const data = output(
+        multistrand(build(ratios.golden, 6), [0.5, 0.25]),
         { precision: 3 }
       );
 

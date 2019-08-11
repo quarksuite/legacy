@@ -1,9 +1,9 @@
-import { scale } from '../../../src/typography';
+import { output, build, ratios } from '../../src/scale';
 
-describe('quarks.typography.scale modules', () => {
+describe('quarks.scale modules', () => {
   describe('output(scale, { precision?, unit? })', () => {
     test('outputs a scale with units', () => {
-      const data = scale.output(scale.build(scale.ratios.golden));
+      const data = output(build(ratios.golden));
 
       expect(data).toStrictEqual([
         '1rem',
@@ -17,14 +17,14 @@ describe('quarks.typography.scale modules', () => {
       ]);
     });
     test('can output vw', () => {
-      const data = scale.output(scale.build(scale.ratios.octave, 4), {
+      const data = output(build(ratios.octave, 4), {
         unit: 'vw'
       });
 
       expect(data).toStrictEqual(['1vw', '2vw', '4vw', '8vw']);
     });
     test('can change precision', () => {
-      const data = scale.output(scale.build(scale.ratios.golden, 4), {
+      const data = output(build(ratios.golden, 4), {
         precision: 5
       });
 

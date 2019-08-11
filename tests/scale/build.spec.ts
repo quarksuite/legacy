@@ -1,13 +1,12 @@
-import { scale } from '../../../src/typography';
+import { build, create } from '../../src/scale';
 
-describe('quarks.typography.scale modules', () => {
-  describe('scale.build(type, limit?)', () => {
+describe('quarks.scale modules', () => {
+  describe('build(type, limit?)', () => {
     test('default values', () => {
       const decimals = (v: number, precision: number) =>
         parseFloat(v.toPrecision(precision));
-      const perfectFourth = (limit: number) => scale.create(1.333, limit);
-      const data = scale
-        .build(perfectFourth)
+      const perfectFourth = (limit: number) => create(1.333, limit);
+      const data = build(perfectFourth)
         .map((v: number) => decimals(v, 4));
 
       expect(data).toStrictEqual([
@@ -24,9 +23,8 @@ describe('quarks.typography.scale modules', () => {
     test('when limit = 4', () => {
       const decimals = (v: number, precision: number) =>
         parseFloat(v.toPrecision(precision));
-      const perfect4th = (limit: number) => scale.create(1.333, limit);
-      const data = scale
-        .build(perfect4th, 4)
+      const perfect4th = (limit: number) => create(1.333, limit);
+      const data = build(perfect4th, 4)
         .map((v: number) => decimals(v, 4));
 
       expect(data).toStrictEqual([1, 1.333, 1.777, 2.369]);

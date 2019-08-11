@@ -1,12 +1,11 @@
-import { scale } from '../../../src/typography';
+import { build, ratios } from '../../src/scale';
 
 describe('quarks.typography.scale modules', () => {
   describe('ratios.major3rd', () => {
     test('default values', () => {
       const decimals = (v: number, precision: number) =>
         parseFloat(v.toPrecision(precision));
-      const data = scale
-        .build(scale.ratios.major3rd)
+      const data = build(ratios.major3rd)
         .map((v: number) => decimals(v, 4));
 
       expect(data).toStrictEqual([
@@ -25,8 +24,7 @@ describe('quarks.typography.scale modules', () => {
     test('default values', () => {
       const decimals = (v: number, precision: number) =>
         parseFloat(v.toPrecision(precision));
-      const data = scale
-        .build(scale.ratios.perfect4th)
+      const data = build(ratios.perfect4th)
         .map((v: number) => decimals(v, 4));
 
       expect(data).toStrictEqual([
@@ -45,8 +43,7 @@ describe('quarks.typography.scale modules', () => {
     test('default values', () => {
       const decimals = (v: number, precision: number) =>
         parseFloat(v.toPrecision(precision));
-      const data = scale
-        .build(scale.ratios.perfect5th)
+      const data = build(ratios.perfect5th)
         .map((v: number) => decimals(v, 4));
 
       expect(data).toStrictEqual([
@@ -65,8 +62,7 @@ describe('quarks.typography.scale modules', () => {
     test('default values', () => {
       const decimals = (v: number, precision: number) =>
         parseFloat(v.toPrecision(precision));
-      const data = scale
-        .build(scale.ratios.major6th)
+      const data = build(ratios.major6th)
         .map((v: number) => decimals(v, 4));
 
       expect(data).toStrictEqual([
@@ -81,23 +77,11 @@ describe('quarks.typography.scale modules', () => {
       ]);
     });
   });
-  describe('ratios.octave', () => {
-    test('default values', () => {
-      const decimals = (v: number, precision: number) =>
-        parseFloat(v.toPrecision(precision));
-      const data = scale
-        .build(scale.ratios.octave)
-        .map((v: number) => decimals(v, 4));
-
-      expect(data).toStrictEqual([1, 2, 4, 8, 16, 32, 64, 128]);
-    });
-  });
   describe('ratios.golden', () => {
     test('default values', () => {
       const decimals = (v: number, precision: number) =>
         parseFloat(v.toPrecision(precision));
-      const data = scale
-        .build(scale.ratios.golden)
+      const data = build(ratios.golden)
         .map((v: number) => decimals(v, 4));
 
       expect(data).toStrictEqual([
@@ -110,6 +94,16 @@ describe('quarks.typography.scale modules', () => {
         17.94,
         29.03
       ]);
+    });
+  });
+  describe('ratios.octave', () => {
+    test('default values', () => {
+      const decimals = (v: number, precision: number) =>
+        parseFloat(v.toPrecision(precision));
+      const data = build(ratios.octave)
+        .map((v: number) => decimals(v, 4));
+
+      expect(data).toStrictEqual([1, 2, 4, 8, 16, 32, 64, 128]);
     });
   });
 });
