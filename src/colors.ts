@@ -1,11 +1,18 @@
 /**
  * A set of utilities to streamline color token generation and modification.
- * Made available in case you require baremetal manipulation of colors.
  */
 
 import chroma, { InterpolationMode } from 'chroma-js';
-import { ColorOptions } from '../schema';
 
+/** Options available when modifying variants */
+export interface VariantOptions {
+  /** How many variants to output */
+  range?: number | 'minimal' | 'material';
+  /** The color space (lab is the default) */
+  mode?: InterpolationMode;
+  /** Allows a number < 100 or 'low', 'med', 'high' */
+  contrast?: number | 'low' | 'med' | 'high';
+}
 /**
  * Maps a color palette to hex format.
  */
@@ -36,7 +43,7 @@ const setContrast = (contrast: number | 'low' | 'med' | 'high'): number => {
  */
 const generate = (
   colorRange: string[],
-  options: ColorOptions = {}
+  options: VariantOptions = {}
 ): string[] => {
   const { mode = 'lab' as InterpolationMode, range = 'material' } = options;
   const colorScale = chroma.scale(colorRange).mode(mode);
@@ -56,7 +63,7 @@ const generate = (
 const blend = (
   color: string,
   target: string,
-  options: ColorOptions = {}
+  options: VariantOptions = {}
 ): string[] => {
   const { contrast = 'high', mode } = options;
 
@@ -81,69 +88,29 @@ const setHue = (color: string, rotation: string): string =>
 
 /**
  * Returns a collection of tints for a color
- *
- * ```ts
- * import quarks from '@quarksilver/core';
- *
- * const { variants } = quarks.toolkit.colors;
- *
- * variants.tints('#f00000');
- * ```
  * */
-const tints = (color: string, options: ColorOptions = {}): string[] =>
+const tints = (color: string, options: VariantOptions = {}): string[] =>
   blend(color, '#fff', options);
 
 /**
  * Returns a collection of tones for a color
- *
- * ```ts
- * import quarks from '@quarksilver/core';
- *
- * const { variants } = quarks.toolkit.colors;
- *
- * variants.tones('#f00000');
- * ```
- * */
-const tones = (color: string, options: ColorOptions = {}): string[] =>
+ **/
+const tones = (color: string, options: VariantOptions = {}): string[] =>
   blend(color, '#aaa', options);
 
 /**
  * Returns a collection of shades for a color
- *
- * ```ts
- * import quarks from '@quarksilver/core';
- *
- * const { variants } = quarks.toolkit.colors;
- *
- * variants.shades('#f00000');
- * ```
- * */
-const shades = (color: string, options: ColorOptions = {}): string[] =>
+ **/
+const shades = (color: string, options: VariantOptions = {}): string[] =>
   blend(color, '#111', options);
 
 /**
  * Fetches the complement (opposite) of a color.
- *
- * ```ts
- * import quarks from '@quarksilver/core';
- *
- * const { swatch } = quarks.toolkit.colors;
- *
- * swatch.complement('#f00')
- * ```
  */
 const complement = (color: string): string => setHue(color, '+180');
 
 /**
  * Neutralizes a color with its complement;
- *
- * ```ts
- * import quarks from '@quarksilver/core';
- *
- * const { swatch } = quarks.toolkit.colors;
- *
- * swatch.neutralize('#f00');
- * ```
  */
 const neutralize = (color: string): string =>
   chroma.mix(color, complement(color), 0.5).hex();
@@ -156,17 +123,7 @@ const split = (color: string, degrees: number = 60): [string, string] => [
   setHue(color, `+${degrees}`)
 ];
 
-/**
- * Spreads a range of colors on either side of target
- *
- * ```ts
- * import quarks from '@quarksilver/core';
- *
- * const { palette } = quarks.toolkit.colors;
- *
- * palette.spread('#f00')
- * ```
- */
+/** Creates analogous schemes and multi-color schemes beyond tetrads */
 const spread = (
   color: string,
   degrees: number = 60,
@@ -178,23 +135,7 @@ const spread = (
   });
 };
 
-/**
- * Inscribes a triangle of colors.
- *
- * A = origin, BC = Equidistant points split from A
- *
- * degrees = 120 is an equilateral triad
- *
- * degrees = 90 is an isosceles clash
- *
- * ```ts
- * import quarks from '@quarksilver/core';
- *
- * const { palette } = quarks.toolkit.colors;
- *
- * palette.triad('#f00')
- * ```
- */
+/** Used to create tri color schemes */
 const triad = (
   color: string,
   degrees: number = 120
@@ -206,25 +147,7 @@ const triad = (
   return [a, b, c];
 };
 
-/**
- * Inscribes a rectangle of colors
- *
- * A = origin, B = degrees right of a
- *
- * C = complement of a, D = complement of b
- *
- * degrees = 90 is a perfect square
- *
- * degrees = 60 is a tetrad
- *
- * ```ts
- * import quarks from '@quarksilver/core';
- *
- * const { palette } = quarks.toolkit.colors;
- *
- * palette.tetrad('#f00')
- * ```
- */
+/** Used to create quad color schemes */
 const tetrad = (
   color: string,
   degrees: number = 60
@@ -235,6 +158,18 @@ const tetrad = (
   const d = complement(b);
 
   return [a, c, b, d];
+};
+
+/** Creates analogous schemes and multi-color schemes beyond tetrads */
+const multi = (
+  color: string,
+  degrees: number = 60,
+  range: number = 3
+): string[] => {
+  const terminals = [color, setHue(color, `+${degrees}`)];
+  return maptoCSS(generate(terminals, { range })).filter((_value, index) => {
+    return index !== 0;
+  });
 };
 
 export const swatch = {
@@ -249,7 +184,7 @@ export const variants = {
 };
 
 export const palette = {
-  spread,
   triad,
-  tetrad
+  tetrad,
+  multi
 };

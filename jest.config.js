@@ -6,5 +6,6 @@ module.exports = {
   transform: {
     '^.+\\.ts$': 'ts-jest'
   },
-  testEnvironment: 'node'
+  testEnvironment: 'node',
+  setupFiles: ['core-js']
 };
