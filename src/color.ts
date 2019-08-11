@@ -1,5 +1,5 @@
 /**
- * A set of utilities for color generation and palettes.
+ * A set of utilities for colors and schemes.
  */
 
 import chroma, { InterpolationMode } from 'chroma-js';
@@ -135,8 +135,8 @@ const tetrad = (
   return [a, c, b, d];
 };
 
-/** Creates analogous schemes and multi-color schemes beyond tetrads */
-const range = (
+/** Creates analogous schemes */
+const analogous = (
   color: string,
   degrees: number = 60,
   range: number = 3
@@ -147,23 +147,23 @@ const range = (
   });
 };
 
-/** Exposes swatch level functionality */
+/** Exposes swatch features */
 export const swatch = {
   complement,
   neutralize
 };
 
-/** Exposes variant features */
-export const variant = {
+/** Exposes palette features */
+export const palette = {
   tints,
   tones,
   shades,
   temperature
 };
 
-/** Exposes palette functionality */
-export const palette = {
+/** Exposes scheme features */
+export const scheme = {
   triad,
   tetrad,
-  range
+  analogous
 };

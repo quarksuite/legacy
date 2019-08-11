@@ -1,6 +1,6 @@
 import { swatch } from '../../src/color';
 
-describe('Utilities for color swatches', () => {
+describe('Utilities for color.swatch', () => {
   const color = '#f00000';
   describe('complement(color)', () => {
     test('returns the complement (opposite) of a color', () => {

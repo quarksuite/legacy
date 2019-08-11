@@ -1,6 +1,6 @@
 import { output, build, ratios } from '../../src/scale';
 
-describe('quarks.scale modules', () => {
+describe('Utilities for quarks.scale', () => {
   describe('output(scale, { precision?, unit? })', () => {
     test('outputs a scale with units', () => {
       const data = output(build(ratios.golden));

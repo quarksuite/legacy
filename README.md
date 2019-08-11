@@ -1,116 +1,348 @@
 ![Quarksilver Logo](/home/cr-jr/Code/project/@quarksilver/core/assets/logo-fullcolor-with-text.png)
 
-# Quarksilver (Core)
+# Quarksuite (Core)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 Table of Contents
 
-- [What?](#what)
-- [Why Quarksilver?](#why-quarksilver)
-    - [Philosophy](#philosophy)
-        - [The Web First](#the-web-first)
-        - [DOTRW (Do One Thing Really Well)](#dotrw-do-one-thing-really-well)
-        - [Make Room](#make-room)
-- [How to Use Quarksilver](#how-to-use-quarksilver)
-    - [Quarksilver Installation](#quarksilver-installation)
-    - [Using Quarksilver](#using-quarksilver)
-- [Quarksilver API](#quarksilver-api)
-    - [API: colors](#api-colors)
-        - [colors.custom](#colorscustom)
-            - [swatches()](#swatches)
-            - [palette()](#palette)
-        - [colors.scheme](#colorsscheme)
-            - [monochromatic()](#monochromatic)
-            - [complementary()](#complementary)
-            - [splitComplementary()](#splitcomplementary)
-            - [triadic()](#triadic)
-            - [clash()](#clash)
-            - [analogous()](#analogous)
-            - [tetradic()](#tetradic)
-            - [square()](#square)
-    - [API: toolkit](#api-toolkit)
-        - [toolkit.colors](#toolkitcolors)
-            - [toolkit.colors.swatch](#toolkitcolorsswatch)
-                - [complement()](#complement)
-                - [neutralize()](#neutralize)
-            - [toolkit.colors.variants](#toolkitcolorsvariants)
-                - [tints()](#tints)
-                - [tones()](#tones)
-                - [shades()](#shades)
-            - [toolkit.colors.palette](#toolkitcolorspalette)
-                - [spread()](#spread)
-                - [triad()](#triad)
-                - [tetrad()](#tetrad)
-        - [toolkit.content](#toolkitcontent)
-            - [scale()](#scale)
-        - [toolkit.tokenize](#toolkittokenize)
-            - [colors()](#colors)
-            - [fonts()](#fonts)
-            - [scale()](#scale-1)
+- [Elevator Pitch](#elevator-pitch)
+- [Why Quarksuite?](#why-quarksuite)
+    - [Designed for Consistency](#designed-for-consistency)
+    - [Works How You Work Best](#works-how-you-work-best)
+    - [Single Source of Truth](#single-source-of-truth)
+- [How to Use Quarksuite](#how-to-use-quarksuite)
+    - [Quarksuite Installation](#quarksuite-installation)
+    - [Using Quarksuite](#using-quarksuite)
+- [How to Build Design Systems with Quarksuite](#how-to-build-design-systems-with-quarksuite)
+    - [Quickstart](#quickstart)
+- [Quarksuite API Documentation](#quarksuite-api-documentation)
+    - [color.swatch](#colorswatch)
+        - [complement()](#complement)
+            - [Parameters](#parameters)
+            - [Returns](#returns)
+            - [Example](#example)
+        - [neutralize()](#neutralize)
+            - [Parameters](#parameters-1)
+            - [Returns](#returns-1)
+            - [Example](#example-1)
+    - [color.variant](#colorvariant)
+        - [tints()](#tints)
+            - [Parameters](#parameters-2)
+            - [Returns](#returns-2)
+            - [Example](#example-2)
+        - [tones()](#tones)
+            - [Parameters](#parameters-3)
+            - [Returns](#returns-3)
+            - [Example](#example-3)
+        - [shades()](#shades)
+            - [Parameters](#parameters-4)
+            - [Returns](#returns-4)
+            - [Example](#example-4)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-*IMPORTANT: If you’re using Quarksilver Components and you attempt to update the library to v1.0.0, everything will break. And not gracefully. The v1.x.x API is entirely incompatible with previous versions and functionality. Tread carefully from here on if you’re an early adopter.*
+*IMPORTANT: If you’re using Quarksuite Components and you attempt to update the library to v1.0.0, everything will break. And not gracefully. The v1.x.x API is entirely incompatible with previous versions and functionality. Tread carefully from here on if you’re an early adopter.*
 
-## What?
+## Elevator Pitch
 
-Quarksilver is a tiny toolkit for making, modifying and manipulating design systems. Here we have the core module. The one that makes everything go. I recently [released v0.2.x of Quarksilver Components](http://npmjs.com/@quarksilver/components), and you can install them if you want, but don’t try to use them with the v1 API. It won’t work.
+Quarksuite is a toolkit for building design systems on a subatomic level. It provides what you need to create and maintain beautiful, consistent designs based on solid principles. Create your universe.
 
-## Why Quarksilver?
+## Why Quarksuite?
 
-Color harmony is a matter of geometry as much as having a good eye. Content is the **basic unit** of every decision about layout and composition. The units in the scale don’t matter as much as being consistent.
+### Designed for Consistency
 
-### Quarksilver is designed for consistency
+Quarksuite is intended to make it easy to create flexible design systems. The only limit for what you can do with these utilities is your imagination. And your constraints, of course.
 
-The explosion of design systems in recent years reinforced this line of thought. Quarksilver is intended to make it easy to create and work with design data to create flexible design systems. The only limit for what you can do with these utilities is your imagination.
+### Works How You Work Best
 
-### Quarksilver aims to work however **you** work.
+Quarksuite makes absolute no assumptions about your stack or how your system will be used. It provides the building blocks to take away most of our bikeshedding habits. Never worry about what color that button was again.
 
-Quarksilver is made to be simple to use and simple to build upon. Three concerns inform the most basic design systems: **colors, content, composition**. Following that assumption is the organizing principle of this whole kit.
+You like Webpack? You can use Quarksuite. You like React? Quarksuite is for you, too. Vue’s your soulmate? Quarksuite’s got your back. Do you build UIs by sprinkling unicorn horn powder while reciting incantations? Quarksuite will attract more mythical beasts to maim.
 
-The other reasons:
+### Single Source of Truth
 
-### Focus the Web First
+I get it, it’s overused. I mean it earnestly in this case. Quarksuite augments your design workflow with single, or multiple data sets organized around **your** project. You can use a design system built with this toolkit in any interface that reads and writes data. Which is **every** interface. 
 
-I believe this simplifies a lot. React, Vue, Angular, Polymer, and others have been instrumental to changing the way we work. And from that work, the v1 custom elements spec emerged. I’m going with the solution that’s as close to the web as possible.
+## How to Use Quarksuite
 
-Quarksilver’s components are also web components. Even better, web components can plug into any UI library or framework that uses HTML. Native tools with interoperability are essential when the web can live on your toaster. We’re no longer shackled by the limits of early web technologies. HTML, CSS, and JS can do much more now.
+### Quarksuite Installation
 
-### DOTRW (Do One Thing Really Well)
-
-Quarksilver’s thing is design systems. All functionality that allows excellent, maintainable design systems are aligned with Quarksilver’s objective and dev experience. From here, I’ll be focusing on making Quarksilver excel at its purpose.
-
-### Make Room for Other Things
-
-You could call this project the culmination of all the lurking I’ve done over the years as a designer and developer. Following trends, picking out patterns, and paying attention to what lasts. But more than any of it, I made this tool so we could spend less time on boilerplate considerations and more time building. 
-
-## How to Use Quarksilver
-
-### Quarksilver Installation
-
-> Quarksilver requires **at least** Node.js LTS (v10.16.2 at the time of this writing). Also recommend getting the latest version of yarn.
+> Quarksuite requires **at least** Node.js LTS (v10.16.2 at the time of this writing). Also recommend getting the latest version of yarn.
 
 When you’re all set, time to install.
 
 ```bash
-npm i @quarksilver/core
+npm i @quarksuite/core
 
 # OR
 
-yarn add @quarksilver/core
+yarn add @quarksuite/core
 ```
 
-### Using Quarksilver
+### Using Quarksuite
 
-Quarksilver is organized under two main modules: `colors` and `toolkit`. The first contains convenience functions for generating palettes from color data. The second contains the bare metal utilities for constructing design systems.  
+Quarksuite is organized under two main modules: `colors` and `scale`. The first helps you work with color down to the swatch level, output variants, change their range, color mode, etc… The second is the beginning and end of creating sizing and proportion for your design.
 
-*IMPORTANT: I really can’t emphasize enough how much has changed between v0.2.x and v1.x.x. This is your last warning if you stumbled on the project early.*
+## How to Build Design Systems with Quarksuite
 
-Quarksilver has two main modules `colors` and `typography`. These contain all the currently available functionality for building with and modifying design data. As of v1.x.x, the core is no longer focused on generating tokens at the endpoint. But you can use this kit to build your data up to **use** with the design token generating libraries and tools already out there. To recommend two I’ve used: [Theo from Salesforce](https://github.com/salesforce-ux/theo) and [Style Dictionary from Amazon](https://amzn.github.io/style-dictionary/#/).
+### Quickstart
 
-These are both excellent for **consuming** design data and outputting cross-platform design tokens that Quarksilver helps you generate.
+```js
+// First, import the kit
+import kit from '@quarksuite/core';
 
-## Overview of the Kit
-```typescript
-## Quarksilver API 
+// Destructuring makes it easier to grab what you need
+const {
+  color: { palette, variant },
+  scale
+} = kit;
+
+/** Colors */
+const brand = '#348ec9';
+
+// Set a triadic scheme
+const scheme = palette.triad(brand);
+
+// Generate some variants
+const variants = (color, options) => [
+  variant.shades(color, options),
+  variant.tones(color, options),
+  variant.tints(color, options)
+];
+
+// set opts
+const variantopts = {
+  range: 3,
+  mode: 'lrgb'
+};
+
+// Model output the way you want
+const formatPalette = (palette, variants) =>
+  palette.reduce(
+    (container, category, index) => ({
+      ...container,
+      ...{ [category]: { base: scheme[index], ...variants } }
+    }),
+    {}
+  );
+
+const formatVariants = (palette, color) =>
+  palette.reduce(
+    (container, category, index) => ({
+      ...container,
+      ...{ [category]: variants(color, variantopts)[index] }
+    }),
+    {}
+  );
+
+/** Content */
+
+// Create a golden scale with 10 total values
+const golden = scale.build(scale.ratios.golden, 10);
+
+// Account for real world use cases with multistranding
+const ms = scale.multistrand(golden, [1.5]);
+
+// Augment with significant values in your design and a transform func
+const multiply = (base, value) => base * value;
+const add = (base, value) => base + value;
+
+const fontSize = scale.augment(1.5, golden, multiply);
+const fRanges = fontSize.filter(fs => fs <= 7);
+
+const measure = scale.augment(21, ms, add);
+
+const recommended = v => v >= 22 && v <= 31;
+const mRanges = measure.filter(recommended);
+
+// Create a new layout scale
+const widths = scale.augment(10, ms, multiply);
+const container = widths.filter(w => w <= 101);
+
+// Don't forget to output
+const colors = formatPalette(
+  ['brand', 'accent', 'spot'],
+  formatVariants(['shades', 'tones', 'tints'], brand)
+);
+
+const content = {
+  fs: scale.output(fRanges, { unit: 'vw' }),
+  measure: scale.output(mRanges)
+};
+
+const composition = {
+  widths: scale.output(container, { unit: '%' })
+};
+
+// Name your system whatever you want
+const system = {
+  colors,
+  content,
+  composition
+};
+
+console.log(system);
+```
+
+## Quarksuite API Documentation
+
+### color.swatch
+
+Utilities responsible for altering individual colors.
+
+#### complement()
+
+##### Parameters
+
++ `color: string`: any valid CSS color
+
+##### Returns
+
+`string`: The color complement (180° from origin)
+
+##### Example
+
+```js
+color.swatch.complement('#348ec9');
+```
+
+#### neutralize()
+
+##### Parameters
+
+- `color: string`: any valid CSS color
+
+##### Returns
+
+`string`: The neutral, or negation, of a color by its complement
+
+##### Example
+
+```js
+color.swatch.complement('#348ec9');
+```
+
+### color.variant
+
+Utilities for outputting variants (tints, tones, shades) for a color
+
+#### tints()
+
+##### Parameters
+
+- `color: string`: any valid CSS color
+- `options?: VariantOptions = {}`: options for changing the output
+  - `contrast?: number = 95`: sets a contrast for the output
+  - `range?: number = 4`: sets the number of colors to output
+  - `mode?: InterpolationMode = ‘lab’`: sets the color space of the output 
+
+##### Returns
+
+`string[]`: An array of tints from color to white
+
+##### Example
+
+```js
+color.variant.tints('#348ec9', { range: 3 });
+```
+
+#### tones()
+
+##### Parameters
+
+- `color: string`: any valid CSS color
+- `options?: VariantOptions = {}`: options for changing the output
+  - `contrast?: number = 95`: sets a contrast for the output
+  - `range?: number = 4`: sets the number of colors to output
+  - `mode?: InterpolationMode = ‘lab’`: sets the color space of the output 
+
+##### Returns
+
+`string[]`: An array of tones from color to gray
+
+##### Example
+
+```js
+color.variant.tones('#348ec9', { range: 3 });
+```
+
+#### shades()
+
+##### Parameters
+
+- `color: string`: any valid CSS color
+- `options?: VariantOptions = {}`: options for changing the output
+  - `contrast?: number = 95`: sets a contrast for the output
+  - `range?: number = 4`: sets the number of colors to output
+  - `mode?: InterpolationMode = ‘lab’`: sets the color space of the output 
+
+##### Returns
+
+`string[]`: An array of shades from color to black
+
+##### Example
+
+```js
+color.variant.shades('#348ec9', { range: 3 });
+```
+
+#### temperature()
+
+##### Parameters
+
++ `color: string`: any valid CSS color
++ `kelvin: number`: a temperature in Kelvin
++ `options?: VariantOptions = {}`: options for changing the output
+  - `contrast?: number = 95`: sets a contrast for the output
+  - `range?: number = 4`: sets the number of colors to output
+  - `mode?: InterpolationMode = ‘lab’`: sets the color space of the output 
+
+##### Returns
+
+`string[]`: An array of the color blended with temperature
+
+##### Example
+
+```js
+color.variant.temperature('#348ec9', 3500, { range: 8, mode: 'lch' })
+```
+
+### color.palette
+
+#### triad()
+
+##### Parameters
+
++ `color: string`: any valid CSS color (equal to a)
++ `degrees: number = 120` degrees on the wheel to distribute
+
+##### Returns
+
+`[string, string, string]`: A tuple representing a triadic scheme (A = `color`, B = left of `color`, C = right of `color`)
+
+##### Example
+
+```js
+color.palette.triad('#348ec9')
+```
+
+
+
+#### tetrad()
+
+#### spread()
+
+### color.scale
+
+#### create()
+
+#### build()
+
+#### multistrand()
+
+#### augment()
+
+#### output()
+
+#### ratios

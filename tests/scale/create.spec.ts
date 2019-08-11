@@ -1,5 +1,6 @@
-import { create, build, ratios } from '../../src/scale';
-describe('quarks.scale modules', () => {
+import { create, build } from '../../src/scale';
+
+describe('Utilities for quarks.scale', () => {
   describe('create(value, limit)', () => {
     test('perfect4th', () => {
       const decimals = (v: number, precision: number) =>

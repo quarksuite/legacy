@@ -5,21 +5,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-Table of Contents
-
-- [v0.2.2](#v022)
-    - [Changed](#changed)
-    - [Fixed](#fixed)
-- [v0.1.0](#v010)
-    - [Added](#added)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-<<<<<<< Updated upstream
-=======
-<<<<<<< Updated upstream
-=======
 ## v1.0.0
 
 This project has undergone a refactor apocalypse. It’s a lot tinier and a lot more focused.
@@ -27,9 +15,11 @@ This project has undergone a refactor apocalypse. It’s a lot tinier and a lot 
 ### Added
 
 + Brand new functionality for working with content and layout
++ A temperature function for `color.variant`
 
 ### Changed
 
++ The name of the project is now Quarksuite, because why wouldn't it?
 + The entire API has shrunk to prioritize its utilities
 + Documentation has a lot of new information
 + The footprint of the resources is lighter
@@ -43,9 +33,8 @@ This project has undergone a refactor apocalypse. It’s a lot tinier and a lot 
 
 ### Deprecated
 
-+ All of the previous API except the color modules
++ All of the previous API. All. Of. It.
 
->>>>>>> Stashed changes
 ## v0.2.2
 
 ### Changed
@@ -56,10 +45,6 @@ This project has undergone a refactor apocalypse. It’s a lot tinier and a lot 
 
 + Documentation assets are properly included in the package
 
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 ## v0.1.0
 
 Initial release.
@@ -70,4 +55,3 @@ Initial release.
 + Custom color module for working with config-like objects
 + Color scheme module for building basic palettes
 + toolkit for tokenizing data to pass on to Style Dictionary
-

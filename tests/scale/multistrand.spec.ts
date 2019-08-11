@@ -1,12 +1,11 @@
 import { ratios, build, output, multistrand } from '../../src/scale';
 
-describe('quarks.scale modules', () => {
+describe('Utilities for quarks.scale', () => {
   describe('multistrand(scale, ratios)', () => {
     test('Can output a multistranded scale', () => {
-      const data = output(
-        multistrand(build(ratios.golden, 6), [1.5, 2]),
-        { precision: 6 }
-      );
+      const data = output(multistrand(build(ratios.golden, 6), [1.5, 2]), {
+        precision: 6
+      });
 
       expect(data).toStrictEqual([
         '1rem',
@@ -22,10 +21,9 @@ describe('quarks.scale modules', () => {
       ]);
     });
     test('works with ratios less than 1', () => {
-      const data = output(
-        multistrand(build(ratios.golden, 6), [0.5, 0.25]),
-        { precision: 3 }
-      );
+      const data = output(multistrand(build(ratios.golden, 6), [0.5, 0.25]), {
+        precision: 3
+      });
 
       expect(data).toStrictEqual([
         '0.857rem',
