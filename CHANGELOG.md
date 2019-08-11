@@ -21,7 +21,7 @@ Table of Contents
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## v1.0.0
+## v0.3.0
 
 This project has undergone a refactor apocalypse. It’s a lot tinier and a lot more focused.
 
@@ -36,8 +36,6 @@ This project has undergone a refactor apocalypse. It’s a lot tinier and a lot 
 + The entire API has shrunk to prioritize its utilities
 + Documentation has a lot of new information
 + The footprint of the resources is lighter
-
-
 
 ### Removed
 
