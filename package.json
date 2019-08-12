@@ -1,7 +1,7 @@
 {
   "name": "@quarksuite/core",
   "version": "0.2.3",
-  "description": "A tiny toolkit for generating design systems.",
+  "description": "Quarksuite is a toolkit for creating subatomic design systems.",
   "author": "Chatman R. Jr <crjr.code@gmail.com>",
   "repository": {
     "type": "git",
