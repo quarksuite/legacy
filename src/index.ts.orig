@@ -1,0 +1,16 @@
+<<<<<<< HEAD
+import * as colors from './colors';
+import * as typography from './typography';
+
+export default {
+  colors,
+  typography
+=======
+import * as color from './color';
+import * as scale from './scale';
+
+export default {
+  color,
+  scale
+>>>>>>> updating-new-visitors
+};

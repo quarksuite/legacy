@@ -1,7 +1,5 @@
-import * as colors from './colors';
-import * as typography from './typography';
+import * as scale from './scale';
 
 export default {
-  colors,
-  typography
+  scale
 };

@@ -1,5 +1,5 @@
 {
-  "name": "@quarksilver/core",
+  "name": "@quarksuite/core",
   "version": "0.2.3",
   "description": "A tiny toolkit for generating design systems.",
   "author": "Chatman R. Jr <crjr.code@gmail.com>",
@@ -15,18 +15,18 @@
     "design systems",
     "toolkit",
     "quarksilver",
-    "unmaintained",
-    "archived"
+    "minimal",
+    "ninja"
   ],
-  "license": "MIT",
+  "license": "MPL-2.0",
   "dependencies": {
-    "chroma-js": "^2.0.4",
-    "modularscale-js": "^3.0.1"
+    "chroma-js": "^2.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.5.0",
+    "@babel/plugin-transform-runtime": "^7.5.5",
     "@babel/preset-env": "^7.5.0",
-    "@pika/pack": "^0.5.0",
+    "@babel/runtime": "^7.5.5",
     "@pika/plugin-build-deno": "^0.4.0",
     "@pika/plugin-build-node": "^0.4.0",
     "@pika/plugin-build-types": "^0.4.0",
@@ -68,6 +68,9 @@
     "test": "jest",
     "version": "npm run build"
   },
+  "browserslist": [
+    "since 2017-06"
+  ],
   "@pika/pack": {
     "pipeline": [
       [
@@ -95,7 +98,10 @@
   "lint-staged": {
     "*.ts": [
       "eslint --fix",
-      "pack build",
+      "jest --bail --coverage --findRelatedTests",
+      "typedoc --out docs/api",
+      "typedoc --theme markdown --platform gitbook --out docs/gitbook",
+      "pika-pack",
       "git add"
     ],
     "*.md": [
