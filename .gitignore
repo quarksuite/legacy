@@ -119,8 +119,10 @@ tags
 # Persistent undo
 [._]*.un~
 
-# Hide pkg and generated docs from source
+# Hide pkg
 pkg
-docs
+
+# Hide Meld output
+*.orig
 
 # End of https://www.gitignore.io/api/vim,node,code
