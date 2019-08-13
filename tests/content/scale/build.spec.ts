@@ -1,7 +1,7 @@
-import { build, create } from '../../src/scale';
+import { build, create } from '../../../src/content/scale'
 
-describe('Utilities for quarks.scale', () => {
-  describe('build(type, limit?)', () => {
+describe('Utilities for content', () => {
+  describe('scale.build(type, limit?)', () => {
     test('default values', () => {
       const decimals = (v: number, precision: number) =>
         parseFloat(v.toPrecision(precision));

@@ -1,7 +1,7 @@
-import { create, build, augment } from '../../src/scale';
+import { create, build, augment } from '../../../src/content/scale';
 
-describe('Utilities for quarks.scale', () => {
-  describe('augment(base, scale, transform)', () => {
+describe('Utilities for content', () => {
+  describe('scale.augment(base, scale, transform)', () => {
     test('augments a scale with a significant base value', () => {
       const decimals = (v: number, precision: number) =>
         parseFloat(v.toPrecision(precision));

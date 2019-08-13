@@ -1,6 +1,6 @@
-import { create, build } from '../../src/scale';
+import { create, build } from '../../../src/content/scale';
 
-describe('Utilities for quarks.scale', () => {
+describe('Utilities for content', () => {
   describe('create(value, limit)', () => {
     test('perfect4th', () => {
       const decimals = (v: number, precision: number) =>

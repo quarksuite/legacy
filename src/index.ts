@@ -1,5 +1,5 @@
-import * as scale from './scale';
+import * as scale from './content/scale';
 
 export default {
-  scale
+  content: { scale }
 };

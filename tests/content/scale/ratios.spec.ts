@@ -1,4 +1,4 @@
-import { build, ratios } from '../../src/scale';
+import { build, ratios } from '../../../src/content/scale';
 
 describe('Utilities for quarks.scale', () => {
   describe('ratios.major3rd', () => {

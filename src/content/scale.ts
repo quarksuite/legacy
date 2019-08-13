@@ -1,5 +1,5 @@
 /**
- * A set of utilities responsible for generating and modifying content and composition.
+ * A set of utilities responsible for creating and modifying modular scales.
  */
 
 /** Sorts an array in ascending order */
@@ -84,20 +84,22 @@ const golden = (limit: number = 6) => {
 const major6th = (limit: number) => create(1.667, limit);
 const octave = (limit: number) => create(2, limit);
 
-/** Applies a transformation to the scale from a significant design figure */
+/** Applies a transformation to the scale */
 export const augment = (
-  significantFig: number,
+  value: number,
   scale: number[],
-  transform: (significantFig: number, scaleValue: number) => number
+  transform: (value: number, scaleValue: number) => number,
+  precision: number = 4
 ) =>
   scale.map(scaleValue =>
-    parseFloat(transform(significantFig, scaleValue).toPrecision(4))
+    parseFloat(transform(value, scaleValue).toPrecision(precision))
   );
 
 /** Outputs the scale with units and value precision */
 export const output = (
   scale: number[],
-  { precision = 4, unit = 'rem' } = {}
+  precision: number = 4,
+  unit: string = 'rem',
 ): string[] => {
   return scale.map(v => parseFloat(v.toPrecision(precision)) + unit);
 };
