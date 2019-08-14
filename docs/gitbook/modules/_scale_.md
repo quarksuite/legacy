@@ -1,3 +1,28 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+Table of Contents
+
+- [Index](#index)
+    - [Functions](#functions)
+    - [Object literals](#object-literals)
+- [Functions](#functions-1)
+    - [`Const` augment](#const-augment)
+    - [build](#build)
+    - [create](#create)
+    - [`Const` multistrand](#const-multistrand)
+    - [`Const` output](#const-output)
+- [Object literals](#object-literals-1)
+    - [`Const` ratios](#const-ratios)
+    - [▪ **ratios**: *object*](#%E2%96%AA-ratios-object)
+    - [golden](#golden)
+    - [major3rd](#major3rd)
+    - [major6th](#major6th)
+    - [octave](#octave)
+    - [perfect4th](#perfect4th)
+    - [perfect5th](#perfect5th)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 > # External module: "scale"
 
 A set of utilities responsible for creating and modifying modular scales.
