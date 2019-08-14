@@ -926,6 +926,43 @@ img { max-width: 100%; }
 						<li><a href="#single-source-of-truth">Single Source of Truth</a></li>
 					</ul>
 				</li>
+				<li><a href="#creating-design-systems-with-quarksuite">Creating Design Systems with Quarksuite</a></li>
+				<li><a href="#quarksuite-api">Quarksuite API</a><ul>
+						<li><a href="#contentscale">content.scale</a><ul>
+								<li><a href="#create">create()</a><ul>
+										<li><a href="#parameters">Parameters</a></li>
+										<li><a href="#returns">Returns</a></li>
+										<li><a href="#example">Example</a></li>
+									</ul>
+								</li>
+								<li><a href="#build">build()</a><ul>
+										<li><a href="#parameters-1">Parameters</a></li>
+										<li><a href="#returns-1">Returns</a></li>
+										<li><a href="#example-1">Example</a></li>
+									</ul>
+								</li>
+								<li><a href="#multistrand">multistrand()</a><ul>
+										<li><a href="#returns-2">Returns</a></li>
+										<li><a href="#example-2">Example</a></li>
+									</ul>
+								</li>
+								<li><a href="#augment">augment()</a><ul>
+										<li><a href="#parameters-2">Parameters</a></li>
+										<li><a href="#returns-3">Returns</a></li>
+										<li><a href="#example-3">Example</a></li>
+									</ul>
+								</li>
+								<li><a href="#output">output()</a><ul>
+										<li><a href="#parameters-3">Parameters</a></li>
+										<li><a href="#returns-4">Returns</a></li>
+										<li><a href="#example-4">Example</a></li>
+									</ul>
+								</li>
+								<li><a href="#ratios">ratios</a></li>
+							</ul>
+						</li>
+					</ul>
+				</li>
 			</ul>
 			<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 			<p><em>IMPORTANT: If you’ve arrived from one of the other projects, it would be a good idea to get up to speed on Quarksuite’s new objectives and design. We’re on the road to v1 now. Stay tuned.</em></p>
@@ -939,6 +976,177 @@ img { max-width: 100%; }
 			<p>You like Webpack? You can use Quarksuite. You like React? Quarksuite is for you, too. Vue’s your soulmate? Quarksuite’s got your back. Do you build UIs by sprinkling unicorn horn powder while reciting incantations? Quarksuite will attract more mythical beasts to maim.</p>
 			<h3 id="single-source-of-truth">Single Source of Truth</h3>
 			<p>I get it, it’s overused. I mean it earnestly in this case. Quarksuite augments your design workflow with single, or multiple data sets organized around <strong>your</strong> project. You can use a design system built with this toolkit in any interface that reads and writes data. Which is <strong>every</strong> interface. </p>
+			<h2 id="creating-design-systems-with-quarksuite">Creating Design Systems with Quarksuite</h2>
+			<pre><code class="language-js"><span class="hljs-comment">// First, import the kit</span>
+<span class="hljs-keyword">import</span> tools <span class="hljs-keyword">from</span> <span class="hljs-string">'@quarksuite/core'</span>;
+
+<span class="hljs-comment">// Destructuring makes it easier to grab what you need</span>
+<span class="hljs-keyword">const</span> {
+  <span class="hljs-attr">content</span>: { scale }
+} = tools;
+
+<span class="hljs-comment">/** content.scale */</span>
+
+<span class="hljs-comment">// Create a golden scale with 10 total values</span>
+<span class="hljs-keyword">const</span> golden = scale.build(scale.ratios.golden, <span class="hljs-number">10</span>);
+
+<span class="hljs-comment">// Account for real world use cases with multistranding</span>
+<span class="hljs-keyword">const</span> ms = scale.multistrand(golden, [<span class="hljs-number">1.5</span>]);
+
+<span class="hljs-comment">// Augment with significant values in your design and a transform func</span>
+<span class="hljs-keyword">const</span> multiply = <span class="hljs-function">(<span class="hljs-params">base, value</span>) =&gt;</span> base * value;
+<span class="hljs-keyword">const</span> add = <span class="hljs-function">(<span class="hljs-params">base, value</span>) =&gt;</span> base + value;
+
+<span class="hljs-keyword">const</span> fontSize = scale.augment(<span class="hljs-number">1.5</span>, golden, multiply);
+<span class="hljs-keyword">const</span> fRanges = fontSize.filter(<span class="hljs-function"><span class="hljs-params">fs</span> =&gt;</span> fs &lt;= <span class="hljs-number">7</span>);
+
+<span class="hljs-keyword">const</span> measure = scale.augment(<span class="hljs-number">21</span>, ms, add);
+
+<span class="hljs-keyword">const</span> recommended = <span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> v &gt;= <span class="hljs-number">22</span> &amp;&amp; v &lt;= <span class="hljs-number">31</span>;
+<span class="hljs-keyword">const</span> mRanges = measure.filter(recommended);
+
+<span class="hljs-comment">// Create a new layout scale</span>
+<span class="hljs-keyword">const</span> widths = scale.augment(<span class="hljs-number">10</span>, ms, multiply);
+<span class="hljs-keyword">const</span> container = widths.filter(<span class="hljs-function"><span class="hljs-params">w</span> =&gt;</span> w &lt;= <span class="hljs-number">101</span>);
+
+<span class="hljs-comment">// Don't forget to output</span>
+<span class="hljs-keyword">const</span> content = {
+  <span class="hljs-attr">fs</span>: scale.output(fRanges, <span class="hljs-number">4</span>, <span class="hljs-string">'vw'</span>),
+  <span class="hljs-attr">measure</span>: scale.output(mRanges)
+};
+
+<span class="hljs-keyword">const</span> composition = {
+  <span class="hljs-attr">widths</span>: scale.output(container, <span class="hljs-number">4</span>, <span class="hljs-string">'%'</span>)
+};
+
+<span class="hljs-comment">// Name your system whatever you want and export to use wherever you need</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  content,
+  composition
+};</code></pre>
+			<h2 id="quarksuite-api">Quarksuite API</h2>
+			<h3 id="content-scale">content.scale</h3>
+			<h4 id="create-">create()</h4>
+			<h5 id="parameters">Parameters</h5>
+			<ul>
+				<li><p><code>value: number</code>: value to use for generating a scale</p>
+				</li>
+				<li><p><code>limit: number</code>: the number of values you want to generate</p>
+				</li>
+			</ul>
+			<h5 id="returns">Returns</h5>
+			<p><code>Generator</code>: a modular scale</p>
+			<h5 id="example">Example</h5>
+			<pre><code class="language-js"><span class="hljs-keyword">import</span> tools <span class="hljs-keyword">from</span> <span class="hljs-string">'@quarksuite/core'</span>;
+
+<span class="hljs-keyword">const</span> { <span class="hljs-attr">content</span>: { scale } } = tools;
+
+<span class="hljs-keyword">const</span> custom = <span class="hljs-function">(<span class="hljs-params">limit: number</span>) =&gt;</span> scale.create(<span class="hljs-number">1.375</span>, limit);</code></pre>
+			<h4 id="build-">build()</h4>
+			<h5 id="parameters">Parameters</h5>
+			<ul>
+				<li><p><code>type: (limit: number) =&gt; Generator</code>: the created scale</p>
+				</li>
+				<li><p><code>limit: number</code>: the number of values to output</p>
+				</li>
+			</ul>
+			<h5 id="returns">Returns</h5>
+			<p><code>number[]</code>: a modular scale</p>
+			<h5 id="example">Example</h5>
+			<pre><code class="language-js"><span class="hljs-keyword">import</span> tools <span class="hljs-keyword">from</span> <span class="hljs-string">'@quarksuite/core'</span>;
+
+<span class="hljs-keyword">const</span> { <span class="hljs-attr">content</span>: { scale } } = tools;
+
+<span class="hljs-keyword">const</span> newScale = <span class="hljs-function">(<span class="hljs-params">limit: number</span>) =&gt;</span> scale.create(<span class="hljs-number">1.375</span>, limit);
+
+scale.build(newScale, <span class="hljs-number">8</span>);</code></pre>
+			<h4 id="multistrand-">multistrand()</h4>
+			<p>Parameters</p>
+			<ul>
+				<li><p><code>scale: number[]</code>: the scale you want to thread</p>
+				</li>
+				<li><p><code>ratios: number[]</code>: ratios to thread through your scale (too many will dilute it)</p>
+				</li>
+			</ul>
+			<h5 id="returns">Returns</h5>
+			<p><code>number[]</code>: a multi-threaded modular scale</p>
+			<h5 id="example">Example</h5>
+			<pre><code class="language-js"><span class="hljs-keyword">import</span> tools <span class="hljs-keyword">from</span> <span class="hljs-string">'@quarksuite/core'</span>;
+
+<span class="hljs-keyword">const</span> { <span class="hljs-attr">content</span>: { scale } } = tools;
+
+scale.multistrand(scale.ratios.golden, [<span class="hljs-number">1.5</span>, <span class="hljs-number">1.75</span>])</code></pre>
+			<h4 id="augment-">augment()</h4>
+			<h5 id="parameters">Parameters</h5>
+			<ul>
+				<li><p><code>value: number</code>: a significant value in your design</p>
+				</li>
+				<li><p><code>scale: number[]</code>: a scale to augment</p>
+				</li>
+				<li><p><code>transform: (value: number, scaleValue: number) =&gt; number</code>:  the augment operation</p>
+				</li>
+			</ul>
+			<h5 id="returns">Returns</h5>
+			<p><code>number[]</code>: an augmented scale</p>
+			<h5 id="example">Example</h5>
+			<pre><code class="language-js"><span class="hljs-keyword">import</span> tools <span class="hljs-keyword">from</span> <span class="hljs-string">'@quarksuite/core'</span>;
+
+<span class="hljs-keyword">const</span> { <span class="hljs-attr">content</span>: { scale } } = tools;
+
+<span class="hljs-keyword">const</span> multiply = <span class="hljs-function">(<span class="hljs-params">base, value</span>) =&gt;</span> base * value;
+
+scale.augment(<span class="hljs-number">1.25</span>, scale.ratios.octave, multiply);</code></pre>
+			<h4 id="output-">output()</h4>
+			<h5 id="parameters">Parameters</h5>
+			<ul>
+				<li><code>scale: number[]</code>: a scale to output</li>
+				<li><code>precision: number = 4</code>:  decimal place precision of values</li>
+				<li><code>unit: string = ‘rem’</code>  : CSS unit to attach to values </li>
+			</ul>
+			<h5 id="returns">Returns</h5>
+			<p><code>string[]</code>: a design system-ready modular scale</p>
+			<h5 id="example">Example</h5>
+			<pre><code class="language-js"><span class="hljs-keyword">import</span> tools <span class="hljs-keyword">from</span> <span class="hljs-string">'@quarksilver/core'</span>;
+
+<span class="hljs-keyword">const</span> { <span class="hljs-attr">content</span>: { scale } } = tools;
+
+<span class="hljs-keyword">const</span> multiply = <span class="hljs-function">(<span class="hljs-params">base, value</span>) =&gt;</span> base * value;
+
+scale.output(scale.augment(<span class="hljs-number">1.5</span>, scale.ratios.golden, multiply), <span class="hljs-number">5</span>, <span class="hljs-string">'rem'</span>);</code></pre>
+			<h4 id="ratios">ratios</h4>
+			<p>A set of common scales popular in design and art. More will be added on request. Uses <code>scale.create</code> internally.</p>
+			<table>
+				<thead>
+					<tr>
+						<th>key</th>
+						<th>ratio</th>
+					</tr>
+				</thead>
+				<tbody><tr>
+						<td><code>major3rd</code></td>
+						<td><code>1.25</code></td>
+					</tr>
+					<tr>
+						<td><code>perfect4th</code></td>
+						<td><code>1.333</code></td>
+					</tr>
+					<tr>
+						<td><code>perfect5th</code></td>
+						<td><code>1.5</code></td>
+					</tr>
+					<tr>
+						<td><code>golden</code></td>
+						<td>phi =  <code>1.6180371352785146</code></td>
+					</tr>
+					<tr>
+						<td><code>major6th</code></td>
+						<td><code>1.667</code></td>
+					</tr>
+					<tr>
+						<td><code>octave</code></td>
+						<td><code>2</code></td>
+					</tr>
+			</tbody></table>
 		</div>
 		<div style="position:relative;"><a name="typedoc-main-index" class="tsd-anchor"></a></div>
 		<section class="tsd-panel-group tsd-index-group">
@@ -948,8 +1156,7 @@ img { max-width: 100%; }
 					<section class="tsd-index-section ">
 						<h3>External modules</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-external-module tsd-is-external"><a href="modules/_content_scale_.html" class="tsd-kind-icon">"content/scale"</a></li>
-							<li class="tsd-kind-external-module"><a href="modules/_index_.html" class="tsd-kind-icon">"index"</a></li>
+							<li class="tsd-kind-external-module"><a href="modules/_scale_.html" class="tsd-kind-icon">"scale"</a></li>
 						</ul>
 					</section>
 				</div>
