@@ -21,14 +21,15 @@ Table of Contents
             - [Returns](#returns-1)
             - [Example](#example-1)
         - [multistrand()](#multistrand)
+            - [Parameters](#parameters-2)
             - [Returns](#returns-2)
             - [Example](#example-2)
         - [augment()](#augment)
-            - [Parameters](#parameters-2)
+            - [Parameters](#parameters-3)
             - [Returns](#returns-3)
             - [Example](#example-3)
         - [output()](#output)
-            - [Parameters](#parameters-3)
+            - [Parameters](#parameters-4)
             - [Returns](#returns-4)
             - [Example](#example-4)
         - [ratios](#ratios)
@@ -161,7 +162,7 @@ scale.build(newScale, 8);
 
 #### multistrand()
 
-Parameters
+##### Parameters
 
 + `scale: number[]`: the scale you want to thread
 
