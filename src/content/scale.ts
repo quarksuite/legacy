@@ -74,7 +74,7 @@ export const multistrand = (scale: number[], ratios: number[]): number[] => {
 const major3rd = (limit: number) => create(1.25, limit);
 const perfect4th = (limit: number) => create(1.333, limit);
 const perfect5th = (limit: number) => create(1.5, limit);
-const golden = (limit: number = 6) => {
+const golden = (limit: number) => {
   const f = build(fibonacci, 16);
   const a = f[f.length - 2];
   const b = f[f.length - 1];
@@ -88,18 +88,17 @@ const octave = (limit: number) => create(2, limit);
 export const augment = (
   value: number,
   scale: number[],
-  transform: (value: number, scaleValue: number) => number,
-  precision: number = 4
+  transform: (value: number, scaleValue: number) => number
 ) =>
   scale.map(scaleValue =>
-    parseFloat(transform(value, scaleValue).toPrecision(precision))
+    parseFloat(transform(value, scaleValue).toPrecision())
   );
 
 /** Outputs the scale with units and value precision */
 export const output = (
   scale: number[],
   precision: number = 4,
-  unit: string = 'rem',
+  unit: string = 'rem'
 ): string[] => {
   return scale.map(v => parseFloat(v.toPrecision(precision)) + unit);
 };
