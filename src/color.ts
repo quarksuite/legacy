@@ -69,26 +69,58 @@ const analogue = (color: string, distance = 15, accented = false) =>
   triColor(color, color, distance, accented);
 
 const dual = (color: string, distance = 15) => {
-  const [, ...a] = analogue(color, distance);
-  const [, ...c] = split(color, distance);
+  const base1 = chroma(color).hex();
+  const base2 = setHue(chroma(color).hex(), `+${distance}`);
 
-  return [...a, ...c];
+  return [base1, base2, complement(base1), complement(base2)];
+};
+
+const output = (palette: string | string[], range = 4, contrast = 95) => {
+  if (typeof palette === 'string')
+    return [
+      chroma(palette).hex(),
+      tints(palette, range, contrast),
+      tones(palette, range, contrast),
+      shades(palette, range, contrast)
+    ];
+
+  return palette.map(color => [
+    chroma(color).hex(),
+    tints(color, range, contrast),
+    tones(color, range, contrast),
+    shades(color, range, contrast)
+  ]);
 };
 
 export const scheme = {
-  monochromatic: (color: string, range = 4, contrast = 95) => [
-    chroma(color).hex(),
-    [
-      ...tints(color, range, contrast).reverse(),
-      ...shades(color, range, contrast)
-    ]
-  ],
-  complementary,
-  splitComplementary: (color: string, distance = 15, accented = false) =>
-    split(color, distance, accented),
-  triadic: (color: string) => split(color, 60),
-  analogous: (color: string, distance = 15, accented = false) =>
-    analogue(color, distance, accented),
-  dual,
-  tetradic: (color: string) => dual(color, 90)
+  monochromatic: (color: string, range = 4, contrast = 95) =>
+    output(color, range, contrast),
+
+  complementary: (color: string, range = 4, contrast = 95) =>
+    output(complementary(color), range, contrast),
+
+  splitComplementary: (
+    color: string,
+    distance = 15,
+    accented = false,
+    range = 4,
+    contrast = 95
+  ) => output(split(color, distance, accented), range, contrast),
+
+  triadic: (color: string, range = 4, contrast = 95) =>
+    output(split(color, 60), range, contrast),
+
+  analogous: (
+    color: string,
+    distance = 15,
+    accented = false,
+    range = 4,
+    contrast = 95
+  ) => output(analogue(color, distance, accented), range, contrast),
+
+  dual: (color: string, distance = 15, range = 4, contrast = 95) =>
+    output(dual(color, distance), range, contrast),
+
+  tetradic: (color: string, range = 4, contrast = 95) =>
+    output(dual(color, 90), range, contrast)
 };
