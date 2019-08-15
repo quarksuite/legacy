@@ -12,4 +12,12 @@ describe('Color utilities', () => {
       expect(swatch.neutralize(color)).toBe('#937f93');
     });
   });
+  describe('mix(color, target, intensity?)', () => {
+    test('returns the mixture of two colors', () => {
+      expect(swatch.mix(color, 'green')).toBe('#25878e');
+    });
+    test('can adjust intensity of mixture', () => {
+      expect(swatch.mix(color, 'green', 80)).toBe('#17835a');
+    });
+  });
 });

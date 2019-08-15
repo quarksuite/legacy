@@ -62,7 +62,7 @@
     "build": "run-s -n test pika build:docs",
     "pika": "pika-pack",
     "dev:docs": "onchange -i -k 'src/**/*.ts' '*.md' -- yarn build:docs",
-    "build:docs": "typedoc --theme markdown --platform gitbook --out gitbook",
+    "build:docs": "typedoc --theme markdown --platform docusaurus --out docs",
     "dev:serve": "serve public/api",
     "test": "jest",
     "version": "npm run build"

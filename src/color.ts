@@ -12,9 +12,13 @@ const complement = (color: string) => setHue(color, '+180');
 const neutralize = (color: string) =>
   chroma.mix(color, complement(color), 0.5).hex();
 
+const mix = (color: string, target: string, intensity: number = 50) =>
+  chroma.mix(color, target, intensity / 100).hex();
+
 export const swatch = {
   complement,
-  neutralize
+  neutralize,
+  mix
 };
 
 const blend = (color: string, target: string, range = 4, contrast = 95) => {
