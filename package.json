@@ -14,9 +14,8 @@
   "keywords": [
     "design systems",
     "toolkit",
-    "quarksilver",
-    "minimal",
-    "ninja"
+    "quarksuite",
+    "minimal"
   ],
   "license": "MPL-2.0",
   "dependencies": {
@@ -59,12 +58,12 @@
     "typedoc-plugin-markdown": "^2.0.8"
   },
   "scripts": {
-    "dev": "run-p -n dev:*",
-    "build": "run-s -n test build:docs:*",
-    "dev:docs": "onchange -i -k 'src/**/*.ts' '*.md' -- yarn build:docs:api",
-    "build:docs:api": "typedoc --out docs/api",
-    "build:docs:md": "typedoc --theme markdown --platform gitbook --out docs/gitbook",
-    "dev:serve": "serve docs/api",
+    "dev": "run-p -n pika dev:docs",
+    "build": "run-s -n test pika build:docs",
+    "pika": "pika-pack",
+    "dev:docs": "onchange -i -k 'src/**/*.ts' '*.md' -- yarn build:docs",
+    "build:docs": "typedoc --theme markdown --platform gitbook --out gitbook",
+    "dev:serve": "serve public/api",
     "test": "jest",
     "version": "npm run build"
   },
@@ -99,8 +98,7 @@
     "*.ts": [
       "eslint --fix",
       "jest --bail --coverage --findRelatedTests",
-      "typedoc --out docs/api",
-      "typedoc --theme markdown --platform gitbook --out docs/gitbook",
+      "typedoc --theme markdown --platform gitbook --out gitbook",
       "pika-pack",
       "git add"
     ],
