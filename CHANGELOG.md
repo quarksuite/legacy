@@ -8,20 +8,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 Table of Contents
 
+- [v1.1.0](#v110)
+  - [Changed](#changed)
 - [v1.0.0](#v100)
-    - [Added](#added)
-    - [Changed](#changed)
-    - [Fixed](#fixed)
-    - [Removed](#removed)
+  - [Added](#added)
+  - [Changed](#changed-1)
+  - [Fixed](#fixed)
+  - [Removed](#removed)
 - [v0.2.3](#v023)
-    - [Added](#added-1)
+  - [Added](#added-1)
 - [v0.2.2](#v022)
-    - [Changed](#changed-1)
-    - [Fixed](#fixed-1)
+  - [Changed](#changed-2)
+  - [Fixed](#fixed-1)
 - [v0.1.0](#v010)
-    - [Added](#added-2)
+  - [Added](#added-2)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## v1.1.0
+
+### Changed
+
++ exports discrete `color` and `content` objects instead of default. See the docs for more
 
 ## v1.0.0
 

@@ -6,102 +6,102 @@ Table of Contents
 
 - [Introduction](#introduction)
 - [Goals](#goals)
-    - [Go Where the Web Goes](#go-where-the-web-goes)
-    - [Simple, Yet Featureful](#simple-yet-featureful)
-    - [Tiny Universes](#tiny-universes)
-    - [Your Design System, Your Way](#your-design-system-your-way)
+  - [Go Where the Web Goes](#go-where-the-web-goes)
+  - [Simple, Yet Featureful](#simple-yet-featureful)
+  - [Tiny Universes](#tiny-universes)
+  - [Your Design System, Your Way](#your-design-system-your-way)
 - [Features](#features)
 - [Installation](#installation)
-    - [As a Node Module/Dependency](#as-a-node-moduledependency)
-    - [In Your Browser](#in-your-browser)
+  - [As a Node Module/Dependency](#as-a-node-moduledependency)
+  - [In Your Browser](#in-your-browser)
 - [Creating Design Systems with Quarksuite](#creating-design-systems-with-quarksuite)
 - [Quarksuite API](#quarksuite-api)
-    - [color.swatch](#colorswatch)
-        - [complement()](#complement)
-            - [Parameters](#parameters)
-            - [Returns](#returns)
-            - [Example](#example)
-        - [neutralize()](#neutralize)
-            - [Parameters](#parameters-1)
-            - [Returns](#returns-1)
-            - [Example](#example-1)
-        - [mix()](#mix)
-            - [Parameters](#parameters-2)
-            - [Returns](#returns-2)
-            - [Example](#example-2)
-    - [color.palette](#colorpalette)
-        - [tints()](#tints)
-            - [Parameters](#parameters-3)
-            - [Returns](#returns-3)
-            - [Example](#example-3)
-        - [tones()](#tones)
-            - [Parameters](#parameters-4)
-            - [Returns](#returns-4)
-            - [Example](#example-4)
-        - [shades()](#shades)
-            - [Parameters](#parameters-5)
-            - [Returns](#returns-5)
-            - [Example](#example-5)
-    - [color.scheme](#colorscheme)
-        - [monochromatic()](#monochromatic)
-            - [Parameters](#parameters-6)
-            - [Returns](#returns-6)
-            - [Example](#example-6)
-        - [complementary()](#complementary)
-            - [Parameters](#parameters-7)
-            - [Returns](#returns-7)
-            - [Example](#example-7)
-        - [splitComplementary()](#splitcomplementary)
-            - [Parameters](#parameters-8)
-            - [Returns](#returns-8)
-            - [Example](#example-8)
-        - [triadic()](#triadic)
-            - [Parameters](#parameters-9)
-            - [Returns](#returns-9)
-            - [Example](#example-9)
-        - [analogous()](#analogous)
-            - [Parameters](#parameters-10)
-            - [Returns](#returns-10)
-            - [Example](#example-10)
-        - [dual()](#dual)
-            - [Parameters](#parameters-11)
-            - [Returns](#returns-11)
-            - [Example](#example-11)
-        - [tetradic()](#tetradic)
-            - [Parameters](#parameters-12)
-            - [Returns](#returns-12)
-            - [Example](#example-12)
-        - [content.scale](#contentscale)
-        - [create()](#create)
-            - [Parameters](#parameters-13)
-            - [Returns](#returns-13)
-            - [Example](#example-13)
-        - [build()](#build)
-            - [Parameters](#parameters-14)
-            - [Returns](#returns-14)
-            - [Example](#example-14)
-        - [multistrand()](#multistrand)
-            - [Parameters](#parameters-15)
-            - [Returns](#returns-15)
-            - [Example](#example-15)
-        - [augment()](#augment)
-            - [Parameters](#parameters-16)
-            - [Returns](#returns-16)
-            - [Example](#example-16)
-        - [output()](#output)
-            - [Parameters](#parameters-17)
-            - [Returns](#returns-17)
-            - [Example](#example-17)
-        - [ratios](#ratios)
+  - [color.swatch](#colorswatch)
+    - [complement()](#complement)
+      - [Parameters](#parameters)
+      - [Returns](#returns)
+      - [Example](#example)
+    - [neutralize()](#neutralize)
+      - [Parameters](#parameters-1)
+      - [Returns](#returns-1)
+      - [Example](#example-1)
+    - [mix()](#mix)
+      - [Parameters](#parameters-2)
+      - [Returns](#returns-2)
+      - [Example](#example-2)
+  - [color.palette](#colorpalette)
+    - [tints()](#tints)
+      - [Parameters](#parameters-3)
+      - [Returns](#returns-3)
+      - [Example](#example-3)
+    - [tones()](#tones)
+      - [Parameters](#parameters-4)
+      - [Returns](#returns-4)
+      - [Example](#example-4)
+    - [shades()](#shades)
+      - [Parameters](#parameters-5)
+      - [Returns](#returns-5)
+      - [Example](#example-5)
+  - [color.scheme](#colorscheme)
+    - [monochromatic()](#monochromatic)
+      - [Parameters](#parameters-6)
+      - [Returns](#returns-6)
+      - [Example](#example-6)
+    - [complementary()](#complementary)
+      - [Parameters](#parameters-7)
+      - [Returns](#returns-7)
+      - [Example](#example-7)
+    - [splitComplementary()](#splitcomplementary)
+      - [Parameters](#parameters-8)
+      - [Returns](#returns-8)
+      - [Example](#example-8)
+    - [triadic()](#triadic)
+      - [Parameters](#parameters-9)
+      - [Returns](#returns-9)
+      - [Example](#example-9)
+    - [analogous()](#analogous)
+      - [Parameters](#parameters-10)
+      - [Returns](#returns-10)
+      - [Example](#example-10)
+    - [dual()](#dual)
+      - [Parameters](#parameters-11)
+      - [Returns](#returns-11)
+      - [Example](#example-11)
+    - [tetradic()](#tetradic)
+      - [Parameters](#parameters-12)
+      - [Returns](#returns-12)
+      - [Example](#example-12)
+    - [content.scale](#contentscale)
+    - [create()](#create)
+      - [Parameters](#parameters-13)
+      - [Returns](#returns-13)
+      - [Example](#example-13)
+    - [build()](#build)
+      - [Parameters](#parameters-14)
+      - [Returns](#returns-14)
+      - [Example](#example-14)
+    - [multistrand()](#multistrand)
+      - [Parameters](#parameters-15)
+      - [Returns](#returns-15)
+      - [Example](#example-15)
+    - [augment()](#augment)
+      - [Parameters](#parameters-16)
+      - [Returns](#returns-16)
+      - [Example](#example-16)
+    - [output()](#output)
+      - [Parameters](#parameters-17)
+      - [Returns](#returns-17)
+      - [Example](#example-17)
+    - [ratios](#ratios)
 - [Contributing](#contributing)
-    - [Guidelines](#guidelines)
-        - [On Features Outside the Scope of Quarksuite’s Goals](#on-features-outside-the-scope-of-quarksuites-goals)
-        - [On Opening Issues](#on-opening-issues)
-        - [On Pull Requests](#on-pull-requests)
+  - [Guidelines](#guidelines)
+    - [On Features Outside the Scope of Quarksuite’s Goals](#on-features-outside-the-scope-of-quarksuites-goals)
+    - [On Opening Issues](#on-opening-issues)
+    - [On Pull Requests](#on-pull-requests)
 - [Development](#development)
-    - [Clone the Repo](#clone-the-repo)
-    - [Install Dependencies](#install-dependencies)
-    - [Commands](#commands)
+  - [Clone the Repo](#clone-the-repo)
+  - [Install Dependencies](#install-dependencies)
+  - [Commands](#commands)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -160,7 +160,7 @@ yarn add @quarksuite/core
     <title>Quarksuite Example</title>
   </head>
   <body>
-    <script src="https://unpkg.com/@quarksuite/core@1.0.0/dist-web/index.js"></script>
+    <script src="https://unpkg.com/@quarksuite/core@1.1.0/dist-web/index.js"></script>
   </body>
 </html>
 ```
@@ -170,16 +170,12 @@ yarn add @quarksuite/core
 As an example:
 
 ```js
-// First, import the kit
-import tools from '@quarksuite/core';
-
-// Destructuring makes it easier to grab what you need
-const {
-  color: { scheme },
-  content: { scale }
-} = tools;
+// First, import the tools
+import { color, content } from '@quarksuite/core';
 
 /** color.scheme */
+
+const { scheme } = color;
 
 const brand = '#348ec9';
 
@@ -188,12 +184,14 @@ const colors = (keys, scheme) =>
     return { ...container, ...{ [category]: scheme[index] } };
   }, {});
 
-const color = colors(
+const palette = colors(
   ['brand', 'secondary', 'accent'],
   scheme.triadic(brand, 3)
 );
 
 /** content.scale */
+
+const { scale } = content;
 
 // Create a golden scale with 10 total values
 const golden = scale.build(scale.ratios.golden, 10);
@@ -213,11 +211,12 @@ const measure = scale.augment(21, ms, add);
 const recommended = v => v >= 22 && v <= 31;
 const mRanges = measure.filter(recommended);
 
+// Create a new layout scale
 const widths = scale.augment(10, ms, multiply);
 const container = widths.filter(w => w <= 101);
 
 // Don't forget to output
-const content = {
+const typography = {
   fs: scale.output(fRanges, 4, 'vw'),
   measure: scale.output(mRanges)
 };
@@ -226,10 +225,12 @@ const composition = {
   widths: scale.output(container, 4, '%')
 };
 
+console.log(palette, typography, composition);
+
 // Name your system whatever you want
 export default {
-  color,
-  content,
+  color: palette,
+  content: typography,
   composition
 };
 ```
@@ -251,9 +252,9 @@ export default {
 ##### Example
 
 ```js
-import tools from '@quarksuite/core';
+import { color } from '@quarksuite/core';
 
-const { color: { swatch } } = tools
+const { swatch } = color;
 
 swatch.complement('#348ec9');
 ```
@@ -271,9 +272,9 @@ swatch.complement('#348ec9');
 ##### Example
 
 ```js 
-import tools from '@quarksuite/core';
+import { color } from '@quarksuite/core';
 
-const { color: { swatch } } = tools
+const { swatch } = color;
 
 swatch.neutralize('#348ec9');
 ```
@@ -293,9 +294,9 @@ swatch.neutralize('#348ec9');
 ##### Example
 
 ```js 
-import tools from '@quarksuite/core';
+import { color } from '@quarksuite/core';
 
-const { color: { swatch } } = tools
+const { swatch } = color;
 
 swatch.mix('#348ec9', 'green');
 swatch.mix('#deaded', 'red', 75);
@@ -318,9 +319,9 @@ swatch.mix('#deaded', 'red', 75);
 ##### Example
 
 ```js
-import tools from '@quarksuite/core';
+import { color } from '@quarksuite/core';
 
-const { color: { palette } } = tools;
+const { palette } = color;
 
 palette.tints('#348ec9');
 palette.tints('#deaded', 2, 60);
@@ -341,9 +342,9 @@ palette.tints('#deaded', 2, 60);
 ##### Example
 
 ```js
-import tools from '@quarksuite/core';
+import { color } from '@quarksuite/core';
 
-const { color: { palette } } = tools;
+const { palette } = color;
 
 palette.tones('#348ec9');
 palette.tones('#deaded', 2, 60);
@@ -364,9 +365,9 @@ palette.tones('#deaded', 2, 60);
 ##### Example
 
 ```js
-import tools from '@quarksuite/core';
+import { color } from '@quarksuite/core';
 
-const { color: { palette } } = tools;
+const { palette } = color;
 
 palette.shades('#348ec9');
 palette.shades('#deaded', 2, 60);
@@ -389,9 +390,9 @@ palette.shades('#deaded', 2, 60);
 ##### Example
 
 ```js
-import tools from '@quarksuite/core';
+import { color } from '@quarksuite/core';
 
-const { color: { scheme } } = tools
+const { scheme } = color;
 
 scheme.monochromatic('#348ec9');
 scheme.monochromatic('#deaded', 3, 78);
@@ -412,9 +413,9 @@ scheme.monochromatic('#deaded', 3, 78);
 ##### Example
 
 ```js
-import tools from '@quarksuite/core';
+import { color } from '@quarksuite/core';
 
-const { color: { scheme } } = tools;
+const { scheme } = color;
 
 scheme.complementary('#348ec9');
 scheme.complementary('#deaded', 3, 78);
@@ -440,9 +441,9 @@ scheme.complementary('#deaded', 3, 78);
 ##### Example
 
 ``` js
-import tools from '@quarksuite/core';
+import { color } from '@quarksuite/core';
 
-const { color: { scheme } } = tools;
+const { scheme } = color;
 
 scheme.splitComplementary('#348ec9');
 scheme.splitComplementary('#deaded', 30, 2, 85);
@@ -464,9 +465,9 @@ scheme.splitComplementary('#deaded', 30, 2, 85);
 ##### Example
 
 ```js
-import tools from '@quarksuite/core';
+import { color } from '@quarksuite/core';
 
-const { color: { scheme } } = tools;
+const { scheme } = color;
 
 scheme.triadic('#348ec9');
 scheme.triadic('#deaded', 3, 55);
@@ -492,9 +493,9 @@ scheme.triadic('#deaded', 3, 55);
 ##### Example
 
 ```js
-import tools from '@quarksuite/core';
+import { color } from '@quarksuite/core';
 
-const { color: { scheme } } = tools;
+const { scheme } = color;
 
 scheme.analogous('#348ec9');
 scheme.analogous('#deaded', 30, 2, 85);
@@ -518,9 +519,9 @@ scheme.analogous('#deaded', 30, 2, 85);
 ##### Example
 
 ```js
-import tools from '@quarksuite/core';
+import { color } from '@quarksuite/core';
 
-const { color: { scheme } } = tools;
+const { scheme } = color;
 
 scheme.dual('#348ec9');
 scheme.dual('#deaded', 30, 2, 85);
@@ -543,9 +544,9 @@ scheme.dual('#deaded', 30, 2, 85);
 ##### Example
 
 ```js
-import tools from '@quarksuite/core';
+import { color } from '@quarksuite/core';
 
-const { color: { scheme } } = tools;
+const { scheme } = color;
 
 scheme.tetradic('#348ec9');
 scheme.tetradic('#deaded', 1, 50);
@@ -568,9 +569,9 @@ scheme.tetradic('#deaded', 1, 50);
 ##### Example
 
 ```js
-import tools from '@quarksuite/core';
+import { content } from '@quarksuite/core';
 
-const { content: { scale } } = tools;
+const { scale } = content;
 
 const custom = (limit: number) => scale.create(1.375, limit);
 ```
@@ -590,9 +591,9 @@ const custom = (limit: number) => scale.create(1.375, limit);
 ##### Example
 
 ```js
-import tools from '@quarksuite/core';
+import { content } from '@quarksuite/core';
 
-const { content: { scale } } = tools;
+const { scale } = content;
 
 const newScale = (limit: number) => scale.create(1.375, limit);
 
@@ -614,9 +615,9 @@ scale.build(newScale, 8);
 ##### Example
 
 ```js
-import tools from '@quarksuite/core';
+import { content } from '@quarksuite/core';
 
-const { content: { scale } } = tools;
+const { scale } = content;
 
 scale.multistrand(scale.ratios.golden, [1.5, 1.75])
 ```
@@ -638,9 +639,9 @@ scale.multistrand(scale.ratios.golden, [1.5, 1.75])
 #####  Example
 
 ```js
-import tools from '@quarksuite/core';
+import { content } from '@quarksuite/core';
 
-const { content: { scale } } = tools;
+const { scale } = content;
 
 const multiply = (base, value) => base * value;
 
@@ -662,9 +663,9 @@ scale.augment(1.25, scale.ratios.octave, multiply);
 ##### Example
 
 ```js
-import tools from '@quarksilver/core';
+import { content } from '@quarksuite/core';
 
-const { content: { scale } } = tools;
+const { scale } = content;
 
 const multiply = (base, value) => base * value;
 
