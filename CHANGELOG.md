@@ -27,6 +27,12 @@ Table of Contents
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+## v1.2.0
+
+### Fixed
+
++ `scale.multistrand` was erroring in node environments that didn’t recognize `Array.prototype.flat()`. Now uses more compatible flattening internally
+
 ## v1.1.1
 
 ### Added

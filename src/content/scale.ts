@@ -58,15 +58,14 @@ const fragment = (scale: number[], ratio = 2): number[] => {
   return combined;
 };
 
+/** A helper for flattening arrays */
+const flatten = (array: any) => [].concat(...array);
+
 /** Includes intermediate values between a scale with multiple internal ratios */
 export const multistrand = (scale: number[], ratios: number[]): number[] => {
   const values = ratios.map(r => fragment(scale, r));
 
-  return order(
-    values
-      .flat()
-      .filter((v: number, i: number, a: number[]) => a.indexOf(v) === i)
-  );
+  return order(flatten(values).filter((v, i, a) => a.indexOf(v) === i));
 };
 
 // Some common scales are included already, you can always add your own

@@ -183,7 +183,7 @@ yarn add @quarksuite/core
     <title>Quarksuite Example</title>
   </head>
   <body>
-    <script src="https://unpkg.com/@quarksuite/core@1.1.0/dist-web/index.js"></script>
+    <script src="https://unpkg.com/@quarksuite/core@1.2.0/dist-web/index.js"></script>
   </body>
 </html>
 ```
