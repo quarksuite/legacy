@@ -1,113 +1,136 @@
-# Quarksuite
+![Quarksuite Logo](assets/logo-with-text-v1.png)
+
+# Quarksuite (Core)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 Table of Contents
 
 - [Introduction](#introduction)
+- [What Quarksuite Is](#what-quarksuite-is)
+  - [A Starting Point](#a-starting-point)
+  - [Interoperable](#interoperable)
+- [What Quarksuite Isn’t](#what-quarksuite-isnt)
+  - [A Design System](#a-design-system)
 - [Goals](#goals)
-    - [Go Where the Web Goes](#go-where-the-web-goes)
-    - [Simple, Yet Featureful](#simple-yet-featureful)
-    - [Tiny Universes](#tiny-universes)
-    - [Your Design System, Your Way](#your-design-system-your-way)
+  - [Go Where the Web Goes](#go-where-the-web-goes)
+  - [Simple, Yet Featureful](#simple-yet-featureful)
+  - [Tiny Universes](#tiny-universes)
+  - [Your Data, Your Way](#your-data-your-way)
 - [Features](#features)
 - [Installation](#installation)
-    - [As a Node Module/Dependency](#as-a-node-moduledependency)
-    - [In Your Browser](#in-your-browser)
-- [Creating Design Systems with Quarksuite](#creating-design-systems-with-quarksuite)
+  - [As a Node Module/Dependency](#as-a-node-moduledependency)
+  - [In Your Browser](#in-your-browser)
+- [Creating A Design System Baseline with Quarksuite](#creating-a-design-system-baseline-with-quarksuite)
 - [Quarksuite API](#quarksuite-api)
-    - [color.swatch](#colorswatch)
-        - [complement()](#complement)
-            - [Parameters](#parameters)
-            - [Returns](#returns)
-            - [Example](#example)
-        - [neutralize()](#neutralize)
-            - [Parameters](#parameters-1)
-            - [Returns](#returns-1)
-            - [Example](#example-1)
-        - [mix()](#mix)
-            - [Parameters](#parameters-2)
-            - [Returns](#returns-2)
-            - [Example](#example-2)
-    - [color.palette](#colorpalette)
-        - [tints()](#tints)
-            - [Parameters](#parameters-3)
-            - [Returns](#returns-3)
-            - [Example](#example-3)
-        - [tones()](#tones)
-            - [Parameters](#parameters-4)
-            - [Returns](#returns-4)
-            - [Example](#example-4)
-        - [shades()](#shades)
-            - [Parameters](#parameters-5)
-            - [Returns](#returns-5)
-            - [Example](#example-5)
-    - [color.scheme](#colorscheme)
-        - [monochromatic()](#monochromatic)
-            - [Parameters](#parameters-6)
-            - [Returns](#returns-6)
-            - [Example](#example-6)
-        - [complementary()](#complementary)
-            - [Parameters](#parameters-7)
-            - [Returns](#returns-7)
-            - [Example](#example-7)
-        - [splitComplementary()](#splitcomplementary)
-            - [Parameters](#parameters-8)
-            - [Returns](#returns-8)
-            - [Example](#example-8)
-        - [triadic()](#triadic)
-            - [Parameters](#parameters-9)
-            - [Returns](#returns-9)
-            - [Example](#example-9)
-        - [analogous()](#analogous)
-            - [Parameters](#parameters-10)
-            - [Returns](#returns-10)
-            - [Example](#example-10)
-        - [dual()](#dual)
-            - [Parameters](#parameters-11)
-            - [Returns](#returns-11)
-            - [Example](#example-11)
-        - [tetradic()](#tetradic)
-            - [Parameters](#parameters-12)
-            - [Returns](#returns-12)
-            - [Example](#example-12)
-        - [content.scale](#contentscale)
-        - [create()](#create)
-            - [Parameters](#parameters-13)
-            - [Returns](#returns-13)
-            - [Example](#example-13)
-        - [build()](#build)
-            - [Parameters](#parameters-14)
-            - [Returns](#returns-14)
-            - [Example](#example-14)
-        - [multistrand()](#multistrand)
-            - [Parameters](#parameters-15)
-            - [Returns](#returns-15)
-            - [Example](#example-15)
-        - [augment()](#augment)
-            - [Parameters](#parameters-16)
-            - [Returns](#returns-16)
-            - [Example](#example-16)
-        - [output()](#output)
-            - [Parameters](#parameters-17)
-            - [Returns](#returns-17)
-            - [Example](#example-17)
-        - [ratios](#ratios)
+  - [color.swatch](#colorswatch)
+    - [complement()](#complement)
+      - [Parameters](#parameters)
+      - [Returns](#returns)
+      - [Example](#example)
+    - [neutralize()](#neutralize)
+      - [Parameters](#parameters-1)
+      - [Returns](#returns-1)
+      - [Example](#example-1)
+    - [mix()](#mix)
+      - [Parameters](#parameters-2)
+      - [Returns](#returns-2)
+      - [Example](#example-2)
+  - [color.palette](#colorpalette)
+    - [tints()](#tints)
+      - [Parameters](#parameters-3)
+      - [Returns](#returns-3)
+      - [Example](#example-3)
+    - [tones()](#tones)
+      - [Parameters](#parameters-4)
+      - [Returns](#returns-4)
+      - [Example](#example-4)
+    - [shades()](#shades)
+      - [Parameters](#parameters-5)
+      - [Returns](#returns-5)
+      - [Example](#example-5)
+  - [color.scheme](#colorscheme)
+    - [monochromatic()](#monochromatic)
+      - [Parameters](#parameters-6)
+      - [Returns](#returns-6)
+      - [Example](#example-6)
+    - [complementary()](#complementary)
+      - [Parameters](#parameters-7)
+      - [Returns](#returns-7)
+      - [Example](#example-7)
+    - [splitComplementary()](#splitcomplementary)
+      - [Parameters](#parameters-8)
+      - [Returns](#returns-8)
+      - [Example](#example-8)
+    - [triadic()](#triadic)
+      - [Parameters](#parameters-9)
+      - [Returns](#returns-9)
+      - [Example](#example-9)
+    - [analogous()](#analogous)
+      - [Parameters](#parameters-10)
+      - [Returns](#returns-10)
+      - [Example](#example-10)
+    - [dual()](#dual)
+      - [Parameters](#parameters-11)
+      - [Returns](#returns-11)
+      - [Example](#example-11)
+    - [tetradic()](#tetradic)
+      - [Parameters](#parameters-12)
+      - [Returns](#returns-12)
+      - [Example](#example-12)
+    - [content.scale](#contentscale)
+    - [create()](#create)
+      - [Parameters](#parameters-13)
+      - [Returns](#returns-13)
+      - [Example](#example-13)
+    - [build()](#build)
+      - [Parameters](#parameters-14)
+      - [Returns](#returns-14)
+      - [Example](#example-14)
+    - [multistrand()](#multistrand)
+      - [Parameters](#parameters-15)
+      - [Returns](#returns-15)
+      - [Example](#example-15)
+    - [augment()](#augment)
+      - [Parameters](#parameters-16)
+      - [Returns](#returns-16)
+      - [Example](#example-16)
+    - [output()](#output)
+      - [Parameters](#parameters-17)
+      - [Returns](#returns-17)
+      - [Example](#example-17)
+    - [ratios](#ratios)
 - [Contributing](#contributing)
-    - [Guidelines](#guidelines)
-        - [On Features Outside the Scope of Quarksuite’s Goals](#on-features-outside-the-scope-of-quarksuites-goals)
-        - [On Opening Issues](#on-opening-issues)
-        - [On Pull Requests](#on-pull-requests)
+  - [Guidelines](#guidelines)
+    - [On Features Outside the Scope of Quarksuite’s Goals](#on-features-outside-the-scope-of-quarksuites-goals)
+    - [On Opening Issues](#on-opening-issues)
+    - [On Pull Requests](#on-pull-requests)
 - [Development](#development)
-    - [Clone the Repo](#clone-the-repo)
-    - [Install Dependencies](#install-dependencies)
-    - [Commands](#commands)
+  - [Clone the Repo](#clone-the-repo)
+  - [Install Dependencies](#install-dependencies)
+  - [Commands](#commands)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Introduction
 
-Quarksuite is a toolkit for creating subatomic design systems. It provides what you need to create and maintain beautiful, consistent designs based on solid principles. Build a universe.
+Quarksuite is a toolkit that helps create a subatomic foundation for design systems. It provides what you need to maintain consistency and ease implementation of the **boilerplate** concerns of your system. Quarksuite is meant to weave in and out of your design system like cross-stitching.
+
+## What Quarksuite Is
+
+### A Starting Point
+
+I don’t expect a design system to begin and end with Quarksuite. And really, they can’t. Colors, content proportions, and spacing aren’t the whole of a design system. A system emerges from concerns that are in play before we even write a line of code. Made by people and not tools.
+
+### Interoperable
+
+Quarksuite begins and ends with data by design. Data travels faster than a framework. This means you can use your baseline to also generate design tokens for your system using tools like Theo and Style Dictionary.
+
+## What Quarksuite Isn’t
+
+### A Design System
+
+Quarksuite is not, in itself, a design system. It’s incomplete for that. As intended. Quarksuite creates subatomic data you can use **within** a design system.
 
 ## Goals
 
@@ -117,15 +140,15 @@ Quarksuite is made to travel light. This means it can follow your stack no matte
 
 ### Simple, Yet Featureful
 
-Quarksuite is lean as a library. It only provides **utilities** for building design systems. Basically, you put data in and get data out. Quarksuite will not be responsible for generating design tokens or building UIs. Design systems are its thing, and I want to make it as excellent as possible in doing its thing.
+Quarksuite is lean as a library. It only provides **utilities** for implementing design systems. You put data in and get data out that you can use through your whole system. Quarksuite will not be responsible for generating design tokens or building UIs. I built it to ease the execution of design systems for designers and to help developers get started with using them.
 
 ### Tiny Universes
 
-The design systems you build with Quarksuite can be specific to one project, or you can build boilerplate systems to use in many projects. You can use Quarksuite systems for one-off interfaces, customizable themes, or anything else that consumes data.
+The baseline data you build with Quarksuite can be specific to one project, or you can use it across multiple systems. You can use Quarksuite for one-off interfaces, customizable themes, or anything else that consumes and writes data.
 
-### Your Design System, Your Way
+### Your Data, Your Way
 
-I’ve deliberately built Quarksuite not to be opinionated about **how** you generate your design data. You can have your system in one big file, or you can categorize colors, content, and composition in many files. In fact, Quarksuite is designed to disappear after its job is done.
+I’ve deliberately built Quarksuite not to be opinionated about **how** you generate your baseline system data. You can have your system in one big file, or you can categorize colors, content, and composition in many files. In fact, Quarksuite is designed to disappear after its job is done.
 
 ## Features
 
@@ -165,7 +188,7 @@ yarn add @quarksuite/core
 </html>
 ```
 
-## Creating Design Systems with Quarksuite
+## Creating A Design System Baseline with Quarksuite
 
 As an example:
 
@@ -227,7 +250,7 @@ const composition = {
 
 console.log(palette, typography, composition);
 
-// Name your system whatever you want
+// Use within your design system, or get one started.
 export default {
   color: palette,
   content: typography,
