@@ -1,3 +1,22 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+Table of Contents
+
+- [What's In This Document](#whats-in-this-document)
+- [Get Started in 5 Minutes](#get-started-in-5-minutes)
+    - [Directory Structure](#directory-structure)
+- [Editing Content](#editing-content)
+    - [Editing an existing docs page](#editing-an-existing-docs-page)
+    - [Editing an existing blog post](#editing-an-existing-blog-post)
+- [Adding Content](#adding-content)
+    - [Adding a new docs page to an existing sidebar](#adding-a-new-docs-page-to-an-existing-sidebar)
+    - [Adding a new blog post](#adding-a-new-blog-post)
+    - [Adding items to your site's top navigation bar](#adding-items-to-your-sites-top-navigation-bar)
+    - [Adding custom pages](#adding-custom-pages)
+- [Full Documentation](#full-documentation)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 This website was created with [Docusaurus](https://docusaurus.io/).
 
 # What's In This Document
