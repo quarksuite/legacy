@@ -99,7 +99,7 @@
     "*.ts": [
       "eslint --fix",
       "jest --bail --coverage --findRelatedTests",
-      "typedoc --theme markdown --platform docusaurus --out ../documentation",
+      "typedoc --theme markdown --platform docusaurus --out docusaurus",
       "pika-pack",
       "git add"
     ],
