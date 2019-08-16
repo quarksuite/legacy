@@ -1,7 +1,10 @@
-import * as color from './color';
-import * as scale from './content/scale';
+import * as colorUtils from './color';
+import * as scaleUtils from './content/scale';
 
-export default {
-  color,
-  content: { scale }
+export const color = {
+  ...colorUtils
+};
+
+export const content = {
+  scale: scaleUtils
 };
