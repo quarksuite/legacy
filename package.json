@@ -62,7 +62,7 @@
     "build": "run-s -n test pika build:docs",
     "pika": "pika-pack",
     "dev:docs": "onchange -i -k 'src/**/*.ts' '*.md' -- yarn build:docs",
-    "build:docs": "typedoc --theme markdown --platform docusaurus --out docs",
+    "build:docs": "typedoc --theme markdown --platform docusaurus --out ../docs",
     "dev:serve": "serve docs",
     "test": "jest",
     "version": "npm run build"
@@ -98,7 +98,7 @@
     "*.ts": [
       "eslint --fix",
       "jest --bail --coverage --findRelatedTests",
-      "typedoc --theme markdown --platform docusaurus --out docs",
+      "typedoc --theme markdown --platform docusaurus --out ../docs",
       "pika-pack",
       "git add"
     ],
