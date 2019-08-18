@@ -4,31 +4,6 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-Table of Contents
-
-- [v1.2.0](#v120)
-  - [Fixed](#fixed)
-- [v1.1.1](#v111)
-  - [Added](#added)
-- [v1.1.0](#v110)
-  - [Changed](#changed)
-- [v1.0.0](#v100)
-  - [Added](#added-1)
-  - [Changed](#changed-1)
-  - [Fixed](#fixed-1)
-  - [Removed](#removed)
-- [v0.2.3](#v023)
-  - [Added](#added-2)
-- [v0.2.2](#v022)
-  - [Changed](#changed-2)
-  - [Fixed](#fixed-2)
-- [v0.1.0](#v010)
-  - [Added](#added-3)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 ## v1.3.0
 
 ### Changed

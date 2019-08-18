@@ -102,9 +102,6 @@
       "typedoc --theme markdown --platform docusaurus --name 'Quarksuite API' --out ./docs/api",
       "pika-pack",
       "git add"
-    ],
-    "*.md": [
-      "doctoc README.md CHANGELOG.md --gitlab --title 'Table of Contents'"
     ]
   }
 }
