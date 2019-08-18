@@ -66,10 +66,10 @@ const triColor = (
         setHue(target, `+${distance}`)
       ];
 
-const split = (color: string, distance = 15, accented = false) =>
+const splitComplementary = (color: string, distance = 15, accented = false) =>
   triColor(color, complement(color), distance, accented);
 
-const analogue = (color: string, distance = 15, accented = false) =>
+const analogous = (color: string, distance = 15, accented = false) =>
   triColor(color, color, distance, accented);
 
 const dual = (color: string, distance = 15) => {
@@ -79,52 +79,11 @@ const dual = (color: string, distance = 15) => {
   return [base1, base2, complement(base1), complement(base2)];
 };
 
-const output = (palette: string | string[], range = 4, contrast = 95) => {
-  if (typeof palette === 'string')
-    return [
-      chroma(palette).hex(),
-      tints(palette, range, contrast),
-      tones(palette, range, contrast),
-      shades(palette, range, contrast)
-    ];
-
-  return palette.map(color => [
-    chroma(color).hex(),
-    tints(color, range, contrast),
-    tones(color, range, contrast),
-    shades(color, range, contrast)
-  ]);
-};
-
 export const scheme = {
-  monochromatic: (color: string, range = 4, contrast = 95) =>
-    output(color, range, contrast),
-
-  complementary: (color: string, range = 4, contrast = 95) =>
-    output(complementary(color), range, contrast),
-
-  splitComplementary: (
-    color: string,
-    distance = 15,
-    accented = false,
-    range = 4,
-    contrast = 95
-  ) => output(split(color, distance, accented), range, contrast),
-
-  triadic: (color: string, range = 4, contrast = 95) =>
-    output(split(color, 60), range, contrast),
-
-  analogous: (
-    color: string,
-    distance = 15,
-    accented = false,
-    range = 4,
-    contrast = 95
-  ) => output(analogue(color, distance, accented), range, contrast),
-
-  dual: (color: string, distance = 15, range = 4, contrast = 95) =>
-    output(dual(color, distance), range, contrast),
-
-  tetradic: (color: string, range = 4, contrast = 95) =>
-    output(dual(color, 90), range, contrast)
+  complementary,
+  splitComplementary,
+  triadic: (color: string) => splitComplementary(color, 60),
+  analogous,
+  dual,
+  tetradic: (color: string) => dual(color, 90)
 };
