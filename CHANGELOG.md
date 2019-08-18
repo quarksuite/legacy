@@ -9,25 +9,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 Table of Contents
 
 - [v1.2.0](#v120)
-    - [Fixed](#fixed)
+  - [Fixed](#fixed)
 - [v1.1.1](#v111)
-    - [Added](#added)
+  - [Added](#added)
 - [v1.1.0](#v110)
-    - [Changed](#changed)
+  - [Changed](#changed)
 - [v1.0.0](#v100)
-    - [Added](#added-1)
-    - [Changed](#changed-1)
-    - [Fixed](#fixed-1)
-    - [Removed](#removed)
+  - [Added](#added-1)
+  - [Changed](#changed-1)
+  - [Fixed](#fixed-1)
+  - [Removed](#removed)
 - [v0.2.3](#v023)
-    - [Added](#added-2)
+  - [Added](#added-2)
 - [v0.2.2](#v022)
-    - [Changed](#changed-2)
-    - [Fixed](#fixed-2)
+  - [Changed](#changed-2)
+  - [Fixed](#fixed-2)
 - [v0.1.0](#v010)
-    - [Added](#added-3)
+  - [Added](#added-3)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## v1.3.0
+
+### Changed
+
++ `color.scheme` functions now only output the base scheme colors out of recognition that you may want to choose whether to include tints, tones, or shades
++ API documentation moved to separate file
 
 ## v1.2.0
 
