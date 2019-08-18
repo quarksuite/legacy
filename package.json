@@ -1,6 +1,6 @@
 {
   "name": "@quarksuite/core",
-  "version": "1.2.2",
+  "version": "1.3.0",
   "description": "Quarksuite is a toolkit focused on providing a subatomic foundation to help developers build better design systems.",
   "author": "Chatman R. Jr <crjr.code@gmail.com>",
   "repository": {
