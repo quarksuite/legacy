@@ -136,6 +136,8 @@ palette.shades('#348ec9');
 palette.shades('#deaded', 2, 60);
 ```
 
+*IMPORTANT: v1.3.x simplified `color.scheme` to output base schemes. You can choose which palettes to create from them.*
+
 ## color.scheme
 
 ### complementary()
