@@ -159,7 +159,7 @@ I will not be accepting any feature requests for building things into this proje
 
 #### On Opening Issues
 
-I understand it can be frustrating when code breaks. Especially if you’re on a tight schedule. But if I don’t respond right away, I’ll be with you as soon as I can. What you’re not gonna do: badger me to respond to your issue more urgently. I have to be honest and say belligerence doesn’t encourage me to respond any faster. Please be respectful.
+I understand it can be frustrating when code breaks. Especially if you’re on a tight schedule. But if I don’t respond right away, I’ll be with you as soon as I can. What you’re not gonna do: badger me to respond to your issue more urgently. Won’t encourage me to respond any faster. Please be respectful.
 
 #### On Pull Requests
 

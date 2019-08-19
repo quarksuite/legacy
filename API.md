@@ -1,4 +1,4 @@
-# Quarksuite API
+# Quarksuite API (v1.3.x)
 
 ## color.swatch
 
@@ -274,7 +274,7 @@ const { scheme } = color;
 scheme.tetradic('#348ec9');
 ```
 
-### content.scale
+## content.scale
 
 ### create()
 
@@ -295,7 +295,7 @@ import { content } from '@quarksuite/core';
 
 const { scale } = content;
 
-const custom = (limit: number) => scale.create(1.375, limit);
+const custom = limit => scale.create(1.375, limit);
 ```
 
 ### build()
