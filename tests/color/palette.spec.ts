@@ -2,7 +2,7 @@ import { palette } from '../../src/color';
 
 describe('Color utilities', () => {
   const color = '#348ec9';
-  xdescribe('tints(color, count?, contrast?)', () => {
+  describe('tints(color, count?, contrast?)', () => {
     test('returns an array of tints for a color', () => {
       expect(palette.tints(color)).toStrictEqual([
         '#62a8d6',
