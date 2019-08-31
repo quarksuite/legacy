@@ -1,5 +1,4 @@
 import tinycolor from 'tinycolor2';
-import chroma from 'chroma-js';
 
 /** Color utilities */
 
