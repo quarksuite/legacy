@@ -1,4 +1,6 @@
-# Quarksuite API (v1.3.x)
+# Quarksuite API (v1.4.x)
+
+*IMPORTANT: The internal update for the color API in v1.4 to use tinycolor2 instead of chroma-js means that if you update from a previous version, your color output **will** change*
 
 ## color.swatch
 
@@ -17,7 +19,7 @@
 ```js
 import { color } from '@quarksuite/core';
 
-const { swatch } = color;
+const swatch = color.swatch;
 
 swatch.complement('#348ec9');
 ```
@@ -37,7 +39,7 @@ swatch.complement('#348ec9');
 ```js 
 import { color } from '@quarksuite/core';
 
-const { swatch } = color;
+const swatch = color.swatch;
 
 swatch.neutralize('#348ec9');
 ```
@@ -48,7 +50,7 @@ swatch.neutralize('#348ec9');
 
 + `color: string`: a color to modify
 + `target: string`: a color to mix
-+ `intensity: number`: strength of mixture
++ `amount?: number`: amount of mixture
 
 #### Returns
 
@@ -59,7 +61,7 @@ swatch.neutralize('#348ec9');
 ```js 
 import { color } from '@quarksuite/core';
 
-const { swatch } = color;
+const swatch = color.swatch;
 
 swatch.mix('#348ec9', 'green');
 swatch.mix('#deaded', 'red', 75);
@@ -72,8 +74,8 @@ swatch.mix('#deaded', 'red', 75);
 #### Parameters
 
 + `color: string`: color to create tints for
-+ `range: number = 4`: number of colors to output
-+ `contrast: number = 95`: adjusts the contrast of output
++ `count?: number = 4`: number of colors to output
++ `contrast?: number = 95`: adjusts the contrast of output
 
 #### Returns
 
@@ -84,7 +86,7 @@ swatch.mix('#deaded', 'red', 75);
 ```js
 import { color } from '@quarksuite/core';
 
-const { palette } = color;
+const palette = color.palette;
 
 palette.tints('#348ec9');
 palette.tints('#deaded', 2, 60);
@@ -95,19 +97,19 @@ palette.tints('#deaded', 2, 60);
 #### Parameters
 
 - `color: string`: color to create tones for
-- `range: number = 4`: number of colors to output
-- `contrast: number = 95`: adjusts the contrast of output
+- `count?: number = 4`: number of colors to output
+- `contrast?: number = 95`: adjusts the contrast of output
 
 #### Returns
 
-`string[]`: a collection of tints (color + gray)
+`string[]`: a collection of tones (color + gray)
 
 #### Example
 
 ```js
 import { color } from '@quarksuite/core';
 
-const { palette } = color;
+const palette = color.palette;
 
 palette.tones('#348ec9');
 palette.tones('#deaded', 2, 60);
@@ -118,19 +120,19 @@ palette.tones('#deaded', 2, 60);
 #### Parameters
 
 - `color: string`: color to create shades for
-- `range: number = 4`: number of colors to output
-- `contrast: number = 95`: adjusts the contrast of output
+- `count?: number = 4`: number of colors to output
+- `contrast?: number = 95`: adjusts the contrast of output
 
 #### Returns
 
-`string[]`: a collection of tints (color + black)
+`string[]`: a collection of shades (color + black)
 
 #### Example
 
 ```js
 import { color } from '@quarksuite/core';
 
-const { palette } = color;
+const palette = color.palette;
 
 palette.shades('#348ec9');
 palette.shades('#deaded', 2, 60);
@@ -155,7 +157,7 @@ palette.shades('#deaded', 2, 60);
 ```js
 import { color } from '@quarksuite/core';
 
-const { scheme } = color;
+const scheme = color.scheme;
 
 scheme.complementary('#348ec9');
 ```
@@ -179,7 +181,7 @@ scheme.complementary('#348ec9');
 ``` js
 import { color } from '@quarksuite/core';
 
-const { scheme } = color;
+const scheme = color.scheme;
 
 scheme.splitComplementary('#348ec9');
 scheme.splitComplementary('#deaded', 30, true);
@@ -201,7 +203,7 @@ scheme.splitComplementary('#deaded', 30, true);
 ```js
 import { color } from '@quarksuite/core';
 
-const { scheme } = color;
+const scheme = color.scheme;
 
 scheme.triadic('#348ec9');
 ```
@@ -223,7 +225,7 @@ scheme.triadic('#348ec9');
 ```js
 import { color } from '@quarksuite/core';
 
-const { scheme } = color;
+const scheme = color.scheme;
 
 scheme.analogous('#348ec9');
 scheme.analogous('#deaded', 30, true);
@@ -247,7 +249,7 @@ scheme.analogous('#deaded', 30, true);
 ```js
 import { color } from '@quarksuite/core';
 
-const { scheme } = color;
+const scheme = color.scheme;
 
 scheme.dual('#348ec9');
 scheme.dual('#deaded', 30);
@@ -269,7 +271,7 @@ scheme.dual('#deaded', 30);
 ```js
 import { color } from '@quarksuite/core';
 
-const { scheme } = color;
+const scheme = color.scheme;
 
 scheme.tetradic('#348ec9');
 ```
@@ -293,7 +295,7 @@ scheme.tetradic('#348ec9');
 ```js
 import { content } from '@quarksuite/core';
 
-const { scale } = content;
+const scale = content.scale;
 
 const custom = limit => scale.create(1.375, limit);
 ```
@@ -315,7 +317,7 @@ const custom = limit => scale.create(1.375, limit);
 ```js
 import { content } from '@quarksuite/core';
 
-const { scale } = content;
+const scale = content.scale;
 
 const newScale = (limit: number) => scale.create(1.375, limit);
 
@@ -339,7 +341,7 @@ scale.build(newScale, 8);
 ```js
 import { content } from '@quarksuite/core';
 
-const { scale } = content;
+const scale = content.scale;
 
 scale.multistrand(scale.ratios.golden, [1.5, 1.75])
 ```
@@ -363,7 +365,7 @@ scale.multistrand(scale.ratios.golden, [1.5, 1.75])
 ```js
 import { content } from '@quarksuite/core';
 
-const { scale } = content;
+const scale = content.scale;
 
 const multiply = (base, value) => base * value;
 
@@ -375,8 +377,8 @@ scale.augment(1.25, scale.ratios.octave, multiply);
 #### Parameters
 
 + `scale: number[]`: a scale to output
-+ `precision: number = 4`:  decimal place precision of values
-+ `unit: string = ‘rem’`  : CSS unit to attach to values 
++ `precision?: number = 4`:  decimal place precision of values
++ `unit?: string = ‘rem’`  : CSS unit to attach to values 
 
 #### Returns
 
@@ -387,7 +389,7 @@ scale.augment(1.25, scale.ratios.octave, multiply);
 ```js
 import { content } from '@quarksuite/core';
 
-const { scale } = content;
+const scale = content.scale;
 
 const multiply = (base, value) => base * value;
 
