@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v1.4.0
+
+### Added
+
++ tinycolor2 as a dependency. Color output **will** change if you upgrade
++ Color API has been rewritten internally to use tinycolor2, but still functions the same
+
+### Removed
+
++ chroma-js as a dependency. tinycolor2 is smaller and faster
++ cleaned some unused packages
+
 ## v1.3.0
 
 ### Changed
