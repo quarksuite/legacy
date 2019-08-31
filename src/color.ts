@@ -1,19 +1,19 @@
+import tinycolor from 'tinycolor2';
 import chroma from 'chroma-js';
 
 /** Color utilities */
 
-const setHue = (color: string, rotation: string) =>
-  chroma(color)
-    .set('hsl.h', rotation)
-    .hex();
+const setHue = (color: string, rotation: number) =>
+  tinycolor(color)
+    .spin(rotation)
+    .toHexString();
 
-const complement = (color: string) => setHue(color, '+180');
+const complement = (color: string) => setHue(color, 180);
 
-const neutralize = (color: string) =>
-  chroma.mix(color, complement(color), 0.5).hex();
+const mix = (color: string, target: string, amount?: number) =>
+  tinycolor.mix(color, target, amount).toHexString();
 
-const mix = (color: string, target: string, intensity: number = 50) =>
-  chroma.mix(color, target, intensity / 100).hex();
+const neutralize = (color: string) => mix(color, complement(color));
 
 export const swatch = {
   complement,
@@ -21,20 +21,26 @@ export const swatch = {
   mix
 };
 
-const blend = (color: string, target: string, range = 4, contrast = 95) => {
-  const [, ...palette] = chroma
-    .scale([color, chroma.mix(color, target, contrast / 100)])
-    .colors(range + 1);
+const tints = (color: string, count = 4, contrast = 100) =>
+  Array.from(Array(count).fill(color), (color, index) =>
+    tinycolor(color)
+      .lighten(contrast / 2.15 / ++index)
+      .toHexString()
+  ).reverse();
 
-  return palette;
-};
+const tones = (color: string, count = 4, contrast = 100) =>
+  Array.from(Array(count).fill(color), (color, index) =>
+    tinycolor(color)
+      .desaturate(contrast / 2 / ++index)
+      .toHexString()
+  ).reverse();
 
-const tints = (color: string, range = 4, contrast = 95) =>
-  blend(color, '#fff', range, contrast);
-const tones = (color: string, range = 4, contrast = 95) =>
-  blend(color, '#aaa', range, contrast);
-const shades = (color: string, range = 4, contrast = 95) =>
-  blend(color, '#111', range, contrast);
+const shades = (color: string, count = 4, contrast = 100) =>
+  Array.from(Array(count).fill(color), (color, index) =>
+    tinycolor(color)
+      .darken(contrast / 2.5 / ++index)
+      .toHexString()
+  ).reverse();
 
 export const palette = {
   tints,
@@ -43,40 +49,31 @@ export const palette = {
 };
 
 const complementary = (color: string) => [
-  chroma(color).hex(),
+  tinycolor(color).toHexString(),
   complement(color)
 ];
 
-const triColor = (
-  color: string,
-  target: string,
-  distance = 15,
-  accented = false
-) =>
-  accented
-    ? [
-        chroma(color).hex(),
-        complement(color),
-        setHue(target, `-${distance}`),
-        setHue(target, `+${distance}`)
-      ]
-    : [
-        chroma(color).hex(),
-        setHue(target, `-${distance}`),
-        setHue(target, `+${distance}`)
-      ];
+const splitComplementary = (color: string, distance = 15, accented = false) => {
+  const a = tinycolor(color).toHexString();
+  const opposite = complement(a);
+  const b = setHue(opposite, -distance);
+  const c = setHue(opposite, distance);
 
-const splitComplementary = (color: string, distance = 15, accented = false) =>
-  triColor(color, complement(color), distance, accented);
+  return accented ? [a, opposite, b, c] : [a, b, c];
+};
 
-const analogous = (color: string, distance = 15, accented = false) =>
-  triColor(color, color, distance, accented);
+const analogous = (color: string, distance = 15) =>
+  Array.from(Array(3).fill(color), (value, index) =>
+    setHue(value, distance * index)
+  );
 
 const dual = (color: string, distance = 15) => {
-  const base1 = chroma(color).hex();
-  const base2 = setHue(chroma(color).hex(), `+${distance}`);
+  const a = tinycolor(color).toHexString();
+  const b = setHue(a, distance);
+  const c = complement(a);
+  const d = complement(b);
 
-  return [base1, base2, complement(base1), complement(base2)];
+  return [a, b, c, d];
 };
 
 export const scheme = {

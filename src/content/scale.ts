@@ -30,7 +30,7 @@ function* fibonacci(n: number): Generator {
 }
 
 /**
- * A utility for creating new ratios.
+ * A utility for creating new scales.
  */
 export function* create(value: number, limit: number) {
   yield value ** limit;
@@ -61,7 +61,7 @@ const fragment = (scale: number[], ratio = 2): number[] => {
 /** A helper for flattening arrays */
 const flatten = (array: any) => [].concat(...array);
 
-/** Includes intermediate values between a scale with multiple internal ratios */
+/** Include intermediate values between a scale with multiple internal ratios */
 export const multistrand = (scale: number[], ratios: number[]): number[] => {
   const values = ratios.map(r => fragment(scale, r));
 
@@ -83,7 +83,7 @@ const golden = (limit: number) => {
 const major6th = (limit: number) => create(1.667, limit);
 const octave = (limit: number) => create(2, limit);
 
-/** Applies a transformation to the scale */
+/** Applies a transformation to the scale, typically a base value */
 export const augment = (
   value: number,
   scale: number[],
