@@ -34,7 +34,7 @@ The baseline data you build with Quarksuite can be specific to one project, or y
 
 ### Your Data, Your Way
 
-I’ve deliberately built Quarksuite not to be opinionated about **how** you generate your baseline system data. You can have your system in one big file, or you can categorize colors, content, and composition in many files. In fact, Quarksuite is designed to disappear after its job is done.
+I’ve deliberately built Quarksuite not to be opinionated about **how** you generate your baseline system data. You can have your system in one big file, or you can categorize colors, content, and composition in many files. In fact, Quarksuite is designed to disappear when it’s job is done.
 
 ## Features
 
@@ -139,11 +139,13 @@ module.exports = data;
 ```
 ## Quarksuite & X
 
-One of Quarksuite’s stated goals is interoperability with what you already use. The following sections illustrate how to integrate Quarksuite data with a few example workflows. You can submit a pull request to add more.
+One of Quarksuite’s stated goals is interoperability with what you already use. The following sections illustrate how to use Quarksuite with a few example workflows. You can submit a pull request to add more.
 
 ### Task: Generate Design Tokens
 
-#### Quarksuite & Style Dictionary (CSS Custom Properties/Sass/LESS)
+One of the preferred ways to use Quarksuite data is through generating design tokens. The immediate benefit of design tokens, especially as CSS custom properties, is that you can use your system even without additional tooling.
+
+#### Quarksuite & [Style Dictionary](https://amzn.github.io/style-dictionary/) (CSS Custom Properties/Sass/Less)
 
 ##### Install Style Dictionary
 
@@ -319,6 +321,211 @@ less
  --spacing-5: 1.1em;
 }
 ```
+#### Quarksuite & [Theo](https://github.com/salesforce-ux/theo) (CSS Custom Properties/Sass/Less/Stylus)
+
+##### Install Theo
+
+```bash
+npm install theo -D
+
+# OR
+
+yarn add theo --dev
+```
+
+##### system.js
+
+```js
+const { color, content } = require('@quarksuite/core');
+
+const { palette, scheme } = color;
+const scale = content.scale;
+
+/** Colors */
+
+// Set a base color
+const brand = '#348ec9';
+
+// Create a base scheme
+const baseScheme = scheme.triadic(brand);
+
+// Translate colors to correct schema
+const base = (category, color) => ({
+  name: `color-${category}-base`,
+  value: color,
+  type: 'color',
+  category: 'color-base'
+});
+
+const variants = (category, color) => {
+  const tints = palette.tints(color, 3).map((color, i) => {
+    return {
+      name: `color-${category}-tint-${++i}00`,
+      value: color,
+      type: 'color',
+      category: 'color-variant'
+    };
+  });
+
+  const tones = palette.tones(color, 3).map((color, i) => {
+    return {
+      name: `color-${category}-tone-${++i}00`,
+      value: color,
+      type: 'color',
+      category: 'color-variant'
+    };
+  });
+
+  const shades = palette.shades(color, 3).map((color, i) => {
+    return {
+      name: `color-${category}-shade-${++i}00`,
+      value: color,
+      type: 'color',
+      category: 'color-variant'
+    };
+  });
+
+  return [...tints, ...tones, ...shades];
+};
+
+const colors = ['brand', 'secondary', 'accent'].map((category, i) => [
+  base(category, baseScheme[i]),
+  ...variants(category, baseScheme[i])
+]);
+
+const colorData = [...colors[0], ...colors[1], ...colors[2]];
+
+/** Content */
+
+const baseScale = scale.build(scale.ratios.golden, 7);
+
+const ms = scale
+  .output(scale.augment(1.125, baseScale, (b, v) => b * v), 4, 'rem')
+  .map((value, i) => ({
+    name: `ms-${i}`,
+    value,
+    type: 'content',
+    category: 'font-size'
+  }));
+
+const spacing = scale
+  .output(scale.augment(0.3125, baseScale, (b, v) => b * v), 3, 'em')
+  .map((value, i) => ({
+    name: `spacing-${i}`,
+    value,
+    type: 'content',
+    category: 'spacing'
+  }));
+
+module.exports = {
+  props: [...colorData, ...ms, ...spacing]
+};
+```
+
+##### build.js
+
+```js
+const theo = require('theo');
+const data = require('./system');
+const { writeFileSync } = require('fs');
+
+// First, write the data to a file Theo can consume.
+writeFileSync('.system.theo.json', JSON.stringify(data, null, 2));
+
+// Then generate your formats
+
+const format = type =>
+  theo
+    .convert({
+      transform: {
+        type: 'web',
+        file: '.system.theo.json'
+      },
+      format: {
+        type
+      }
+    })
+    .then(tokens => {
+      if (type === 'custom-properties.css')
+        return writeFileSync('dist/system.css', tokens);
+      if (type === 'scss') return writeFileSync('dist/_system.scss', tokens);
+      return writeFileSync(`dist/system.${type}`, tokens);
+    })
+    .catch(err => console.log(`Error generating ${type}: ${err}`));
+
+console.log('Writing tokens to ./dist:\n');
+
+format('custom-properties.css');
+format('scss');
+format('less');
+format('styl');
+
+console.log('Operation complete. Inspect output for uncaught errors.');
+```
+
+##### Run
+
+```bash
+node build
+
+Writing tokens to ./dist:
+
+Operation complete. Inspect output for uncaught errors.
+```
+
+##### Output
+
+```css
+/* dist/system.css */
+
+:root {
+  --color-brand-base: rgb(52, 142, 201);
+  --color-brand-tint-100: rgb(114, 177, 218);
+  --color-brand-tint-200: rgb(145, 194, 227);
+  --color-brand-tint-300: rgb(239, 246, 251);
+  --color-brand-tone-100: rgb(73, 138, 180);
+  --color-brand-tone-200: rgb(84, 135, 169);
+  --color-brand-tone-300: rgb(115, 129, 138);
+  --color-brand-shade-100: rgb(38, 104, 147);
+  --color-brand-shade-200: rgb(31, 85, 120);
+  --color-brand-shade-300: rgb(10, 27, 39);
+  --color-secondary-base: rgb(201, 52, 142);
+  --color-secondary-tint-100: rgb(218, 114, 177);
+  --color-secondary-tint-200: rgb(227, 145, 194);
+  --color-secondary-tint-300: rgb(251, 239, 246);
+  --color-secondary-tone-100: rgb(180, 73, 138);
+  --color-secondary-tone-200: rgb(169, 84, 135);
+  --color-secondary-tone-300: rgb(138, 115, 129);
+  --color-secondary-shade-100: rgb(147, 38, 104);
+  --color-secondary-shade-200: rgb(120, 31, 85);
+  --color-secondary-shade-300: rgb(39, 10, 27);
+  --color-accent-base: rgb(142, 201, 52);
+  --color-accent-tint-100: rgb(177, 218, 114);
+  --color-accent-tint-200: rgb(194, 227, 145);
+  --color-accent-tint-300: rgb(246, 251, 239);
+  --color-accent-tone-100: rgb(138, 180, 73);
+  --color-accent-tone-200: rgb(135, 169, 84);
+  --color-accent-tone-300: rgb(129, 138, 115);
+  --color-accent-shade-100: rgb(104, 147, 38);
+  --color-accent-shade-200: rgb(85, 120, 31);
+  --color-accent-shade-300: rgb(27, 39, 10);
+  --ms-0: 1.125rem;
+  --ms-1: 1.82rem;
+  --ms-2: 2.945rem;
+  --ms-3: 4.766rem;
+  --ms-4: 7.711rem;
+  --ms-5: 12.48rem;
+  --ms-6: 20.19rem;
+  --spacing-0: 0.313em;
+  --spacing-1: 0.506em;
+  --spacing-2: 0.818em;
+  --spacing-3: 1.32em;
+  --spacing-4: 2.14em;
+  --spacing-5: 3.47em;
+  --spacing-6: 5.61em;
+}
+```
+
 ## Quarksuite API
 
 [Browse the API here](API.md)
@@ -331,15 +538,15 @@ If you’d like to help Quarksuite grow, you have any suggestions to improve its
 
 #### On Features Outside the Scope of Quarksuite's Goals
 
-I will not accept any requests to build features outside of Quarksuite's stated goals. This is not meant to be a swiss army knife for design. It's meant to assist in building design systems and output data consumable by other design tools. If you want to use Quarksuite-created design data as tokens, you can. But it will never be built into the core.
+I will not accept any requests to build features outside of Quarksuite's stated goals. This is not meant to be a swiss army knife for design. It's meant to assist in building design systems and output data consumable by other design tools. If you want to use Quarksuite-created design data as tokens, [you can](#quarksuite-&-x). But it will never be built into the core.
 
 #### On Opening Issues
 
-I understand it's frustrating when code breaks. Especially when you’re on a tight schedule. But if I don’t respond right away, I’ll be with you as soon as I can. Rudeness won't encourage a swifter response. Quite the opposite.
+I understand it's frustrating when code breaks. Especially when you’re on a tight schedule. But if I don’t respond right away, I’ll be with you as soon as I can. Rudeness won't encourage a swifter response.
 
 #### On Pull Requests
 
-As of v1, I’m open to improvements and code review. I want this project to be great, and I could really use your help.
+As of v1, I’m open to improvements and code review. I want this project to do more than scratch my own itch, and I could really use your help.
 
 ## Development
 
