@@ -1,4 +1,5 @@
 import { rgbCalc, hslData, hslaData } from './helpers';
+import { rgb2Hex, rgba2Hex8 } from './rgb';
 
 // HSL -> RGB
 export const hsl2rgb = (hsl: string) => {
@@ -25,5 +26,7 @@ export const hsla2rgba = (hsla: string) => {
 };
 
 // HSL -> Hex
+export const hsl2Hex = (hsl: string) => rgb2Hex(hsl2rgb(hsl));
 
 // HSLA -> Hex8
+export const hsla2Hex8 = (hsla: string) => rgba2Hex8(hsla2rgba(hsla));

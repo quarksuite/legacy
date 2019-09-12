@@ -1,4 +1,5 @@
 import { checkFormat } from './helpers';
+import { rgb2Hsl, rgba2Hsla } from './rgb';
 
 // Hex -> RGB
 export const hex2Rgb = (hex: string) => {
@@ -47,5 +48,7 @@ export const hex82Rgba = (hex: string) => {
 };
 
 // Hex -> HSL
+export const hex2Hsl = (hex: string) => rgb2Hsl(hex2Rgb(hex));
 
 // Hex8 -> HSLA
+export const hex82Hsla = (hex: string) => rgba2Hsla(hex82Rgba(hex));
