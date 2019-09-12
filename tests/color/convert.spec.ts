@@ -85,8 +85,42 @@ describe('Color conversion utilities', () => {
       expect(hsl2rgb(color)).toBe('rgb(52, 141, 201)');
     });
     test('accepts format: hsl(Hdeg, S%, L%)', () => {
-      const color = 'hsl(204deg 58.9% 49.6%)';
-      expect(hsl2rgb(color)).toBe('rgb(52, 141, 201)');
+      const color = 'hsl(12deg 58.9% 49.6%)';
+      expect(hsl2rgb(color)).toBe('rgb(201, 82, 52)');
+    });
+    test('accepts format: hsl(Hrad, S%, L%)', () => {
+      const color = 'hsl(1.2rad, 89%, 46%)';
+      expect(hsl2rgb(color)).toBe('rgb(190, 222, 13)');
+    });
+    test('accepts format: hsl(Hturn, S%, L%)', () => {
+      const color = 'hsl(0.7turn, 60%, 36%)';
+      expect(hsl2rgb(color)).toBe('rgb(59, 37, 147)');
+    });
+  });
+  describe('hsla2rgba(hsla)', () => {
+    test('converts rgba color to hsla', () => {
+      const color = 'hsla(204, 58.9%, 49.6%, 0.2)';
+      expect(hsla2rgba(color)).toBe('rgba(52, 141, 201, 0.2)');
+    });
+    test('accepts format: hsla(H S L / A)', () => {
+      const color = 'hsla(204 58.9% 49.6% / 0.2)';
+      expect(hsla2rgba(color)).toBe('rgba(52, 141, 201, 0.2)');
+    });
+    test('accepts format: hsla(H S L / A%)', () => {
+      const color = 'hsla(100 53.9% 30.6% / 20%)';
+      expect(hsla2rgba(color)).toBe('rgba(64, 120, 36, 0.2)');
+    });
+    test('accepts format: hsla(Hdeg S L / A)', () => {
+      const color = 'hsla(24deg 58.9% 49.6% / 0.2)';
+      expect(hsla2rgba(color)).toBe('rgba(201, 112, 52, 0.2)');
+    });
+    test('accepts format: hsla(Hrad S L / A)', () => {
+      const color = 'hsla(1.58rad, 58.9%, 49.6%, 20%)';
+      expect(hsla2rgba(color)).toBe('rgba(124, 201, 52, 0.2)');
+    });
+    test('accepts format: hsla(Hturn S L / A)', () => {
+      const color = 'hsla(0.75turn, 30.9%, 39.6%, 20%)';
+      expect(hsla2rgba(color)).toBe('rgba(101, 70, 132, 0.2)');
     });
   });
 });

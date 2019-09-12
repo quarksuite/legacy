@@ -15,15 +15,7 @@ export const hsl2rgb = (hsl: string) => {
 
 // HSLA -> RGBA
 export const hsla2rgba = (hsla: string) => {
-  const data = hslaData(hsla);
-
-  let h = data[0];
-  let s = data[1];
-  let l = data[2];
-  let a = data[3];
-
-  // a is integer
-  if (+a > 1) a = a / 255;
+  const [h, s, l, a] = hslaData(hsla);
 
   const rgb = rgbCalc(h, s, l);
 
@@ -31,3 +23,7 @@ export const hsla2rgba = (hsla: string) => {
     a.toPrecision(2)
   )})`;
 };
+
+// HSL -> Hex
+
+// HSLA -> Hex8

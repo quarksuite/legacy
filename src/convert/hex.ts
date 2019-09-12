@@ -45,3 +45,7 @@ export const hex82Rgba = (hex: string) => {
 
   return `rgba(${r}, ${g}, ${b}, ${a})`;
 };
+
+// Hex -> HSL
+
+// Hex8 -> HSLA
