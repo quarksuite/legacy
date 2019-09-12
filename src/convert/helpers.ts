@@ -69,16 +69,6 @@ export const hslaData = (hsla: string) => {
       ? convertPercentage(+data[3].substr(0, data[3].length - 1))
       : +data[3];
 
-  // Strip label from hue and convert to degrees (if needed)
-  if (data[0].indexOf('deg') > -1)
-    hValue = +data[0].substr(0, data[0].length - 3);
-  else if (data[0].indexOf('rad') > -1)
-    hValue = Math.round(
-      +data[0].substr(0, data[0].length - 3) * (180 / Math.PI)
-    );
-  else if (data[0].indexOf('turn') > -1)
-    hValue = Math.round(+data[0].substr(0, data[0].length - 4) * 360);
-
   if (hValue >= 360) hValue %= 360;
 
   return [hValue, sValue, lValue, aValue];
@@ -146,7 +136,7 @@ export const rgbData = (rgb: string) => {
             ).toString()
           : v;
 
-      return value.trimStart();
+      return +value.trimStart();
     });
 };
 
@@ -172,7 +162,7 @@ export const rgbaData = (rgba: string) => {
           ).toString()
         : v;
 
-    return value.trimStart();
+    return value.indexOf('.') > -1 ? Math.round(+value * 255) : +value;
   });
 };
 

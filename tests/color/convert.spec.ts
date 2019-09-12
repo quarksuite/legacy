@@ -1,6 +1,7 @@
 import { hex2Rgb, hex82Rgba, hex2Hsl, hex82Hsla } from '../../src/convert/hex';
 import { rgb2Hex, rgba2Hex8, rgb2Hsl, rgba2Hsla } from '../../src/convert/rgb';
 import { hsl2rgb, hsla2rgba, hsl2Hex, hsla2Hex8 } from '../../src/convert/hsl';
+import { named2Rgb, named2Hsl } from '../../src/convert/named';
 
 describe('Color conversion utilities', () => {
   describe('hex conversions', () => {
@@ -81,6 +82,16 @@ describe('Color conversion utilities', () => {
         expect(hsl2Hex(color)).toBe('#348dc9');
       });
     });
+    describe('hsla2Hex8(hsl)', () => {
+      test('converts hsl color to hex', () => {
+        const color = 'hsla(204, 58.9%, 49.6%, 0.12)';
+        expect(hsla2Hex8(color)).toBe('#348dc91f');
+      });
+      test('accepts format: hsla(H S% L% / A)', () => {
+        const color = 'hsla(204 58.9% 49.6% / 0.5)';
+        expect(hsla2Hex8(color)).toBe('#348dc980');
+      });
+    });
   });
 
   describe('rgb conversions', () => {
@@ -134,6 +145,21 @@ describe('Color conversion utilities', () => {
       test('accepts CSS4 format: rgba(R% G% B% / A%)', () => {
         const color = 'rgba(52% 12% 71% / 70%)';
         expect(rgba2Hsla(color)).toBe('hsla(281, 70.8%, 41.6%, 0.7)');
+      });
+    });
+  });
+
+  describe('named color conversions', () => {
+    describe('named2Rgb', () => {
+      test('converts a named CSS color to rgb equivalent', () => {
+        const color = 'dodgerblue';
+        expect(named2Rgb(color)).toBe('rgb(30, 144, 255)');
+      });
+    });
+    describe('named2Rgb', () => {
+      test('converts a named CSS color to hsl equivalent', () => {
+        const color = 'dodgerblue';
+        expect(named2Hsl(color)).toBe('hsl(210, 100%, 55.9%)');
       });
     });
   });

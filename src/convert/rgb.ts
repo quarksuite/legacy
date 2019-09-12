@@ -15,8 +15,7 @@ export const rgb2Hex = (rgb: string) =>
 export const rgba2Hex8 = (rgba: string) =>
   [
     '#',
-    ...rgbaData(rgba).map((v, i) => {
-      if (i === 3 && +v < 1) return d2Hex(+v * 255);
+    ...rgbaData(rgba).map(v => {
       return d2Hex(+v);
     })
   ]
