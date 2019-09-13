@@ -63,7 +63,7 @@ export const hex82Rgba = (hex: string) => {
     a = parseInt(a1 + a2, 16);
   }
 
-  a = parseFloat((a / 255).toPrecision(3));
+  a = parseFloat((a / 255).toPrecision(1));
 
   return `rgba(${r}, ${g}, ${b}, ${a})`;
 };

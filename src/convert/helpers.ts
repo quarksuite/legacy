@@ -1,9 +1,17 @@
-export const d2Hex = (value: number) => value.toString(16);
+import { w3cx11 } from './named-lookup';
 
-export const checkFormat = (
-  test: string,
-  format: 'hex' | 'hex8' | 'rgb' | 'rgba' | 'hsl' | 'hsla'
-) => {
+export const d2Hex = (s: string) => (+s).toString(16).padStart(2, '0');
+
+export type Formats =
+  | 'hex'
+  | 'hex8'
+  | 'rgb'
+  | 'rgba'
+  | 'hsl'
+  | 'hsla'
+  | 'named';
+
+export const checkFormat = (test: string, format: Formats) => {
   interface Format {
     [index: string]: RegExp;
   }
@@ -17,14 +25,14 @@ export const checkFormat = (
     hsla: /^hsla\(((((([12]?[1-9]?\d)|[12]0\d|(3[0-5]\d))(\.\d+)?)|(\.\d+))(deg)?|(0|0?\.\d+)turn|(([0-6](\.\d+)?)|(\.\d+))rad)(((,\s?(([1-9]?\d(\.\d+)?)|100|(\.\d+))%){2},\s?)|((\s(([1-9]?\d(\.\d+)?)|100|(\.\d+))%){2}\s\/\s))((0?\.\d+)|[01]|(([1-9]?\d(\.\d+)?)|100|(\.\d+))%)\)$/i
   };
 
+  if (format === 'named') return w3cx11[test] !== undefined;
+
   return list[format].test(test);
 };
 
 export const convertPercentage = (percentage: number) => {
   return percentage / 100;
 };
-
-export const zeroPad = (value: string) => value.padStart(2, '0');
 
 // CSS RGB & HSL formats can be separated with commas or spaces
 export const parseSep = (str: string) => (str.indexOf(',') > -1 ? ',' : ' ');
@@ -42,6 +50,16 @@ export const hslData = (hsl: string) => {
   let hValue = +data[0];
   let sValue = convertPercentage(+data[1].substr(0, data[1].length - 1));
   let lValue = convertPercentage(+data[2].substr(0, data[2].length - 1));
+
+  // Strip label from hue and convert to degrees (if needed)
+  if (data[0].indexOf('deg') > -1)
+    hValue = +data[0].substr(0, data[0].length - 3);
+  else if (data[0].indexOf('rad') > -1)
+    hValue = Math.round(
+      +data[0].substr(0, data[0].length - 3) * (180 / Math.PI)
+    );
+  else if (data[0].indexOf('turn') > -1)
+    hValue = Math.round(+data[0].substr(0, data[0].length - 4) * 360);
 
   if (hValue >= 360) hValue %= 360;
 
@@ -68,6 +86,16 @@ export const hslaData = (hsla: string) => {
     data[3].indexOf('%') > -1
       ? convertPercentage(+data[3].substr(0, data[3].length - 1))
       : +data[3];
+
+  // Strip label from hue and convert to degrees (if needed)
+  if (data[0].indexOf('deg') > -1)
+    hValue = +data[0].substr(0, data[0].length - 3);
+  else if (data[0].indexOf('rad') > -1)
+    hValue = Math.round(
+      +data[0].substr(0, data[0].length - 3) * (180 / Math.PI)
+    );
+  else if (data[0].indexOf('turn') > -1)
+    hValue = Math.round(+data[0].substr(0, data[0].length - 4) * 360);
 
   if (hValue >= 360) hValue %= 360;
 
@@ -136,7 +164,7 @@ export const rgbData = (rgb: string) => {
             ).toString()
           : v;
 
-      return +value.trimStart();
+      return value;
     });
 };
 
@@ -162,7 +190,9 @@ export const rgbaData = (rgba: string) => {
           ).toString()
         : v;
 
-    return value.indexOf('.') > -1 ? Math.round(+value * 255) : +value;
+    return value.indexOf('.') > -1
+      ? Math.round(+value * 255).toString()
+      : value;
   });
 };
 

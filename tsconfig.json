@@ -4,17 +4,10 @@
     "module": "esnext",
     "moduleResolution": "node",
     "lib": [
-      "esnext"
+      "esnext",
     ],
     "strict": true,
     "esModuleInterop": true
   },
-  "exclude": ["node_modules", "tests"],
-  "typedocOptions": {
-    "exclude": "**/*+(.spec).ts",
-    "excludeNotExported": true,
-    "mode": "modules",
-    "name": "Quarksilver (Core)",
-    "theme": "minimal"
-  }
+  "exclude": ["node_modules", "tests"]
 }

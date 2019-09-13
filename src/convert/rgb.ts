@@ -1,26 +1,27 @@
-import { rgbData, rgbaData, d2Hex, zeroPad, hslCalc } from './helpers';
+import { rgbData, rgbaData, hslCalc, d2Hex } from './helpers';
 
 // RGB -> Hex
-export const rgb2Hex = (rgb: string) =>
-  [
-    '#',
-    ...rgbData(rgb).map(v => {
-      return d2Hex(+v);
-    })
-  ]
-    .map(v => (v === '0' ? zeroPad(v) : v))
-    .join('');
+export const rgb2Hex = (rgb: string) => {
+  let [r, g, b] = rgbData(rgb);
+
+  r = d2Hex(r);
+  g = d2Hex(g);
+  b = d2Hex(b);
+
+  return ['#', r, g, b].join('');
+};
 
 // RGBA -> Hex8 (w/ alpha)
-export const rgba2Hex8 = (rgba: string) =>
-  [
-    '#',
-    ...rgbaData(rgba).map(v => {
-      return d2Hex(+v);
-    })
-  ]
-    .map(v => (v === '0' ? zeroPad(v) : v))
-    .join('');
+export const rgba2Hex8 = (rgba: string) => {
+  let [r, g, b, a] = rgbaData(rgba);
+
+  r = d2Hex(r);
+  g = d2Hex(g);
+  b = d2Hex(b);
+  a = d2Hex(a);
+
+  return ['#', r, g, b, a].join('');
+};
 
 // RGB -> HSL
 export const rgb2Hsl = (rgb: string) => {
