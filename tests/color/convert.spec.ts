@@ -1,4 +1,4 @@
-import { convert } from '../../src/color';
+import convert from '../../src/color/convert';
 
 describe('Color conversion', () => {
   describe('convert(color, to)', () => {

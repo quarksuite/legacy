@@ -1,4 +1,5 @@
 import { rgbData, rgbaData, hslCalc, d2Hex } from './helpers';
+import { hex2Named } from './hex';
 
 // RGB -> Hex
 export const rgb2Hex = (rgb: string) => {
@@ -54,3 +55,6 @@ export const rgba2Hsla = (rgba: string) => {
     a.toPrecision(2)
   )})`;
 };
+
+// RGB to Named
+export const rgb2Named = (rgb: string) => hex2Named(rgb2Hex(rgb));

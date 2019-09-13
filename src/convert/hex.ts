@@ -1,5 +1,6 @@
 import { checkFormat } from './helpers';
 import { rgb2Hsl, rgba2Hsla } from './rgb';
+import { w3cx11, W3CColors } from './named-lookup';
 
 // Hex -> RGB
 export const hex2Rgb = (hex: string) => {
@@ -73,3 +74,22 @@ export const hex2Hsl = (hex: string) => rgb2Hsl(hex2Rgb(hex));
 
 // Hex8 -> HSLA
 export const hex82Hsla = (hex: string) => rgba2Hsla(hex82Rgba(hex));
+
+// Hex -> Named
+export const hex2Named = (hex: string) => {
+  // #RGB || #RRGGBB
+  if (hex.length == 4) {
+    let rv = hex[1];
+    let gv = hex[2];
+    let bv = hex[3];
+    hex = `#${rv}${rv}${gv}${gv}${bv}${bv}`;
+  }
+
+  const color = Object.keys(w3cx11).filter(v => {
+    return hex === w3cx11[v];
+  })[0];
+
+  if (!color) throw Error(`${hex} is not defined on the W3C named colors list`);
+
+  return color;
+};
