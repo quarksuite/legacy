@@ -23,13 +23,13 @@ describe('Scale creation and modification', () => {
       ]);
     });
     test('accepts custom ratios', () => {
-      expect(create(1, 1.2345)).toStrictEqual([
+      expect(create(1, 2.25)).toStrictEqual([
         1,
-        1.2345,
-        1.52399,
-        1.88137,
-        2.32255,
-        2.86718
+        2.25,
+        5.0625,
+        11.3906,
+        25.6289,
+        57.665
       ]);
     });
     test('accepts a user-defined limit', () => {

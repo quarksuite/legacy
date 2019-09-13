@@ -24,7 +24,7 @@ export const create = (
   }
 
   return Array.from(Array(limit).fill(0), (_value, n) => {
-    return parseFloat(((base * r) ** n).toPrecision(6));
+    return parseFloat((base * r ** n).toPrecision(6));
   });
 };
 
@@ -32,8 +32,8 @@ export const create = (
 export const modify = (
   scale: number[],
   n: number,
-  modifier: (value: number, n: number) => number
-) => scale.map(value => parseFloat(modifier(value, n).toPrecision()));
+  modifier: (n: number, scaleValue: number) => number
+) => scale.map(value => parseFloat(modifier(n, value).toPrecision(6)));
 
 /** Merges two scales and removes duplicate values */
 export const merge = (source: number[], target: number[]) => {
