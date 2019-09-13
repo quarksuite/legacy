@@ -2,7 +2,7 @@ import { checkFormat, Formats } from './convert/helpers';
 
 import { hex2Rgb, hex82Rgba, hex2Hsl, hex82Hsla } from './convert/hex';
 import { hsl2Hex, hsla2Hex8, hsl2Rgb, hsla2Rgba } from './convert/hsl';
-import { named2Rgb, named2Hsl } from './convert/named';
+import { named2Rgb, named2Hsl, named2Hex } from './convert/named';
 import { rgb2Hex, rgba2Hex8, rgb2Hsl, rgba2Hsla } from './convert/rgb';
 
 import tinycolor from 'tinycolor2';
@@ -33,6 +33,7 @@ const hslConvert = (color: string, to: string) => {
 };
 
 const namedConvert = (color: string, to: string) => {
+  if (to === 'hex') return named2Hex(color);
   if (to === 'rgb') return named2Rgb(color);
   if (to === 'hsl') return named2Hsl(color);
 };
