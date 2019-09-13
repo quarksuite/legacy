@@ -1,67 +1,39 @@
-import { create, build } from '../../../src/content/scale';
+import { create } from '../../../src/content/scale';
 
-describe('Utilities for content', () => {
-  describe('create(value, limit)', () => {
-    test('perfect4th', () => {
-      const decimals = (v: number, precision: number) =>
-        parseFloat(v.toPrecision(precision));
-      const perfect4th = (limit: number) => create(1.333, limit);
-      const data = build(perfect4th).map((v: number) => decimals(v, 4));
-
-      expect(data).toStrictEqual([
+describe('Scale creation and modification', () => {
+  describe('scale.create(base, ratio, limit?)', () => {
+    test('outputs a modular scale', () => {
+      expect(create(1, 1.123)).toStrictEqual([
         1,
-        1.333,
-        1.777,
-        2.369,
-        3.157,
-        4.209,
-        5.61,
-        7.478
+        1.123,
+        1.26113,
+        1.41625,
+        1.59045,
+        1.78607
       ]);
     });
-    test('major6th', () => {
-      const decimals = (v: number, precision: number) =>
-        parseFloat(v.toPrecision(precision));
-      const major6th = (limit: number) => create(1.667, limit);
-      const data = build(major6th).map((v: number) => decimals(v, 4));
-
-      expect(data).toStrictEqual([
+    test('accepts named ratios', () => {
+      expect(create(1, 'golden')).toStrictEqual([
         1,
-        1.667,
-        2.779,
-        4.632,
-        7.722,
-        12.87,
-        21.46,
-        35.77
+        1.61804,
+        2.61804,
+        4.23609,
+        6.85416,
+        11.0903
       ]);
     });
-  });
-  describe('build(type, limit?)', () => {
-    test('default values', () => {
-      const decimals = (v: number, precision: number) =>
-        parseFloat(v.toPrecision(precision));
-      const perfectFourth = (limit: number) => create(1.333, limit);
-      const data = build(perfectFourth).map((v: number) => decimals(v, 4));
-
-      expect(data).toStrictEqual([
+    test('accepts custom ratios', () => {
+      expect(create(1, 1.2345)).toStrictEqual([
         1,
-        1.333,
-        1.777,
-        2.369,
-        3.157,
-        4.209,
-        5.61,
-        7.478
+        1.2345,
+        1.52399,
+        1.88137,
+        2.32255,
+        2.86718
       ]);
     });
-    test('when limit = 4', () => {
-      const decimals = (v: number, precision: number) =>
-        parseFloat(v.toPrecision(precision));
-      const perfect4th = (limit: number) => create(1.333, limit);
-      const data = build(perfect4th, 4).map((v: number) => decimals(v, 4));
-
-      expect(data).toStrictEqual([1, 1.333, 1.777, 2.369]);
+    test('accepts a user-defined limit', () => {
+      expect(create(1, 1.2345, 3)).toStrictEqual([1, 1.2345, 1.52399]);
     });
   });
 });

@@ -1,113 +1,50 @@
-/**
- * A set of utilities responsible for creating and modifying modular scales.
- */
+import { ratios, NamedRatios } from './ratio-lookup';
 
 /** Sorts an array in ascending order */
-const order = (arr: number[]): number[] =>
-  arr.sort((a: number, b: number) => a - b);
-
-/** Sums all the values in an array */
-const sum = (arr: number[]): number => arr.reduce((acc, v) => acc + v, 0);
-
-/** Calculates the mean of values in array */
-const mean = (arr: number[]): number => sum(arr) / arr.length;
-
-/** Calculates the median of values in array */
-const median = (arr: number[]): number => {
-  const sorted = order(arr);
-  const midpoint = sorted.length / 2;
-
-  if (sorted.length % 2 === 0)
-    return mean([sorted[midpoint], sorted[midpoint - 1]]);
-
-  return midpoint;
-};
-
-/** Generates a fibonacci sequence for calculating the golden mean */
-function* fibonacci(n: number): Generator {
-  if (n <= 1) yield n;
-  yield fibonacci(n - 1).next().value + fibonacci(n - 2).next().value;
-}
-
-/**
- * A utility for creating new scales.
- */
-export function* create(value: number, limit: number) {
-  yield value ** limit;
-}
-
-/**
- * A utility for building scales.
- */
-export function build(type: (limit: number) => Generator, limit = 8): number[] {
-  return Array.from(
-    Array(limit).fill(0),
-    (_, index) => type(index).next().value
-  );
-}
-
-/**
- * A helper for multistranding scales.
- */
-const fragment = (scale: number[], ratio = 2): number[] => {
-  const internal = (r: number) => scale.map((v, _, a) => v * median(a) * r);
-  const combined = order([...scale, ...internal(ratio)]).filter(
-    v => v <= scale[scale.length - 1]
-  );
-
-  return combined;
-};
+const order = (arr: number[]) => arr.sort((a: number, b: number) => a - b);
 
 /** A helper for flattening arrays */
 const flatten = (array: any) => [].concat(...array);
 
-/** Include intermediate values between a scale with multiple internal ratios */
-export const multistrand = (scale: number[], ratios: number[]): number[] => {
-  const values = ratios.map(r => fragment(scale, r));
+/** Creates a new modular scale */
+export const create = (
+  base: number,
+  ratio: number | NamedRatios,
+  limit: number = 6
+) => {
+  let r = 0;
 
-  return order(flatten(values).filter((v, i, a) => a.indexOf(v) === i));
+  // Check if ratio is a named ratio or custom one
+  if (ratios[ratio] as number) {
+    r = ratios[ratio];
+  } else if (typeof ratio === 'number') {
+    r = ratio as number;
+  } else {
+    throw Error('Not a valid ratio arg, exiting');
+  }
+
+  return Array.from(Array(limit).fill(0), (_value, n) => {
+    return parseFloat(((base * r) ** n).toPrecision(6));
+  });
 };
 
-// Some common scales are included already, you can always add your own
-
-const major3rd = (limit: number) => create(1.25, limit);
-const perfect4th = (limit: number) => create(1.333, limit);
-const perfect5th = (limit: number) => create(1.5, limit);
-const golden = (limit: number) => {
-  const f = build(fibonacci, 16);
-  const a = f[f.length - 2];
-  const b = f[f.length - 1];
-
-  return create(b / a, limit);
-};
-const major6th = (limit: number) => create(1.667, limit);
-const octave = (limit: number) => create(2, limit);
-
-/** Applies a transformation to the scale, typically a base value */
-export const augment = (
-  value: number,
+/** Modifies a scale with a value transformation */
+export const modify = (
   scale: number[],
-  transform: (value: number, scaleValue: number) => number
-) =>
-  scale.map(scaleValue =>
-    parseFloat(transform(value, scaleValue).toPrecision())
-  );
+  n: number,
+  modifier: (value: number, n: number) => number
+) => scale.map(value => parseFloat(modifier(value, n).toPrecision()));
+
+/** Merges two scales and removes duplicate values */
+export const merge = (source: number[], target: number[]) => {
+  return order(source.concat(target)).filter((v, i, a) => a.indexOf(v) === i);
+};
 
 /** Outputs the scale with units and value precision */
 export const output = (
   scale: number[],
-  precision: number = 4,
-  unit: string = 'rem'
+  unit: string = 'rem',
+  precision: number = 4
 ): string[] => {
   return scale.map(v => parseFloat(v.toPrecision(precision)) + unit);
-};
-
-/** Exposes popular common ratios used in design and art */
-export const ratios = {
-  major3rd,
-  perfect4th,
-  perfect5th,
-  golden,
-  major6th,
-  octave
 };
