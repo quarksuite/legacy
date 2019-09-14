@@ -29,6 +29,7 @@ const hexConvert = (color: string, to: string) => {
   if (to === 'hsl') return hex2Hsl(color);
   if (to === 'hsla') return hex82Hsla(color);
   if (to === 'named') return hex2Named(color);
+  return color;
 };
 
 const rgbConvert = (color: string, to: string) => {
@@ -37,6 +38,7 @@ const rgbConvert = (color: string, to: string) => {
   if (to === 'hsl') return rgb2Hsl(color);
   if (to === 'hsla') return rgba2Hsla(color);
   if (to === 'named') return hsl2Named(color);
+  return color;
 };
 
 const hslConvert = (color: string, to: string) => {
@@ -45,12 +47,14 @@ const hslConvert = (color: string, to: string) => {
   if (to === 'rgb') return hsl2Rgb(color);
   if (to === 'rgba') return hsla2Rgba(color);
   if (to === 'named') return rgb2Named(color);
+  return color;
 };
 
 const namedConvert = (color: string, to: string) => {
   if (to === 'hex') return named2Hex(color);
   if (to === 'rgb') return named2Rgb(color);
   if (to === 'hsl') return named2Hsl(color);
+  return color;
 };
 
 /** color.convert - Utility for converting colors */
@@ -58,7 +62,7 @@ export default (color: string, to: Formats) => {
   const hex = checkFormat(color, 'hex') || checkFormat(color, 'hex8');
   const rgb = checkFormat(color, 'rgb') || checkFormat(color, 'rgba');
   const hsl = checkFormat(color, 'hsl') || checkFormat(color, 'hsla');
-  const name = checkFormat(color as string, 'named');
+  const name = checkFormat(color, 'named');
 
   if (hex) return hexConvert(color, to);
   if (rgb) return rgbConvert(color, to);

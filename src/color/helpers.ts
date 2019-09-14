@@ -1,4 +1,7 @@
-export const linBlend = (c0: string, c1: string, p: number) => {
+import convert from './convert';
+import { hslData, convertPercentage } from '../convert/helpers';
+
+const linBlend = (c0: string, c1: string, p: number) => {
   var i = parseInt,
     r = Math.round,
     P = 1 - p,
@@ -28,7 +31,7 @@ export const linBlend = (c0: string, c1: string, p: number) => {
   );
 };
 
-export const logBlend = (c0: string, c1: string, p: number) => {
+const logBlend = (c0: string, c1: string, p: number) => {
   var i = parseInt,
     r = Math.round,
     P = 1 - p,
@@ -57,4 +60,28 @@ export const logBlend = (c0: string, c1: string, p: number) => {
     r((P * i(c) ** 2 + p * i(g) ** 2) ** 0.5) +
     d
   );
+};
+
+export const spin = (color: string, rotation: number = 180) => {
+  let [h, s, l] = hslData(convert(color, 'hsl'));
+
+  h = (h + rotation) % 360;
+  s = Math.round(s * 100);
+  l = Math.round(l * 100);
+
+  return convert(`hsl(${h}, ${s}%, ${l}%)`, 'hex');
+};
+
+export const blend = (
+  color: string,
+  target: string,
+  amount: number = 50,
+  type: 'logarithmic' | 'linear' = 'logarithmic'
+) => {
+  const c = convert(color, 'rgb');
+  const t = convert(target, 'rgb');
+  const a = convertPercentage(amount);
+
+  if (type === 'linear') return linBlend(c, t, a);
+  return logBlend(c, t, a);
 };
