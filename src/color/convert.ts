@@ -1,59 +1,38 @@
 import { checkFormat, Formats } from '../convert/helpers';
 
-import {
-  hex2Rgb,
-  hex82Rgba,
-  hex2Hsl,
-  hex82Hsla,
-  hex2Named
-} from '../convert/hex';
-import {
-  hsl2Hex,
-  hsla2Hex8,
-  hsl2Rgb,
-  hsla2Rgba,
-  hsl2Named
-} from '../convert/hsl';
-import { named2Rgb, named2Hsl, named2Hex } from '../convert/named';
-import {
-  rgb2Hex,
-  rgba2Hex8,
-  rgb2Hsl,
-  rgba2Hsla,
-  rgb2Named
-} from '../convert/rgb';
+import * as transform from '../convert';
 
 const hexConvert = (color: string, to: string) => {
-  if (to === 'rgb') return hex2Rgb(color);
-  if (to === 'rgba') return hex82Rgba(color);
-  if (to === 'hsl') return hex2Hsl(color);
-  if (to === 'hsla') return hex82Hsla(color);
-  if (to === 'named') return hex2Named(color);
+  if (to === 'rgb') return transform.hex2Rgb(color);
+  if (to === 'rgba') return transform.hex82Rgba(color);
+  if (to === 'hsl') return transform.hex2Hsl(color);
+  if (to === 'hsla') return transform.hex82Hsla(color);
+  if (to === 'named') return transform.hex2Named(color);
   return color;
 };
 
 const rgbConvert = (color: string, to: string) => {
-  if (to === 'hex') return rgb2Hex(color);
-  if (to === 'hex8') return rgba2Hex8(color);
-  if (to === 'hsl') return rgb2Hsl(color);
-  if (to === 'hsla') return rgba2Hsla(color);
-  if (to === 'named') return hsl2Named(color);
+  if (to === 'hex') return transform.rgb2Hex(color);
+  if (to === 'hex8') return transform.rgba2Hex8(color);
+  if (to === 'hsl') return transform.rgb2Hsl(color);
+  if (to === 'hsla') return transform.rgba2Hsla(color);
+  if (to === 'named') return transform.hsl2Named(color);
   return color;
 };
 
 const hslConvert = (color: string, to: string) => {
-  if (to === 'hex') return hsl2Hex(color);
-  if (to === 'hex8') return hsla2Hex8(color);
-  if (to === 'rgb') return hsl2Rgb(color);
-  if (to === 'rgba') return hsla2Rgba(color);
-  if (to === 'named') return rgb2Named(color);
+  if (to === 'hex') return transform.hsl2Hex(color);
+  if (to === 'hex8') return transform.hsla2Hex8(color);
+  if (to === 'rgb') return transform.hsl2Rgb(color);
+  if (to === 'rgba') return transform.hsla2Rgba(color);
+  if (to === 'named') return transform.rgb2Named(color);
   return color;
 };
 
 const namedConvert = (color: string, to: string) => {
-  if (to === 'hex') return named2Hex(color);
-  if (to === 'rgb') return named2Rgb(color);
-  if (to === 'hsl') return named2Hsl(color);
+  if (to === 'hex') return transform.named2Hex(color);
+  if (to === 'rgb') return transform.named2Rgb(color);
+  if (to === 'hsl') return transform.named2Hsl(color);
   return color;
 };
 
