@@ -1,4 +1,4 @@
-import { create, modify, output } from '../../../src/content/scale';
+import { create, modify, output } from '../../src/scale';
 
 describe('Scale creation and modification', () => {
   describe('scale.output(scale, unit?, precision?)', () => {

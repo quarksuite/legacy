@@ -1,10 +1,10 @@
 import * as colorUtils from './color';
-import * as scaleUtils from './content/scale';
+import * as scaleUtils from './scale';
 
 export const color = {
   ...colorUtils
 };
 
-export const content = {
-  scale: scaleUtils
+export const scale = {
+  ...scaleUtils
 };

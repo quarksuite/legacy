@@ -2,7 +2,7 @@ import { w3cx11 } from './named-lookup';
 
 export const d2Hex = (s: string) => (+s).toString(16).padStart(2, '0');
 
-export type Formats =
+export type CSSColorFormats =
   | 'hex'
   | 'hex8'
   | 'rgb'
@@ -11,7 +11,7 @@ export type Formats =
   | 'hsla'
   | 'named';
 
-export const checkFormat = (test: string, format: Formats) => {
+export const checkFormat = (test: string, format: CSSColorFormats) => {
   interface Format {
     [index: string]: RegExp;
   }

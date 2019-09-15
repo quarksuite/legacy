@@ -1,4 +1,4 @@
-import palette from '../../src/color/palette';
+import { palette } from '../../src/color';
 
 describe('Color palette utility', () => {
   describe('color.palette(color, scheme?, config?)', () => {
@@ -76,6 +76,17 @@ describe('Color palette utility', () => {
       ]);
     });
     test('config: limit', () => {
+      const color = '#348ec9';
+      expect(palette(color, { limit: 2 })).toStrictEqual([
+        {
+          base: 'rgb(52, 142, 201)',
+          tints: ['rgb(181,205,229)', 'rgb(251,252,254)'],
+          tones: ['rgb(124,156,187)', 'rgb(168,169,171)'],
+          shades: ['rgb(39,103,145)', 'rgb(19,30,39)']
+        }
+      ]);
+    });
+    test('config: contrast', () => {
       const color = '#348ec9';
       expect(palette(color, { limit: 2 })).toStrictEqual([
         {

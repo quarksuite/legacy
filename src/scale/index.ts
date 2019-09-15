@@ -3,9 +3,6 @@ import { ratios, NamedRatios } from './ratio-lookup';
 /** Sorts an array in ascending order */
 const order = (arr: number[]) => arr.sort((a: number, b: number) => a - b);
 
-/** A helper for flattening arrays */
-const flatten = (array: any) => [].concat(...array);
-
 /** Creates a new modular scale */
 export const create = (
   base: number,

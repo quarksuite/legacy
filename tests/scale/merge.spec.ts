@@ -1,8 +1,8 @@
-import { create, modify, merge } from '../../../src/content/scale';
+import { create, merge } from '../../src/scale';
 
 describe('Scale creation and modification', () => {
   describe('scale.merge(source, target)', () => {
-    test('modifies a modular scale', () => {
+    test('merges two scales', () => {
       const first = create(1, 'maj6th');
       const second = create(2, 'maj6th');
 

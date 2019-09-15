@@ -1,4 +1,4 @@
-import { create } from '../../../src/content/scale';
+import { create } from '../../src/scale';
 
 describe('Scale creation and modification', () => {
   describe('scale.create(base, ratio, limit?)', () => {
