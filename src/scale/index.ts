@@ -1,9 +1,7 @@
 import { ratios, NamedRatios } from './ratio-lookup';
 
-/** Sorts an array in ascending order */
 const order = (arr: number[]) => arr.sort((a: number, b: number) => a - b);
 
-/** Creates a new modular scale */
 export const create = (
   base: number,
   ratio: number | NamedRatios,
@@ -25,19 +23,16 @@ export const create = (
   });
 };
 
-/** Modifies a scale with a value transformation */
 export const modify = (
   scale: number[],
   n: number,
   modifier: (n: number, scaleValue: number) => number
 ) => scale.map(value => parseFloat(modifier(n, value).toPrecision(6)));
 
-/** Merges two scales and removes duplicate values */
 export const merge = (source: number[], target: number[]) => {
   return order(source.concat(target)).filter((v, i, a) => a.indexOf(v) === i);
 };
 
-/** Outputs the scale with units and value precision */
 export const output = (
   scale: number[],
   unit: string = 'rem',

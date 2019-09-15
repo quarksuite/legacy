@@ -1,10 +1,10 @@
-import { palette } from '../../src/color';
+import { output } from '../../src/color';
 
-describe('Color palette utility', () => {
-  describe('color.palette(color, scheme?, config?)', () => {
-    test('outputs a monochromatic palette by default', () => {
+describe('Color output utility', () => {
+  describe('color.output(color, config?)', () => {
+    test('outputs a monochromatic palette all variants by default', () => {
       const color = '#348ec9';
-      expect(palette(color)).toStrictEqual([
+      expect(output(color)).toStrictEqual([
         {
           base: 'rgb(52, 142, 201)',
           tints: [
@@ -31,7 +31,7 @@ describe('Color palette utility', () => {
     test('config: scheme', () => {
       const color = '#348ec9';
       expect(
-        palette(color, { scheme: { type: 'complementary' } })
+        output(color, { scheme: { type: 'complementary' } })
       ).toStrictEqual([
         {
           base: 'rgb(52, 142, 201)',
@@ -79,7 +79,7 @@ describe('Color palette utility', () => {
     });
     test('config: limit', () => {
       const color = '#348ec9';
-      expect(palette(color, { limit: 2 })).toStrictEqual([
+      expect(output(color, { limit: 2 })).toStrictEqual([
         {
           base: 'rgb(52, 142, 201)',
           tints: ['rgb(181,205,229)', 'rgb(251,252,254)'],
@@ -90,7 +90,7 @@ describe('Color palette utility', () => {
     });
     test('config: contrast', () => {
       const color = '#348ec9';
-      expect(palette(color, { limit: 2, contrast: 60 })).toStrictEqual([
+      expect(output(color, { limit: 2, contrast: 60 })).toStrictEqual([
         {
           base: 'rgb(52, 142, 201)',
           tints: ['rgb(146,183,219)', 'rgb(200,217,235)'],
@@ -101,7 +101,7 @@ describe('Color palette utility', () => {
     });
     test('config: mode', () => {
       const color = '#348ec9';
-      expect(palette(color, { limit: 2, mode: 'linear' })).toStrictEqual([
+      expect(output(color, { limit: 2, mode: 'linear' })).toStrictEqual([
         {
           base: 'rgb(52, 142, 201)',
           tints: ['rgb(150,197,227)', 'rgb(249,252,253)'],
@@ -112,7 +112,7 @@ describe('Color palette utility', () => {
     });
     test('config: format', () => {
       const color = '#348ec9';
-      expect(palette(color, { limit: 2, format: 'hex' })).toStrictEqual([
+      expect(output(color, { limit: 2, format: 'hex' })).toStrictEqual([
         {
           base: '#348ec9',
           tints: ['#b5cde5', '#fbfcfe'],

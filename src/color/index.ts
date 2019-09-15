@@ -53,6 +53,22 @@ export const neutralize = (color: string): string =>
 export const mix = (color: string, target: string, amount?: number): string =>
   convert(blend(color, target, amount), 'hex');
 
+/**
+ * Returns a color converted to another format
+ *
+ * @remarks
+ * Usage:
+ * ```ts
+ * color.format('#348ec9', 'rgb');
+ * ```
+ *
+ * @param color - The color to transform
+ * @param format - the CSS color format to output
+ * @returns A newly formatted color
+ **/
+export const format = (color: string, format: CSSColorFormats): string =>
+  convert(color, format);
+
 export type Schemes =
   | 'monochromatic'
   | 'analogous'
@@ -67,7 +83,7 @@ export interface PaletteConfig {
   contrast?: number;
   limit?: number;
   mode?: 'logarithmic' | 'linear';
-  format?: CSSColorFormats;
+  format?: 'rgb' | 'hex' | 'hsl';
   scheme?: {
     type?: Schemes;
     distance?: number;
@@ -162,12 +178,19 @@ const dual = (color: string, distance = 15) => {
  *  }
  * }
  * // Outputs triadic scheme with all other defaults
- * color.palette('#348ec9', {
+ * color.output('#348ec9', {
  *   scheme: { type: 'split complementary', distance: 60 }
  * })
+ *
+ * @param color - The base color to generate from
+ * @param config - configuration to modify the palette
+ * @returns The generated palette as an array of objects
  * ```
  **/
-export const palette = (color: string, config: PaletteConfig = {}) => {
+export const output = (
+  color: string,
+  config: PaletteConfig = {}
+): Record<string, any>[] => {
   const { type = 'monochromatic', distance = 15, accented = false } =
     config.scheme || {};
   let palette;
@@ -205,7 +228,3 @@ export const palette = (color: string, config: PaletteConfig = {}) => {
 
   return palette.map(color => generate(color, config));
 };
-
-/** color.output - A utility for transforming color formats */
-export const output = (color: string, format: CSSColorFormats) =>
-  convert(color, format);
