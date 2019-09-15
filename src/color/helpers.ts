@@ -82,7 +82,7 @@ export const rgbConvert = (color: string, to: string) => {
   if (to === 'hex8') return transform.rgba2Hex8(color);
   if (to === 'hsl') return transform.rgb2Hsl(color);
   if (to === 'hsla') return transform.rgba2Hsla(color);
-  if (to === 'named') return transform.hsl2Named(color);
+  if (to === 'named') return transform.rgb2Named(color);
   return color;
 };
 
@@ -91,7 +91,7 @@ export const hslConvert = (color: string, to: string) => {
   if (to === 'hex8') return transform.hsla2Hex8(color);
   if (to === 'rgb') return transform.hsl2Rgb(color);
   if (to === 'rgba') return transform.hsla2Rgba(color);
-  if (to === 'named') return transform.rgb2Named(color);
+  if (to === 'named') return transform.hsl2Named(color);
   return color;
 };
 

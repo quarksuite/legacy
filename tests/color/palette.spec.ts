@@ -30,7 +30,9 @@ describe('Color palette utility', () => {
     });
     test('config: scheme', () => {
       const color = '#348ec9';
-      expect(palette(color, { scheme: 'complementary' })).toStrictEqual([
+      expect(
+        palette(color, { scheme: { type: 'complementary' } })
+      ).toStrictEqual([
         {
           base: 'rgb(52, 142, 201)',
           tints: [
@@ -88,12 +90,34 @@ describe('Color palette utility', () => {
     });
     test('config: contrast', () => {
       const color = '#348ec9';
-      expect(palette(color, { limit: 2 })).toStrictEqual([
+      expect(palette(color, { limit: 2, contrast: 60 })).toStrictEqual([
         {
           base: 'rgb(52, 142, 201)',
-          tints: ['rgb(181,205,229)', 'rgb(251,252,254)'],
-          tones: ['rgb(124,156,187)', 'rgb(168,169,171)'],
-          shades: ['rgb(39,103,145)', 'rgb(19,30,39)']
+          tints: ['rgb(146,183,219)', 'rgb(200,217,235)'],
+          tones: ['rgb(103,151,192)', 'rgb(136,159,183)'],
+          shades: ['rgb(44,119,168)', 'rgb(35,91,128)']
+        }
+      ]);
+    });
+    test('config: mode', () => {
+      const color = '#348ec9';
+      expect(palette(color, { limit: 2, mode: 'linear' })).toStrictEqual([
+        {
+          base: 'rgb(52, 142, 201)',
+          tints: ['rgb(150,197,227)', 'rgb(249,252,253)'],
+          tones: ['rgb(109,156,186)', 'rgb(166,169,171)'],
+          shades: ['rgb(35,81,112)', 'rgb(18,21,23)']
+        }
+      ]);
+    });
+    test('config: format', () => {
+      const color = '#348ec9';
+      expect(palette(color, { limit: 2, format: 'hex' })).toStrictEqual([
+        {
+          base: '#348ec9',
+          tints: ['#b5cde5', '#fbfcfe'],
+          tones: ['#7c9cbb', '#a8a9ab'],
+          shades: ['#276791', '#131e27']
         }
       ]);
     });
