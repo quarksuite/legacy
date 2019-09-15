@@ -2,7 +2,7 @@ import { CSSColorFormats } from './convert/helpers';
 import { spin, blend, convert } from './helpers';
 
 /**
- * Returns the complement of a color.
+ * Grab the complement of a given color.
  *
  * @remarks
  * Usage:
@@ -17,7 +17,7 @@ import { spin, blend, convert } from './helpers';
 export const complement = (color: string): string => spin(color);
 
 /**
- * Returns the negation of a color. For neutral palettes.
+ * Negate a color with its complement. Great for neutral palettes.
  *
  * @remarks
  * Usage:
@@ -50,7 +50,7 @@ export const neutralize = (color: string): string =>
  * @param amount? - how much you want to mix a with b (0-100)
  * @returns A mix of two colors
  **/
-export const mix = (color: string, target: string, amount?: number): string =>
+export const mix = (color: string, target: string, amount = 50): string =>
   convert(blend(color, target, amount), 'hex');
 
 /**
@@ -59,15 +59,21 @@ export const mix = (color: string, target: string, amount?: number): string =>
  * @remarks
  * Usage:
  * ```ts
- * color.format('#348ec9', 'rgb');
+ * // default
+ * color.format('#348ec9');
+ *
+ * // pass in another format
+ * color.format('#348ec9', 'hsl');
  * ```
  *
  * @param color - The color to transform
- * @param format - the CSS color format to output
+ * @param format - the CSS color format to output (`rgb` by default)
  * @returns A newly formatted color
  **/
-export const format = (color: string, format: CSSColorFormats): string =>
-  convert(color, format);
+export const format = (
+  color: string,
+  format: CSSColorFormats = 'rgb'
+): string => convert(color, format);
 
 export type Schemes =
   | 'monochromatic'
@@ -177,13 +183,14 @@ const dual = (color: string, distance = 15) => {
  *    accented: false // whether to include complement as accent
  *  }
  * }
+ *
  * // Outputs triadic scheme with all other defaults
  * color.output('#348ec9', {
  *   scheme: { type: 'split complementary', distance: 60 }
  * })
  *
  * @param color - The base color to generate from
- * @param config - configuration to modify the palette
+ * @param config? - configuration to modify the palette (uses all defaults if undefined)
  * @returns The generated palette as an array of objects
  * ```
  **/

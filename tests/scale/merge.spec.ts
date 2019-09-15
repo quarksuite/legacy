@@ -1,26 +1,26 @@
 import { create, merge } from '../../src/scale';
 
 describe('Scale creation and modification', () => {
-  describe('scale.merge(source, target)', () => {
+  describe('scale.merge(scales)', () => {
     test('merges two scales', () => {
-      const first = create(1, 'maj6th');
-      const second = create(2, 'maj6th');
+      const first = create();
+      const second = create(2);
 
       const data = merge(first, second);
 
       expect(data).toStrictEqual([
         1,
-        1.667,
+        1.61804,
         2,
-        2.77889,
-        3.334,
-        4.63241,
-        5.55778,
-        7.72222,
-        9.26482,
-        12.8729,
-        15.4444,
-        25.7459
+        2.61804,
+        3.23607,
+        4.23609,
+        5.23609,
+        6.85416,
+        8.47219,
+        11.0903,
+        13.7083,
+        22.1806
       ]);
     });
   });
