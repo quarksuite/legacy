@@ -136,7 +136,7 @@ const complementary = (color: string) => [
 
 const splitComplementary = (color: string, distance = 15, accented = false) => {
   const a = convert(color, 'rgb');
-  const opposite = complement(a);
+  const opposite = convert(complement(a), 'rgb');
   const b = spin(opposite, -distance);
   const c = spin(opposite, distance);
 
@@ -145,7 +145,7 @@ const splitComplementary = (color: string, distance = 15, accented = false) => {
 
 const analogous = (color: string, distance = 15, accented = false) => {
   const origin = convert(color, 'rgb');
-  const opposite = complement(origin);
+  const opposite = convert(complement(origin), 'rgb');
   const scheme = Array.from(
     Array(3).fill(convert(color, 'rgb')),
     (value, index) => spin(value, distance * index)
@@ -157,8 +157,8 @@ const analogous = (color: string, distance = 15, accented = false) => {
 const dual = (color: string, distance = 15) => {
   const a = convert(color, 'rgb');
   const b = spin(color, distance);
-  const c = complement(a);
-  const d = complement(b);
+  const c = convert(complement(a), 'rgb');
+  const d = convert(complement(b), 'rgb');
 
   return [a, b, c, d];
 };

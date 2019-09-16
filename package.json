@@ -1,7 +1,7 @@
 {
   "name": "@quarksuite/core",
   "version": "2.0.0-staging",
-  "description": "Quarksuite is a toolkit focused on providing a subatomic foundation to help developers build better design systems.",
+  "description": "A kit aimed at helping developers create consistent, framework-independent baselines for design systems.",
   "author": "Chatman R. Jr <crjr.code@gmail.com>",
   "repository": {
     "type": "git",
@@ -12,15 +12,13 @@
   },
   "homepage": "https://github.com/quarksuite/core",
   "keywords": [
+    "quarksuite",
+    "front-end",
     "design systems",
     "toolkit",
-    "quarksuite",
     "minimal"
   ],
   "license": "MPL-2.0",
-  "dependencies": {
-    "tinycolor2": "^1.4.1"
-  },
   "devDependencies": {
     "@babel/core": "^7.5.0",
     "@babel/plugin-transform-runtime": "^7.5.5",

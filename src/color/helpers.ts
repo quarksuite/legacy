@@ -123,7 +123,7 @@ export const spin = (color: string, rotation: number = 180) => {
   s = Math.round(s * 100);
   l = Math.round(l * 100);
 
-  return convert(`hsl(${h}, ${s}%, ${l}%)`, 'hex');
+  return convert(`hsl(${h}, ${s}%, ${l}%)`, 'rgb');
 };
 
 export const blend = (
