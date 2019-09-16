@@ -81,51 +81,116 @@ export type Schemes =
   | 'complementary'
   | 'split complementary'
   | 'triadic'
-  | 'clash'
-  | 'dual'
+  | 'dual color'
   | 'tetradic';
 
-export interface PaletteConfig {
+export interface VariantConfig {
   contrast?: number;
   limit?: number;
   mode?: 'logarithmic' | 'linear';
-  format?: 'rgb' | 'hex' | 'hsl';
+}
+
+export interface PaletteConfig {
   scheme?: {
     type?: Schemes;
     distance?: number;
-    accented?: false;
+    accented?: boolean;
   };
+  tints?: VariantConfig;
+  tones?: VariantConfig;
+  shades?: VariantConfig;
+  format?: 'rgb' | 'hex' | 'hsl';
 }
 
-const generate = (color: string, config: PaletteConfig = {}) => {
-  const {
-    contrast = 97,
-    limit = 4,
-    mode = 'logarithmic',
-    format = 'rgb'
-  } = config;
-
-  // Convert to RGB for blending
+const variants = (
+  color: string,
+  type: 'tint' | 'tone' | 'shade',
+  contrast = 97,
+  limit = 3,
+  mode: 'logarithmic' | 'linear' = 'logarithmic',
+  format: CSSColorFormats = 'rgb'
+) => {
   let base = convert(color, 'rgb');
   const white = convert('#fff', 'rgb');
   const gray = convert('#aaa', 'rgb');
   const black = convert('#111', 'rgb');
 
-  // Returns all types
-  const palette = [white, gray, black].map(target => {
-    return Array.from(Array(limit).fill(''))
-      .map((_value, index) => {
+  if (type === 'tint')
+    return Array.from(Array(limit).fill(base))
+      .map((c, index) => {
         const amount = contrast - (contrast / limit) * index;
-        return convert(blend(base, target, amount, mode), format);
+        return convert(blend(c, white, amount, mode), format);
       })
       .reverse();
-  });
+  if (type === 'tone')
+    return Array.from(Array(limit).fill(base))
+      .map((c, index) => {
+        const amount = contrast - (contrast / limit) * index;
+        return convert(blend(c, gray, amount, mode), format);
+      })
+      .reverse();
+  if (type === 'shade')
+    return Array.from(Array(limit).fill(base))
+      .map((c, index) => {
+        const amount = contrast - (contrast / limit) * index;
+        return convert(blend(c, black, amount, mode), format);
+      })
+      .reverse();
+
+  return color;
+};
+
+const generate = (color: string, config: PaletteConfig = {}) => {
+  const tints = config.tints || {};
+  const tones = config.tones || {};
+  const shades = config.shades || {};
+  let collection = {};
+
+  const { format = 'rgb' } = config;
+
+  // Build collection if variant config exists
+  if (config.tints)
+    collection = {
+      ...collection,
+      tint: variants(
+        color,
+        'tint',
+        tints.contrast,
+        tints.limit,
+        tints.mode,
+        format
+      )
+    };
+
+  if (config.tones)
+    collection = {
+      ...collection,
+      tone: variants(
+        color,
+        'tone',
+        tones.contrast,
+        tones.limit,
+        tones.mode,
+        format
+      )
+    };
+
+  if (config.shades)
+    collection = {
+      ...collection,
+      shade: variants(
+        color,
+        'shade',
+        shades.contrast,
+        shades.limit,
+        shades.mode,
+        format
+      )
+    };
 
   return {
-    base: convert(base, format),
-    tints: palette[0],
-    tones: palette[1],
-    shades: palette[2]
+    base: convert(color, format),
+    ...collection
   };
 };
 
@@ -134,29 +199,37 @@ const complementary = (color: string) => [
   convert(complement(color), 'rgb')
 ];
 
-const splitComplementary = (color: string, distance = 15, accented = false) => {
+const splitComplementary = (
+  color: string,
+  distance: number = 15,
+  accented: boolean = false
+) => {
   const a = convert(color, 'rgb');
   const opposite = convert(complement(a), 'rgb');
-  const b = spin(opposite, -distance);
-  const c = spin(opposite, distance);
+  // left of complement
+  const b = convert(spin(opposite, 360 - distance), 'rgb');
+  // right of complement
+  const c = convert(spin(opposite, 360 + distance), 'rgb');
 
   return accented ? [a, opposite, b, c] : [a, b, c];
 };
 
-const analogous = (color: string, distance = 15, accented = false) => {
-  const origin = convert(color, 'rgb');
-  const opposite = convert(complement(origin), 'rgb');
-  const scheme = Array.from(
-    Array(3).fill(convert(color, 'rgb')),
-    (value, index) => spin(value, distance * index)
-  );
+const analogous = (
+  color: string,
+  distance: number = 15,
+  accented: boolean = false
+) => {
+  const a = convert(color, 'rgb');
+  const opposite = convert(complement(a), 'rgb');
+  const b = convert(spin(a, 360 + distance), 'rgb');
+  const c = convert(spin(a, 360 + distance * 2), 'rgb');
 
-  return accented ? [...scheme, opposite] : scheme;
+  return accented ? [a, b, c, opposite] : [a, b, c];
 };
 
-const dual = (color: string, distance = 15) => {
+const dual = (color: string, distance: number = 15) => {
   const a = convert(color, 'rgb');
-  const b = spin(color, distance);
+  const b = convert(spin(color, 360 + distance), 'rgb');
   const c = convert(complement(a), 'rgb');
   const d = convert(complement(b), 'rgb');
 
@@ -172,10 +245,6 @@ const dual = (color: string, distance = 15) => {
  * ```ts
  * // all defaults
  * const defaultConfig: PaletteConfig = {
- *  contrast: 97, // amount of contrast in the palette (0-100)
- *  limit: 4, // number of variants each
- *  mode: 'logarithmic', // sets the blend mode for palette
- *  format: 'rgb', // change the output format of palette
  *  scheme: {
  *    type: 'monochromatic', // type of scheme to generate
  *    // analogous and split complementary options
@@ -183,10 +252,11 @@ const dual = (color: string, distance = 15) => {
  *    accented: false // whether to include complement as accent
  *  }
  * }
+ * format: 'rgb', // change the output format of palette
  *
  * // Outputs triadic scheme with all other defaults
- * color.output('#348ec9', {
- *   scheme: { type: 'split complementary', distance: 60 }
+ * color.palette('#348ec9', {
+ *   scheme: { type: 'triadic' }
  * })
  *
  * @param color - The base color to generate from
@@ -194,10 +264,7 @@ const dual = (color: string, distance = 15) => {
  * @returns The generated palette as an array of objects
  * ```
  **/
-export const output = (
-  color: string,
-  config: PaletteConfig = {}
-): Record<string, any>[] => {
+export const palette = (color: string, config: PaletteConfig = {}) => {
   const { type = 'monochromatic', distance = 15, accented = false } =
     config.scheme || {};
   let palette;
@@ -217,13 +284,10 @@ export const output = (
     case 'triadic':
       palette = splitComplementary(base, 60);
       break;
-    case 'clash':
-      palette = splitComplementary(base, 90);
-      break;
     case 'analogous':
       palette = analogous(base, distance, accented);
       break;
-    case 'dual':
+    case 'dual color':
       palette = dual(base, distance);
       break;
     case 'tetradic':

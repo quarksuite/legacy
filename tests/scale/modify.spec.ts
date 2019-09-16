@@ -3,7 +3,7 @@ import { create, modify } from '../../src/scale';
 describe('Scale creation and modification', () => {
   describe('scale.modify(scale, n, modifier)', () => {
     test('modifies a modular scale', () => {
-      const scale = create(1, 'golden');
+      const scale = create();
       const data = modify(scale, 2, (n, value) => n * value);
       expect(data).toStrictEqual([
         2,

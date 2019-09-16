@@ -116,19 +116,14 @@ export const convert = (color: string, to: CSSColorFormats) => {
   return color;
 };
 
-export const spin = (
-  color: string,
-  rotation: number = 180,
-  format?: CSSColorFormats
-) => {
-  format = format || 'hex';
+export const spin = (color: string, rotation: number = 180) => {
   let [h, s, l] = hslData(convert(color, 'hsl'));
 
-  h = (h + Math.abs(rotation)) % 360;
+  h = (h + rotation) % 360;
   s = Math.round(s * 100);
   l = Math.round(l * 100);
 
-  return convert(`hsl(${h}, ${s}%, ${l}%)`, format);
+  return convert(`hsl(${h}, ${s}%, ${l}%)`, 'hex');
 };
 
 export const blend = (
