@@ -32,10 +32,10 @@ describe('Color palette utility', () => {
           base: 'rgb(52, 142, 201)'
         },
         {
-          base: 'rgb(203, 75, 52)'
+          base: 'rgb(203, 150, 52)'
         },
         {
-          base: 'rgb(203, 150, 52)'
+          base: 'rgb(203, 75, 52)'
         }
       ]);
     });
@@ -50,10 +50,10 @@ describe('Color palette utility', () => {
           base: 'rgb(52, 142, 201)'
         },
         {
-          base: 'rgb(203, 52, 67)'
+          base: 'rgb(203, 188, 52)'
         },
         {
-          base: 'rgb(203, 188, 52)'
+          base: 'rgb(203, 52, 67)'
         }
       ]);
     });
@@ -68,10 +68,10 @@ describe('Color palette utility', () => {
           base: 'rgb(52, 142, 201)'
         },
         {
-          base: 'rgb(203, 52, 105)'
+          base: 'rgb(180, 203, 52)'
         },
         {
-          base: 'rgb(180, 203, 52)'
+          base: 'rgb(203, 52, 105)'
         }
       ]);
     });
@@ -89,10 +89,10 @@ describe('Color palette utility', () => {
           base: 'rgb(203, 112, 52)'
         },
         {
-          base: 'rgb(203, 52, 105)'
+          base: 'rgb(180, 203, 52)'
         },
         {
-          base: 'rgb(180, 203, 52)'
+          base: 'rgb(203, 52, 105)'
         }
       ]);
     });
@@ -103,10 +103,10 @@ describe('Color palette utility', () => {
           base: 'rgb(52, 142, 201)'
         },
         {
-          base: 'rgb(203, 52, 143)'
+          base: 'rgb(143, 203, 52)'
         },
         {
-          base: 'rgb(143, 203, 52)'
+          base: 'rgb(203, 52, 143)'
         }
       ]);
     });

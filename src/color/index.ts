@@ -206,10 +206,10 @@ const splitComplementary = (
 ) => {
   const a = convert(color, 'rgb');
   const opposite = convert(complement(a), 'rgb');
-  // left of complement
-  const b = convert(spin(opposite, 360 - distance), 'rgb');
   // right of complement
-  const c = convert(spin(opposite, 360 + distance), 'rgb');
+  const b = convert(spin(opposite, 360 + distance), 'rgb');
+  // left of complement
+  const c = convert(spin(opposite, 360 - distance), 'rgb');
 
   return accented ? [a, opposite, b, c] : [a, b, c];
 };
