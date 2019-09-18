@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.0.0
+
+### Added
+
++ Color conversion function `color.format`. See the [API docs](API.md) for details.
++ System stack typography function `typography.system`. See the [API docs](API.md) for details.
+
+### Removed
+
++ tinycolor2 as a dependency
++ cleaned more unused settings
+
+### Changed
+
++ Color and scale functions were rewritten to be simpler and behave a little differently. [Check out the API documentation](API.md) for more details.
++ API rewritten with fewer technical details
+
 ## v1.4.1
 
 ### Changed

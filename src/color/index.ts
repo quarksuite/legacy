@@ -259,12 +259,22 @@ const dual = (color: string, distance: number = 15) => {
  *   scheme: { type: 'triadic' }
  * })
  *
+ * // Outputs a complementary scheme with three tints and shades
+ * color.palette('#348ec9', {
+ *   scheme: 'complementary',
+ *   tints: {},
+ *   shades: {}
+ * })
+ * ```
+ *
  * @param color - The base color to generate from
  * @param config? - configuration to modify the palette (uses all defaults if undefined)
  * @returns The generated palette as an array of objects
- * ```
  **/
-export const palette = (color: string, config: PaletteConfig = {}) => {
+export const palette = (
+  color: string,
+  config: PaletteConfig = {}
+): Record<string, any>[] => {
   const { type = 'monochromatic', distance = 15, accented = false } =
     config.scheme || {};
   let palette;

@@ -75,7 +75,8 @@ export const modify = (
   scale: number[],
   n: number,
   modifier: (n: number, scaleValue: number) => number
-) => scale.map(value => parseFloat(modifier(n, value).toPrecision(6)));
+): number[] =>
+  scale.map(value => parseFloat(modifier(n, value).toPrecision(6)));
 
 /**
  * Merges modular scales and removes duplicate values.
@@ -92,7 +93,7 @@ export const modify = (
  * @param scales - The scales to merge (recommend no more than three)
  * @return - a new scale containing all unique values of sources
  **/
-export const merge = (...scales: number[][]) => {
+export const merge = (...scales: number[][]): number[] => {
   return Array.prototype
     .concat(...scales)
     .sort((a: number, b: number) => a - b)

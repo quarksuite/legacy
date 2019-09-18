@@ -1,411 +1,282 @@
-# Quarksuite API (v1.4.x)
+# Quarksuite API (v2.0.0)
 
-*IMPORTANT: The internal update for the color API in v1.4 to use tinycolor2 instead of chroma-js means that if you update from a previous version, your color output **will** change*
+*IMPORTANT: Be careful when upgrading from a previous version. Don’t hesitate to [submit an issue](https://github.com/quarksuite/core/issues) if you have any trouble upgrading. I’ve also eschewed an overly technical writing style since that gets in the way of clear communication at times.*
 
-## color.swatch
+*You can [try out any example](https://www.pika.dev/packages/@quarksuite/core/repl) with the Pika.dev REPL.*
 
-### complement()
+## Color Functions
 
-#### Parameters
+### color.complement
 
-+ `color: string`:  a color to modify
-
-#### Returns
-
-`string`: the complement (opposite) of a color
-
-#### Example
+Grabs the complement of a color.
 
 ```js
-import { color } from '@quarksuite/core';
-
-const swatch = color.swatch;
-
-swatch.complement('#348ec9');
+color.complement('#348ec9')
 ```
 
-### neutralize()
+### color.neutralize
 
-#### Parameters
-
-+ `color: string`: a color to modify
-
-#### Returns
-
-`string`: the negation of a color. Good for neutral palettes
-
-#### Example
-
-```js 
-import { color } from '@quarksuite/core';
-
-const swatch = color.swatch;
-
-swatch.neutralize('#348ec9');
-```
-
-### mix()
-
-#### Parameters
-
-+ `color: string`: a color to modify
-+ `target: string`: a color to mix
-+ `amount?: number`: amount of mixture
-
-#### Returns
-
-`string`: the mix of `color` and `target`
-
-#### Example
-
-```js 
-import { color } from '@quarksuite/core';
-
-const swatch = color.swatch;
-
-swatch.mix('#348ec9', 'green');
-swatch.mix('#deaded', 'red', 75);
-```
-
-## color.palette
-
-### tints()
-
-#### Parameters
-
-+ `color: string`: color to create tints for
-+ `count?: number = 4`: number of colors to output
-+ `contrast?: number = 95`: adjusts the contrast of output
-
-#### Returns
-
-`string[]`: a collection of tints (color + white)
-
-#### Example
+Mixes a color with its complement to neutralize it. Great for muted color palettes.
 
 ```js
-import { color } from '@quarksuite/core';
-
-const palette = color.palette;
-
-palette.tints('#348ec9');
-palette.tints('#deaded', 2, 60);
+color.neutralize('#348ec9')
 ```
 
-### tones()
+### color.mix
 
-#### Parameters
-
-- `color: string`: color to create tones for
-- `count?: number = 4`: number of colors to output
-- `contrast?: number = 95`: adjusts the contrast of output
-
-#### Returns
-
-`string[]`: a collection of tones (color + gray)
-
-#### Example
+Mixes any two colors. You can provide an `amount` to mix them more or less.
 
 ```js
-import { color } from '@quarksuite/core';
+color.mix('#348ec9', 'orange');
 
-const palette = color.palette;
+// less
+color.mix('#348ec9', 'orange', 30);
 
-palette.tones('#348ec9');
-palette.tones('#deaded', 2, 60);
+// more
+color.mix('#348ec9', 'orange', 80);
 ```
 
-### shades()
+### color.format
 
-#### Parameters
-
-- `color: string`: color to create shades for
-- `count?: number = 4`: number of colors to output
-- `contrast?: number = 95`: adjusts the contrast of output
-
-#### Returns
-
-`string[]`: a collection of shades (color + black)
-
-#### Example
+Converts a color to another `format`. Use caution when passing colors with an alpha channel.
 
 ```js
-import { color } from '@quarksuite/core';
+// converts to rgb by default
+color.format('#348ec9');
 
-const palette = color.palette;
+// pass in another format
+color.format('#348ec9', 'hsl')
 
-palette.shades('#348ec9');
-palette.shades('#deaded', 2, 60);
+// convert a color with an alpha channel
+color.format('#348ec990', 'rgba');
+
+// works with W3C named colors
+color.format('rebeccapurple', 'hex');
 ```
 
-*IMPORTANT: v1.3.x simplified `color.scheme` to output base schemes. You can choose which palettes to create from them.*
+#### Formats
 
-## color.scheme
+The available formats for conversion work with any other format listed.
 
-### complementary()
+| Key     | Example                    |
+| ------- | -------------------------- |
+| `hex`   | `#beac90`                  |
+| `hex8`  | `#bea9ccaa`                |
+| `rgb`   | `rgb(30, 110, 0)`          |
+| `rgba`  | `rgba(44, 150, 70, 0.31)`  |
+| `hsl`   | `hsl(128, 40%, 75%)`       |
+| `hsla`  | `hsla(33, 78%, 42%, 0.25)` |
+| `named` | `yellowgreen`              |
 
-#### Parameters
+### color.palette
 
-- `color: string`: color to create scheme from
-
-#### Returns
-
-`string[]`: a complementary base scheme
-
-#### Example
+Responsible for building color palettes. You can output a collection of base colors and modify them according to your needs. You can also generate your whole palette with `tints`, `tones`, and `shades`.
 
 ```js
-import { color } from '@quarksuite/core';
-
-const scheme = color.scheme;
-
-scheme.complementary('#348ec9');
+// creates a 1:1 color object by default
+color.palette('#348ec9');
 ```
 
-### splitComplementary()
-
-#### Parameters
-
-+ `color: string`: color to create scheme from
-
-+ `distance?: number = 15`: distance of split from color (between 15 and 30 recommended)
-
-+ `accented?: boolean = false`: include complement as an accent
-
-#### Returns
-
-`string[]`: a split complementary base scheme
-
-#### Example
-
-``` js
-import { color } from '@quarksuite/core';
-
-const scheme = color.scheme;
-
-scheme.splitComplementary('#348ec9');
-scheme.splitComplementary('#deaded', 30, true);
-```
-
-### triadic()
-
-#### Parameters
-
-- `color: string`: color to create scheme from
-
-
-#### Returns
-
-`string[]`: a triadic base scheme
-
-#### Example
+#### Schemes
 
 ```js
-import { color } from '@quarksuite/core';
+// monochromatic scheme with three tints and shades
+color.palette('#348ec9', {
+  tints: {}, shades: {}
+});
 
-const scheme = color.scheme;
+// complementary scheme
+color.palette('#348ec9', {
+  scheme: { type: 'complementary' }
+});
 
-scheme.triadic('#348ec9');
+// split complementary
+color.palette('#348ec9', {
+  scheme: { type: 'split complementary' }
+});
+
+// you can adjust the distance of the spread
+color.palette('#348ec9', {
+  scheme: { type: 'split complementary', distance: 30 }
+});
+
+// And also add the complement as an accent
+color.palette('#348ec9', {
+  scheme: { type: 'split complementary', distance: 30, accented: true }
+});
+
+// Triadic is a shortcut for a split complementary scheme
+// that creates an equilateral triangle
+color.palette('#348ec9', {
+  scheme: { type: 'triadic' }
+});
+
+// an analogous scheme with all other defaults
+color.palette('#348ec9', {
+  scheme: { type: 'analogous' }
+});
+
+// analogous schemes can also be spread and accented
+color.palette('#348ec9', {
+  scheme: { type: 'analogous', distance: 45, accented: true }
+});
+
+// dual color = tetradic
+color.palette('#348ec9', {
+  scheme: { type: 'dual color' }
+})
+
+// accepts a distance but cannot be accented
+color.palette('#348ec9', {
+  scheme: { type: 'dual color', distance: 30 }
+})
+
+// Tetradic is a shortcut for a dual color scheme
+// that creates a perfect square
+color.palette('#348ec9', {
+  scheme: { type: 'tetradic', distance: 30 }
+})
 ```
 
-### analogous()
+#### Variants
 
-#### Parameters
-
-- `color: string`: color to create scheme from
-- `distance?: number = 15`: distance of split from color (between 15 and 30 recommended)
-- `accented?: boolean = false`: include complement as an accent
-
-#### Returns
-
-`string[]`: an analogous base scheme
-
-#### Example
+Do keep in mind that if you don’t pass in variant objects, Quarksuite won’t generate them.
 
 ```js
-import { color } from '@quarksuite/core';
+// By default passing in variants creates 3 of 
+// that variant using a logarithmic blend mode
+color.palette('goldenrod', {
+  tints: {}, shades: {}
+})
 
-const scheme = color.scheme;
+// More variants
+color.palette('goldenrod', {
+  tints: { limit: 5 }
+})
 
-scheme.analogous('#348ec9');
-scheme.analogous('#deaded', 30, true);
+// Fewer variants
+color.palette('goldenrod', {
+  tints: { limit: 2 }
+})
+
+// Lower contrast
+color.palette('dodgerblue', {
+  shades: { contrast: 40 }
+})
+
+// Higher contrast
+color.palette('dodgerblue', {
+  shades: { contrast: 99 }
+})
+
+// Linear blend mode
+color.palette('aliceblue', {
+  tones: { mode: 'linear' }
+})
 ```
 
-### dual()
+## Typography Functions
 
-#### Parameters
+### typography.system
 
-- `color: string`: color to create scheme from
-
-- `distance?: number = 15`: distance between base colors (between 15 and 30 recommended)
-
-
-#### Returns
-
-`string[]`: a dual color base scheme
-
-#### Example
+Outputs a system font stack for the given `family`.
 
 ```js
-import { color } from '@quarksuite/core';
+// sans-serif
+typography.system('sans');
 
-const scheme = color.scheme;
+// serif
+typography.system('serif');
 
-scheme.dual('#348ec9');
-scheme.dual('#deaded', 30);
+// monospace
+typography.system('monospace');
 ```
 
-### tetradic()
+## Scale Functions
 
-#### Parameters
+### scale.create
 
-- `color: string`: color to create scheme from
-
-
-#### Returns
-
-`string[]`: a tetradic base scheme 
-
-#### Example
+Creates a modular from a `base` and `ratio` with the option to set an output `limit`.
 
 ```js
-import { color } from '@quarksuite/core';
+// Creates a scale with a base of 1, the golden
+// ratio and 6 values by default
+scale.create();
 
-const scheme = color.scheme;
+// Passing in another base
+scale.create(1.125);
 
-scheme.tetradic('#348ec9');
+// Ratios can be named
+scale.create(1, 'min7th')
+
+// Custom ratios are allowed
+scale.create(1, 2.25)
+
+// You can set a limit
+scale.create(1, 'maj3rd', 8);
+
+// You can invert the scale (divide)
+scale.create(1, 'maj3rd', 8, true)
 ```
 
-## content.scale
+#### Ratios
 
-### create()
+All ratios have been borrowed from [modularscale.com](https://modularscale.com). Except `golden` which was calculated from the 15th and 16th values of a Fibonacci sequence.
 
-#### Parameters
+| Key        | Value                      |
+| ---------- | -------------------------- |
+| `min2nd`   | `1.067`                    |
+| `maj2nd`   | `1.125`                    |
+| `min3rd`   | `1.2`                      |
+| `perf4th`  | `1.333`                    |
+| `dim5th`   | `1.414`                    |
+| `min6th`   | `1.6`                      |
+| `golden`   | phi = `1.6180371352785146` |
+| `maj6th`   | `1.667`                    |
+| `min7th`   | `1.778`                    |
+| `maj7th`   | `1.875`                    |
+| `octave`   | `2`                        |
+| `maj10th`  | `2.5`                      |
+| `maj12th`  | `3`                        |
+| `x2octave` | `4`                        |
 
-+ `value: number`: value to use for generating a scale
+### scale.modify
 
-+ `limit: number`: the number of values you want to generate
-
-#### Returns
-
-`Generator`: a modular scale
-
-#### Example
+Modify a new or existing `scale` with `n` and a `modifier` function.
 
 ```js
-import { content } from '@quarksuite/core';
-
-const scale = content.scale;
-
-const custom = limit => scale.create(1.375, limit);
+// add ten to each value in the scale
+scale.modify(scale.create(), 10, (n, v) => n + v)
 ```
 
-### build()
+### scale.merge
 
-#### Parameters
-
-+ `type: (limit: number) => Generator`: the created scale
-
-+ `limit: number`: the number of values to output
-
-#### Returns
-
-`number[]`: a modular scale
-
-#### Example
+Merges `scales` and removes any duplicate values. Recommended not to merge more than three or use dissonant bases or ratios.
 
 ```js
-import { content } from '@quarksuite/core';
+const first = scale.create();
+const second = scale.create(1.25);
+const third = scale.create(1.5);
 
-const scale = content.scale;
-
-const newScale = (limit: number) => scale.create(1.375, limit);
-
-scale.build(newScale, 8);
+scale.merge(first, second, third);
 ```
 
-### multistrand()
+### scale.output
 
-#### Parameters
-
-+ `scale: number[]`: the scale you want to thread
-
-+ `ratios: number[]`: ratios to thread through your scale (too many will dilute it)
-
-#### Returns
-
-`number[]`: a multi-threaded modular scale
-
-#### Example
+Outputs a scale with the desired `unit` and `precision`. Accepts all available absolute and relative CSS units.
 
 ```js
-import { content } from '@quarksuite/core';
+// By default, it returns 'rem' units and a
+// precision of 4
+scale.output(scale.create());
 
-const scale = content.scale;
+// Allows you to use another unit
+scale.output(scale.create(), 'em');
 
-scale.multistrand(scale.ratios.golden, [1.5, 1.75])
+// More precise values
+scale.output(scale.create(), 'rem', 7);
+
+// Less precise values
+scale.output(scale.create(), 'rem', 2);
 ```
-
-### augment()
-
-#### Parameters
-
-+ `value: number`: a significant value in your design
-
-+ `scale: number[]`: a scale to augment
-
-+ `transform: (value: number, scaleValue: number) => number`:  the augment operation
-
-#### Returns
-
-`number[]`: an augmented scale
-
-####  Example
-
-```js
-import { content } from '@quarksuite/core';
-
-const scale = content.scale;
-
-const multiply = (base, value) => base * value;
-
-scale.augment(1.25, scale.ratios.octave, multiply);
-```
-
-### output()
-
-#### Parameters
-
-+ `scale: number[]`: a scale to output
-+ `precision?: number = 4`:  decimal place precision of values
-+ `unit?: string = ‘rem’`  : CSS unit to attach to values 
-
-#### Returns
-
-`string[]`: a design system-ready modular scale
-
-#### Example
-
-```js
-import { content } from '@quarksuite/core';
-
-const scale = content.scale;
-
-const multiply = (base, value) => base * value;
-
-scale.output(scale.augment(1.5, scale.ratios.golden, multiply), 5, 'rem');
-```
-
-### ratios
-
-A set of common scales popular in design and art. More will be added on request. Uses `scale.create` internally.
-
-| key          | ratio                       |
-| ------------ | --------------------------- |
-| `major3rd`   | `1.25`                      |
-| `perfect4th` | `1.333`                     |
-| `perfect5th` | `1.5`                       |
-| `golden`     | phi =  `1.6180371352785146` |
-| `major6th`   | `1.667`                     |
-| `octave`     | `2`                         |
 

@@ -1,53 +1,40 @@
 # Quarksuite (Core)
 
-Quarksuite is a toolkit that helps create a subatomic foundation for design systems. It provides what you need to maintain consistency and ease implementation of the **boilerplate** concerns of your system. Quarksuite is meant to bridge the gap between having a mature design system versus having one at all.
+Quarksuite is a kit aimed at helping developers create consistent, independent baselines for design systems. I built it to bridge the gap between having a mature design system and not having one at all.
 
-## What Quarksuite Is
+That said:
 
-### A Starting Point
+Decisions about design are meaningful because of people. You can build a small or large baseline as you want with this project. Quarksuite will generate your palette, basic system font stacks, and your sizing and proportion scales without much issue.
 
-Colors, content proportions, and spacing aren’t the whole of a design system. A system emerges from concerns that are in play before we even write a line of code. Made by people and not tools.
-
-### Interoperable
-
-Quarksuite begins and ends with data. Data travels faster than a framework. This means you can also generate design tokens for your system using tools like Theo and Style Dictionary.
-
-## What Quarksuite Isn’t
-
-### A Design System
-
-Quarksuite is not, in itself, a design system. It creates subatomic data you can use **within** a design system.
+However, none of it matters without a clear understanding of your audience, appropriate messaging, visuals, iconography, and content. Quarksuite can’t help you with any of that.
 
 ## Goals
 
-### Go Where the Web Goes
+### Small, Yet Complete
 
-Quarksuite is made to travel light. This means it can follow your stack no matter what it might be and help you build design systems on **your** terms.
+Quarksuite travel light: Ongoing development aims for simpler ways to use the library while keeping it small and fast for the wide spectrum of network speeds.
 
-### Simple, Yet Featureful
+### Modify > Configure
 
-Quarksuite is lean as a library. It only provides **utilities** for implementing design systems. You put data in and get data out that you can use through your whole system. Quarksuite will not be responsible for generating design tokens or building UIs. I built it to ease the execution of design systems for designers and to help developers get started with using them.
+Quarksuite assumes you want to build your idea as quickly as possible. Many of the functions have default output with options to change it according to your needs. This is intended to streamline setup and avoid, where possible, burdening developers with even more decisions to make.
 
-### For Tiny Universes
+### Your Data, Your Methods
 
-The baseline data you build with Quarksuite can be specific to one project, or you can use it across multiple systems. You can use Quarksuite for one-off interfaces, customizable themes, or anything else that consumes and writes data.
-
-### Your Data, Your Way
-
-I’ve deliberately built Quarksuite not to be opinionated about **how** you generate your baseline system data. You can have your system in one big file, or you can categorize colors, content, and composition in many files. In fact, Quarksuite is designed to disappear when it’s job is done.
+Quarksuite imposes no structural rules about how you use your design system baseline. You can generate all of your design data in one file. You can also split it up and create mini-systems for your current and future projects. You can even generate design tokens with Style Dictionary or Theo to uncouple Quarksuite from your data entirely if you ever want to stop using it.
 
 ## Features
 
-+ A simple API (`colors`, `content`)
-+ Color palette and scheme generation you can modify down to the swatch
-+ Modular scale generation you can modify down to the unit
-+ Use it anywhere. With a build system, within a framework, or directly in your browser
++ Three tiny modules (`color`, `typography`, `scale`)
++ Modify colors, create palettes and schemes, convert CSS formats
++ Ready-to-use cross-platform [OS font stacks](https://systemfontstack.com/)
++ Create, modify, and merge modular scales for sizing and proportion. Output with relative or absolute units and value precision
++ No framework, no dependencies. Build the way you want
 
 ## Installation
 
-### As a Node Module/Dependency
+### As a Module
 
-> You’ll require at least Node.js LTS (v10.16.x) to use Quarksuite as a module. It’s also highly recommended you install Yarn, too.
+> You’ll require at least Node.js LTS (v10.16.x) to use Quarksuite as a module. I would recommend installing Yarn as well.
 ```bash
 npm install @quarksuite/core
 
@@ -56,96 +43,151 @@ npm install @quarksuite/core
 yarn add @quarksuite/core
 ```
 
-### In Your Browser
+Then in any file:
+
+```js
+const {color, typography, scale} = require('@quarksuite/core');
+
+// OR with ES Modules
+import {color, typography, scale} from '@quarksuite/core';
+```
+
+### In the Browser
 
 ```html
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Quarksuite Example</title>
+    <title>Quarksuite (v2.0.0) Example</title>
   </head>
   <body>
-    <script src="https://unpkg.com/@quarksuite/core@1.4.0/dist-web/index.js"></script>
+    <script src="https://unpkg.com/@quarksuite/core@2.0.0/dist-web/index.js"></script>
   </body>
 </html>
 ```
 
-## Creating A Design System Baseline with Quarksuite
+## Quickstart
 
-As an example:
+As a demonstration, I’ll show you you how I created Quarksuite’s own system baseline. 
+
+### Setup
 
 ```js
-const { color, content } = require('@quarksuite/core');
+/* system */
 
-const { palette, scheme } = color;
-const scale = content.scale;
+const { color, typography, scale } = require('@quarksuite/core');
 
-/** Colors */
+// Create an object to collect system data
+let system = {};
+```
 
-// Set a base color
+### Color Palette
+
+```js
+/* system.js */
+
+// Beginning with the brand color, generate a basic triadic scheme.
+
+/* Color */
+
 const brand = '#348ec9';
 
-// Create a base scheme
-const baseScheme = scheme.triadic(brand);
+// Create a triadic base scheme to modify
+const baseScheme = color.palette(brand, {
+  scheme: { type: 'triadic' }
+});
 
-const colors = ['brand', 'secondary', 'accent'].reduce(
-  (container, category, index) => {
-    const value = baseScheme[index];
+// sets primary palette with three tints, two shades
+const primary = color.palette(baseScheme[0].base, {
+  tints: { limit: 3 },
+  shades: { limit: 2 },
+  format: 'hex'
+});
 
-    const variants = v =>
-      v.reduce((container, value, index) => {
-        return { ...container, ...{ [`${++index}00`]: { value } } };
-      }, {});
+// format the others as is
+const secondary = color.palette(baseScheme[1].base, {
+  format: 'hex'
+});
 
-    return {
-      ...container,
-      ...{
-        [category]: {
-          base: { value },
-          tint: variants(palette.tints(value, 3)),
-          tone: variants(palette.tones(value, 3)),
-          shade: variants(palette.shades(value, 3))
-        }
-      }
-    };
-  },
-  {}
-);
+const tertiary = color.palette(baseScheme[2].base, {
+  format: 'hex'
+});
 
-/** Content */
-
-const baseScale = scale.build(scale.ratios.perfect5th, 6);
-
-const ms = scale
-  .output(baseScale, 3, 'vw')
-  .reduce((container, value, index) => {
-    return { ...container, ...{ [index]: { value } } };
-  }, {});
-
-const spacing = scale
-  .output(scale.augment(0.15, baseScale, (b, v) => b * v), 2, 'em')
-  .reduce((container, value, index) => {
-    return { ...container, ...{ [index]: { value } } };
-  }, {});
-
-const data = {
-  color: colors,
-  ms,
-  spacing
+// Add colors to data
+system = {
+  ...system,
+  color: { primary, secondary, tertiary }
 };
-
-module.exports = data;
 ```
+
+### Typography
+
+```js
+/* system */
+
+/* Typography */
+
+// Use sans-serif and serif system stack
+const sans = typography.system('sans');
+const serif = typography.system('serif');
+
+// Collect font data
+system = {
+  ...system,
+  font: {
+    system: { sans, serif }
+  }
+}
+```
+
+### Proportions and Spacing
+
+```js
+/* system */
+
+/* Scales */
+
+// First, create a global scale with eight values
+const baseScale = scale.create(1, 'maj3rd', 8);
+
+// Read https://every-layout.dev/rudiments/units for the
+// reasoning behind having block and inline element scales.
+
+// 18px / root = 1.125em
+const block = scale.modify(baseScale, 1.125, (n, v) => n * v);
+
+// 5px / root = 0.3125em
+const inline = scale.modify(baseScale, 0.3125, (n, v) => n * v);
+
+// Collect scale data
+system = {
+  ...system,
+  scale: {
+    block: scale.output(block, 'rem'),
+    inline: scale.output(inline, 'em')
+  }
+}
+```
+
+### Output
+
+```js
+// Output the system for usage
+module.exports = system;
+```
+
+## REPL
+
+Pika provides a REPL that lets you [play with Quarksuite](https://www.pika.dev/packages/@quarksuite/core/repl) before deciding if you want to commit to yet another developer tool. Take your time and try it out.
+
 ## Quarksuite & X
 
-One of Quarksuite’s stated goals is interoperability with what you already use. The following sections illustrate how to use Quarksuite with a few example workflows. You can submit a pull request to add more.
+This project aims to work with what you already use. The following sections will demonstrate how to use Quarksuite with a few sample workflows to get started. You can submit a pull request to add to this section.
 
 ### Task: Generate Design Tokens
 
-One of the preferred ways to use Quarksuite data is through generating design tokens. The immediate benefit of design tokens, especially as CSS custom properties, is that you can use your system even without additional tooling.
-
-#### Quarksuite & [Style Dictionary](https://amzn.github.io/style-dictionary/) (CSS Custom Properties/Sass/Less)
+#### Quarksuite & [Style Dictionary](https://amzn.github.io/style-dictionary/) (CSS Custom Properties/Node/Web/JSON)
 
 ##### Install Style Dictionary
 
@@ -157,69 +199,95 @@ npm install style-dictionary -D
 yarn add style-dictionary --dev
 ```
 
-##### system.js
+##### tokens.js
 
 ```js
-const { color, content } = require('@quarksuite/core');
+// Using my own system for example
+const system = require('system');
 
-const { palette, scheme } = color;
-const scale = content.scale;
+// Define an object to collect token formats
+let tokens = {}
 
-/** Colors */
+/* Color */
 
-// Set a base color
-const brand = '#348ec9';
-
-// Create a base scheme
-const baseScheme = scheme.triadic(brand);
-
-const colors = ['brand', 'secondary', 'accent'].reduce(
-  (container, category, index) => {
-    const value = baseScheme[index];
-
-    const variants = v =>
-      v.reduce((container, value, index) => {
-        return { ...container, ...{ [`${++index}00`]: { value } } };
-      }, {});
-
+// Convert colors
+const colors = Object.keys(system.color).reduce((coll, category) => {
+  const [color] = system.color[category];
+  let { base, tint, shade } = color;
+  if (!tint || !shade)
     return {
-      ...container,
+      ...coll,
       ...{
         [category]: {
-          base: { value },
-          tint: variants(palette.tints(value, 3)),
-          tone: variants(palette.tones(value, 3)),
-          shade: variants(palette.shades(value, 3))
+          base: { value: base },
         }
       }
     };
-  },
-  {}
-);
+  return {
+    ...coll,
+    ...{
+      [category]: {
+        base: { value: base },
+        tint: tint.reduce((c, value, i) => {
+          return { ...c, ...{ [`${++i}00`]: { value } } };
+        }, {}),
+        shade: shade.reduce((c, value, i) => {
+          return { ...c, ...{ [`${++i}00`]: { value } } };
+        }, {})
+      }
+    }
+  };
+}, {});
 
-/** Content */
-
-const baseScale = scale.build(scale.ratios.perfect5th, 6);
-
-const ms = scale
-  .output(baseScale, 3, 'vw')
-  .reduce((container, value, index) => {
-    return { ...container, ...{ [index]: { value } } };
-  }, {});
-
-const spacing = scale
-  .output(scale.augment(0.15, baseScale, (b, v) => b * v), 2, 'em')
-  .reduce((container, value, index) => {
-    return { ...container, ...{ [index]: { value } } };
-  }, {});
-
-const data = {
-  color: colors,
-  ms,
-  spacing
+tokens = {
+  ...tokens,
+  color: colors
 };
 
-module.exports = data;
+// Convert typography
+const fonts = Object.keys(system.font.system).reduce((coll, font) => {
+  return {
+    ...coll,
+    ...{
+      ...{
+        [font]: { value: system.font.system[font] }
+      }
+    }
+  };
+}, {});
+
+tokens = {
+  ...tokens,
+  font: { system: fonts }
+};
+
+// Convert scales
+const scales = Object.keys(system.scale).reduce((coll, type) => {
+  return {
+    ...coll,
+    ...{
+      [type]: system.scale[type].reduce((c, value, i) => {
+        if (i === 0) return { ...coll, ...{ base: { value } } };
+        return {
+          ...c,
+          ...{
+            [`${++i}x`]: { value }
+          }
+        };
+      }, {})
+    }
+  };
+}, {});
+
+// Remove recursive block object
+delete scales.inline.block;
+
+tokens = {
+  ...tokens,
+  ms: scales
+};
+
+module.exports = tokens;
 ```
 
 ##### build.js
@@ -227,26 +295,59 @@ module.exports = data;
 ```js
 const { writeFileSync } = require('fs');
 const StyleDictionary = require('style-dictionary');
-const data = require('./system');
+const data = require('./tokens');
 
 // Token output config
-const platforms = ['css', 'scss', 'less'].map(ext => ({
-  transformGroup: ext,
-  buildPath: 'dist/',
-  files: [
-    {
-      format: `${ext}/variables`,
-      destination: ext === 'scss' ? `_system.${ext}` : `system.${ext}`
-    }
-  ]
-}));
+const platforms = {
+  css: {
+    transformGroup: 'css',
+    buildPath: 'dist/',
+    files: [
+      {
+        format: 'css/variables',
+        destination: 'system.css'
+      }
+    ]
+  },
+  node: {
+    transformGroup: 'js',
+    buildPath: 'dist/',
+    files: [
+      {
+        format: 'javascript/module',
+        destination: 'system.node.js'
+      }
+    ]
+  },
+  web: {
+    transformGroup: 'js',
+    buildPath: 'dist/',
+    files: [
+      {
+        name: 'QuarksuiteDSB',
+        format: 'javascript/object',
+        destination: 'system.web.js'
+      }
+    ]
+  },
+  data: {
+    transformGroup: 'js',
+    buildPath: 'dist/',
+    files: [
+      {
+        format: 'json/nested',
+        destination: 'system.json'
+      }
+    ]
+  }
+};
 
-// Write data to JSON file
-writeFileSync('system.json', JSON.stringify(data, null, 2));
+// Write data to temporary file
+writeFileSync('.system-sd.json', JSON.stringify(data, null, 2));
 
 // Build tokens
 StyleDictionary.extend({
-  source: [`*.json`],
+  source: [`.system-sd.json`],
   platforms
 }).buildAllPlatforms();
 ```
@@ -254,303 +355,73 @@ StyleDictionary.extend({
 ##### Run
 
 ```bash
-node build.js
+node build
 
 css
 ✔︎  dist/system.css
 
-scss
-✔︎  dist/_system.scss
+node
+✔︎  dist/system.node.js
 
-less
-✔︎  dist/system.less
+web
+✔︎  dist/system.web.js
+
+data
+✔︎  dist/system.json
 ```
 
-##### Output
+##### CSS
 
 ```css
-/* dist/system.css */
-
 /**
  * Do not edit directly
- * Generated on Tue, 27 Aug 2019 16:58:34 GMT
+ * Generated on Tue, 17 Sep 2019 22:30:43 GMT
  */
 
 :root {
- --color-brand-base: #348ec9;
- --color-brand-tint-100: #76b2da;
- --color-brand-tint-200: #b7d6eb;
- --color-brand-tint-300: #f9fbfd;
- --color-brand-tone-100: #5a97bf;
- --color-brand-tone-200: #80a0b5;
- --color-brand-tone-300: #a6a9ac;
- --color-brand-shade-100: #296b96;
- --color-brand-shade-200: #1f4763;
- --color-brand-shade-300: #142430;
- --color-secondary-base: #c9348e;
- --color-secondary-tint-100: #da76b2;
- --color-secondary-tint-200: #ebb7d6;
- --color-secondary-tint-300: #fdf9fb;
- --color-secondary-tone-100: #bf5a97;
- --color-secondary-tone-200: #b580a0;
- --color-secondary-tone-300: #aca6a9;
- --color-secondary-shade-100: #96296b;
- --color-secondary-shade-200: #631f47;
- --color-secondary-shade-300: #301424;
- --color-accent-base: #8ec934;
- --color-accent-tint-100: #b2da76;
- --color-accent-tint-200: #d6ebb7;
- --color-accent-tint-300: #fbfdf9;
- --color-accent-tone-100: #97bf5a;
- --color-accent-tone-200: #a0b580;
- --color-accent-tone-300: #a9aca6;
- --color-accent-shade-100: #6b9629;
- --color-accent-shade-200: #47631f;
- --color-accent-shade-300: #243014;
- --ms-0: 1vw;
- --ms-1: 1.5vw;
- --ms-2: 2.25vw;
- --ms-3: 3.38vw;
- --ms-4: 5.06vw;
- --ms-5: 7.59vw;
- --spacing-0: 0.15em;
- --spacing-1: 0.22em;
- --spacing-2: 0.34em;
- --spacing-3: 0.51em;
- --spacing-4: 0.76em;
- --spacing-5: 1.1em;
+ --color-primary-base: #348ec9;
+ --color-primary-tint-100: #97badc;
+ --color-primary-tint-200: #cfdeed;
+ --color-primary-tint-300: #fbfcfe;
+ --color-primary-shade-100: #276791;
+ --color-primary-shade-200: #131e27;
+ --color-secondary-base: #8fcb34;
+ --color-tertiary-base: #cb348f;
+ --font-system-sans: -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif;
+ --font-system-serif: Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+ --axioms-root: calc(1rem * 0.5vw);
+ --axioms-measure: 72ch;
+ --ms-block-base: 1.125rem;
+ --ms-block-2-x: 1.406rem;
+ --ms-block-3-x: 1.758rem;
+ --ms-block-4-x: 2.197rem;
+ --ms-block-5-x: 2.747rem;
+ --ms-block-6-x: 3.433rem;
+ --ms-block-7-x: 4.292rem;
+ --ms-block-8-x: 5.364rem;
+ --ms-inline-base: 0.3125em;
+ --ms-inline-2-x: 0.3906em;
+ --ms-inline-3-x: 0.4883em;
+ --ms-inline-4-x: 0.6104em;
+ --ms-inline-5-x: 0.7629em;
+ --ms-inline-6-x: 0.9537em;
+ --ms-inline-7-x: 1.192em;
+ --ms-inline-8-x: 1.49em;
 }
-```
-#### Quarksuite & [Theo](https://github.com/salesforce-ux/theo) (CSS Custom Properties/Sass/Less/Stylus)
 
-##### Install Theo
-
-```bash
-npm install theo -D
-
-# OR
-
-yarn add theo --dev
-```
-
-##### system.js
-
-```js
-const { color, content } = require('@quarksuite/core');
-
-const { palette, scheme } = color;
-const scale = content.scale;
-
-/** Colors */
-
-// Set a base color
-const brand = '#348ec9';
-
-// Create a base scheme
-const baseScheme = scheme.triadic(brand);
-
-// Translate colors to correct schema
-const base = (category, color) => ({
-  name: `color-${category}-base`,
-  value: color,
-  type: 'color',
-  category: 'color-base'
-});
-
-const variants = (category, color) => {
-  const tints = palette.tints(color, 3).map((color, i) => {
-    return {
-      name: `color-${category}-tint-${++i}00`,
-      value: color,
-      type: 'color',
-      category: 'color-variant'
-    };
-  });
-
-  const tones = palette.tones(color, 3).map((color, i) => {
-    return {
-      name: `color-${category}-tone-${++i}00`,
-      value: color,
-      type: 'color',
-      category: 'color-variant'
-    };
-  });
-
-  const shades = palette.shades(color, 3).map((color, i) => {
-    return {
-      name: `color-${category}-shade-${++i}00`,
-      value: color,
-      type: 'color',
-      category: 'color-variant'
-    };
-  });
-
-  return [...tints, ...tones, ...shades];
-};
-
-const colors = ['brand', 'secondary', 'accent'].map((category, i) => [
-  base(category, baseScheme[i]),
-  ...variants(category, baseScheme[i])
-]);
-
-const colorData = [...colors[0], ...colors[1], ...colors[2]];
-
-/** Content */
-
-const baseScale = scale.build(scale.ratios.golden, 7);
-
-const ms = scale
-  .output(scale.augment(1.125, baseScale, (b, v) => b * v), 4, 'rem')
-  .map((value, i) => ({
-    name: `ms-${i}`,
-    value,
-    type: 'content',
-    category: 'font-size'
-  }));
-
-const spacing = scale
-  .output(scale.augment(0.3125, baseScale, (b, v) => b * v), 3, 'em')
-  .map((value, i) => ({
-    name: `spacing-${i}`,
-    value,
-    type: 'content',
-    category: 'spacing'
-  }));
-
-module.exports = {
-  props: [...colorData, ...ms, ...spacing]
-};
-```
-
-##### build.js
-
-```js
-const theo = require('theo');
-const data = require('./system');
-const { writeFileSync } = require('fs');
-
-// First, write the data to a file Theo can consume.
-writeFileSync('.system.theo.json', JSON.stringify(data, null, 2));
-
-// Then generate your formats
-
-const format = type =>
-  theo
-    .convert({
-      transform: {
-        type: 'web',
-        file: '.system.theo.json'
-      },
-      format: {
-        type
-      }
-    })
-    .then(tokens => {
-      if (type === 'custom-properties.css')
-        return writeFileSync('dist/system.css', tokens);
-      if (type === 'scss') return writeFileSync('dist/_system.scss', tokens);
-      return writeFileSync(`dist/system.${type}`, tokens);
-    })
-    .catch(err => console.log(`Error generating ${type}: ${err}`));
-
-console.log('Writing tokens to ./dist:\n');
-
-format('custom-properties.css');
-format('scss');
-format('less');
-format('styl');
-
-console.log('Operation complete. Inspect output for uncaught errors.');
-```
-
-##### Run
-
-```bash
-node build
-
-Writing tokens to ./dist:
-
-Operation complete. Inspect output for uncaught errors.
-```
-
-##### Output
-
-```css
-/* dist/system.css */
-
-:root {
-  --color-brand-base: rgb(52, 142, 201);
-  --color-brand-tint-100: rgb(114, 177, 218);
-  --color-brand-tint-200: rgb(145, 194, 227);
-  --color-brand-tint-300: rgb(239, 246, 251);
-  --color-brand-tone-100: rgb(73, 138, 180);
-  --color-brand-tone-200: rgb(84, 135, 169);
-  --color-brand-tone-300: rgb(115, 129, 138);
-  --color-brand-shade-100: rgb(38, 104, 147);
-  --color-brand-shade-200: rgb(31, 85, 120);
-  --color-brand-shade-300: rgb(10, 27, 39);
-  --color-secondary-base: rgb(201, 52, 142);
-  --color-secondary-tint-100: rgb(218, 114, 177);
-  --color-secondary-tint-200: rgb(227, 145, 194);
-  --color-secondary-tint-300: rgb(251, 239, 246);
-  --color-secondary-tone-100: rgb(180, 73, 138);
-  --color-secondary-tone-200: rgb(169, 84, 135);
-  --color-secondary-tone-300: rgb(138, 115, 129);
-  --color-secondary-shade-100: rgb(147, 38, 104);
-  --color-secondary-shade-200: rgb(120, 31, 85);
-  --color-secondary-shade-300: rgb(39, 10, 27);
-  --color-accent-base: rgb(142, 201, 52);
-  --color-accent-tint-100: rgb(177, 218, 114);
-  --color-accent-tint-200: rgb(194, 227, 145);
-  --color-accent-tint-300: rgb(246, 251, 239);
-  --color-accent-tone-100: rgb(138, 180, 73);
-  --color-accent-tone-200: rgb(135, 169, 84);
-  --color-accent-tone-300: rgb(129, 138, 115);
-  --color-accent-shade-100: rgb(104, 147, 38);
-  --color-accent-shade-200: rgb(85, 120, 31);
-  --color-accent-shade-300: rgb(27, 39, 10);
-  --ms-0: 1.125rem;
-  --ms-1: 1.82rem;
-  --ms-2: 2.945rem;
-  --ms-3: 4.766rem;
-  --ms-4: 7.711rem;
-  --ms-5: 12.48rem;
-  --ms-6: 20.19rem;
-  --spacing-0: 0.313em;
-  --spacing-1: 0.506em;
-  --spacing-2: 0.818em;
-  --spacing-3: 1.32em;
-  --spacing-4: 2.14em;
-  --spacing-5: 3.47em;
-  --spacing-6: 5.61em;
-}
 ```
 
 ## Quarksuite API
 
-[Browse the API here](API.md)
+[Browse the API here](API.md).
 
 ## Contributing
 
-If you’d like to help Quarksuite grow, you have any suggestions to improve its code, or you have something awesome in mind that I didn’t consider, please create an issue or pull request and we’ll discuss further.
-
-### Guidelines
-
-#### On Features Outside the Scope of Quarksuite's Goals
-
-I will not accept any requests to build features outside of Quarksuite's stated goals. This is not meant to be a swiss army knife for design. It's meant to assist in building design systems and output data consumable by other design tools. If you want to use Quarksuite-created design data as tokens, [you can](#quarksuite-&-x). But it will never be built into the core.
-
-#### On Opening Issues
-
-I understand it's frustrating when code breaks. Especially when you’re on a tight schedule. But if I don’t respond right away, I’ll be with you as soon as I can. Rudeness won't encourage a swifter response.
-
-#### On Pull Requests
-
-As of v1, I’m open to improvements and code review. I want this project to do more than scratch my own itch, and I could really use your help.
+Please [read the contribution guidelines](CONTRIBUTING.md).
 
 ## Development
 
-If you’d like to hack on Quarksuite in a local environment, this section is for you.
+If you’d like to hack on Quarksuite in a local environment, do the following:
 
 #### Clone the Repo
 
@@ -570,5 +441,5 @@ yarn
 
 #### Commands
 
-+ `test`: run unit tests
-+ `build`: build project 
++ `npm run test`  OR `yarn test`: run unit tests
++ `npm run build`  OR `yarn build`: build project 
