@@ -423,13 +423,13 @@ Please [read the contribution guidelines](CONTRIBUTING.md).
 
 If you’d like to hack on Quarksuite in a local environment, do the following:
 
-#### Clone the Repo
+### Clone the Repo
 
 ```bash
 https://github.com/quarksuite/core.git
 ```
 
-#### Install Dependencies
+### Install Dependencies
 
 ```bash
 npm install 
@@ -439,7 +439,11 @@ npm install
 yarn
 ```
 
-#### Commands
+### Commands
 
 + `npm run test`  OR `yarn test`: run unit tests
 + `npm run build`  OR `yarn build`: build project 
+
+## Credit
+
+All of the code for the new internal color conversions were heavily borrowed from this [CSS Tricks article by Jon Kantner](https://css-tricks.com/converting-color-spaces-in-javascript/#article-header-id-6). Be sure to read it if you want to understand how they work.
