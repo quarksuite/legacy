@@ -110,7 +110,7 @@ export const rgb2Hsl = (rgb: string) => {
 
   const hsl = hslCalc(r, g, b);
 
-  return `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`;
+  return `hsl(${isNaN(hsl[0]) ? 0 : hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`;
 };
 
 // RGBA -> HSLA

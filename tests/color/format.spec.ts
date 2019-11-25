@@ -15,6 +15,10 @@ describe('Color format utility', () => {
         const color = '#4c0c90';
         expect(format(color, 'hsl')).toBe('hsl(269, 84.6%, 30.6%)');
       });
+      test('from hex to hsl: grayscale', () => {
+        const color = '#aaaaaa';
+        expect(format(color, 'hsl')).toBe('hsl(0, 0%, 66.7%)');
+      });
       test('from hex8 to hsla', () => {
         const color = '#4c0c90cc';
         expect(format(color, 'hsla')).toBe('hsla(269, 84.6%, 30.6%, 0.8)');
