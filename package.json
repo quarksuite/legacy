@@ -54,7 +54,7 @@
   "scripts": {
     "dev": "run-p -n pika",
     "build": "run-s -n test pika",
-    "pika": "pika-pack",
+    "pika": "pika build",
     "test": "jest",
     "version": "npm run build"
   },
