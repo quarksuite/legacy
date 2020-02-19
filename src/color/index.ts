@@ -179,6 +179,10 @@ export const scheme = (
       return dualColor(color, distance);
     case 'tetradic':
       return dualColor(color, 90);
+    default:
+      throw Error(
+        'You must define a scheme from the available values (complementary, analogous, split, triadic, dual, tetradic)'
+      );
   }
 };
 
