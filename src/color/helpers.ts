@@ -1,5 +1,6 @@
 import {
   hslData,
+  rgbData,
   convertPercentage,
   CSSColorFormats,
   checkFormat
@@ -68,35 +69,35 @@ const logBlend = (c0: string, c1: string, p: number) => {
   );
 };
 
-export const hexConvert = (color: string, to: string) => {
+const hexConvert = (color: string, to: string) => {
   if (to === 'rgb') return transform.hex2Rgb(color);
   if (to === 'hsl') return transform.hex2Hsl(color);
   if (to === 'named') return transform.hex2Named(color);
   return color;
 };
 
-export const rgbConvert = (color: string, to: string) => {
+const rgbConvert = (color: string, to: string) => {
   if (to === 'hex') return transform.rgb2Hex(color);
   if (to === 'hsl') return transform.rgb2Hsl(color);
   if (to === 'named') return transform.rgb2Named(color);
   return color;
 };
 
-export const hslConvert = (color: string, to: string) => {
+const hslConvert = (color: string, to: string) => {
   if (to === 'hex') return transform.hsl2Hex(color);
   if (to === 'rgb') return transform.hsl2Rgb(color);
   if (to === 'named') return transform.hsl2Named(color);
   return color;
 };
 
-export const namedConvert = (color: string, to: string) => {
+const namedConvert = (color: string, to: string) => {
   if (to === 'hex') return transform.named2Hex(color);
   if (to === 'rgb') return transform.named2Rgb(color);
   if (to === 'hsl') return transform.named2Hsl(color);
   return color;
 };
 
-export const convert = (color: string, to: CSSColorFormats) => {
+export const convert = (color: string, to: CSSColorFormats = 'rgb') => {
   const hex = checkFormat(color, 'hex');
   const rgb = checkFormat(color, 'rgb');
   const hsl = checkFormat(color, 'hsl');
@@ -117,19 +118,26 @@ export const spin = (color: string, rotation: number = 180) => {
   s = Math.round(s * 100);
   l = Math.round(l * 100);
 
-  return convert(`hsl(${h}, ${s}%, ${l}%)`, 'hex');
+  return convert(`hsl(${h}, ${s}%, ${l}%)`);
 };
 
 export const blend = (
   color: string,
   target: string,
   amount: number = 50,
-  type: 'logarithmic' | 'linear' = 'logarithmic'
+  mode: 'logarithmic' | 'linear' = 'logarithmic'
 ) => {
-  const c = convert(color, 'rgb');
-  const t = convert(target, 'rgb');
-  const a = convertPercentage(amount);
+  // Convert arguments to RGB as required by blend function
+  color = convert(color);
+  target = convert(target);
+  amount = convertPercentage(amount);
 
-  if (type === 'linear') return linBlend(c, t, a);
-  return logBlend(c, t, a);
+  // Set linear and logarithmic blends
+  const linear = linBlend(color, target, amount);
+  const logarithmic = logBlend(color, target, amount);
+
+  // Set the formatting of result
+  const format = (c: string) => convert(spin(c, 0));
+
+  return mode === 'linear' ? format(linear) : format(logarithmic);
 };

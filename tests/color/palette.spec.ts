@@ -1,319 +1,140 @@
-import { palette } from '../../src/color';
+import { scheme, variants } from '../../src/color';
 
-describe('Color palette utility', () => {
-  describe('color.palette(color, config?)', () => {
-    test('outputs a monochromatic palette all variants by default', () => {
-      const color = '#348ec9';
-      expect(palette(color)).toStrictEqual([
-        {
-          base: 'rgb(52, 142, 201)'
-        }
+describe('Color palette utilities', () => {
+  const color = '#348ec9';
+
+  describe('color.scheme(color, type, options?)', () => {
+    test('can generate a complementary scheme', () => {
+      expect(scheme(color, 'complementary')).toStrictEqual([
+        'rgb(52, 142, 201)',
+        'rgb(203, 112, 52)'
       ]);
     });
-    test('config: scheme.type = complementary', () => {
-      const color = '#348ec9';
+    test('can generate an analogous scheme with default options', () => {
+      expect(scheme(color, 'analogous')).toStrictEqual([
+        'rgb(52, 142, 201)',
+        'rgb(52, 105, 203)',
+        'rgb(52, 67, 203)'
+      ]);
+    });
+    test('can generate an analogous scheme with options.distance', () => {
+      expect(scheme(color, 'analogous', { distance: 30 })).toStrictEqual([
+        'rgb(52, 142, 201)',
+        'rgb(52, 67, 203)',
+        'rgb(112, 52, 203)'
+      ]);
+    });
+    test('can generate an analogous scheme with options.accented', () => {
+      expect(scheme(color, 'analogous', { accented: true })).toStrictEqual([
+        'rgb(52, 142, 201)',
+        'rgb(52, 105, 203)',
+        'rgb(52, 67, 203)',
+        'rgb(203, 112, 52)'
+      ]);
+    });
+    test('can generate a split complementary scheme', () => {
+      expect(scheme(color, 'split')).toStrictEqual([
+        'rgb(52, 142, 201)',
+        'rgb(203, 150, 52)',
+        'rgb(203, 75, 52)'
+      ]);
+    });
+    test('can generate a split complementary scheme with options.distance', () => {
+      expect(scheme(color, 'split', { distance: 30 })).toStrictEqual([
+        'rgb(52, 142, 201)',
+        'rgb(203, 188, 52)',
+        'rgb(203, 52, 67)'
+      ]);
+    });
+    test('can generate a split complementary scheme with options.accented', () => {
       expect(
-        palette(color, { scheme: { type: 'complementary' } })
+        scheme(color, 'split', { distance: 30, accented: true })
       ).toStrictEqual([
-        {
-          base: 'rgb(52, 142, 201)'
-        },
-        {
-          base: 'rgb(203, 112, 52)'
-        }
+        'rgb(52, 142, 201)',
+        'rgb(203, 112, 52)',
+        'rgb(203, 188, 52)',
+        'rgb(203, 52, 67)'
       ]);
     });
-    test('config: scheme.type = split complementary', () => {
-      const color = '#348ec9';
+    test('can generate a triadic scheme', () => {
+      expect(scheme(color, 'triadic')).toStrictEqual([
+        'rgb(52, 142, 201)',
+        'rgb(143, 203, 52)',
+        'rgb(203, 52, 143)'
+      ]);
+    });
+    test('can generate a dual color scheme', () => {
+      expect(scheme(color, 'dual')).toStrictEqual([
+        'rgb(52, 142, 201)',
+        'rgb(52, 105, 203)',
+        'rgb(203, 112, 52)',
+        'rgb(203, 150, 52)'
+      ]);
+    });
+    test('can generate a dual color scheme with options.distance', () => {
+      expect(scheme(color, 'dual', { distance: 30 })).toStrictEqual([
+        'rgb(52, 142, 201)',
+        'rgb(52, 67, 203)',
+        'rgb(203, 112, 52)',
+        'rgb(203, 188, 52)'
+      ]);
+    });
+  });
+  describe('color.variants(color, target, options?)', () => {
+    test('can generate tints', () => {
+      expect(variants(color, '#ffffff')).toStrictEqual([
+        'rgb(180, 204, 228)',
+        'rgb(251, 252, 254)'
+      ]);
+    });
+    test('can generate tints with options.limit', () => {
+      expect(variants(color, '#ffffff', { limit: 3 })).toStrictEqual([
+        'rgb(152, 186, 221)',
+        'rgb(207, 222, 237)',
+        'rgb(251, 252, 254)'
+      ]);
+    });
+    test('can generate tints with options.contrast', () => {
       expect(
-        palette(color, { scheme: { type: 'split complementary' } })
+        variants(color, '#ffffff', { limit: 3, contrast: 80 })
       ).toStrictEqual([
-        {
-          base: 'rgb(52, 142, 201)'
-        },
-        {
-          base: 'rgb(203, 150, 52)'
-        },
-        {
-          base: 'rgb(203, 75, 52)'
-        }
+        'rgb(139, 180, 218)',
+        'rgb(192, 211, 232)',
+        'rgb(229, 237, 245)'
       ]);
     });
-    test('config: scheme.type = split complementary, scheme.distance = 30', () => {
-      const color = '#348ec9';
+    test('can generate tints with options.mode', () => {
       expect(
-        palette(color, {
-          scheme: { type: 'split complementary', distance: 30 }
-        })
+        variants(color, '#ffffff', { limit: 3, contrast: 80, mode: 'linear' })
       ).toStrictEqual([
-        {
-          base: 'rgb(52, 142, 201)'
-        },
-        {
-          base: 'rgb(203, 188, 52)'
-        },
-        {
-          base: 'rgb(203, 52, 67)'
-        }
+        'rgb(106, 172, 215)',
+        'rgb(162, 203, 230)',
+        'rgb(215, 232, 244)'
       ]);
     });
-    test('config: scheme.type = split complementary, scheme.distance = 45', () => {
-      const color = '#348ec9';
-      expect(
-        palette(color, {
-          scheme: { type: 'split complementary', distance: 45 }
-        })
-      ).toStrictEqual([
-        {
-          base: 'rgb(52, 142, 201)'
-        },
-        {
-          base: 'rgb(180, 203, 52)'
-        },
-        {
-          base: 'rgb(203, 52, 105)'
-        }
+    test('can generate tones', () => {
+      expect(variants(color, '#aaaaaa')).toStrictEqual([
+        'rgb(124, 156, 187)',
+        'rgb(169, 170, 173)'
       ]);
     });
-    test('config: scheme.type = split complementary, scheme.distance = 45, scheme.accented = true', () => {
-      const color = '#348ec9';
-      expect(
-        palette(color, {
-          scheme: { type: 'split complementary', distance: 45, accented: true }
-        })
-      ).toStrictEqual([
-        {
-          base: 'rgb(52, 142, 201)'
-        },
-        {
-          base: 'rgb(203, 112, 52)'
-        },
-        {
-          base: 'rgb(180, 203, 52)'
-        },
-        {
-          base: 'rgb(203, 52, 105)'
-        }
+    test('can generate shades', () => {
+      expect(variants(color, '#111111')).toStrictEqual([
+        'rgb(39, 102, 145)',
+        'rgb(18, 29, 38)'
       ]);
     });
-    test('config: scheme.type = triadic', () => {
-      const color = '#348ec9';
-      expect(palette(color, { scheme: { type: 'triadic' } })).toStrictEqual([
-        {
-          base: 'rgb(52, 142, 201)'
-        },
-        {
-          base: 'rgb(143, 203, 52)'
-        },
-        {
-          base: 'rgb(203, 52, 143)'
-        }
-      ]);
-    });
-    test('config: scheme.type = analogous, scheme.distance = 30', () => {
-      const color = '#348ec9';
-      expect(
-        palette(color, { scheme: { type: 'analogous', distance: 30 } })
-      ).toStrictEqual([
-        {
-          base: 'rgb(52, 142, 201)'
-        },
-        {
-          base: 'rgb(52, 67, 203)'
-        },
-        {
-          base: 'rgb(112, 52, 203)'
-        }
-      ]);
-    });
-    test('config: scheme.type = analogous, scheme.distance = 30, scheme.accented = true', () => {
-      const color = '#348ec9';
-      expect(
-        palette(color, {
-          scheme: { type: 'analogous', distance: 30, accented: true }
-        })
-      ).toStrictEqual([
-        {
-          base: 'rgb(52, 142, 201)'
-        },
-        {
-          base: 'rgb(52, 67, 203)'
-        },
-        {
-          base: 'rgb(112, 52, 203)'
-        },
-        {
-          base: 'rgb(203, 112, 52)'
-        }
-      ]);
-    });
-    test('config: scheme.type = dual color, scheme.distance = 30', () => {
-      const color = '#348ec9';
-      expect(
-        palette(color, { scheme: { type: 'dual color', distance: 30 } })
-      ).toStrictEqual([
-        {
-          base: 'rgb(52, 142, 201)'
-        },
-        {
-          base: 'rgb(52, 67, 203)'
-        },
-        {
-          base: 'rgb(203, 112, 52)'
-        },
-        {
-          base: 'rgb(203, 188, 52)'
-        }
-      ]);
-    });
-    test('config: scheme.type = tetradic', () => {
-      const color = '#348ec9';
-      expect(
-        palette(color, { scheme: { type: 'tetradic', distance: 30 } })
-      ).toStrictEqual([
-        {
-          base: 'rgb(52, 142, 201)'
-        },
-        {
-          base: 'rgb(188, 52, 203)'
-        },
-        {
-          base: 'rgb(203, 112, 52)'
-        },
-        {
-          base: 'rgb(67, 203, 52)'
-        }
-      ]);
-    });
-    test('config: tints', () => {
-      const color = '#348ec9';
-      expect(
-        palette(color, {
-          tints: {}
-        })
-      ).toStrictEqual([
-        {
-          base: 'rgb(52, 142, 201)',
-          tint: ['rgb(151,186,220)', 'rgb(207,222,237)', 'rgb(251,252,254)']
-        }
-      ]);
-    });
-    test('config: tones', () => {
-      const color = '#348ec9';
-      expect(
-        palette(color, {
-          tones: {}
-        })
-      ).toStrictEqual([
-        {
-          base: 'rgb(52, 142, 201)',
-          tone: ['rgb(106,152,192)', 'rgb(140,161,182)', 'rgb(168,169,171)']
-        }
-      ]);
-    });
-    test('config: shades', () => {
-      const color = '#348ec9';
-      expect(
-        palette(color, {
-          shades: {}
-        })
-      ).toStrictEqual([
-        {
-          base: 'rgb(52, 142, 201)',
-          shade: ['rgb(44,117,166)', 'rgb(34,86,120)', 'rgb(19,30,39)']
-        }
-      ]);
-    });
-    test('config: tints, tones', () => {
-      const color = '#348ec9';
-      expect(
-        palette(color, {
-          tints: {},
-          tones: {}
-        })
-      ).toStrictEqual([
-        {
-          base: 'rgb(52, 142, 201)',
-          tint: ['rgb(151,186,220)', 'rgb(207,222,237)', 'rgb(251,252,254)'],
-          tone: ['rgb(106,152,192)', 'rgb(140,161,182)', 'rgb(168,169,171)']
-        }
-      ]);
-    });
-    test('config: tints, shades', () => {
-      const color = '#348ec9';
-      expect(
-        palette(color, {
-          tints: {},
-          shades: {}
-        })
-      ).toStrictEqual([
-        {
-          base: 'rgb(52, 142, 201)',
-          tint: ['rgb(151,186,220)', 'rgb(207,222,237)', 'rgb(251,252,254)'],
-          shade: ['rgb(44,117,166)', 'rgb(34,86,120)', 'rgb(19,30,39)']
-        }
-      ]);
-    });
-    test('config: tones, shades', () => {
-      const color = '#348ec9';
-      expect(
-        palette(color, {
-          tones: {},
-          shades: {}
-        })
-      ).toStrictEqual([
-        {
-          base: 'rgb(52, 142, 201)',
-          tone: ['rgb(106,152,192)', 'rgb(140,161,182)', 'rgb(168,169,171)'],
-          shade: ['rgb(44,117,166)', 'rgb(34,86,120)', 'rgb(19,30,39)']
-        }
-      ]);
-    });
-    test('config: tints, tones, shades', () => {
-      const color = '#348ec9';
-      expect(
-        palette(color, {
-          tints: {},
-          tones: {},
-          shades: {}
-        })
-      ).toStrictEqual([
-        {
-          base: 'rgb(52, 142, 201)',
-          tint: ['rgb(151,186,220)', 'rgb(207,222,237)', 'rgb(251,252,254)'],
-          tone: ['rgb(106,152,192)', 'rgb(140,161,182)', 'rgb(168,169,171)'],
-          shade: ['rgb(44,117,166)', 'rgb(34,86,120)', 'rgb(19,30,39)']
-        }
-      ]);
-    });
-    test('config: tints, tones, shades with options', () => {
-      const color = '#348ec9';
-      expect(
-        palette(color, {
-          tints: { contrast: 98, limit: 4 },
-          tones: { limit: 2 },
-          shades: { mode: 'linear' }
-        })
-      ).toStrictEqual([
-        {
-          base: 'rgb(52, 142, 201)',
-          tint: [
-            'rgb(134,177,215)',
-            'rgb(182,205,229)',
-            'rgb(220,231,242)',
-            'rgb(253,253,254)'
-          ],
-          tone: ['rgb(124,156,187)', 'rgb(168,169,171)'],
-          shade: ['rgb(41,102,142)', 'rgb(29,61,82)', 'rgb(18,21,23)']
-        }
-      ]);
-    });
-    test('config: format', () => {
-      const color = '#348ec9';
-      expect(palette(color, { format: 'hex' })).toStrictEqual([
-        {
-          base: '#348ec9'
-        }
+    test('can generate variants from any target', () => {
+      expect(variants(color, 'rebeccapurple', { limit: 9 })).toStrictEqual([
+        'rgb(59, 134, 196)',
+        'rgb(68, 130, 193)',
+        'rgb(73, 120, 188)',
+        'rgb(78, 113, 183)',
+        'rgb(83, 103, 178)',
+        'rgb(88, 93, 173)',
+        'rgb(93, 84, 166)',
+        'rgb(97, 70, 160)',
+        'rgb(100, 55, 154)'
       ]);
     });
   });

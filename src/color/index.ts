@@ -12,7 +12,7 @@ import { spin, blend, convert } from './helpers';
  * ```
  *
  * @param color - the color to transform
- * @returns The color opposite in hue
+ * @returns The color opposite in hue as RGB
  **/
 export const complement = (color: string): string => spin(color);
 
@@ -27,10 +27,10 @@ export const complement = (color: string): string => spin(color);
  * ```
  *
  * @param color - the color to transform
- * @returns An even mix of the color and and its complement (neutral)
+ * @returns An even mix of the color and and its complement (neutral) as RGB
  **/
 export const neutralize = (color: string): string =>
-  convert(blend(color, complement(color)), 'hex');
+  blend(color, complement(color));
 
 /**
  * Returns the mix of two colors by a given amount.
@@ -48,10 +48,10 @@ export const neutralize = (color: string): string =>
  * @param color - The color to transform
  * @param target - The color to mix
  * @param amount? - how much you want to mix a with b (0-100)
- * @returns A mix of two colors
+ * @returns A mix of two colors as RGB
  **/
 export const mix = (color: string, target: string, amount = 50): string =>
-  convert(blend(color, target, amount), 'hex');
+  blend(color, target, amount);
 
 /**
  * Returns a color converted to another format
@@ -75,141 +75,40 @@ export const format = (
   format: CSSColorFormats = 'rgb'
 ): string => convert(color, format);
 
-export type Schemes =
-  | 'monochromatic'
+export type SchemeType =
   | 'analogous'
   | 'complementary'
-  | 'split complementary'
+  | 'split'
   | 'triadic'
-  | 'dual color'
+  | 'dual'
   | 'tetradic';
 
-export interface VariantConfig {
-  contrast?: number;
-  limit?: number;
-  mode?: 'logarithmic' | 'linear';
+export interface SchemeOptions {
+  distance?: number;
+  accented?: boolean;
 }
 
-export interface PaletteConfig {
-  scheme?: {
-    type?: Schemes;
-    distance?: number;
-    accented?: boolean;
-  };
-  tints?: VariantConfig;
-  tones?: VariantConfig;
-  shades?: VariantConfig;
-  format?: 'rgb' | 'hex' | 'hsl';
-}
+export type ColorScheme =
+  | [string, string]
+  | [string, string, string]
+  | [string, string, string, string];
 
-const variants = (
-  color: string,
-  type: 'tint' | 'tone' | 'shade',
-  contrast = 97,
-  limit = 3,
-  mode: 'logarithmic' | 'linear' = 'logarithmic',
-  format: CSSColorFormats = 'rgb'
-) => {
-  let base = convert(color, 'rgb');
-  const white = convert('#fff', 'rgb');
-  const gray = convert('#aaa', 'rgb');
-  const black = convert('#111', 'rgb');
-
-  if (type === 'tint')
-    return Array.from(Array(limit).fill(base))
-      .map((c, index) => {
-        const amount = contrast - (contrast / limit) * index;
-        return convert(blend(c, white, amount, mode), format);
-      })
-      .reverse();
-  if (type === 'tone')
-    return Array.from(Array(limit).fill(base))
-      .map((c, index) => {
-        const amount = contrast - (contrast / limit) * index;
-        return convert(blend(c, gray, amount, mode), format);
-      })
-      .reverse();
-  if (type === 'shade')
-    return Array.from(Array(limit).fill(base))
-      .map((c, index) => {
-        const amount = contrast - (contrast / limit) * index;
-        return convert(blend(c, black, amount, mode), format);
-      })
-      .reverse();
-
-  return color;
-};
-
-const generate = (color: string, config: PaletteConfig = {}) => {
-  const tints = config.tints || {};
-  const tones = config.tones || {};
-  const shades = config.shades || {};
-  let collection = {};
-
-  const { format = 'rgb' } = config;
-
-  // Build collection if variant config exists
-  if (config.tints)
-    collection = {
-      ...collection,
-      tint: variants(
-        color,
-        'tint',
-        tints.contrast,
-        tints.limit,
-        tints.mode,
-        format
-      )
-    };
-
-  if (config.tones)
-    collection = {
-      ...collection,
-      tone: variants(
-        color,
-        'tone',
-        tones.contrast,
-        tones.limit,
-        tones.mode,
-        format
-      )
-    };
-
-  if (config.shades)
-    collection = {
-      ...collection,
-      shade: variants(
-        color,
-        'shade',
-        shades.contrast,
-        shades.limit,
-        shades.mode,
-        format
-      )
-    };
-
-  return {
-    base: convert(color, format),
-    ...collection
-  };
-};
-
-const complementary = (color: string) => [
-  convert(color, 'rgb'),
-  convert(complement(color), 'rgb')
+const complementary = (color: string): ColorScheme => [
+  convert(color),
+  convert(complement(color))
 ];
 
 const splitComplementary = (
   color: string,
   distance: number = 15,
   accented: boolean = false
-) => {
-  const a = convert(color, 'rgb');
-  const opposite = convert(complement(a), 'rgb');
+): ColorScheme => {
+  const a = convert(color);
+  const opposite = convert(complement(a));
   // right of complement
-  const b = convert(spin(opposite, 360 + distance), 'rgb');
+  const b = convert(spin(opposite, 360 + distance));
   // left of complement
-  const c = convert(spin(opposite, 360 - distance), 'rgb');
+  const c = convert(spin(opposite, 360 - distance));
 
   return accented ? [a, opposite, b, c] : [a, b, c];
 };
@@ -218,16 +117,16 @@ const analogous = (
   color: string,
   distance: number = 15,
   accented: boolean = false
-) => {
+): ColorScheme => {
   const a = convert(color, 'rgb');
-  const opposite = convert(complement(a), 'rgb');
-  const b = convert(spin(a, 360 + distance), 'rgb');
-  const c = convert(spin(a, 360 + distance * 2), 'rgb');
+  const opposite = convert(complement(a));
+  const b = convert(spin(a, 360 + distance));
+  const c = convert(spin(a, 360 + distance * 2));
 
   return accented ? [a, b, c, opposite] : [a, b, c];
 };
 
-const dual = (color: string, distance: number = 15) => {
+const dualColor = (color: string, distance: number = 15): ColorScheme => {
   const a = convert(color, 'rgb');
   const b = convert(spin(color, 360 + distance), 'rgb');
   const c = convert(complement(a), 'rgb');
@@ -237,75 +136,97 @@ const dual = (color: string, distance: number = 15) => {
 };
 
 /**
- * Returns a generated palette for a color from configuration.
+ * Returns a basic color scheme.
  *
  * @remarks
  * Usage:
  *
  * ```ts
- * // all defaults
- * const defaultConfig: PaletteConfig = {
- *  scheme: {
- *    type: 'monochromatic', // type of scheme to generate
- *    // analogous and split complementary options
- *    distance: 15, // distance from origin
- *    accented: false // whether to include complement as accent
- *  }
- * }
- * format: 'rgb', // change the output format of palette
+ * // Set a complementary scheme
+ * color.scheme('#348ec9', 'complementary');
  *
- * // Outputs triadic scheme with all other defaults
- * color.palette('#348ec9', {
- *   scheme: { type: 'triadic' }
- * })
+ * // split, analogous, dual allow setting a distance
+ * color.scheme('#348ec9', 'split', { distance: 45 });
  *
- * // Outputs a complementary scheme with three tints and shades
- * color.palette('#348ec9', {
- *   scheme: 'complementary',
- *   tints: {},
- *   shades: {}
- * })
+ * // split, analogous, also allow setting the complement as an accent
+ * color.scheme('#348ec9', 'analogous', { accented: true });
  * ```
  *
- * @param color - The base color to generate from
- * @param config? - configuration to modify the palette (uses all defaults if undefined)
- * @returns The generated palette as an array of objects
+ * @param color - The base color to generate a scheme from
+ * @param type - The type of scheme to generate
+ * @param options - Additional options to modify the generated scheme
+ * @returns The generated scheme as an array of RGB values
  **/
-export const palette = (
+export const scheme = (
   color: string,
-  config: PaletteConfig = {}
-): Record<string, any>[] => {
-  const { type = 'monochromatic', distance = 15, accented = false } =
-    config.scheme || {};
-  let palette;
-  const base = convert(color, 'rgb');
+  type: SchemeType,
+  options: SchemeOptions = {}
+): ColorScheme => {
+  // Initialize the options
+  const { distance = 15, accented = false } = options;
 
-  // First figure out what scheme is requested
+  // Check the type and generate the appropriate scheme
   switch (type) {
-    case 'monochromatic':
-      palette = [base];
-      break;
     case 'complementary':
-      palette = complementary(base);
-      break;
-    case 'split complementary':
-      palette = splitComplementary(base, distance, accented);
-      break;
-    case 'triadic':
-      palette = splitComplementary(base, 60);
-      break;
+      return complementary(color);
     case 'analogous':
-      palette = analogous(base, distance, accented);
-      break;
-    case 'dual color':
-      palette = dual(base, distance);
-      break;
+      return analogous(color, distance, accented);
+    case 'split':
+      return splitComplementary(color, distance, accented);
+    case 'triadic':
+      return splitComplementary(color, 60);
+    case 'dual':
+      return dualColor(color, distance);
     case 'tetradic':
-      palette = dual(base, 90);
-      break;
-    default:
-      throw Error(`${type}: Missing or invalid. Try again`);
+      return dualColor(color, 90);
   }
+};
 
-  return palette.map(color => generate(color, config));
+export interface VariantOptions {
+  contrast?: number;
+  limit?: number;
+  mode?: 'logarithmic' | 'linear';
+}
+
+/**
+ * Generate a set of variants from a base color.
+ *
+ * @remarks
+ * Usage:
+ *
+ * ```ts
+ * // Generate two tints (97% contrast, logarithmic blend)
+ * color.variants('#348ec9', '#ffffff');
+ *
+ * // Generate one tone
+ * color.variants('#348ec9', '#aaaaaa', { limit: 1 });
+ *
+ * // Generate four shades with a linear blend mode
+ * color.variants('#348ec9', '#111111', { limit: 4, mode: 'linear' });
+ * ```
+ *
+ * @param color - The base color to generate variants for
+ * @param target - The color to blend for variants
+ * @param options - Additional options to modify the generated variants
+ * @returns The generated variants as an array of RGB values
+ **/
+export const variants = (
+  color: string,
+  target: string,
+  options: VariantOptions = {}
+): string[] => {
+  // Initialize the options
+  const { contrast = 97, limit = 2, mode = 'logarithmic' } = options;
+
+  // Convert colors to format accepted by blend function
+  color = convert(color, 'rgb');
+  target = convert(target, 'rgb');
+
+  // Generate the variants
+  return Array.from(Array(limit).fill(color))
+    .map((value, index) => {
+      const amount = contrast - (contrast / limit) * index;
+      return blend(value, target, amount, mode);
+    })
+    .reverse();
 };
