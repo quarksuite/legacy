@@ -109,12 +109,7 @@ export type CSSUnits =
   | 'vw'
   | 'vmin'
   | 'vmax'
-  | 'px'
-  | 'cm'
-  | 'mm'
-  | 'in'
-  | 'pc'
-  | 'pt';
+  | 'px';
 
 /**
  * Outputs a scale with the desired `unit` and `precision`.
