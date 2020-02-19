@@ -1,6 +1,6 @@
-# Quarksuite API (v2.0.0)
+# Quarksuite API (v2.1.0)
 
-*IMPORTANT: Be careful when upgrading from a previous version. Don’t hesitate to [submit an issue](https://github.com/quarksuite/core/issues) if you have any trouble upgrading. I’ve also eschewed an overly technical writing style since that gets in the way of clear communication at times.*
+*IMPORTANT: Be careful when upgrading from a previous version. Don’t hesitate to [submit an issue](https://github.com/quarksuite/core/issues) if you have any trouble upgrading.
 
 *You can [try out any example](https://www.pika.dev/packages/@quarksuite/core/repl) with the Pika.dev REPL.*
 
@@ -38,7 +38,7 @@ color.mix('#348ec9', 'orange', 80);
 
 ### color.format
 
-Converts a color to another `format`. Use caution when passing colors with an alpha channel.
+Converts a color to another `format`.
 
 ```js
 // converts to rgb by default
@@ -46,9 +46,6 @@ color.format('#348ec9');
 
 // pass in another format
 color.format('#348ec9', 'hsl')
-
-// convert a color with an alpha channel
-color.format('#348ec990', 'rgba');
 
 // works with W3C named colors
 color.format('rebeccapurple', 'hex');
@@ -58,121 +55,51 @@ color.format('rebeccapurple', 'hex');
 
 The available formats for conversion work with any other format listed.
 
-| Key     | Example                    |
-| ------- | -------------------------- |
-| `hex`   | `#beac90`                  |
-| `hex8`  | `#bea9ccaa`                |
-| `rgb`   | `rgb(30, 110, 0)`          |
-| `rgba`  | `rgba(44, 150, 70, 0.31)`  |
-| `hsl`   | `hsl(128, 40%, 75%)`       |
-| `hsla`  | `hsla(33, 78%, 42%, 0.25)` |
-| `named` | `yellowgreen`              |
+| Key     | Example              |
+| ------- | -------------------- |
+| `hex`   | `#beac90`            |
+| `rgb`   | `rgb(30, 110, 0)`    |
+| `hsl`   | `hsl(128, 40%, 75%)` |
+| `named` | `yellowgreen`        |
 
-### color.palette
+### color.scheme
 
-Responsible for building color palettes. You can output a collection of base colors and modify them according to your needs. You can also generate your whole palette with `tints`, `tones`, and `shades`.
+Builds a color scheme base. The `type` argument is required.
 
 ```js
-// creates a 1:1 color object by default
-color.palette('#348ec9');
+// A complementary palette base
+color.scheme('#348ec9', 'complementary');
+
+// You can adjust the distance value of types analogous, split, dual
+color.scheme('#348ec9', 'split', { distance: 30 });
+
+// Types analogous, split can also include the complement as an accent
+color.scheme('#348ec9', 'analogous', { accented: true });
 ```
 
 #### Schemes
 
-```js
-// monochromatic scheme with three tints and shades
-color.palette('#348ec9', {
-  tints: {}, shades: {}
-});
+| Type =          | Note                                    |
+| --------------- | --------------------------------------- |
+| `complementary` |                                         |
+| `analogous`     |                                         |
+| `split`         |                                         |
+| `triadic`       | Same as `split` with `{ distance: 60 }` |
+| `dual`          |                                         |
+| `tetradic`      | Same as `dual` with `{ distance: 90 }`  |
 
-// complementary scheme
-color.palette('#348ec9', {
-  scheme: { type: 'complementary' }
-});
+### color.variants
 
-// split complementary
-color.palette('#348ec9', {
-  scheme: { type: 'split complementary' }
-});
-
-// you can adjust the distance of the spread
-color.palette('#348ec9', {
-  scheme: { type: 'split complementary', distance: 30 }
-});
-
-// And also add the complement as an accent
-color.palette('#348ec9', {
-  scheme: { type: 'split complementary', distance: 30, accented: true }
-});
-
-// Triadic is a shortcut for a split complementary scheme
-// that creates an equilateral triangle
-color.palette('#348ec9', {
-  scheme: { type: 'triadic' }
-});
-
-// an analogous scheme with all other defaults
-color.palette('#348ec9', {
-  scheme: { type: 'analogous' }
-});
-
-// analogous schemes can also be spread and accented
-color.palette('#348ec9', {
-  scheme: { type: 'analogous', distance: 45, accented: true }
-});
-
-// dual color = tetradic
-color.palette('#348ec9', {
-  scheme: { type: 'dual color' }
-})
-
-// accepts a distance but cannot be accented
-color.palette('#348ec9', {
-  scheme: { type: 'dual color', distance: 30 }
-})
-
-// Tetradic is a shortcut for a dual color scheme
-// that creates a perfect square
-color.palette('#348ec9', {
-  scheme: { type: 'tetradic', distance: 30 }
-})
-```
-
-#### Variants
-
-Do keep in mind that if you don’t pass in variant objects, Quarksuite won’t generate them.
+Generates palettes from a `color` and a `target` hue.
 
 ```js
-// By default passing in variants creates 3 of 
-// that variant using a logarithmic blend mode
-color.palette('goldenrod', {
-  tints: {}, shades: {}
-})
+// You can create tints, tones, shades
+color.variants('#348ec9', '#ffffff');
+color.variants('#348ec9', '#aaaaaa');
+color.variants('#348ec9', '#111111');
 
-// More variants
-color.palette('goldenrod', {
-  tints: { limit: 5 }
-})
-
-// Fewer variants
-color.palette('goldenrod', {
-  tints: { limit: 2 }
-})
-
-// Lower contrast
-color.palette('dodgerblue', {
-  shades: { contrast: 40 }
-})
-
-// Higher contrast
-color.palette('dodgerblue', {
-  shades: { contrast: 99 }
-})
-
-// Linear blend mode
-color.palette('aliceblue', {
-  tones: { mode: 'linear' }
-})
+// with options (defaults: limit = 2, contrast = 97, mode = 'logarithmic')
+color.variants('#348ec9', '#ffffff', { limit: 3, contrast: 80, mode: 'linear'});
 ```
 
 ## Typography Functions

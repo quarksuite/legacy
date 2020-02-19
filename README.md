@@ -8,28 +8,28 @@ Quarksuite is a kit aimed at helping developers create consistent, independent b
 
 ### Small, Yet Complete
 
-Quarksuite travels light: Ongoing development aims for simpler ways to use the library while keeping it small and fast for the wide spectrum of network speeds.
+Quarksuite travels light: Ongoing development aims for ease and efficiency.
 
 ### Modify > Configure
 
-Quarksuite assumes you want to build your idea as quickly as possible. Many of the functions have default output with options to change it according to your needs. This is intended to streamline setup and avoid, where possible, burdening developers with even more decisions to make.
+Quarksuite is designed with a set of defaults in mind that will help you get started quickly. This is intended to streamline setup and avoid, where possible, burdening developers with even more decisions to make.
 
 ### Your Data, Your Methods
 
-Quarksuite imposes no structural rules about how you use your design system baseline. You can generate all of your design data in one file. You can also split it up and create mini-systems for your current and future projects. You can even generate design tokens with Style Dictionary or Theo to uncouple Quarksuite from your data entirely if you ever want to stop using it.
+Quarksuite imposes no structural rules about how you use your baseline. You can generate all of it in one file. You can also split it up and create mini-boilerplates for your current and future projects.
 
 ## Features
 
 + Modify colors, create palettes and schemes, convert CSS formats
 + Ready-to-use cross-platform [OS font stacks](https://systemfontstack.com/)
-+ Create, modify, and merge modular scales for sizing and proportion. Output with relative or absolute units and value precision
-+ No framework, no dependencies. Build the way you want
++ Create, modify, and merge modular scales for content, layout, and proportion
++ No framework needed, no dependencies required. Build the way you want
 
 ## Installation
 
 ### As a Module
 
-> You’ll require at least Node.js LTS (v10.16.x) to use Quarksuite as a module. I would recommend installing Yarn as well.
+> You’ll require at least Node.js LTS (v12.15.0) to use Quarksuite as a module. I would recommend installing Yarn as well.
 ```bash
 npm install @quarksuite/core
 
@@ -50,53 +50,86 @@ import {color, typography, scale} from '@quarksuite/core';
 
 ### In the Browser
 
+Do the above, then:
+
+```bash
+npx snowpack
+```
+
 ```html
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Quarksuite (v2.0.0) Example</title>
+    <title>Quarksuite (v2.1.0) Example</title>
   </head>
   <body>
-    <script src="https://unpkg.com/@quarksuite/core@2.0.0/dist-web/index.js"></script>
+    <script type="module" src="/index.js"></script>
+  </body>
+</html>
+```
+
+```js
+import { color, typography, scale } from '/web_modules/@quarksuite/core.js';
+
+// Your baseline system
+```
+
+OR
+
+```html
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Quarksuite (v2.1.0) Example</title>
+  </head>
+  <body>
+    <script src="https://unpkg.com/@quarksuite/core@2.1.0/dist-web/index.js"></script>
   </body>
 </html>
 ```
 
 ## Quickstart
 
-The recommended way to get up and running with Quarksuite is to [clone the design token template](https://github.com/quarksuite/tokens-template) and modify it according to your needs.
-
-If you’d like a bare example:
-
 ```js
 // Assuming node module
 
 const {color, typography, scale} = require('@quarksuite/core');
 
-/* Colors */
+// A barebones monochromatic templating scheme
+const base = '#aaaaaa';
 
-// Monochromatic with tints, shades
-const palette = color.palette('#aaa', {
-  tints: {}, shades: {}
-})
+const white = '#ffffff';
+const black = '#111111';
 
-/* Typography */
+const options = { limit: 4 };
 
-// System sans
-const font = typography.system('sans');
+const palette = {
+  base,
+  tints: color.variants(base, white, options),
+  shades: color.variants(base, black, options)
+};
 
-/* Modular Scale */
+// Sans serif system font stack
+const fonts = {
+  sans: typography.system('sans')
+};
 
-// base = 1, ratio = 'golden', limit = 6
-const ms = scale.create();
+// Content and proportion scales
+const baseProp = scale.create(1, 'octave');
 
-// Output
+const scales = {
+  content: scale.output(scale.create(1, 'maj3rd'), 3),
+  block: scale.output(baseProp),
+  inline: scale.output(baseProp, 'em')
+};
+
 module.exports = {
   palette,
-  font,
-  ms
-}
+  fonts,
+  scales
+};
 ```
 
 ## REPL
