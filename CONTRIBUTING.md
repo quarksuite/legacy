@@ -19,7 +19,7 @@ If and when something breaks, please remember to be thorough so we can figure ou
 
 I understand it’s no fun when code breaks. I understand bug panic especially when a project is out in production. But I’m not in a habit of rushing, and it’s best to take that into account.
 
-I take a lot of breaks from the Internet—sometimes for weeks. I have personal reasons for staying off. If you happen to run into an issue during my self-care days, send me an email, and then wait.
+I take a lot of breaks from the Internet—sometimes for weeks. I have personal reasons for staying off. If you happen to run into an issue during my downtime, [submit an issue](https://github.com/quarksuite/core/issues) and I'll see to it when I'm back.
 
 ## Guideline #3: Keep the Stated Goals in Mind
 
