@@ -117,10 +117,10 @@ const fonts = {
 };
 
 // Content and proportion scales
-const baseProp = scale.create(1, 'octave');
+const baseProp = scale.create(1, 'octave', 4);
 
 const scales = {
-  content: scale.output(scale.create(1, 'maj3rd'), 3),
+  content: scale.output(scale.create(1, 'maj3rd')),
   block: scale.output(baseProp),
   inline: scale.output(baseProp, 'em')
 };
