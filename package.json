@@ -1,6 +1,6 @@
 {
   "name": "@quarksuite/core",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "description": "A kit aimed at helping developers create consistent, independent baselines for design systems.",
   "author": "Chatman R. Jr <crjr.code@gmail.com>",
   "main": "pkg/dist-node/index.js",
