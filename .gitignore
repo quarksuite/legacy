@@ -119,13 +119,6 @@ tags
 # Persistent undo
 [._]*.un~
 
-# Hide pkg
-pkg
-
-# Hide doc source
-docs
-website
-
 # Hide Meld output
 *.orig
 
