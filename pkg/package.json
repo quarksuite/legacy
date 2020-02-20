@@ -1,7 +1,7 @@
 {
   "name": "@quarksuite/core",
   "description": "A kit aimed at helping developers create consistent, independent baselines for design systems.",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "license": "MPL-2.0",
   "files": [
     "dist-*/",

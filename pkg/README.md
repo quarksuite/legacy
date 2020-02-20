@@ -85,7 +85,7 @@ OR
     <title>Quarksuite (v2.1.x) Example</title>
   </head>
   <body>
-    <script src="https://unpkg.com/@quarksuite/core@2.1.4/dist-web/index.js"></script>
+    <script src="https://unpkg.com/@quarksuite/core@2.1.5/dist-web/index.js"></script>
   </body>
 </html>
 ```
@@ -134,7 +134,7 @@ module.exports = {
 
 ## REPL
 
-Pika provides a REPL that lets you [play with Quarksuite](https://www.pika.dev/packages/@quarksuite/core/repl) before deciding if you want to use it. Take your time and try it out.
+You can [try out the latest version](https://npm.runkit.com/%40quarksuite%2Fcore) of Quarksuite to see if it fits your needs.
 
 ## Quarksuite API
 
