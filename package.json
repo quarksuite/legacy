@@ -3,9 +3,13 @@
   "version": "2.1.1",
   "description": "A kit aimed at helping developers create consistent, independent baselines for design systems.",
   "author": "Chatman R. Jr <crjr.code@gmail.com>",
+  "main": "pkg/dist-node/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/quarksuite/core.git"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "bugs": {
     "url": "https://github.com/quarksuite/core/issues"
@@ -55,8 +59,7 @@
     "dev": "run-p -n pika",
     "build": "run-s -n test pika",
     "pika": "pika build",
-    "test": "jest",
-    "version": "npm run build"
+    "test": "jest"
   },
   "browserslist": [
     "since 2017-06"
