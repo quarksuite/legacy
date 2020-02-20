@@ -1,6 +1,6 @@
 {
   "name": "@quarksuite/core",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "A kit aimed at helping developers create consistent, independent baselines for design systems.",
   "author": "Chatman R. Jr <crjr.code@gmail.com>",
   "repository": {
@@ -56,7 +56,8 @@
     "build": "run-s -n test pika",
     "pika": "pika build",
     "test": "jest",
-    "version": "npm run build"
+    "version": "npm run build",
+    "publish": "pika publish"
   },
   "browserslist": [
     "since 2017-06"
