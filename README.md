@@ -61,7 +61,7 @@ npx snowpack
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Quarksuite (v2.1.0) Example</title>
+    <title>Quarksuite (v2.1.x) Example</title>
   </head>
   <body>
     <script type="module" src="/index.js"></script>
@@ -82,10 +82,10 @@ OR
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Quarksuite (v2.1.0) Example</title>
+    <title>Quarksuite (v2.1.x) Example</title>
   </head>
   <body>
-    <script src="https://unpkg.com/@quarksuite/core@2.1.0/dist-web/index.js"></script>
+    <script src="https://unpkg.com/@quarksuite/core@2.1.4/dist-web/index.js"></script>
   </body>
 </html>
 ```

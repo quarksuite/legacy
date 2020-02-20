@@ -57,10 +57,10 @@
   },
   "scripts": {
     "dev": "run-p -n pika",
-    "build": "run-s -n test pika",
-    "pika": "pika build",
+    "build": "run-s -n test pika:build pika:publish",
+    "pika:build": "pika build",
+    "pika:publish": "pika publish",
     "test": "jest",
-    "publish": "pika publish",
     "version": "npm run build"
   },
   "browserslist": [
