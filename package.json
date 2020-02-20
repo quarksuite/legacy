@@ -57,9 +57,8 @@
   },
   "scripts": {
     "dev": "run-p -n pika",
-    "build": "run-s -n test pika:build pika:publish",
+    "build": "run-s -n test pika:build",
     "pika:build": "pika build",
-    "pika:publish": "pika publish",
     "test": "jest",
     "version": "npm run build"
   },
