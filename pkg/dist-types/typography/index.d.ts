@@ -5,17 +5,21 @@
  * Usage:
  *
  * ```ts
- * // for sans
+ * // Default settings output all stacks
+ * typography.system();
+ *
+ * // One argument will output a single stack
  * typography.system('sans');
  *
- * // for serif
  * typography.system('serif');
  *
- * // for monospace
  * typography.system('monospace');
+ *
+ * // Multiple arguments output multiple stacks
+ * typography.system('sans', 'monospace');
  * ```
  *
- * @param family - the system family to output
- * @returns A system font stack
+ * @param fonts - the system families to output
+ * @returns Single or multiple system font stacks
  **/
-export declare const system: (family: "sans" | "serif" | "monospace") => string;
+export declare const system: (...fonts: string[]) => string | string[];

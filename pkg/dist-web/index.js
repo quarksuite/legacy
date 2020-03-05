@@ -698,7 +698,7 @@ var colorUtils = /*#__PURE__*/Object.freeze({
   variants: variants
 });
 
-var fonts = {
+var families = {
   sans: '-apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif',
   serif: 'Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol',
   monospace: 'Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace'
@@ -710,21 +710,40 @@ var fonts = {
  * Usage:
  *
  * ```ts
- * // for sans
+ * // Default settings output all stacks
+ * typography.system();
+ *
+ * // One argument will output a single stack
  * typography.system('sans');
  *
- * // for serif
  * typography.system('serif');
  *
- * // for monospace
  * typography.system('monospace');
+ *
+ * // Multiple arguments output multiple stacks
+ * typography.system('sans', 'monospace');
  * ```
  *
- * @param family - the system family to output
- * @returns A system font stack
+ * @param fonts - the system families to output
+ * @returns Single or multiple system font stacks
  **/
 
-var system = family => fonts[family];
+var system = function system() {
+  for (var _len = arguments.length, fonts = new Array(_len), _key = 0; _key < _len; _key++) {
+    fonts[_key] = arguments[_key];
+  }
+
+  // No arguments outputs all stacks by default
+  if (!fonts.length) return ['sans', 'serif', 'monospace'].map(stack => families[stack]); // Output a string if only one family
+
+  if (fonts.length === 1) {
+    var [font] = fonts;
+    return families[font];
+  } // Output an array otherwise
+
+
+  return fonts.map(stack => families[stack]);
+};
 
 var typographyUtils = /*#__PURE__*/Object.freeze({
   __proto__: null,
