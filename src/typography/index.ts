@@ -2,7 +2,7 @@ interface SystemStack {
   [index: string]: string;
 }
 
-const fonts: SystemStack = {
+const families: SystemStack = {
   sans:
     '-apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif',
   serif:
@@ -18,17 +18,37 @@ const fonts: SystemStack = {
  * Usage:
  *
  * ```ts
- * // for sans
+ * // Default settings output all stacks
+ * typography.system();
+ *
+ * // One argument will output a single stack
  * typography.system('sans');
  *
- * // for serif
  * typography.system('serif');
  *
- * // for monospace
  * typography.system('monospace');
+ *
+ * // Multiple arguments output multiple stacks
+ * typography.system('sans', 'monospace');
  * ```
  *
- * @param family - the system family to output
- * @returns A system font stack
+ * @param fonts - the system families to output
+ * @returns Single or multiple system font stacks
  **/
-export const system = (family: 'sans' | 'serif' | 'monospace') => fonts[family];
+
+export const system = (...fonts: string[]): string | string[] => {
+  // No arguments outputs all stacks by default
+  if (!fonts.length)
+    return ['sans', 'serif', 'monospace'].map(
+      (stack: string) => families[stack]
+    );
+
+  // Output a string if only one family
+  if (fonts.length === 1) {
+    let [font] = fonts;
+    return families[font];
+  }
+
+  // Output an array otherwise
+  return fonts.map((stack: string) => families[stack]);
+};
