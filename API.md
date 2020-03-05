@@ -1,8 +1,8 @@
-# Quarksuite API (v2.1.x)
+# Quarksuite API (v2.2.0)
 
-*IMPORTANT: Be careful when upgrading from a previous version. Don’t hesitate to [submit an issue](https://github.com/quarksuite/core/issues) if you have any trouble upgrading.
+*IMPORTANT: Be careful when upgrading from a previous version. Don’t hesitate to [submit an issue](https://github.com/quarksuite/core/issues) if you have any trouble upgrading.*
 
-*You can [try out any example](https://www.pika.dev/packages/@quarksuite/core/repl) with the Pika.dev REPL.*
+*You can [try out any example](https://npm.runkit.com/%40quarksuite%2Fcore) on RunKit.*
 
 ## Color Functions
 
@@ -106,18 +106,27 @@ color.variants('#348ec9', '#ffffff', { limit: 3, contrast: 80, mode: 'linear'});
 
 ### typography.system
 
-Outputs a system font stack for the given `family`.
+Outputs system font stacks.
 
 ```js
-// sans-serif
-typography.system('sans');
+// By default, calling will output all available system stacks
+typography.system()
 
-// serif
-typography.system('serif');
+// But you can also use one family
+typography('sans');
 
-// monospace
-typography.system('monospace');
+// or two
+typography.system('sans', 'monospace');
 ```
+
+#### Values
+
+| Family      | Stack                                                        |
+| ----------- | ------------------------------------------------------------ |
+| `sans`      | `-apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif` |
+| `serif`     | `Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol` |
+| `monospace` | `Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace` |
+
 
 ## Scale Functions
 
@@ -155,10 +164,11 @@ All ratios have been borrowed from [modularscale.com](https://modularscale.com).
 | `min2nd`   | `1.067`                    |
 | `maj2nd`   | `1.125`                    |
 | `min3rd`   | `1.2`                      |
+| `maj3rd`   | `1.25`                     |
 | `perf4th`  | `1.333`                    |
 | `dim5th`   | `1.414`                    |
 | `min6th`   | `1.6`                      |
-| `golden`   | phi = `1.6180371352785146` |
+| `golden`   | `1.6180371352785146`       |
 | `maj6th`   | `1.667`                    |
 | `min7th`   | `1.778`                    |
 | `maj7th`   | `1.875`                    |
@@ -206,4 +216,3 @@ scale.output(scale.create(), 'rem', 7);
 // Less precise values
 scale.output(scale.create(), 'rem', 2);
 ```
-

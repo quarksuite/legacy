@@ -30,6 +30,7 @@ Quarksuite imposes no structural rules about how you use your baseline. You can 
 ### As a Module
 
 > You’ll require at least Node.js LTS (v12.15.0) to use Quarksuite as a module. I would recommend installing Yarn as well.
+
 ```bash
 npm install @quarksuite/core
 
@@ -61,7 +62,7 @@ npx snowpack
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Quarksuite (v2.1.x) Example</title>
+    <title>Quarksuite (v2.2.0) Example</title>
   </head>
   <body>
     <script type="module" src="/index.js"></script>
@@ -82,10 +83,14 @@ OR
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Quarksuite (v2.1.x) Example</title>
+    <title>Quarksuite (v2.2.0) Example</title>
   </head>
   <body>
-    <script src="https://unpkg.com/@quarksuite/core@2.1.5/dist-web/index.js"></script>
+    <script type="module">
+      import { color, typography, scale } from "https://unpkg.com/@quarksuite/core@2.2.0/dist-web/index.js"
+      
+      // Your baseline system
+    </script>
   </body>
 </html>
 ```
@@ -100,26 +105,27 @@ const {color, typography, scale} = require('@quarksuite/core');
 // A barebones monochromatic templating scheme
 const base = '#aaaaaa';
 
-const white = '#ffffff';
-const black = '#111111';
-
 const options = { limit: 4 };
 
 const palette = {
   base,
-  tints: color.variants(base, white, options),
-  shades: color.variants(base, black, options)
+  tints: color.variants(base, '#fff', options),
+  shades: color.variants(base, '#111', options)
 };
 
-// Sans serif system font stack
-const fonts = {
-  sans: typography.system('sans')
-};
+// System Font stacks
+const [sans, serif, mono] = typography.system();
+
+const font = {
+  sans,
+  serif,
+  mono
+}
 
 // Content and proportion scales
 const baseProp = scale.create(1, 'octave', 4);
 
-const scales = {
+const scale = {
   content: scale.output(scale.create(1, 'maj3rd')),
   block: scale.output(baseProp),
   inline: scale.output(baseProp, 'em')
@@ -128,13 +134,13 @@ const scales = {
 module.exports = {
   palette,
   fonts,
-  scales
+  scale
 };
 ```
 
 ## REPL
 
-You can [try out the latest version](https://npm.runkit.com/%40quarksuite%2Fcore) of Quarksuite to see if it fits your needs.
+You can [try out the latest version](https://npm.runkit.com/%40quarksuite%2Fcore) of Quarksuite on RunKit to see if it fits your needs.
 
 ## Quarksuite API
 
