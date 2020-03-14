@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).‘’
 
+## [Unreleased]
+
+### Updated
+
++ License changed to MIT. MPL-2.0 is robust and comprehensive but also more restrictive than I'd like
+
+### Added
+
++ Refactor of the entire codebase: each module can now be used two ways.
+  + Method chaining mode (`new Color('dodgerblue').mix('rebeccapurple').shiftHue(72).swatchSate`)
+  + Combinator mode (`color('dodgerblue', mix, shiftHue, scheme(triadic, complementary), variants(tints, shades)`)
++ Discreet functions folded into `Color`, `Typography`, `Scale` classes. The API is lot more flexible and expressive
+
+### Fixed
+
++ peculiarities with color manipulation have been resolved
+
+### Removed
+
++ linear blend mode in variant generation. It amounted to little more than choice for the sake of choice
++ A ton of now unused functionality. Library is even slimmer
+
 ## 2.2.0
 
 ### Changed
