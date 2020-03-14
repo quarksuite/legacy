@@ -1,5 +1,5 @@
 import { CSSColorFormats } from './convert/helpers';
-import { spin, blend, convert } from './helpers';
+import { spin, blend, convert as format } from './helpers';
 
 /**
  * Grab the complement of a given color.
@@ -8,13 +8,13 @@ import { spin, blend, convert } from './helpers';
  * Usage:
  *
  * ```ts
- * color.complement('#348ec9')
+ * color.complementOf('#348ec9')
  * ```
  *
  * @param color - the color to transform
- * @returns The color opposite in hue as RGB
+ * @returns The color complement as RGB
  **/
-export const complement = (color: string): string => spin(color);
+const complementOf = (color: string): string => spin(color);
 
 /**
  * Negate a color with its complement. Great for neutral palettes.
@@ -29,8 +29,7 @@ export const complement = (color: string): string => spin(color);
  * @param color - the color to transform
  * @returns An even mix of the color and and its complement (neutral) as RGB
  **/
-export const neutralize = (color: string): string =>
-  blend(color, complement(color));
+const neutralize = (color: string): string => blend(color, complementOf(color));
 
 /**
  * Returns the mix of two colors by a given amount.
@@ -45,13 +44,13 @@ export const neutralize = (color: string): string =>
  * color.mix('#348ec9', 'orange', 30)
  * ```
  *
- * @param color - The color to transform
- * @param target - The color to mix
- * @param amount? - how much you want to mix a with b (0-100)
+ * @param baseColor - The color to transform
+ * @param targetColor - The color to mix
+ * @param byAmount? - percentage to mix baseColor with targetColor  (0-100)
  * @returns A mix of two colors as RGB
  **/
-export const mix = (color: string, target: string, amount = 50): string =>
-  blend(color, target, amount);
+const mix = (baseColor: string, targetColor: string, byAmount = 50): string =>
+  blend(baseColor, targetColor, byAmount);
 
 /**
  * Returns a color converted to another format
@@ -60,137 +59,63 @@ export const mix = (color: string, target: string, amount = 50): string =>
  * Usage:
  * ```ts
  * // default
- * color.format('#348ec9');
+ * color.convert('#348ec9');
  *
  * // pass in another format
- * color.format('#348ec9', 'hsl');
+ * color.convert('#348ec9', 'hsl');
  * ```
  *
  * @param color - The color to transform
  * @param format - the CSS color format to output (`rgb` by default)
  * @returns A newly formatted color
  **/
-export const format = (
-  color: string,
-  format: CSSColorFormats = 'rgb'
-): string => convert(color, format);
+const convert = (color: string, output: CSSColorFormats = 'rgb'): string =>
+  format(color, output);
 
-export type SchemeType =
-  | 'analogous'
-  | 'complementary'
-  | 'split'
-  | 'triadic'
-  | 'dual'
-  | 'tetradic';
-
-export interface SchemeOptions {
-  distance?: number;
-  accented?: boolean;
-}
-
-export type ColorScheme =
+type ColorScheme =
   | [string, string]
   | [string, string, string]
   | [string, string, string, string];
 
 const complementary = (color: string): ColorScheme => [
   convert(color),
-  convert(complement(color))
+  convert(complementOf(color))
 ];
 
 const splitComplementary = (
   color: string,
-  distance: number = 15,
-  accented: boolean = false
+  spreadFromOrigin: number = 15
 ): ColorScheme => {
-  const a = convert(color);
-  const opposite = convert(complement(a));
-  // right of complement
-  const b = convert(spin(opposite, 360 + distance));
-  // left of complement
-  const c = convert(spin(opposite, 360 - distance));
+  const main = convert(color);
+  const opposite = convert(complementOf(main));
+  const rightOfComplement = convert(spin(opposite, spreadFromOrigin));
+  const leftOfComplement = convert(spin(opposite, spreadFromOrigin, true));
 
-  return accented ? [a, opposite, b, c] : [a, b, c];
+  return [main, leftOfComplement, rightOfComplement];
 };
 
 const analogous = (
   color: string,
-  distance: number = 15,
-  accented: boolean = false
+  spreadFromOrigin: number = 15
 ): ColorScheme => {
-  const a = convert(color, 'rgb');
-  const opposite = convert(complement(a));
-  const b = convert(spin(a, 360 + distance));
-  const c = convert(spin(a, 360 + distance * 2));
+  const origin = convert(color);
+  const rightOfOrigin = convert(spin(origin, spreadFromOrigin));
+  const leftOfOrigin = convert(spin(origin, spreadFromOrigin, true));
 
-  return accented ? [a, b, c, opposite] : [a, b, c];
+  return [leftOfOrigin, origin, rightOfOrigin];
 };
 
-const dualColor = (color: string, distance: number = 15): ColorScheme => {
-  const a = convert(color, 'rgb');
-  const b = convert(spin(color, 360 + distance), 'rgb');
-  const c = convert(complement(a), 'rgb');
-  const d = convert(complement(b), 'rgb');
-
-  return [a, b, c, d];
-};
-
-/**
- * Returns a basic color scheme.
- *
- * @remarks
- * Usage:
- *
- * ```ts
- * // Set a complementary scheme
- * color.scheme('#348ec9', 'complementary');
- *
- * // split, analogous, dual allow setting a distance
- * color.scheme('#348ec9', 'split', { distance: 45 });
- *
- * // split, analogous, also allow setting the complement as an accent
- * color.scheme('#348ec9', 'analogous', { accented: true });
- * ```
- *
- * @param color - The base color to generate a scheme from
- * @param type - The type of scheme to generate
- * @param options - Additional options to modify the generated scheme
- * @returns The generated scheme as an array of RGB values
- **/
-export const scheme = (
+const dualColor = (
   color: string,
-  type: SchemeType,
-  options: SchemeOptions = {}
+  spreadFromOrigin: number = 15
 ): ColorScheme => {
-  // Initialize the options
-  const { distance = 15, accented = false } = options;
+  const main = convert(color);
+  const opposite = convert(complementOf(main));
+  const adjacentMain = convert(spin(main, spreadFromOrigin));
+  const adjacentOpposite = convert(spin(opposite, spreadFromOrigin));
 
-  // Check the type and generate the appropriate scheme
-  switch (type) {
-    case 'complementary':
-      return complementary(color);
-    case 'analogous':
-      return analogous(color, distance, accented);
-    case 'split':
-      return splitComplementary(color, distance, accented);
-    case 'triadic':
-      return splitComplementary(color, 60);
-    case 'dual':
-      return dualColor(color, distance);
-    case 'tetradic':
-      return dualColor(color, 90);
-    default:
-      throw Error(
-        'You must define a scheme from the available values (complementary, analogous, split, triadic, dual, tetradic)'
-      );
-  }
+  return [main, opposite, adjacentMain, adjacentOpposite];
 };
-
-export interface VariantOptions {
-  contrast?: number;
-  limit?: number;
-  mode?: 'logarithmic' | 'linear';
-}
 
 /**
  * Generate a set of variants from a base color.
@@ -205,32 +130,169 @@ export interface VariantOptions {
  * // Generate one tone
  * color.variants('#348ec9', '#aaaaaa', { limit: 1 });
  *
- * // Generate four shades with a linear blend mode
- * color.variants('#348ec9', '#111111', { limit: 4, mode: 'linear' });
  * ```
  *
- * @param color - The base color to generate variants for
- * @param target - The color to blend for variants
- * @param options - Additional options to modify the generated variants
+ * @param baseColor - The base color to generate variants for
+ * @param targetColor - The color to blend for variants
+ * @param paletteContrast - the overall contrast of the blend
+ * @param colorsToGenerate - The number of colors to generate
  * @returns The generated variants as an array of RGB values
  **/
-export const variants = (
-  color: string,
-  target: string,
-  options: VariantOptions = {}
+const variants = (
+  baseColor: string,
+  targetColor: string,
+  paletteContrast: number = 97,
+  colorsToGenerate: number = 3
 ): string[] => {
   // Initialize the options
-  const { contrast = 97, limit = 2, mode = 'logarithmic' } = options;
-
   // Convert colors to format accepted by blend function
-  color = convert(color, 'rgb');
-  target = convert(target, 'rgb');
+  baseColor = convert(baseColor, 'rgb');
+  targetColor = convert(targetColor, 'rgb');
 
   // Generate the variants
-  return Array.from(Array(limit).fill(color))
-    .map((value, index) => {
-      const amount = contrast - (contrast / limit) * index;
-      return blend(value, target, amount, mode);
+  return Array.from(Array(colorsToGenerate).fill(baseColor))
+    .map((value: string, index: number): string => {
+      const amount =
+        paletteContrast - (paletteContrast / colorsToGenerate) * index;
+      return blend(value, targetColor, amount);
     })
     .reverse();
 };
+
+type SwatchStore = string;
+type SchemeStore = string[];
+type PaletteStore = (string | string[])[];
+
+export default class Color {
+  private color: string;
+  private swatch: SwatchStore = '';
+  private scheme: SchemeStore = [];
+  private palette: PaletteStore = [];
+
+  public constructor(color: string) {
+    this.color = convert(color);
+    this.swatch = convert(color);
+  }
+
+  public get baseState(): string {
+    return this.color;
+  }
+
+  public get swatchState(): SwatchStore {
+    return this.swatch;
+  }
+
+  public get schemeState(): SchemeStore {
+    return [...new Set(this.scheme)];
+  }
+
+  public get paletteState(): PaletteStore {
+    return [this.color, ...this.palette];
+  }
+
+  public get currentAttributes() {
+    return `
+      instantiated with: ${this.color}
+      current swatch state: ${this.swatch}
+      current scheme state: ${this.scheme}
+      current palette state ${this.palette}
+    `;
+  }
+
+  public formatSwatchTo(cssFormat: CSSColorFormats) {
+    this.swatch = convert(this.swatch, cssFormat);
+    return this;
+  }
+
+  public shiftHue(
+    degreesOfRotation: number,
+    counterClockwise: boolean = false
+  ): Color {
+    this.swatch = spin(this.color, degreesOfRotation, counterClockwise);
+    return this;
+  }
+
+  public fetchComplement(): Color {
+    this.swatch = complementOf(this.color);
+    return this;
+  }
+
+  public neutralize(): Color {
+    this.swatch = neutralize(this.color);
+    return this;
+  }
+
+  public mix(withTarget: string, byAmount: number = 50): Color {
+    this.swatch = mix(this.swatch, withTarget, byAmount);
+    return this;
+  }
+
+  public createComplementaryScheme(): Color {
+    this.scheme = [...this.scheme, ...complementary(this.swatch)];
+    return this;
+  }
+
+  public createAnalogousScheme(spreadFromOrigin: number = 45): Color {
+    this.scheme = [...this.scheme, ...analogous(this.swatch, spreadFromOrigin)];
+    return this;
+  }
+
+  public createTriadicScheme(spreadFromOrigin: number = 60): Color {
+    this.scheme = [
+      ...this.scheme,
+      ...splitComplementary(this.swatch, spreadFromOrigin)
+    ];
+    return this;
+  }
+
+  public createTetradicScheme(spreadFromOrigin: number = 90): Color {
+    this.scheme = [...this.scheme, ...dualColor(this.swatch, spreadFromOrigin)];
+    return this;
+  }
+
+  // variant operations
+  public createBlend(
+    targetColor: string,
+    paletteContrast: number = 97,
+    colorsToGenerate: number = 3
+  ): Color {
+    this.palette = [
+      ...this.palette,
+      ...[variants(this.swatch, targetColor, paletteContrast, colorsToGenerate)]
+    ];
+    return this;
+  }
+
+  public createTints(
+    paletteContrast: number = 97,
+    colorsToGenerate: number = 3
+  ): Color {
+    this.palette = [
+      ...this.palette,
+      ...[variants(this.swatch, '#fff', paletteContrast, colorsToGenerate)]
+    ];
+    return this;
+  }
+
+  public createTones(
+    paletteContrast: number = 97,
+    colorsToGenerate: number = 3
+  ): Color {
+    this.palette = [
+      ...this.palette,
+      ...[variants(this.swatch, '#aaa', paletteContrast, colorsToGenerate)]
+    ];
+    return this;
+  }
+
+  public createShades(
+    paletteContrast: number = 97,
+    colorsToGenerate: number = 3
+  ): Color {
+    this.palette = [
+      ...this.palette,
+      ...[variants(this.swatch, '#111', paletteContrast, colorsToGenerate)]
+    ];
+    return this;
+  }
+}

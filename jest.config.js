@@ -7,5 +7,10 @@ module.exports = {
     '^.+\\.ts$': 'ts-jest'
   },
   testEnvironment: 'node',
-  setupFiles: ['core-js']
+  setupFiles: ['core-js'],
+  collectCoverage: true,
+  displayName: {
+    name: '@quarksuite/core',
+    color: 'cyan'
+  }
 };
