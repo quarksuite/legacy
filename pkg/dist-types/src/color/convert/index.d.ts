@@ -1,0 +1,12 @@
+export declare const hex2Rgb: (hex: string) => string;
+export declare const rgb2Hex: (rgb: string) => string;
+export declare const rgb2Hsl: (rgb: string) => string;
+export declare const hex2Hsl: (hex: string) => string;
+export declare const hex2Named: (hex: string) => string;
+export declare const rgb2Named: (rgb: string) => string;
+export declare const hsl2Rgb: (hsl: string) => string;
+export declare const hsl2Hex: (hsl: string) => string;
+export declare const hsl2Named: (hsl: string) => string;
+export declare const named2Rgb: (name: string) => string;
+export declare const named2Hsl: (name: string) => string;
+export declare const named2Hex: (name: string) => string;
