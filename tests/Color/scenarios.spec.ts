@@ -1,8 +1,8 @@
-import { Color } from '../../src/color';
+import { color } from '../../src/color';
 
 describe('Some sample workflows working with palettes', () => {
   test('Scenario: a single monochromatic color scheme', () => {
-    const base = new Color('gainsboro');
+    const base = color('gainsboro');
     expect(base.createTints().createShades(85, 2).palettes).toStrictEqual([
       'rgb(220, 220, 220)',
       [
@@ -15,11 +15,11 @@ describe('Some sample workflows working with palettes', () => {
     ]);
   });
   test("Scenario: Quarksuite's own color palette", () => {
-    const palette = new Color('#348ec9')
+    const palette = color('#348ec9')
       .createTriad()
       .schemes.map((swatch, index) => {
         if (index === 0)
-          return new Color(swatch).createTints().createShades(97, 2).palettes;
+          return color(swatch).createTints().createShades(97, 2).palettes;
         return swatch;
       });
     expect(palette).toStrictEqual([

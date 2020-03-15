@@ -1,15 +1,15 @@
-import { Color } from '../../src/color';
+import { c } from '../../src/color';
 
 describe('Color scheme utilities', () => {
   test('can create a complementary scheme', () => {
-    const color = new Color('#348ec9');
+    const color = c('#348ec9');
     expect(color.createComplementary().schemes).toStrictEqual([
       'rgb(52, 142, 201)',
       'rgb(203, 112, 52)'
     ]);
   });
   test('can create an analogous scheme with default options', () => {
-    const color = new Color('#348ec9');
+    const color = c('#348ec9');
     expect(color.createAnalogous().schemes).toStrictEqual([
       'rgb(52, 203, 150)',
       'rgb(52, 142, 201)',
@@ -17,7 +17,7 @@ describe('Color scheme utilities', () => {
     ]);
   });
   test('can create an analogous scheme with less spread', () => {
-    const color = new Color('#348ec9');
+    const color = c('#348ec9');
     expect(color.createAnalogous(30).schemes).toStrictEqual([
       'rgb(52, 203, 188)',
       'rgb(52, 142, 201)',
@@ -25,7 +25,7 @@ describe('Color scheme utilities', () => {
     ]);
   });
   test('can create a pure triad', () => {
-    const color = new Color('#348ec9');
+    const color = c('#348ec9');
     expect(color.createTriad().schemes).toStrictEqual([
       'rgb(52, 142, 201)',
       'rgb(203, 52, 143)',
@@ -33,7 +33,7 @@ describe('Color scheme utilities', () => {
     ]);
   });
   test('can create a triad with less contrast', () => {
-    const color = new Color('#348ec9');
+    const color = c('#348ec9');
     expect(color.createTriad(30).schemes).toStrictEqual([
       'rgb(52, 142, 201)',
       'rgb(203, 52, 67)',
@@ -41,7 +41,7 @@ describe('Color scheme utilities', () => {
     ]);
   });
   test('can create a pure tetrad', () => {
-    const color = new Color('#348ec9');
+    const color = c('#348ec9');
     expect(color.createTetrad().schemes).toStrictEqual([
       'rgb(52, 142, 201)',
       'rgb(203, 112, 52)',
@@ -50,7 +50,7 @@ describe('Color scheme utilities', () => {
     ]);
   });
   test('can create a tetrad with less contrast', () => {
-    const color = new Color('#348ec9');
+    const color = c('#348ec9');
     expect(color.createTetrad(30).schemes).toStrictEqual([
       'rgb(52, 142, 201)',
       'rgb(203, 112, 52)',

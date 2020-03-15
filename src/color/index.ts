@@ -10,7 +10,7 @@ export type Degrees = number;
 export type Percent = number;
 export type Limit = number;
 
-export interface ColorData {
+export interface ColorDataSchema {
   origin: Swatch;
   current: Swatch;
   scheme: Scheme;
@@ -155,7 +155,7 @@ export class Color {
     return [this.current, [...new Set(this.variation)]];
   }
 
-  public get data(): ColorData {
+  public get data(): ColorDataSchema {
     return {
       origin: this.origin,
       current: this.current,
@@ -271,3 +271,7 @@ color.palettes: ${read(palette)};
     return this;
   }
 }
+
+export const color = (color: string): Color => new Color(color);
+export const colour = (color: string): Color => new Color(color);
+export const c = (color: string): Color => new Color(color);
