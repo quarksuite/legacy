@@ -33,18 +33,18 @@ import { ratios, NamedRatios } from './ratio-lookup';
  * @returns A modular scale
  **/
 export const create = (
-  base: number = 1,
+  base = 1,
   ratio: number | NamedRatios = 'golden',
-  limit: number = 6,
+  limit = 6,
   invert = false
 ): number[] => {
   let r = 0;
 
   // Check if ratio is a named ratio or custom one
-  if (ratios[ratio] as number) {
+  if (ratios[ratio]) {
     r = ratios[ratio];
   } else if (typeof ratio === 'number') {
-    r = ratio as number;
+    r = ratio;
   } else {
     throw Error('Not a valid ratio arg, exiting');
   }
@@ -136,7 +136,7 @@ export type CSSUnits =
 export const output = (
   scale: number[],
   unit: CSSUnits = 'rem',
-  precision: number = 4
+  precision = 4
 ): string[] => {
   return scale.map(v => parseFloat(v.toPrecision(precision)) + unit);
 };

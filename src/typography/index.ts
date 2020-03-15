@@ -45,7 +45,7 @@ export const system = (...fonts: string[]): string | string[] => {
 
   // Output a string if only one family
   if (fonts.length === 1) {
-    let [font] = fonts;
+    const [font] = fonts;
     return families[font];
   }
 

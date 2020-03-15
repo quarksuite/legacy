@@ -11,19 +11,19 @@ export const hex2Rgb = (hex: string) => {
 
   // #RGB || #RRGGBB
   if (hex.length == 4) {
-    let rv = hex[1];
-    let gv = hex[2];
-    let bv = hex[3];
+    const rv = hex[1];
+    const gv = hex[2];
+    const bv = hex[3];
     r = parseInt(rv + rv, 16);
     g = parseInt(gv + gv, 16);
     b = parseInt(bv + bv, 16);
   } else if (hex.length == 7) {
-    let r1 = hex[1];
-    let r2 = hex[2];
-    let g1 = hex[3];
-    let g2 = hex[4];
-    let b1 = hex[5];
-    let b2 = hex[6];
+    const r1 = hex[1];
+    const r2 = hex[2];
+    const g1 = hex[3];
+    const g2 = hex[4];
+    const b1 = hex[5];
+    const b2 = hex[6];
     r = parseInt(r1 + r2, 16);
     g = parseInt(g1 + g2, 16);
     b = parseInt(b1 + b2, 16);
@@ -47,9 +47,9 @@ export const rgb2Hex = (rgb: string) => {
 export const rgb2Hsl = (rgb: string) => {
   const data = rgbData(rgb);
   // Make RGB channels fractions of 1
-  let r = +data[0] / 255;
-  let g = +data[1] / 255;
-  let b = +data[2] / 255;
+  const r = +data[0] / 255;
+  const g = +data[1] / 255;
+  const b = +data[2] / 255;
 
   const hsl = hslCalc(r, g, b);
 
@@ -63,9 +63,9 @@ export const hex2Hsl = (hex: string) => rgb2Hsl(hex2Rgb(hex));
 export const hex2Named = (hex: string) => {
   // #RGB || #RRGGBB
   if (hex.length == 4) {
-    let rv = hex[1];
-    let gv = hex[2];
-    let bv = hex[3];
+    const rv = hex[1];
+    const gv = hex[2];
+    const bv = hex[3];
     hex = `#${rv}${rv}${gv}${gv}${bv}${bv}`;
   }
 
@@ -85,9 +85,9 @@ export const rgb2Named = (rgb: string) => hex2Named(rgb2Hex(rgb));
 export const hsl2Rgb = (hsl: string) => {
   const data = hslData(hsl);
 
-  let h = data[0];
-  let s = data[1];
-  let l = data[2];
+  const h = data[0];
+  const s = data[1];
+  const l = data[2];
 
   const rgb = rgbCalc(h, s, l);
 

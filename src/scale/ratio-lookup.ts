@@ -11,7 +11,7 @@ interface RatioFormat {
   [index: string]: number;
 }
 
-function goldenRatio() {
+function goldenRatio(): number {
   const f = Array.from(Array(16).fill(0), (_value, n) => {
     return fibonacci(n).next().value;
   });
