@@ -1,7 +1,7 @@
 {
   "name": "@quarksuite/core",
   "version": "3.0.0-dev",
-  "description": "A tiny kit to create data-driven",
+  "description": "Quarksuite is a tiny kit made for composing design as a first class object.",
   "author": "Chatman R. Jr <crjr.code@gmail.com>",
   "main": "pkg/dist-node/index.js",
   "repository": {
@@ -16,11 +16,10 @@
   },
   "homepage": "https://github.com/quarksuite/core",
   "keywords": [
-    "quarksuite",
-    "front-end",
-    "design systems",
-    "toolkit",
-    "minimal"
+    "systematic design",
+    "multi-paradigm",
+    "lean web",
+    "toolkit"
   ],
   "license": "MPL-2.0",
   "devDependencies": {
