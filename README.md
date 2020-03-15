@@ -1,6 +1,6 @@
-![Quarksuite Logo](assets/logo-with-text-v1.png)
-
 # Quarksuite (Core)
+
+![Quarksuite Logo](assets/logo.png)
 
 Quarksuite is a kit aimed at helping developers create consistent, independent baselines for design systems. Built to bridge the gap between having a mature system and not having one at all.
 

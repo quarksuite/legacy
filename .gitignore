@@ -122,4 +122,7 @@ tags
 # Hide Meld output
 *.orig
 
+# Hide Ghostwriter drafts
+*.md.backup
+
 # End of https://www.gitignore.io/api/vim,node,code
