@@ -19,7 +19,9 @@ describe('Some sample workflows working with palettes', () => {
       .createTriad()
       .schemes.map((swatch, index) => {
         if (index === 0)
-          return color(swatch).createTints().createShades(97, 2).palettes;
+          return color(swatch)
+            .createTints()
+            .createShades(97, 2).palettes;
         return swatch;
       });
     expect(palette).toStrictEqual([

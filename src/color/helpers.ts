@@ -1,23 +1,35 @@
-import { hslData, convertPercentage as percentToInteger, checkFormat } from './convert/helpers';
+import {
+  hslData,
+  convertPercentage as percentToInteger,
+  checkFormat
+} from './convert/helpers';
 
 import * as transform from './convert/';
 
-const calculateDifference = (origin: number, target: number, p: number): number => 
-  Math.round(((1 - p) * origin ** 2 + p * target ** 2) ** 0.5);
+const calculateDifference = (
+  origin: number,
+  target: number,
+  p: number
+): number => Math.round(((1 - p) * origin ** 2 + p * target ** 2) ** 0.5);
 
-const calculateMix = (origin: string, target: string, amount: number): number[] => {
+const calculateMix = (
+  origin: string,
+  target: string,
+  amount: number
+): number[] => {
   const [O_RED, O_GREEN, O_BLUE] = origin.split(', ');
   const [T_RED, T_GREEN, T_BLUE] = target.split(', ');
   const RGB_STORE: Map<string, string> = new Map([
     [O_RED, T_RED],
     [O_GREEN, T_GREEN],
-    [O_BLUE, T_BLUE],
+    [O_BLUE, T_BLUE]
   ]);
   return Array.from(RGB_STORE).map(([origin, target]): number => {
     const matchChars = /\D/g;
-    const getValueOf = (s: string): number => parseInt(s.replace(matchChars, ''));
+    const getValueOf = (s: string): number =>
+      parseInt(s.replace(matchChars, ''));
     return calculateDifference(getValueOf(origin), getValueOf(target), amount);
-  })
+  });
 };
 
 const hexConvert = (color: string, to: string): string => {
@@ -77,16 +89,12 @@ export const spin = (
   return convert(`hsl(${h}, ${s}%, ${l}%)`);
 };
 
-export const blend = (
-  color: string,
-  target: string,
-  amount = 50
-): string => {
+export const blend = (color: string, target: string, amount = 50): string => {
   // Convert arguments to RGB as required by blend function
   color = convert(color);
   target = convert(target);
   amount = percentToInteger(amount);
-  const [R, G, B] = calculateMix(color, target, amount)
+  const [R, G, B] = calculateMix(color, target, amount);
 
   return `rgb(${R}, ${G}, ${B})`;
 };

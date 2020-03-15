@@ -188,10 +188,7 @@ color.palettes: ${read(palette)};
     return this;
   }
 
-  public shiftHue(
-    toDegrees: Degrees,
-    counterClockwise = false
-  ): Color {
+  public shiftHue(toDegrees: Degrees, counterClockwise = false): Color {
     this.current = spinHueFrom(this.current, toDegrees, counterClockwise);
     return this;
   }

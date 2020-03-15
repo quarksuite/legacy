@@ -23,7 +23,8 @@ export const convertPercentage = (percentage: number): number => {
 };
 
 // CSS RGB & HSL formats can be separated with commas or spaces
-export const parseSep = (str: string): string => (str.includes(',') ? ',' : ' ');
+export const parseSep = (str: string): string =>
+  str.includes(',') ? ',' : ' ';
 
 export const hslData = (hsl: string): number[] => {
   // First check the format
@@ -40,8 +41,7 @@ export const hslData = (hsl: string): number[] => {
   const lValue = convertPercentage(+data[2].substr(0, data[2].length - 1));
 
   // Strip label from hue and convert to degrees (if needed)
-  if (data[0].includes('deg'))
-    hValue = +data[0].substr(0, data[0].length - 3);
+  if (data[0].includes('deg')) hValue = +data[0].substr(0, data[0].length - 3);
   else if (data[0].includes('rad'))
     hValue = Math.round(
       +data[0].substr(0, data[0].length - 3) * (180 / Math.PI)
@@ -109,12 +109,11 @@ export const rgbData = (rgb: string): string[] => {
     .split(parseSep(rgb))
     .map(v => {
       // Convert from percentage, else leave untouched
-      const value =
-        v.includes('%')
-          ? Math.round(
-              convertPercentage(+v.substr(0, v.length - 1)) * 255
-            ).toString()
-          : v;
+      const value = v.includes('%')
+        ? Math.round(
+            convertPercentage(+v.substr(0, v.length - 1)) * 255
+          ).toString()
+        : v;
 
       return value;
     });

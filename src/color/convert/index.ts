@@ -3,7 +3,7 @@ import { checkFormat } from './helpers';
 import { w3cx11 } from './named-lookup';
 
 // Hex -> RGB
-export const hex2Rgb = (hex: string) => {
+export const hex2Rgb = (hex: string): string => {
   // Check the format
   if (!checkFormat(hex, 'hex')) throw Error('Not a valid hex color format');
 
@@ -33,7 +33,7 @@ export const hex2Rgb = (hex: string) => {
 };
 
 // RGB -> Hex
-export const rgb2Hex = (rgb: string) => {
+export const rgb2Hex = (rgb: string): string => {
   let [r, g, b] = rgbData(rgb);
 
   r = d2Hex(r);
@@ -44,7 +44,7 @@ export const rgb2Hex = (rgb: string) => {
 };
 
 // RGB -> HSL
-export const rgb2Hsl = (rgb: string) => {
+export const rgb2Hsl = (rgb: string): string => {
   const data = rgbData(rgb);
   // Make RGB channels fractions of 1
   const r = +data[0] / 255;
@@ -57,10 +57,10 @@ export const rgb2Hsl = (rgb: string) => {
 };
 
 // Hex -> HSL
-export const hex2Hsl = (hex: string) => rgb2Hsl(hex2Rgb(hex));
+export const hex2Hsl = (hex: string): string => rgb2Hsl(hex2Rgb(hex));
 
 // Hex -> Named
-export const hex2Named = (hex: string) => {
+export const hex2Named = (hex: string): string => {
   // #RGB || #RRGGBB
   if (hex.length == 4) {
     const rv = hex[1];
@@ -79,10 +79,10 @@ export const hex2Named = (hex: string) => {
 };
 
 // RGB to Named
-export const rgb2Named = (rgb: string) => hex2Named(rgb2Hex(rgb));
+export const rgb2Named = (rgb: string): string => hex2Named(rgb2Hex(rgb));
 
 // HSL -> RGB
-export const hsl2Rgb = (hsl: string) => {
+export const hsl2Rgb = (hsl: string): string => {
   const data = hslData(hsl);
 
   const h = data[0];
@@ -95,16 +95,17 @@ export const hsl2Rgb = (hsl: string) => {
 };
 
 // HSL -> Hex
-export const hsl2Hex = (hsl: string) => rgb2Hex(hsl2Rgb(hsl));
+export const hsl2Hex = (hsl: string): string => rgb2Hex(hsl2Rgb(hsl));
 
 // HSL -> Named
-export const hsl2Named = (hsl: string) => hex2Named(rgb2Hex(hsl2Rgb(hsl)));
+export const hsl2Named = (hsl: string): string =>
+  hex2Named(rgb2Hex(hsl2Rgb(hsl)));
 
 // Named -> RGB
-export const named2Rgb = (name: string) => hex2Rgb(w3cx11[name]);
+export const named2Rgb = (name: string): string => hex2Rgb(w3cx11[name]);
 
 // Named -> HSL
-export const named2Hsl = (name: string) => hex2Hsl(w3cx11[name]);
+export const named2Hsl = (name: string): string => hex2Hsl(w3cx11[name]);
 
 // Named -> Hex
-export const named2Hex = (name: string) => w3cx11[name];
+export const named2Hex = (name: string): string => w3cx11[name];
