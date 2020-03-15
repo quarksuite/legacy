@@ -1,10 +1,8 @@
 import { w3cx11 } from './named-lookup';
 
-export const d2Hex = (s: string) => (+s).toString(16).padStart(2, '0');
+export const d2Hex = (s: string): string => (+s).toString(16).padStart(2, '0');
 
-export type CSSColorFormats = 'hex' | 'rgb' | 'hsl' | 'named';
-
-export const checkFormat = (test: string, format: CSSColorFormats) => {
+export const checkFormat = (test: string, format: string): boolean => {
   interface Format {
     [index: string]: RegExp;
   }
@@ -20,35 +18,35 @@ export const checkFormat = (test: string, format: CSSColorFormats) => {
   return list[format].test(test);
 };
 
-export const convertPercentage = (percentage: number) => {
+export const convertPercentage = (percentage: number): number => {
   return percentage / 100;
 };
 
 // CSS RGB & HSL formats can be separated with commas or spaces
-export const parseSep = (str: string) => (str.indexOf(',') > -1 ? ',' : ' ');
+export const parseSep = (str: string): string => (str.includes(',') ? ',' : ' ');
 
-export const hslData = (hsl: string) => {
+export const hslData = (hsl: string): number[] => {
   // First check the format
   if (!checkFormat(hsl, 'hsl')) throw Error('Not a valid hsl format');
 
   // Split values from string
-  let data = hsl
+  const data = hsl
     .substr(4)
     .split(')')[0]
     .split(parseSep(hsl));
 
   let hValue = +data[0];
-  let sValue = convertPercentage(+data[1].substr(0, data[1].length - 1));
-  let lValue = convertPercentage(+data[2].substr(0, data[2].length - 1));
+  const sValue = convertPercentage(+data[1].substr(0, data[1].length - 1));
+  const lValue = convertPercentage(+data[2].substr(0, data[2].length - 1));
 
   // Strip label from hue and convert to degrees (if needed)
-  if (data[0].indexOf('deg') > -1)
+  if (data[0].includes('deg'))
     hValue = +data[0].substr(0, data[0].length - 3);
-  else if (data[0].indexOf('rad') > -1)
+  else if (data[0].includes('rad'))
     hValue = Math.round(
       +data[0].substr(0, data[0].length - 3) * (180 / Math.PI)
     );
-  else if (data[0].indexOf('turn') > -1)
+  else if (data[0].includes('turn'))
     hValue = Math.round(+data[0].substr(0, data[0].length - 4) * 360);
 
   if (hValue >= 360) hValue %= 360;
@@ -56,11 +54,11 @@ export const hslData = (hsl: string) => {
   return [hValue, sValue, lValue];
 };
 
-export const rgbCalc = (h: number, s: number, l: number) => {
+export const rgbCalc = (h: number, s: number, l: number): number[] => {
   // Calculate chroma
-  let c = (1 - Math.abs(2 * l - 1)) * s;
-  let x = c * (1 - Math.abs(((h / 60) % 2) - 1));
-  let m = l - c / 2;
+  const c = (1 - Math.abs(2 * l - 1)) * s;
+  const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+  const m = l - c / 2;
 
   // Assign channels
   let r = 0;
@@ -100,7 +98,7 @@ export const rgbCalc = (h: number, s: number, l: number) => {
   return [Math.round(r), Math.round(g), Math.round(b)];
 };
 
-export const rgbData = (rgb: string) => {
+export const rgbData = (rgb: string): string[] => {
   // First, check the format
   if (!checkFormat(rgb, 'rgb')) throw Error('Not a valid RGB format');
 
@@ -111,8 +109,8 @@ export const rgbData = (rgb: string) => {
     .split(parseSep(rgb))
     .map(v => {
       // Convert from percentage, else leave untouched
-      let value =
-        v.indexOf('%') > -1
+      const value =
+        v.includes('%')
           ? Math.round(
               convertPercentage(+v.substr(0, v.length - 1)) * 255
             ).toString()
@@ -122,11 +120,11 @@ export const rgbData = (rgb: string) => {
     });
 };
 
-export const hslCalc = (r: number, g: number, b: number) => {
+export const hslCalc = (r: number, g: number, b: number): number[] => {
   // Find minimum and maximum channel values
-  let cmin = Math.min(r, g, b);
-  let cmax = Math.max(r, g, b);
-  let delta = cmax - cmin;
+  const cmin = Math.min(r, g, b);
+  const cmax = Math.max(r, g, b);
+  const delta = cmax - cmin;
 
   // Set hsl
   let h = 0;
