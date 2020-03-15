@@ -181,3 +181,6 @@ color.palettes: ${read(palette)};
   }
 
 }
+export const color = color => new Color(color);
+export const colour = color => new Color(color);
+export const c = color => new Color(color);
