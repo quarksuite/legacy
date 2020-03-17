@@ -4,17 +4,13 @@ import {
   parseRGB,
   parseHSL,
   intToHex,
-  hexToInt,
-  checkFormat
+  hexToInt
 } from './utils';
 import { compose } from '../utils';
 import { w3c } from './w3c-colors';
 
 // Hex -> RGB
 export const hexToRGB = (hex: string): string => {
-  // Check the format
-  if (!checkFormat(hex, 'hex')) throw Error('Not a valid hex color');
-
   let output = [];
   const [, ...values] = hex;
 
@@ -36,9 +32,6 @@ export const hexToRGB = (hex: string): string => {
 
 // RGB -> Hex
 export const rgbToHex = (rgb: string): string => {
-  // Check the format
-  if (!checkFormat(rgb, 'rgb')) throw Error('Not a valid RGB color');
-
   const hexValues = parseRGB(rgb).map((channel: number): string =>
     intToHex(channel)
   );
@@ -47,15 +40,10 @@ export const rgbToHex = (rgb: string): string => {
 
 // RGB -> HSL
 export const rgbToHSL = (rgb: string): string => {
-  // Check the format
-  if (!checkFormat(rgb, 'rgb')) throw Error('Not a valid RGB color');
-
   const [R, G, B] = parseRGB(rgb).map(
     (channel: number): number => channel / 255
   );
   const [H, S, L] = calcHSL(R, G, B);
-  // Check the format
-  if (!checkFormat(rgb, 'rgb')) throw Error('Not a valid RGB color');
 
   return `hsl(${isNaN(H) ? 0 : H}, ${S}%, ${L}%)`;
 };
@@ -88,9 +76,6 @@ export const rgb2W3C = (rgb: string): string =>
 
 // HSL -> RGB
 export const hslToRGB = (hsl: string): string => {
-  // Check the format
-  if (!checkFormat(hsl, 'hsl')) throw Error('Not a valid HSL color');
-
   const [H, S, L] = parseHSL(hsl);
   const [R, G, B] = calcRGB(H, S, L);
 

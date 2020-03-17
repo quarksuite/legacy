@@ -2,20 +2,6 @@ import { w3c } from './w3c-colors';
 import * as convert from './convert';
 import { compose } from '../utils';
 
-// Domain types
-export type Swatch = string;
-export type Scheme = Swatch[];
-export type Variation = Swatch[];
-export type Palette = (Swatch | Variation)[];
-
-// Additional types for context
-export type Formats = 'hex' | 'rgb' | 'hsl' | 'w3c';
-export type Degrees = number;
-export type Percent = number;
-export type Limit = number;
-export type Saturation = number;
-export type Lightness = number;
-
 // Conversion utils
 export const intToHex = (n: number): string => n.toString(16).padStart(2, '0');
 export const hexToInt = (x: string, y: string): number => parseInt(x + y, 16);
@@ -201,27 +187,35 @@ const calculateMix = (
   });
 };
 
-export const format = (color: string, to: Formats = 'rgb'): string => {
+export const format = (color: string, to = 'rgb'): string => {
   switch (to) {
     case 'rgb':
       if (checkFormat(color, 'hex')) return convert.rgbToHex(color);
       if (checkFormat(color, 'hsl')) return convert.rgbToHSL(color);
       if (checkFormat(color, 'w3c')) return convert.hexToRGB(color);
+      if (checkFormat(color, 'rgb'))
+        throw Error("You can't convert a color to its own format");
       break;
     case 'hex':
       if (checkFormat(color, 'rgb')) return convert.hexToRGB(color);
       if (checkFormat(color, 'hsl')) return convert.hexToHSL(color);
       if (checkFormat(color, 'w3c')) return convert.hexToW3C(color);
+      if (checkFormat(color, 'hex'))
+        throw Error("You can't convert a color to its own format");
       break;
     case 'hsl':
       if (checkFormat(color, 'hex')) return convert.hslToHex(color);
       if (checkFormat(color, 'rgb')) return convert.hslToRGB(color);
       if (checkFormat(color, 'w3c')) return convert.hslToW3C(color);
+      if (checkFormat(color, 'hsl'))
+        throw Error("You can't convert a color to its own format");
       break;
     case 'w3c':
       if (checkFormat(color, 'hex')) return convert.w3CToHex(color);
       if (checkFormat(color, 'rgb')) return convert.w3cToRGB(color);
       if (checkFormat(color, 'hsl')) return convert.w3CToHSL(color);
+      if (checkFormat(color, 'w3c'))
+        throw Error("You can't convert a color to its own format");
       break;
   }
 
@@ -233,17 +227,51 @@ export const spin = (
   rotation = 180,
   counterClockwise = false
 ): string => {
-  let [h, s, l] = parseHSL(format(color, 'hsl'));
-  const calculatedHue = counterClockwise ? h - rotation : h + rotation;
+  let [H, S, L] = parseHSL(format(color, 'hsl'));
+  const calculatedHue = counterClockwise ? H - rotation : H + rotation;
 
-  h = calculatedHue < 0 ? (calculatedHue + 360) % 360 : calculatedHue % 360;
-  s = toPercentage(s);
-  l = toPercentage(l);
+  H = calculatedHue < 0 ? (calculatedHue + 360) % 360 : calculatedHue % 360;
+  S = toPercentage(S);
+  L = toPercentage(L);
 
-  return format(`hsl(${h}, ${s}%, ${l}%)`);
+  return format(`hsl(${H}, ${S}%, ${L}%)`);
 };
 
-export const blend = (color: string, target: string, amount = 50): string => {
+export const modify = (
+  color: string,
+  property: string,
+  modifier: (currentValue: number) => number
+): string => {
+  const values = parseHSL(format(color, 'hsl'));
+  const [H] = values;
+  let [, S, L] = values;
+
+  // Putting S, L in a box to allow the modifier function to access
+  // the currentValue feels a little hacky, but it'll do for now
+  if (property === 'saturation')
+    S = toPercentage(
+      [S].map((currentValue: number) => modifier(currentValue))[0]
+    );
+
+  if (S < 0 || S > 100)
+    throw Error(`Invalid operation: ${S} has dropped below 0% or exceeds 100%`);
+
+  if (property === 'lightness')
+    L = toPercentage(
+      [L].map((currentValue: number) => modifier(currentValue))[0]
+    );
+
+  if (L < 0 || L > 100)
+    throw Error(`Invalid operation: ${L} has dropped below 0% or exceeds 100%`);
+
+  return format(`hsl(${H}, ${S}%, ${L}%)`);
+};
+
+export const createBlend = (
+  color: string,
+  target: string,
+  amount = 50
+): string => {
   // Convert arguments to RGB as required by blend function
   const [R, G, B] = calculateMix(
     format(color),
