@@ -247,31 +247,27 @@ export const format = (color: string, to = 'rgb'): string => {
       if (checkFormat(color, 'hex')) return hexToRGB(color);
       if (checkFormat(color, 'hsl')) return hslToRGB(color);
       if (checkFormat(color, 'w3c')) return w3cToRGB(color);
-      if (checkFormat(color, 'rgb'))
-        throw Error("You can't convert a color to its own format");
+      if (checkFormat(color, 'rgb')) return color;
       break;
     case 'hex':
       if (checkFormat(color, 'rgb')) return rgbToHex(color);
       if (checkFormat(color, 'hsl')) return hslToHex(color);
       if (checkFormat(color, 'w3c')) return w3cToHex(color);
-      if (checkFormat(color, 'hex'))
-        throw Error("You can't convert a color to its own format");
+      if (checkFormat(color, 'hex')) return color;
       break;
     case 'hsl':
       if (checkFormat(color, 'hex')) return hexToHSL(color);
       if (checkFormat(color, 'rgb')) return rgbToHSL(color);
       if (checkFormat(color, 'w3c')) return w3cToHSL(color);
-      if (checkFormat(color, 'hsl'))
-        throw Error("You can't convert a color to its own format");
+      if (checkFormat(color, 'hsl')) return color;
       break;
     case 'w3c':
       if (checkFormat(color, 'hex')) return hexToW3C(color);
       if (checkFormat(color, 'rgb')) return rgbToW3C(color);
       if (checkFormat(color, 'hsl')) return hslToW3C(color);
-      if (checkFormat(color, 'w3c'))
-        throw Error("You can't convert a color to its own format");
+      if (checkFormat(color, 'w3c')) return color;
       break;
   }
 
-  return color;
+  throw Error(`Invalid: ${color} is not a CSS color`);
 };
