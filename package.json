@@ -1,7 +1,7 @@
 {
   "name": "@quarksuite/core",
-  "version": "3.0.0-dev",
-  "description": "Quarksuite is a tiny kit made for composing design as a first class object.",
+  "version": "2.3.0-staging",
+  "description": "Quarksuite is a toolkit for creating design system baselines.",
   "author": "Chatman R. Jr <crjr.code@gmail.com>",
   "main": "pkg/dist-node/index.js",
   "repository": {
@@ -16,10 +16,9 @@
   },
   "homepage": "https://github.com/quarksuite/core",
   "keywords": [
-    "systematic design",
-    "multi-paradigm",
-    "lean web",
-    "toolkit"
+    "quarksuite",
+    "toolkit",
+    "design systems"
   ],
   "license": "MPL-2.0",
   "devDependencies": {
