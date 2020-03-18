@@ -102,8 +102,10 @@ describe('Color conversion utilities', () => {
   describe('checkFormat(color: string, format: string): boolean', () => {
     test('checks an input color for the correct format', () => {
       expect(checkFormat('#348ec9', 'hex')).toBeTruthy();
+      expect(checkFormat('#348', 'hex')).toBeTruthy();
       expect(checkFormat('348ec9', 'hex')).toBeFalsy();
       expect(checkFormat('rgb(33, 100, 94)', 'rgb')).toBeTruthy();
+      expect(checkFormat('rgb(33%, 100%, 94%)', 'rgb')).toBeTruthy();
       expect(checkFormat('rg(303,110, 0)', 'rgb')).toBeFalsy();
     });
   });
@@ -141,6 +143,7 @@ describe('Color conversion utilities', () => {
     test('parses an RGB string and extracts its values', () => {
       expect(parseRGB('rgb(30, 110, 25)')).toStrictEqual([30, 110, 25]);
       expect(parseRGB('rgb(0, 25, 182)')).toStrictEqual([0, 25, 182]);
+      expect(parseRGB('rgb(20%, 80%, 32%)')).toStrictEqual([51, 204, 82]);
       expect(parseRGB('rgb(0, 0, 182)')).toStrictEqual([0, 0, 182]);
     });
   });
@@ -159,6 +162,7 @@ describe('Conversion functions', () => {
     test('converts a hex color to RGB', () => {
       expect(hexToRGB('#ffc0ac')).toBe('rgb(255, 192, 172)');
       expect(hexToRGB('#0ac0ac')).toBe('rgb(10, 192, 172)');
+      expect(hexToRGB('#39a')).toBe('rgb(51, 153, 170)');
       expect(hexToRGB('#aacf3c')).toBe('rgb(170, 207, 60)');
     });
   });
@@ -166,12 +170,14 @@ describe('Conversion functions', () => {
     test('converts a hex color to HSL color', () => {
       expect(hexToHSL('#ffc0ac')).toBe('hsl(14, 100%, 84%)');
       expect(hexToHSL('#0ac0ac')).toBe('hsl(173, 90%, 40%)');
+      expect(hexToHSL('#39a')).toBe('hsl(189, 54%, 43%)');
       expect(hexToHSL('#aacf3c')).toBe('hsl(75, 61%, 52%)');
     });
   });
   describe('hexToW3C(hex: string): string', () => {
     test('converts a hex color to its W3C named value, if defined', () => {
       expect(hexToW3C('#ff0000')).toBe('red');
+      expect(hexToW3C('#f00')).toBe('red');
     });
   });
   describe('rgbToHex(rgb: string): string', () => {
@@ -179,6 +185,7 @@ describe('Conversion functions', () => {
       expect(rgbToHex('rgb(220, 100, 100)')).toBe('#dc6464');
       expect(rgbToHex('rgb(20, 200, 90)')).toBe('#14c85a');
       expect(rgbToHex('rgb(204, 20, 190)')).toBe('#cc14be');
+      expect(rgbToHex('rgb(25%, 50%, 75%)')).toBe('#4080bf');
     });
   });
   describe('rgbToHSL(rgb: string): string', () => {
@@ -186,11 +193,13 @@ describe('Conversion functions', () => {
       expect(rgbToHSL('rgb(30, 220, 10)')).toBe('hsl(114, 91%, 45%)');
       expect(rgbToHSL('rgb(30, 220, 200)')).toBe('hsl(174, 76%, 49%)');
       expect(rgbToHSL('rgb(30, 20, 200)')).toBe('hsl(243, 82%, 43%)');
+      expect(rgbToHSL('rgb(30%, 70%, 80%)')).toBe('hsl(192, 56%, 55%)');
     });
   });
   describe('rgbToW3C(rgb: string): string', () => {
     test('converts RGB color to its W3C named value, if defined', () => {
       expect(rgbToW3C('rgb(0, 255, 0)')).toBe('lime');
+      expect(rgbToW3C('rgb(100%, 0%, 0%)')).toBe('red');
     });
   });
   describe('hslToHex(hsl: string): string', () => {

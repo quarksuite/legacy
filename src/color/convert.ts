@@ -158,15 +158,20 @@ export const hexToRGB = (hex: string): string => {
   const [, ...values] = hex;
 
   if (values.length == 3) {
-    output = values.map((x: string): number => hexToInt(x, x));
+    const [R, G, B] = values;
+    output = [
+      [R, R],
+      [G, G],
+      [B, B]
+    ].map(([x, y]: string[]): number => hexToInt(x, y));
+  } else {
+    const [R, R2, G, G2, B, B2] = values;
+    output = [
+      [R, R2],
+      [G, G2],
+      [B, B2]
+    ].map(([x, y]: string[]): number => hexToInt(x, y));
   }
-
-  const [R, R2, G, G2, B, B2] = values;
-  output = [
-    [R, R2],
-    [G, G2],
-    [B, B2]
-  ].map(([x, y]: string[]): number => hexToInt(x, y));
 
   const [r, g, b] = output;
 
@@ -202,9 +207,9 @@ export const hexToW3C = (hex: string): string => {
   if (hex.length == 4) {
     const [hash, R, G, B] = hex;
     output = [hash, R, R, G, G, B, B].join('');
+  } else {
+    output = hex;
   }
-
-  output = hex;
 
   const found = Object.keys(w3c).filter((named: string) => {
     return output === w3c[named];
