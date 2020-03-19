@@ -20,16 +20,16 @@ Quarksuite imposes no structural rules about how you use your baseline. You can 
 
 ## Features
 
-+ Modify colors, create palettes and schemes, convert CSS formats
-+ Ready-to-use cross-platform [OS font stacks](https://systemfontstack.com/)
++ Modify colors, create palettes and schemes, ~~convert CSS formats~~ (currently reworking)
++ Ready-to-use [OS font stacks](https://systemfontstack.com/)
 + Create, modify, and merge modular scales for content, layout, and proportion
-+ No framework needed, no dependencies required. Build the way you want
++ No framework required. Build the way you want
 
 ## Installation
 
 ### As a Module
 
-> You’ll require at least Node.js LTS (v12.15.0) to use Quarksuite as a module. I would recommend installing Yarn as well.
+> You’ll require at least Node.js LTS to use Quarksuite as a module. I would recommend installing Yarn as well.
 
 ```bash
 npm install @quarksuite/core
@@ -62,7 +62,7 @@ npx snowpack
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Quarksuite (v2.2.0) Example</title>
+    <title>Quarksuite (v2.3.0) Example</title>
   </head>
   <body>
     <script type="module" src="/index.js"></script>
@@ -83,11 +83,11 @@ OR
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Quarksuite (v2.2.0) Example</title>
+    <title>Quarksuite (v2.3.0) Example</title>
   </head>
   <body>
     <script type="module">
-      import { color, typography, scale } from "https://unpkg.com/@quarksuite/core@2.2.0/dist-web/index.js"
+      import { color, typography, scale } from "https://unpkg.com/@quarksuite/core@2.3.0/dist-web/index.js"
       
       // Your baseline system
     </script>
@@ -100,23 +100,21 @@ OR
 ```js
 // Assuming node module
 
-const {color, typography, scale} = require('@quarksuite/core');
+const {variant, typography, scale} = require('@quarksuite/core');
 
 // A barebones monochromatic templating scheme
 const base = '#aaaaaa';
 
-const options = { limit: 4 };
-
-const palette = {
+exports.palette = {
   base,
-  tints: color.variants(base, '#fff', options),
-  shades: color.variants(base, '#111', options)
+  tints: variant.tints(base, 95, 3),
+  shades: variant.shades(base, 95, 3)
 };
 
-// System Font stacks
+// System font stacks
 const [sans, serif, mono] = typography.system();
 
-const font = {
+exports.font = {
   sans,
   serif,
   mono
@@ -125,17 +123,12 @@ const font = {
 // Content and proportion scales
 const baseProp = scale.create(1, 'octave', 4);
 
-const scale = {
+exports.scale = {
   content: scale.output(scale.create(1, 'maj3rd')),
   block: scale.output(baseProp),
   inline: scale.output(baseProp, 'em')
 };
 
-module.exports = {
-  palette,
-  fonts,
-  scale
-};
 ```
 
 ## REPL
@@ -172,8 +165,8 @@ yarn
 
 ### Commands
 
-+ `npm run test`  OR `yarn test`: run unit tests
-+ `npm run build`  OR `yarn build`: build project 
++ `npm run dev` OR `yarn dev`: run tests on save
++ `npm run build`  OR `yarn build`: build project
 
 ## Credit
 

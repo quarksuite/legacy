@@ -4,29 +4,30 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).‘’
 
-## [Unreleased]
+## v2.3.0
 
-### Updated
+This version is a bridge between the structure of v2 and the structure of the forthcoming v3. I was going to hold off on releasing until the v3 structure was implemented, but the many improvements to the current API and underlying logic justified a minor release.
 
-+ License changed to MIT. MPL-2.0 is robust and comprehensive but also more restrictive than I'd like
+### Changed
+
++ color module separated into `color`, `scheme` `variant` modules. See the [API docs](API.md) for details
 
 ### Added
 
-+ Refactor of the entire codebase: each module can now be used two ways.
-  + Method chaining mode (`new Color('dodgerblue').mix('rebeccapurple').shiftHue(72).swatchSate`)
-  + Combinator mode (`color('dodgerblue', mix, shiftHue, scheme(triadic, complementary), variants(tints, shades)`)
-+ Discreet functions folded into `Color`, `Typography`, `Scale` classes. The API is lot more flexible and expressive
++ `hue`, `saturation`, `lightness` modifiers added to color functions
++ scheme functions further separated into `complementary`, `analogous`, `triad`, and `tetrad`. [See API](API.md)
++ variant functions further separated into `create` for general blends, `tints`, `tones`, `shades`. See the [API docs](API.md).
 
 ### Fixed
 
-+ peculiarities with color manipulation have been resolved
++ improved calculation of color transformations
 
 ### Removed
 
-+ linear blend mode in variant generation. It amounted to little more than choice for the sake of choice
-+ A ton of now unused functionality. Library is even slimmer
++ linear blend mode in variant generation. It was kind of just there
++ precision parameter removed from `scale.output`. Not much practical use for it
 
-## 2.2.0
+## v2.2.0
 
 ### Changed
 
@@ -169,4 +170,3 @@ Initial release.
 + Custom color module for working with config-like objects
 + Color scheme module for building basic palettes
 + toolkit for tokenizing data to pass on to Style Dictionary
-

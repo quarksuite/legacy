@@ -112,7 +112,7 @@ export type CSSUnits =
   | 'px';
 
 /**
- * Outputs a scale with the desired `unit` and `precision`.
+ * Outputs a scale with the desired `unit`.
  *
  * @remarks
  * Usage:
@@ -124,8 +124,6 @@ export type CSSUnits =
  * // With a unit
  * scale.output(scale.create(), 'em')
  *
- * // And precision
- * scale.output(scale.create(), 'em', 3)
  * ```
  *
  * @param scale - the scale to output
