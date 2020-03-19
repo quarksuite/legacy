@@ -42,11 +42,11 @@ yarn add @quarksuite/core
 Then in any file:
 
 ```js
-const {color, typography, scale} = require('@quarksuite/core');
+const {color, scheme, variant, typography, scale} = require('@quarksuite/core');
 
 // OR with ES Modules
 
-import {color, typography, scale} from '@quarksuite/core';
+import {color, scheme, variant, typography, scale} from '@quarksuite/core';
 ```
 
 ### In the Browser
@@ -71,7 +71,7 @@ npx snowpack
 ```
 
 ```js
-import { color, typography, scale } from '/web_modules/@quarksuite/core.js';
+import { color, scheme, variant, typography, scale } from '/web_modules/@quarksuite/core.js';
 
 // Your baseline system
 ```
@@ -87,7 +87,7 @@ OR
   </head>
   <body>
     <script type="module">
-      import { color, typography, scale } from "https://unpkg.com/@quarksuite/core@2.3.0/dist-web/index.js"
+      import { color, scheme, variant, typography, scale } from "https://unpkg.com/@quarksuite/core@2.3.0/dist-web/index.js"
       
       // Your baseline system
     </script>
