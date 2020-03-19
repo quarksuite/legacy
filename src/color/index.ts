@@ -11,7 +11,6 @@ import { format } from './convert';
  * - {@link color}
  * - {@link scheme}
  * - {@link variant}
- * - {@link palette}
  *
  * It's also important to know that the color functions uniformly output RGB
  */
@@ -29,7 +28,7 @@ import { format } from './convert';
  * - {@link lightness}
  * - {@link mix}
  * - {@link complement}
- * - {@link neutralize}
+ * - {@link negate}
  *
  * @typeparam Color - A type representing a CSS color
  */
@@ -77,7 +76,6 @@ export type Variant = Color[];
  * functions. This is to aid in both the comprehension and structure of the
  * program. Especially for those of you using TypeScript.
  *
- * @typeparam Format - valid CSS color formats for conversion functions
  * @typeparam Degrees - a number type for hue and scheme functions
  * @typeparam Percent - a number type for mixing, saturation, lightness and variants
  * @typeparam Limit - a number type for setting max output on variants
@@ -85,7 +83,6 @@ export type Variant = Color[];
  * @typeparam Saturation - a number type for the satuation modification function
  * @typeparam Lightness - a number type for the lightness modification function
  */
-export type Format = 'hex' | 'rgb' | 'hsl' | 'w3c';
 export type Degrees = number;
 export type Percent = number;
 export type Limit = number;
@@ -340,7 +337,8 @@ export const triad = (
  * them around a neutral palette. They'll pop out more from the backdrop.*
  *
  * @param color - your input color
- * @param spreadBy? - degrees to spread from color and its complement `[color, complement, rightOfColor, rightOfComplement]`
+ * @param spreadBy? - degrees to spread from color and its complement
+ * @returns an array of `Color` as [color, complement, rightOfColor, rightOfComplement]
  */
 export const tetrad = (color: Color, spreadBy: Degrees = 90): Scheme => [
   format(color),

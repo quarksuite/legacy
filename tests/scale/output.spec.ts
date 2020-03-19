@@ -14,5 +14,20 @@ describe('Scale creation and modification', () => {
         '22.18rem'
       ]);
     });
+    test('can change output units', () => {
+      const scale = create(1, 'golden');
+      const data = output(
+        modify(scale, 0.5, (n, value) => n * value),
+        'em'
+      );
+      expect(data).toStrictEqual([
+        '0.5em',
+        '0.809em',
+        '1.309em',
+        '2.118em',
+        '3.427em',
+        '5.545em'
+      ]);
+    });
   });
 });

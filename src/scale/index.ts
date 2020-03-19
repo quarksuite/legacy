@@ -130,13 +130,8 @@ export type CSSUnits =
  *
  * @param scale - the scale to output
  * @param unit? - the units for output (does not convert values)
- * @param precision? - how many decimal places for output
  * @returns A modular scale with units
  **/
-export const output = (
-  scale: number[],
-  unit: CSSUnits = 'rem',
-  precision = 4
-): string[] => {
-  return scale.map(v => parseFloat(v.toPrecision(precision)) + unit);
+export const output = (scale: number[], unit: CSSUnits = 'rem'): string[] => {
+  return scale.map(v => parseFloat(v.toPrecision(4)) + unit);
 };
