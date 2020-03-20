@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "ES2020",
+    "target": "ESNext",
+    "module": "ESNext",
     "moduleResolution": "node",
     "lib": [
       "esnext"
@@ -9,5 +9,5 @@
     "strict": true,
     "esModuleInterop": true
   },
-  "exclude": ["node_modules", "tests/**/*.ts"]
+  "exclude": ["node_modules", "tests/**/*.ts", "pkg"]
 }
