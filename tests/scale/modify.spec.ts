@@ -4,7 +4,7 @@ describe('Scale creation and modification', () => {
   describe('scale.modify(scale, n, modifier)', () => {
     test('modifies a modular scale', () => {
       const scale = create();
-      const data = modify(scale, 2, (n, value) => n * value);
+      const data = modify(scale, 2, (n: number, value: number) => n * value);
       expect(data).toStrictEqual([
         2,
         3.23608,

@@ -25,23 +25,6 @@ function goldenRatio(): number {
 
 const golden = goldenRatio();
 
-export type NamedRatios =
-  | 'min2nd'
-  | 'maj2nd'
-  | 'min3rd'
-  | 'maj3rd'
-  | 'perf4th'
-  | 'dim5th'
-  | 'perf5th'
-  | 'min6th'
-  | 'golden'
-  | 'maj6th'
-  | 'min7th'
-  | 'octave'
-  | 'maj10th'
-  | 'maj12th'
-  | 'x2octave';
-
 export const ratios: RatioFormat = {
   min2nd: 1.067,
   maj2nd: 1.125,

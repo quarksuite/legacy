@@ -1,3 +1,5 @@
+import { Fonts, Typography } from './types';
+
 interface SystemStack {
   [index: string]: string;
 }
@@ -12,10 +14,10 @@ const families: SystemStack = {
 };
 
 /**
- * Fetches a system font stack to help with quick prototyping;
+ * Generates system OS stacks.
  *
  * @remarks
- * Usage:
+ * This function outputs {@link Typography}.
  *
  * ```ts
  * // Default settings output all stacks
@@ -36,7 +38,7 @@ const families: SystemStack = {
  * @returns Single or multiple system font stacks
  **/
 
-export const system = (...fonts: string[]): string | string[] => {
+export const system = (...fonts: Fonts): Typography => {
   // No arguments outputs all stacks by default
   if (!fonts.length)
     return ['sans', 'serif', 'monospace'].map(

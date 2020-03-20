@@ -1,10 +1,11 @@
-import { ratios, NamedRatios } from './ratio-lookup';
+import { ratios } from './ratio-lookup';
+import { Scale, Output, Ratio, Units } from './types';
 
 /**
- * Create a modular scale.
+ * Create a modular `Scale`.
  *
  * @remarks
- * Usage:
+ * This function outputs a {@link Scale}.
  *
  * ```ts
  * // No args
@@ -19,7 +20,7 @@ import { ratios, NamedRatios } from './ratio-lookup';
  * // With a custom ratio
  * scale.create(1, 1.72);
  *
- * // With a custom limit
+ * // With a value limit
  * scale.create(1, 'octave', 4);
  *
  * // Invert the scale
@@ -30,14 +31,14 @@ import { ratios, NamedRatios } from './ratio-lookup';
  * @param ratio? - The scale ratio
  * @param limit? - Number of values to output
  * @param invert? - reverse the scale (divide by the ratio)
- * @returns A modular scale
+ * @returns Raw values of a modular scale
  **/
 export const create = (
   base = 1,
-  ratio: number | NamedRatios = 'golden',
+  ratio: Ratio = 'golden',
   limit = 6,
   invert = false
-): number[] => {
+): Scale => {
   let r = 0;
 
   // Check if ratio is a named ratio or custom one
@@ -49,7 +50,7 @@ export const create = (
     throw Error('Not a valid ratio arg, exiting');
   }
 
-  return Array.from(Array(limit).fill(0), (_value, n) => {
+  return Array.from(Array(limit).fill(0), (_, n: number) => {
     const multiplied = parseFloat((base * r ** n).toPrecision(6));
     const divided = parseFloat((base / r ** n).toPrecision(6));
 
@@ -58,10 +59,10 @@ export const create = (
 };
 
 /**
- * Modifies an existing `scale` from `n` value and a `modifier` function.
+ * Updates the values of an existing `Scale` with a modifier function
  *
  * @remarks
- * Usage:
+ * This function outputs a {@link Scale}.
  *
  * ```ts
  * scale.modify(scale.create(), 10, (n, v) => n + v)
@@ -75,8 +76,8 @@ export const modify = (
   scale: number[],
   n: number,
   modifier: (n: number, scaleValue: number) => number
-): number[] =>
-  scale.map(value => parseFloat(modifier(n, value).toPrecision(6)));
+): Scale =>
+  scale.map((value: number) => parseFloat(modifier(n, value).toPrecision(6)));
 
 /**
  * Merges modular scales and removes duplicate values.
@@ -84,32 +85,21 @@ export const modify = (
  * Use to create multithreaded scales.
  *
  * @remarks
- * Usage:
+ * This function outputs a {@link Scale}.
  *
  * ```ts
  * scale.merge(scale.create(), scale.create(1.25), scale.create(2))
  * ```
  *
  * @param scales - The scales to merge (recommend no more than three)
- * @return - a new scale containing all unique values of sources
+ * @return - a new scale containing all unique values of source scales
  **/
-export const merge = (...scales: number[][]): number[] => {
+export const merge = (...scales: Scale[]): Scale => {
   return Array.prototype
     .concat(...scales)
     .sort((a: number, b: number) => a - b)
     .filter((v, i, a) => a.indexOf(v) === i);
 };
-
-export type CSSUnits =
-  | 'ch'
-  | 'em'
-  | 'ex'
-  | 'rem'
-  | 'vh'
-  | 'vw'
-  | 'vmin'
-  | 'vmax'
-  | 'px';
 
 /**
  * Outputs a scale with the desired `unit`.
@@ -130,6 +120,6 @@ export type CSSUnits =
  * @param unit? - the units for output (does not convert values)
  * @returns A modular scale with units
  **/
-export const output = (scale: number[], unit: CSSUnits = 'rem'): string[] => {
+export const output = (scale: number[], unit: Units = 'rem'): Output => {
   return scale.map(v => parseFloat(v.toPrecision(4)) + unit);
 };
