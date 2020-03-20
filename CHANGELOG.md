@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).‘’
 
+## v2.3.2
+
+### Fixed
+
++ properly built type definitions
+
 ## v2.3.0
 
 This version is a bridge between the structure of v2 and the structure of the forthcoming v3. I was going to hold off on releasing until the v3 structure was implemented, but the many improvements to the current API and underlying logic justified a minor release.
