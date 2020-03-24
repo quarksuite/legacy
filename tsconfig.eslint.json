@@ -4,6 +4,7 @@
     "src/**/*.ts"
   ],
   "exclude": [
-    "pkg"
+    "pkg",
+    "tests"
   ]
 }

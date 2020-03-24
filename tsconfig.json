@@ -9,5 +9,5 @@
     "strict": true,
     "esModuleInterop": true
   },
-  "exclude": ["node_modules", "pkg"]
+  "exclude": ["node_modules", "tests", "pkg"]
 }
