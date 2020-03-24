@@ -1,4 +1,4 @@
-# Quarksuite API (v2.3.0)
+# Quarksuite API (v2.4.x)
 
 *IMPORTANT: Be careful when upgrading from a previous version. Don’t hesitate to [submit an issue](https://github.com/quarksuite/core/issues) if you have any trouble upgrading.*
 

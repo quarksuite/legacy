@@ -62,7 +62,7 @@ npx snowpack
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Quarksuite (v2.4.0) Example</title>
+    <title>Quarksuite (v2.4.x) Example</title>
   </head>
   <body>
     <script type="module" src="/index.js"></script>
@@ -83,11 +83,11 @@ OR
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Quarksuite (v2.4.0) Example</title>
+    <title>Quarksuite (v2.4.x) Example</title>
   </head>
   <body>
     <script type="module">
-      import { color, scheme, variant, typography, scale } from "https://unpkg.com/@quarksuite/core@2.4.0/dist-web/index.js"
+      import { color, scheme, variant, typography, scale } from "https://unpkg.com/@quarksuite/core@2.4.1/dist-web/index.js"
       
       // Your baseline system
     </script>
