@@ -1,5 +1,14 @@
-import { Color, Hue, Saturation, Lightness, Degrees, Percent } from './types';
+import {
+  Color,
+  Hue,
+  Saturation,
+  Lightness,
+  Degrees,
+  Percent,
+  CSSFormat
+} from './types';
 import { modify, spin, mixColors } from './utils';
+import { format } from './convert';
 
 /**
  * Adjusts the hue of a color with a modifier.
@@ -139,3 +148,24 @@ export const complement = (color: Color): Color => spin(color, 180);
  */
 export const negate = (color: Color): Color =>
   mixColors(color, complement(color));
+
+/**
+ * Converts a color to another CSS format.
+ *
+ * @remarks
+ * This function outputs a {@link Color}.
+ *
+ * ```ts
+ * // default converts to RGB
+ * color.convert('#348ec9');
+ *
+ * // convert to HSL
+ * color.convert('#348ec9', 'hsl');
+ * ```
+ *
+ * @param color - Your input color
+ * @param toFormat? - the output format
+ * @returns Input color converted to new format
+ */
+export const convert = (color: Color, toFormat: CSSFormat = 'rgb'): Color =>
+  format(color, toFormat);

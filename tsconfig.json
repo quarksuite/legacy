@@ -9,5 +9,6 @@
     "strict": true,
     "esModuleInterop": true
   },
-  "exclude": ["node_modules", "tests/**/*.ts", "pkg"]
+  "exclude": ["node_modules", 
+    "pkg"]
 }

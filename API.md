@@ -1,4 +1,4 @@
-# Quarksuite API (v2.3.0)
+# Quarksuite API (v2.4.x)
 
 *IMPORTANT: Be careful when upgrading from a previous version. Don’t hesitate to [submit an issue](https://github.com/quarksuite/core/issues) if you have any trouble upgrading.*
 
@@ -151,6 +151,31 @@ The negation of a color is the result of that color evenly mixed with its comple
 
 ```js
 color.negate('#348ec9')
+```
+
+### color.convert
+
+Converts a color to another CSS format.
+
+The formats accepted are: `rgb` (default), `hsl`, `hex`, `w3c`.
+
+#### Parameters
+
++ `color: Color`: an input color
++ `toFormat: CSSFormats`: desired format for conversion
+
+#### Return 
+
+`Color`: input color converted to new format
+
+#### Example
+
+```js
+// RGB by default
+color.convert('#348ec9');
+
+// Convert to HSL
+color.convert('#348ec9', 'hsl');
 ```
 
 ## Scheme Functions

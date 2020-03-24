@@ -42,4 +42,10 @@ describe('Color functions', () => {
     test('Negate the input color', () =>
       expect(color.negate(input)).toBe('rgb(148, 128, 147)'));
   });
+  describe('color.format(color: Color, toFormat): Color', () => {
+    test('RGB by default', () =>
+      expect(color.convert(input)).toBe('rgb(52, 142, 201)'));
+    test('color to HSL', () =>
+      expect(color.convert(input, 'hsl')).toBe('hsl(204, 59%, 50%)'));
+  });
 });

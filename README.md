@@ -20,7 +20,7 @@ Quarksuite imposes no structural rules about how you use your baseline. You can 
 
 ## Features
 
-+ Modify colors, create palettes and schemes, ~~convert CSS formats~~ (currently reworking)
++ Modify colors, create palettes and schemes, convert formats
 + Ready-to-use [OS font stacks](https://systemfontstack.com/)
 + Create, modify, and merge modular scales for content, layout, and proportion
 + No framework required. Build the way you want
@@ -62,7 +62,7 @@ npx snowpack
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Quarksuite (v2.3.0) Example</title>
+    <title>Quarksuite (v2.4.x) Example</title>
   </head>
   <body>
     <script type="module" src="/index.js"></script>
@@ -83,11 +83,11 @@ OR
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Quarksuite (v2.3.0) Example</title>
+    <title>Quarksuite (v2.4.x) Example</title>
   </head>
   <body>
     <script type="module">
-      import { color, scheme, variant, typography, scale } from "https://unpkg.com/@quarksuite/core@2.3.0/dist-web/index.js"
+      import { color, scheme, variant, typography, scale } from "https://unpkg.com/@quarksuite/core@2.4.1/dist-web/index.js"
       
       // Your baseline system
     </script>
@@ -100,15 +100,15 @@ OR
 ```js
 // Assuming node module
 
-const {variant, typography, scale} = require('@quarksuite/core');
+const {color, variant, typography, scale} = require('@quarksuite/core');
 
 // A barebones monochromatic templating scheme
-const base = '#aaaaaa';
+const base = color.convert('#aaaaaa');
 
 exports.palette = {
   base,
-  tints: variant.tints(base, 95, 3),
-  shades: variant.shades(base, 95, 3)
+  tints: variant.tints(base, 95, 3).map(c => color.convert(c)),
+  shades: variant.shades(base, 95, 3).map(c => color.convert(c))
 };
 
 // System font stacks
