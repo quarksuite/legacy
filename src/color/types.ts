@@ -86,3 +86,4 @@ export type Limit = number;
 export type Hue = number;
 export type Saturation = number;
 export type Lightness = number;
+export type CSSFormat = 'hex' | 'rgb' | 'hsl' | 'w3c';

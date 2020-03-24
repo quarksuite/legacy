@@ -72,7 +72,7 @@
       [
         "@pika/plugin-standard-pkg",
         {
-          "exclude": "tests/**/*"
+          "exclude": "tests/**/*.spec.ts"
         }
       ],
       [
