@@ -1,6 +1,6 @@
 {
   "name": "@quarksuite/core",
-  "version": "2.3.3",
+  "version": "3.0.0-dev",
   "description": "Quarksuite is a toolkit for creating design system baselines.",
   "author": "Chatman R. Jr <crjr.code@gmail.com>",
   "main": "pkg/dist-node/index.js",
