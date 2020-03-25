@@ -28,8 +28,7 @@ export const checkFormat = (color: string, format: string): boolean => {
 };
 
 export const parseHSL = (hsl: string): number[] => {
-  // Since the function does a check for valid HSL beforehand, this will
-  // always match. TypeScript requires a double assertion in this case
+  // TypeScript requires a double assertion in this case
   // because null can't overlap with other types.
   const values = (hsl.toString().match(/[^hsl(,)]+/g) as unknown) as string[];
 
@@ -50,63 +49,41 @@ export const parseHSL = (hsl: string): number[] => {
   return [H, S, L];
 };
 
+// When there's an axiomatic way to represent an equation,
+// why not let that be the model?
+const calcChannels = (
+  C: number,
+  X: number,
+  H: number
+): Map<[number, number, number], boolean> =>
+  new Map([
+    [[C, X, 0], 0 <= H && H < 60],
+    [[X, C, 0], 60 <= H && H < 120],
+    [[0, C, X], 120 <= H && H < 180],
+    [[0, X, C], 180 <= H && H < 240],
+    [[X, 0, C], 240 <= H && H < 300],
+    [[C, 0, X], 300 <= H && H < 360]
+  ]);
+
 export const calcRGB = (h: number, s: number, l: number): number[] => {
   // Calculate chroma
-  const c = (1 - Math.abs(2 * l - 1)) * s;
-  const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
-  const m = l - c / 2;
+  const C = (1 - Math.abs(2 * l - 1)) * s;
+  const X = C * (1 - Math.abs(((h / 60) % 2) - 1));
+  const m = l - C / 2;
 
-  // Assign channels
-  let r = 0;
-  let g = 0;
-  let b = 0;
+  // Evaluate channels
+  const [R, G, B] = Array.from(calcChannels(C, X, h))
+    .filter(([axiom, condition]): number[] | null => {
+      if (condition) return axiom;
+      return null;
+    })[0][0]
+    .map((channel: number) => (channel + m) * 255);
 
-  if (0 <= h && h < 60) {
-    r = c;
-    g = x;
-    b = 0;
-  }
-
-  if (60 <= h && h < 120) {
-    r = x;
-    g = c;
-    b = 0;
-  }
-
-  if (120 <= h && h < 180) {
-    r = 0;
-    g = c;
-    b = x;
-  }
-
-  if (180 <= h && h < 240) {
-    r = 0;
-    g = x;
-    b = c;
-  }
-
-  if (240 <= h && h < 300) {
-    r = x;
-    g = 0;
-    b = c;
-  }
-
-  if (300 <= h && h < 360) {
-    r = c;
-    g = 0;
-    b = x;
-  }
-
-  r = (r + m) * 255;
-  g = (g + m) * 255;
-  b = (b + m) * 255;
-
-  return [Math.round(r), Math.round(g), Math.round(b)];
+  return [Math.round(R), Math.round(G), Math.round(B)];
 };
 
 export const parseRGB = (rgb: string): number[] => {
-  // Since the function does a check for valid RGB beforehand, this will
-  // always match. TypeScript requires a double assertion in this case
+  // TypeScript requires a double assertion in this case
   // because null can't overlap with other types.
   const values = (rgb.match(/[^rgb(,)]+/g) as unknown) as string[];
 
