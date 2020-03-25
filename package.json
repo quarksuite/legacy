@@ -1,6 +1,6 @@
 {
   "name": "@quarksuite/core",
-  "version": "3.0.0-dev",
+  "version": "3.0.0-staging",
   "description": "Quarksuite is a toolkit for creating design system baselines.",
   "author": "Chatman R. Jr <crjr.code@gmail.com>",
   "repository": {
