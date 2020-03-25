@@ -1,7 +1,6 @@
-import { Color } from './types';
-import { modify, spin, mixColors } from './utils';
+import { modify, mixColors } from './utils';
 import { format } from './convert';
-import { compose, composeAll, curry } from '../utils';
+import { composeAll, curry } from '../toolbox';
 
 export const color = (...operations: Function[]): Function =>
   composeAll(...operations);
