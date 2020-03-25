@@ -5,7 +5,6 @@ import * as typographyFuncs from './typography';
 import * as scaleFuncs from './scale';
 
 export * from './typography/types';
-export * from './scale/types';
 
 export const color = {
   ...colorFuncs

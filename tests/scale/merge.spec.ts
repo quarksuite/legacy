@@ -1,14 +1,16 @@
-import { create, merge } from '../../src/scale';
+import { scale } from '../../src';
 
 describe('Scale creation and modification', () => {
+  const base = 1;
   describe('scale.merge(scales)', () => {
     test('merges two scales', () => {
-      const first = create();
-      const second = create(2);
+      const baseScale = scale.create('golden', 6);
+      const first = baseScale(base);
+      const second = baseScale(base * 2);
 
-      const data = merge(first, second);
+      const input = scale.merge;
 
-      expect(data).toStrictEqual([
+      expect(input(first, second)).toStrictEqual([
         1,
         1.61804,
         2,

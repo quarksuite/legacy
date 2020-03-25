@@ -11,8 +11,8 @@ interface RatioFormat {
   [index: string]: number;
 }
 
-function goldenRatio(): number {
-  const f = Array.from(Array(16).fill(0), (_value, n) => {
+function calcGoldenRatio(): number {
+  const f = Array.from(Array(16).fill(0), (_, n) => {
     return fibonacci(n).next().value;
   });
 
@@ -23,8 +23,6 @@ function goldenRatio(): number {
   return b / a;
 }
 
-const golden = goldenRatio();
-
 export const ratios: RatioFormat = {
   min2nd: 1.067,
   maj2nd: 1.125,
@@ -34,7 +32,7 @@ export const ratios: RatioFormat = {
   dim5th: 1.414,
   perf5th: 1.5,
   min6th: 1.6,
-  golden,
+  golden: calcGoldenRatio(),
   maj6th: 1.667,
   min7th: 1.778,
   maj7th: 1.875,

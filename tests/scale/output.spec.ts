@@ -1,11 +1,13 @@
-import { create, modify, output } from '../../src/scale';
+import { scale } from '../../src';
 
 describe('Scale creation and modification', () => {
+  const base = 1;
   describe('scale.output(scale, unit?, precision?)', () => {
     test('outputs a system ready scale with units', () => {
-      const scale = create(1, 'golden');
-      const data = output(modify(scale, 2, (n, value) => n * value));
-      expect(data).toStrictEqual([
+      const baseScale = scale.create('golden', 6);
+      const updated = scale.update(2, (n: number, value: number) => n * value);
+      const input = scale.output('rem', updated(baseScale(base)));
+      expect(input).toStrictEqual([
         '2rem',
         '3.236rem',
         '5.236rem',
@@ -15,12 +17,10 @@ describe('Scale creation and modification', () => {
       ]);
     });
     test('can change output units', () => {
-      const scale = create(1, 'golden');
-      const data = output(
-        modify(scale, 0.5, (n, value) => n * value),
-        'em'
-      );
-      expect(data).toStrictEqual([
+      const baseScale = scale.create('golden', 6);
+      const updated = scale.update(0.5, (n: number, v: number) => n * v);
+      const input = scale.output('em', updated(baseScale(base)));
+      expect(input).toStrictEqual([
         '0.5em',
         '0.809em',
         '1.309em',
