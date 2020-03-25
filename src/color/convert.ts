@@ -1,4 +1,5 @@
 import { w3c } from './w3c-colors';
+import { compose } from '../utils';
 
 // Conversion helpers
 export const intToHex = (x: number): string => x.toString(16).padStart(2, '0');
@@ -7,6 +8,8 @@ export const extractValue = (s: string): number =>
   parseInt(s.replace(/\D+/g, ''));
 export const toFraction = (v: number): number => v / 100;
 export const toPercentage = (v: number): number => v * 100;
+
+const parsePercent = compose(toFraction, extractValue);
 
 export const checkFormat = (color: string, format: string): boolean => {
   interface Format {
@@ -41,7 +44,7 @@ export const parseHSL = (hsl: string): number[] => {
   if (H >= 360) H %= 360;
 
   const [, S, L] = values.map((value: string): number => {
-    return toFraction(extractValue(value));
+    return parsePercent(value);
   });
 
   return [H, S, L];
@@ -108,8 +111,7 @@ export const parseRGB = (rgb: string): number[] => {
   const values = (rgb.match(/[^rgb(,)]+/g) as unknown) as string[];
 
   return values.map((channel: string): number => {
-    if (channel.includes('%'))
-      return Math.round(toFraction(extractValue(channel)) * 255);
+    if (channel.includes('%')) return Math.round(parsePercent(channel) * 255);
     return extractValue(channel);
   });
 };
@@ -197,9 +199,6 @@ export const rgbToHSL = (rgb: string): string => {
   )}%, ${Math.round(toPercentage(L))}%)`;
 };
 
-// Hex -> HSL
-export const hexToHSL = (hex: string): string => rgbToHSL(hexToRGB(hex));
-
 // Hex -> W3C color
 export const hexToW3C = (hex: string): string => {
   let output: string;
@@ -220,9 +219,6 @@ export const hexToW3C = (hex: string): string => {
   return found;
 };
 
-// RGB -> W3C
-export const rgbToW3C = (rgb: string): string => hexToW3C(rgbToHex(rgb));
-
 // HSL -> RGB
 export const hslToRGB = (hsl: string): string => {
   const [H, S, L] = parseHSL(hsl);
@@ -231,11 +227,17 @@ export const hslToRGB = (hsl: string): string => {
   return `rgb(${R}, ${G}, ${B})`;
 };
 
+// Hex -> HSL
+export const hexToHSL = compose(rgbToHSL, hexToRGB);
+
 // HSL -> Hex
-export const hslToHex = (hsl: string): string => rgbToHex(hslToRGB(hsl));
+export const hslToHex = compose(rgbToHex, hslToRGB);
+
+// RGB -> W3C
+export const rgbToW3C = compose(hexToW3C, rgbToHex);
 
 // HSL -> W3C
-export const hslToW3C = (hsl: string): string => hexToW3C(hslToHex(hsl));
+export const hslToW3C = compose(hexToW3C, hslToHex);
 
 // W3C -> RGB
 export const w3cToRGB = (name: string): string => hexToRGB(w3c[name]);
@@ -246,33 +248,33 @@ export const w3cToHSL = (name: string): string => hexToHSL(w3c[name]);
 // W3C -> Hex
 export const w3cToHex = (name: string): string => w3c[name];
 
-export const format = (color: string, to = 'rgb'): string => {
+export const format = (input: string, to = 'rgb'): string => {
   switch (to) {
     case 'rgb':
-      if (checkFormat(color, 'hex')) return hexToRGB(color);
-      if (checkFormat(color, 'hsl')) return hslToRGB(color);
-      if (checkFormat(color, 'w3c')) return w3cToRGB(color);
-      if (checkFormat(color, 'rgb')) return color;
+      if (checkFormat(input, 'hex')) return hexToRGB(input);
+      if (checkFormat(input, 'hsl')) return hslToRGB(input);
+      if (checkFormat(input, 'w3c')) return w3cToRGB(input);
+      if (checkFormat(input, 'rgb')) return input;
       break;
     case 'hex':
-      if (checkFormat(color, 'rgb')) return rgbToHex(color);
-      if (checkFormat(color, 'hsl')) return hslToHex(color);
-      if (checkFormat(color, 'w3c')) return w3cToHex(color);
-      if (checkFormat(color, 'hex')) return color;
+      if (checkFormat(input, 'rgb')) return rgbToHex(input);
+      if (checkFormat(input, 'hsl')) return hslToHex(input);
+      if (checkFormat(input, 'w3c')) return w3cToHex(input);
+      if (checkFormat(input, 'hex')) return input;
       break;
     case 'hsl':
-      if (checkFormat(color, 'hex')) return hexToHSL(color);
-      if (checkFormat(color, 'rgb')) return rgbToHSL(color);
-      if (checkFormat(color, 'w3c')) return w3cToHSL(color);
-      if (checkFormat(color, 'hsl')) return color;
+      if (checkFormat(input, 'hex')) return hexToHSL(input);
+      if (checkFormat(input, 'rgb')) return rgbToHSL(input);
+      if (checkFormat(input, 'w3c')) return w3cToHSL(input);
+      if (checkFormat(input, 'hsl')) return input;
       break;
     case 'w3c':
-      if (checkFormat(color, 'hex')) return hexToW3C(color);
-      if (checkFormat(color, 'rgb')) return rgbToW3C(color);
-      if (checkFormat(color, 'hsl')) return hslToW3C(color);
-      if (checkFormat(color, 'w3c')) return color;
+      if (checkFormat(input, 'hex')) return hexToW3C(input);
+      if (checkFormat(input, 'rgb')) return rgbToW3C(input);
+      if (checkFormat(input, 'hsl')) return hslToW3C(input);
+      if (checkFormat(input, 'w3c')) return input;
       break;
   }
 
-  throw Error(`Invalid: ${color} is not a CSS color`);
+  throw Error(`Invalid: ${input} is not a CSS color`);
 };
