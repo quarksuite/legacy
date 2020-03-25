@@ -1,23 +1,18 @@
-import {
-  complementary,
-  analogous,
-  triad,
-  tetrad
-} from '../../src/color/scheme';
+import { scheme } from '../../src';
 
 describe('Scheme functions', () => {
   const input = '#348ec9';
-  describe('complementary(): Scheme', () => {
+  describe('scheme.complementary(): Scheme', () => {
     test('can create complementary schemes', () => {
-      expect(complementary(input)).toStrictEqual([
+      expect(scheme.complementary(input)).toStrictEqual([
         'rgb(52, 143, 203)',
         'rgb(203, 112, 52)'
       ]);
     });
   });
-  describe('analogous(): Scheme', () => {
+  describe('scheme.analogous(): Scheme', () => {
     test('can create analogous schemes', () => {
-      const midContrastAnalogous = analogous(30);
+      const midContrastAnalogous = scheme.analogous(30);
       expect(midContrastAnalogous(input)).toStrictEqual([
         'rgb(52, 203, 188)',
         'rgb(52, 143, 203)',
@@ -25,7 +20,7 @@ describe('Scheme functions', () => {
       ]);
     });
     test('low contrast analogous', () => {
-      const lowContrast = analogous(15);
+      const lowContrast = scheme.analogous(15);
       expect(lowContrast(input)).toStrictEqual([
         'rgb(52, 180, 203)',
         'rgb(52, 143, 203)',
@@ -33,7 +28,7 @@ describe('Scheme functions', () => {
       ]);
     });
     test('high contrast analogous', () => {
-      const highContrast = analogous(45);
+      const highContrast = scheme.analogous(45);
       expect(highContrast(input)).toStrictEqual([
         'rgb(52, 203, 150)',
         'rgb(52, 143, 203)',
@@ -41,9 +36,9 @@ describe('Scheme functions', () => {
       ]);
     });
   });
-  describe('triad(): Scheme', () => {
+  describe('scheme.triad(): Scheme', () => {
     test('can create triads', () => {
-      const pureTriad = triad(60);
+      const pureTriad = scheme.triad(60);
       expect(pureTriad(input)).toStrictEqual([
         'rgb(52, 143, 203)',
         'rgb(203, 52, 143)',
@@ -51,7 +46,7 @@ describe('Scheme functions', () => {
       ]);
     });
     test('imperfect triads', () => {
-      const imperfectTriad = triad(30);
+      const imperfectTriad = scheme.triad(30);
       expect(imperfectTriad(input)).toStrictEqual([
         'rgb(52, 143, 203)',
         'rgb(203, 52, 67)',
@@ -59,9 +54,9 @@ describe('Scheme functions', () => {
       ]);
     });
   });
-  describe('tetrad(): Scheme', () => {
+  describe('scheme.tetrad(): Scheme', () => {
     test('can create tetrad', () => {
-      const pureTetrad = tetrad(90);
+      const pureTetrad = scheme.tetrad(90);
       expect(pureTetrad(input)).toStrictEqual([
         'rgb(52, 143, 203)',
         'rgb(203, 112, 52)',
@@ -70,7 +65,7 @@ describe('Scheme functions', () => {
       ]);
     });
     test('imperfect tetrads', () => {
-      const imperfectTetrad = tetrad(45);
+      const imperfectTetrad = scheme.tetrad(45);
       expect(imperfectTetrad(input)).toStrictEqual([
         'rgb(52, 143, 203)',
         'rgb(203, 112, 52)',
