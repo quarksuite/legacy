@@ -248,7 +248,7 @@ export const w3cToHSL = (name: string): string => hexToHSL(w3c[name]);
 // W3C -> Hex
 export const w3cToHex = (name: string): string => w3c[name];
 
-export const format = (input: string, to = 'rgb'): string => {
+export const format = (to: string, input: string): string => {
   switch (to) {
     case 'rgb':
       if (checkFormat(input, 'hex')) return hexToRGB(input);

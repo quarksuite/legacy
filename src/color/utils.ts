@@ -27,29 +27,29 @@ const calculateMix = (
   });
 };
 
-const normalization = (x: number, a = 0, b = 100): number =>
+const normalization = (a: number, b: number, x: number): number =>
   Math.min(Math.max(x, a), b);
 
 export const spin = (
-  color: string,
-  rotation = 180,
-  counterClockwise = false
+  rotation: number,
+  counterClockwise: boolean,
+  color: string
 ): string => {
-  let [H, S, L] = convert.parseHSL(convert.format(color, 'hsl'));
+  let [H, S, L] = convert.parseHSL(convert.format('hsl', color));
   const calculatedHue = counterClockwise ? H - rotation : H + rotation;
   H = calculatedHue < 0 ? (calculatedHue + 360) % 360 : calculatedHue % 360;
   S = convert.toPercentage(S);
   L = convert.toPercentage(L);
 
-  return convert.format(`hsl(${H}, ${S}%, ${L}%)`, 'rgb');
+  return convert.format('rgb', `hsl(${H}, ${S}%, ${L}%)`);
 };
 
 export const modify = (
-  color: string,
+  modifier: (current: number) => number,
   property: 'hue' | 'saturation' | 'lightness',
-  modifier: (current: number) => number
+  color: string
 ): string => {
-  const values = convert.parseHSL(convert.format(color, 'hsl'));
+  const values = convert.parseHSL(convert.format('hsl', color));
   let [H] = values;
   let [, S, L] = values.map((v: number) => convert.toPercentage(v));
 
@@ -59,31 +59,31 @@ export const modify = (
   if (property === 'hue') {
     // Allow multiple rotations on the color wheel
     const [h] = [H].map((current: number) => modifier(current));
-    H = normalization(h, 0, 720) % 360;
+    H = normalization(0, 720, h) % 360;
   }
 
   if (property === 'saturation') {
     const [s] = [S].map((current: number) => modifier(current));
-    S = normalization(s);
+    S = normalization(0, 100, s);
   }
 
   if (property === 'lightness') {
     const [l] = [L].map((current: number) => modifier(current));
-    L = normalization(l);
+    L = normalization(0, 100, l);
   }
 
-  return convert.format(`hsl(${H}, ${S}%, ${L}%)`);
+  return convert.format('rgb', `hsl(${H}, ${S}%, ${L}%)`);
 };
 
 export const mixColors = (
-  color: string,
   target: string,
-  amount = 50
+  amount: number,
+  color: string
 ): string => {
   // Convert arguments to RGB
   const [R, G, B] = calculateMix(
-    convert.format(color),
-    convert.format(target),
+    convert.format('rgb', color),
+    convert.format('rgb', target),
     convert.toFraction(amount)
   );
 
@@ -91,18 +91,18 @@ export const mixColors = (
 };
 
 export const createBlend = (
-  color: string,
   target: string,
-  contrast = 97,
-  limit = 3
+  contrast: number,
+  limit: number,
+  color: string
 ): string[] => {
-  const colorToRGB = convert.format(color);
-  const targetToRGB = convert.format(target);
+  const colorToRGB = convert.format('rgb', color);
+  const targetToRGB = convert.format('rgb', target);
 
   return Array.from(Array(limit).fill(colorToRGB))
     .map((value: string, index: number): string => {
       const amount = contrast - (contrast / limit) * index;
-      return mixColors(value, targetToRGB, amount);
+      return mixColors(targetToRGB, amount, value);
     })
     .reverse();
 };
