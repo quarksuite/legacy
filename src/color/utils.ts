@@ -28,7 +28,7 @@ const calculateMix = (
 };
 
 const normalization = (a: number, b: number, x: number): number =>
-  Math.min(Math.max(x, a), b);
+  Math.round(Math.min(Math.max(x, a), b));
 
 export const modify = (
   property: 'hue' | 'saturation' | 'lightness',
@@ -49,12 +49,12 @@ export const modify = (
   }
 
   if (property === 'saturation') {
-    const [s] = [S].map((current: number) => modifier(current));
+    const [s] = [S].map((current: number) => Math.round(modifier(current)));
     S = normalization(0, 100, s);
   }
 
   if (property === 'lightness') {
-    const [l] = [L].map((current: number) => modifier(current));
+    const [l] = [L].map((current: number) => Math.round(modifier(current)));
     L = normalization(0, 100, l);
   }
 

@@ -4,21 +4,15 @@ describe('Color functions', () => {
   const input = '#348ec9';
   describe('color.adjust(): Color', () => {
     test('Double the value of current hue, then nudge 25 degrees left', () => {
-      const hue = color.adjust('hue', (current: number) => current * 2 - 25);
+      const hue = color.adjust('hue', (h: number) => h * 2 - 25);
       expect(hue(input)).toBe('rgb(203, 110, 52)');
     });
     test('Increase saturation by 30%', () => {
-      const saturation = color.adjust(
-        'saturation',
-        (current: number) => current + 30
-      );
+      const saturation = color.adjust('saturation', (s: number) => s + 30);
       expect(saturation(input)).toBe('rgb(14, 150, 241)');
     });
     test('Darken by 10%', () => {
-      const lightness = color.adjust(
-        'lightness',
-        (current: number) => current - 10
-      );
+      const lightness = color.adjust('lightness', (l: number) => l - 10);
       expect(lightness(input)).toBe('rgb(42, 114, 162)');
     });
   });
@@ -63,27 +57,21 @@ describe('Color functions', () => {
 });
 
 describe('color.pipe(): Color', () => {
-  test('scenario: begin with red, rotate hue 90deg, decrease saturation by quarter', () => {
+  test('scenario: begin with red, rotate hue 150deg, decrease saturation by quarter', () => {
     const base = 'red';
-    const turnQuarterCircle = color.adjust(
-      'hue',
-      (current: number) => current + 90
-    );
-    const reduceSat = color.adjust(
-      'saturation',
-      (current: number) => current / 4
-    );
+    const turnQuarterCircle = color.adjust('hue', (h: number) => h + 150);
+    const reduceSat = color.adjust('saturation', (s: number) => s - s / 4);
     const input = color.pipe(reduceSat, turnQuarterCircle);
 
-    expect(input(base)).toBe('rgb(128, 159, 96)');
+    expect(input(base)).toBe('rgb(32, 223, 128)');
   });
-  test('scenario: begin with dodgerblue, mix evenly with lime, fetch complement of result, raise lightness by half', () => {
+  test('scenario: begin with dodgerblue, mix 60% with lime, fetch complement of result, raise lightness by half', () => {
     const base = 'dodgerblue';
-    const withLime = color.mix('lime', 50);
-    const setLightness = color.adjust('lightness', (v: number) => v * 2);
+    const withLime = color.mix('lime', 60);
+    const setLightness = color.adjust('lightness', (l: number) => l + l / 2);
     const input = color.pipe(setLightness, color.complement, withLime);
 
-    expect(input(base)).toBe('rgb(180, 255, 180)');
+    expect(input(base)).toBe('rgb(161, 239, 109)');
   });
   test('scenario: begin with goldenrod, negate, raise saturation by 23%', () => {
     const base = 'goldenrod';
@@ -91,5 +79,13 @@ describe('color.pipe(): Color', () => {
     const input = color.pipe(setSaturation, color.negate);
 
     expect(input(base)).toBe('rgb(174, 135, 174)');
+  });
+  test('scenario: begin with goldenrod, consecutively mix with red, yellow', () => {
+    const base = 'goldenrod';
+    const withRed = color.mix('red', 75);
+    const withYellow = color.mix('yellow', 50);
+    const input = color.pipe(withYellow, withRed);
+
+    expect(input(base)).toBe('rgb(251, 108, 12)');
   });
 });
