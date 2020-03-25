@@ -1,7 +1,7 @@
 // Functional mini-toolbox
 
 // Compose
-const compose = (f: Function, g: Function): Function => (
+export const compose = (f: Function, g: Function): Function => (
   x: string | number | boolean
 ): string | number | boolean => f(g(x));
 
