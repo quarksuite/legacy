@@ -1,9 +1,8 @@
 import { modify, mixColors } from './utils';
 import { format } from './convert';
-import { composeAll, curry } from '../toolbox';
+import { curry, composeAll } from '../toolbox';
 
-export const pipe = (...operations: Function[]): Function =>
-  composeAll(...operations);
+export const pipe = composeAll;
 
 export const adjust = curry(3, modify);
 export const mix = curry(3, mixColors);
