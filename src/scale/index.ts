@@ -1,7 +1,5 @@
 import { calcScaleValues, modify, build } from './utils';
-import { curry, composeAll } from '../toolbox';
-
-export const pipe = composeAll;
+import { curry } from '../toolbox';
 
 export const create = curry(3, calcScaleValues);
 export const update = curry(3, modify);

@@ -1,42 +1,41 @@
-import * as colorFuncs from './color';
-import * as schemeFuncs from './color/scheme';
-import * as variantFuncs from './color/variant';
-import * as typographyFuncs from './typography';
-import * as scaleFuncs from './scale';
-
-export * from './typography/types';
+import { adjust, mix, complement, negate, convert } from './color';
+import { complementary, analogous, triad, tetrad } from './color/scheme';
+import { blend, tints, tones, shades } from './color/variant';
+import { system } from './typography';
+import { create, update, merge, output } from './scale';
+import { composeAll } from './toolbox';
 
 export const color = {
-  ...colorFuncs
+  pipe: composeAll,
+  adjust,
+  mix,
+  complement,
+  negate,
+  convert
 };
 
 export const scheme = {
-  ...schemeFuncs
+  complementary,
+  analogous,
+  triad,
+  tetrad
 };
 
 export const variant = {
-  ...variantFuncs
+  blend,
+  tints,
+  tones,
+  shades
 };
 
-/**
- * An object enclosing all {@link Typography} functions.
- *
- * Functions:
- *  - {@link system}
- */
 export const typography = {
-  ...typographyFuncs
+  system
 };
 
-/**
- * An object enclosing all {@link Scale} functions.
- *
- * Functions:
- *  - {@link create}
- *  - {@link modify}
- *  - {@link merge}
- *  - {@link output}
- */
 export const scale = {
-  ...scaleFuncs
+  pipe: composeAll,
+  create,
+  update,
+  merge,
+  output
 };

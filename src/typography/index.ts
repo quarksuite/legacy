@@ -1,5 +1,3 @@
-import { Fonts, Typography } from './types';
-
 interface SystemStack {
   [index: string]: string;
 }
@@ -13,32 +11,7 @@ const families: SystemStack = {
     'Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace'
 };
 
-/**
- * Generates system OS stacks.
- *
- * @remarks
- * This function outputs {@link Typography}.
- *
- * ```ts
- * // Default settings output all stacks
- * typography.system();
- *
- * // One argument will output a single stack
- * typography.system('sans');
- *
- * typography.system('serif');
- *
- * typography.system('monospace');
- *
- * // Multiple arguments output multiple stacks
- * typography.system('sans', 'monospace');
- * ```
- *
- * @param fonts - the system families to output
- * @returns Single or multiple system font stacks
- **/
-
-export const system = (...fonts: Fonts): Typography => {
+export const system = (...fonts: string[]): string | string[] => {
   // No arguments outputs all stacks by default
   if (!fonts.length)
     return ['sans', 'serif', 'monospace'].map(
