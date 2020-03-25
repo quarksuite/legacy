@@ -1,79 +1,95 @@
-import { color, adjust, mix, convert } from '../../src/color/index';
+import { color } from '../../src/';
 
 describe('Color functions', () => {
   const input = '#348ec9';
-  describe('adjust(): Color', () => {
+  describe('color.adjust(): Color', () => {
     test('Double the value of current hue, then nudge 25 degrees left', () => {
-      const hue = adjust('hue', (current: number) => current * 2 - 25);
+      const hue = color.adjust('hue', (current: number) => current * 2 - 25);
       expect(hue(input)).toBe('rgb(203, 110, 52)');
     });
     test('Increase saturation by 30%', () => {
-      const saturation = adjust(
+      const saturation = color.adjust(
         'saturation',
         (current: number) => current + 30
       );
       expect(saturation(input)).toBe('rgb(14, 150, 241)');
     });
     test('Darken by 10%', () => {
-      const lightness = adjust('lightness', (current: number) => current - 10);
+      const lightness = color.adjust(
+        'lightness',
+        (current: number) => current - 10
+      );
       expect(lightness(input)).toBe('rgb(42, 114, 162)');
     });
-    test('Grab the complement of a color', () => {
-      const complement = adjust('hue', (v: number) => v + 180);
-      expect(complement(input)).toBe('rgb(203, 112, 52)');
-    });
   });
-  describe('mix(): Color', () => {
+  describe('color.mix(): Color', () => {
     test('Mix a color evenly', () => {
-      const evenly = mix('coral', 50);
+      const evenly = color.mix('coral', 50);
       expect(evenly(input)).toBe('rgb(184, 135, 153)');
     });
     test('Mix a color more with target', () => {
-      const moreOfTarget = mix('coral', 72);
+      const moreOfTarget = color.mix('coral', 72);
       expect(moreOfTarget(input)).toBe('rgb(218, 131, 126)');
     });
     test('Mix a color less with target', () => {
-      const lessOfTarget = mix('coral', 30);
+      const lessOfTarget = color.mix('coral', 30);
       expect(lessOfTarget(input)).toBe('rgb(146, 138, 174)');
     });
-    test('Negate a color', () => {
-      const complement = adjust('hue', (v: number) => v + 180);
-      const negate = mix(complement(input), 50);
-      expect(negate(input)).toBe('rgb(148, 128, 147)');
+  });
+  describe('color.complement(): Color', () => {
+    test('Grab the complement of a color', () => {
+      expect(color.complement(input)).toBe('rgb(203, 112, 52)');
     });
   });
-  describe('convert(): Color', () => {
+  describe('color.negate(): Color', () => {
+    test('Negate a color', () => {
+      expect(color.negate(input)).toBe('rgb(148, 128, 147)');
+    });
+  });
+  describe('color.convert(): Color', () => {
     test('Convert a color to Hex', () => {
-      const toHex = convert('hex');
+      const toHex = color.convert('hex');
       expect(toHex(input)).toBe('#348ec9');
     });
     test('Convert a color to RGB', () => {
-      const toRGB = convert('rgb');
+      const toRGB = color.convert('rgb');
       expect(toRGB(input)).toBe('rgb(52, 142, 201)');
     });
     test('Convert a color to hsl', () => {
-      const toHSL = convert('hsl');
+      const toHSL = color.convert('hsl');
       expect(toHSL(input)).toBe('hsl(204, 59%, 50%)');
     });
   });
 });
 
-describe('color(): Color', () => {
+describe('color.pipe(): Color', () => {
   test('scenario: begin with red, rotate hue 90deg, decrease saturation by quarter', () => {
     const base = 'red';
-    const turnQuarterCircle = adjust('hue', (current: number) => current + 90);
-    const reduceSat = adjust('saturation', (current: number) => current / 4);
-    const input = color(turnQuarterCircle, reduceSat);
+    const turnQuarterCircle = color.adjust(
+      'hue',
+      (current: number) => current + 90
+    );
+    const reduceSat = color.adjust(
+      'saturation',
+      (current: number) => current / 4
+    );
+    const input = color.pipe(reduceSat, turnQuarterCircle);
 
     expect(input(base)).toBe('rgb(128, 159, 96)');
   });
   test('scenario: begin with dodgerblue, mix evenly with lime, fetch complement of result, raise lightness by half', () => {
     const base = 'dodgerblue';
-    const withLime = mix('lime', 25);
-    const complement = adjust('hue', (v: number) => v + 180);
-    const setLightness = adjust('lightness', (v: number) => v * 2);
-    const input = color(withLime, complement, setLightness);
+    const withLime = color.mix('lime', 50);
+    const setLightness = color.adjust('lightness', (v: number) => v * 2);
+    const input = color.pipe(setLightness, color.complement, withLime);
 
-    expect(input(base)).toBe('rgb(253, 240, 237)');
+    expect(input(base)).toBe('rgb(180, 255, 180)');
+  });
+  test('scenario: begin with goldenrod, negate, raise saturation by 23%', () => {
+    const base = 'goldenrod';
+    const setSaturation = color.adjust('saturation', (v: number) => v + 23);
+    const input = color.pipe(setSaturation, color.negate);
+
+    expect(input(base)).toBe('rgb(174, 135, 174)');
   });
 });

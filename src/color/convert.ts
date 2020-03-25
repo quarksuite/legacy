@@ -1,5 +1,5 @@
 import { w3c } from './w3c-colors';
-import { compose } from '../utils';
+import { compose } from '../toolbox';
 
 // Conversion helpers
 export const intToHex = (x: number): string => x.toString(16).padStart(2, '0');

@@ -30,20 +30,6 @@ const calculateMix = (
 const normalization = (a: number, b: number, x: number): number =>
   Math.min(Math.max(x, a), b);
 
-export const spin = (
-  rotation: number,
-  counterClockwise: boolean,
-  color: string
-): string => {
-  let [H, S, L] = convert.parseHSL(convert.format('hsl', color));
-  const calculatedHue = counterClockwise ? H - rotation : H + rotation;
-  H = calculatedHue < 0 ? (calculatedHue + 360) % 360 : calculatedHue % 360;
-  S = convert.toPercentage(S);
-  L = convert.toPercentage(L);
-
-  return convert.format('rgb', `hsl(${H}, ${S}%, ${L}%)`);
-};
-
 export const modify = (
   property: 'hue' | 'saturation' | 'lightness',
   modifier: (current: number) => number,
