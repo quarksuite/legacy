@@ -3,7 +3,6 @@
   "version": "3.0.0-dev",
   "description": "Quarksuite is a toolkit for creating design system baselines.",
   "author": "Chatman R. Jr <crjr.code@gmail.com>",
-  "main": "pkg/dist-node/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/quarksuite/core.git"
@@ -72,7 +71,7 @@
       [
         "@pika/plugin-standard-pkg",
         {
-          "exclude": "tests/**/*"
+          "exclude": ["tests/**/*"]
         }
       ],
       [
@@ -85,7 +84,7 @@
         "@pika/plugin-bundle-web"
       ],
       [
-        "@pika/plugin-build-types"
+        "@pika/plugin-build-types", {"tsconfig": "./tsconfig.build.json"}
       ],
       [
         "@pika/plugin-copy-assets"
@@ -101,7 +100,6 @@
     "*.ts": [
       "eslint --fix",
       "jest --bail --coverage --findRelatedTests",
-      "pika build",
       "git add"
     ]
   }
