@@ -45,8 +45,8 @@ export const spin = (
 };
 
 export const modify = (
-  modifier: (current: number) => number,
   property: 'hue' | 'saturation' | 'lightness',
+  modifier: (current: number) => number,
   color: string
 ): string => {
   const values = convert.parseHSL(convert.format('hsl', color));
