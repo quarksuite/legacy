@@ -5,7 +5,7 @@ import { a11y as clrs } from './clrs-list';
 
 export const a11y = (color: string): string | (() => never) =>
   clrs[color]
-    ? clrs[color]
+    ? format('rgb', clrs[color])
     : () => {
         throw Error(`Color ${color} is not defined (See http://clrs.cc)`);
       };
