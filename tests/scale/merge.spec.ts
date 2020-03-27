@@ -2,7 +2,7 @@ import { scale } from '../../src';
 
 describe('Scale creation and modification', () => {
   const base = 1;
-  describe('scale.merge(scales)', () => {
+  describe('merge(): Scale', () => {
     test('merges two scales', () => {
       const baseScale = scale.create('golden', 6);
       const first = baseScale(base);

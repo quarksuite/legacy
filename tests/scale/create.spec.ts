@@ -2,7 +2,7 @@ import { scale } from '../../src';
 
 describe('Scale creation function', () => {
   const base = 1;
-  describe('scale.create(): Scale', () => {
+  describe('create(): Scale', () => {
     test('outputs a modular scale', () => {
       const input = scale.create('golden', 6);
       expect(input(base)).toStrictEqual([

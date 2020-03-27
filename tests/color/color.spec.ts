@@ -4,7 +4,7 @@ describe('Color functions', () => {
   const input = '#348ec9';
   describe('color.a11y(): Color', () => {
     test('can grab accessible defaults', () => {
-      expect(color.a11y('teal')).toBe('#39cccc');
+      expect(color.a11y('teal')).toBe('rgb(57, 204, 204)');
     });
     test('rejects undefined colors', () => {
       expect(color.a11y('wheat')).toThrowError(

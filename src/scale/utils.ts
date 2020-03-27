@@ -14,11 +14,10 @@ export const calcScaleValues = (
 };
 
 export const modify = (
-  n: number,
-  modifier: (n: number, v: number) => number,
+  modifier: (value: number) => number,
   scale: number[]
 ): number[] =>
-  scale.map((value: number) => parseFloat(modifier(n, value).toPrecision(6)));
+  scale.map((value: number) => parseFloat(modifier(value).toPrecision(6)));
 
 export const build = (unit: string, scale: number[]): string[] => {
   return scale.map(v => parseFloat(v.toPrecision(4)) + unit);
