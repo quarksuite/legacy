@@ -1,4 +1,4 @@
-import { adjust, mix, complement, negate, convert } from './color';
+import { a11y, adjust, mix, complement, negate, convert } from './color';
 import { complementary, analogous, triad, tetrad } from './color/scheme';
 import { blend, tints, tones, shades } from './color/variant';
 import { system } from './typography';
@@ -7,6 +7,7 @@ import { composeAll } from './toolbox';
 
 export const color = {
   pipe: composeAll,
+  a11y,
   adjust,
   mix,
   complement,

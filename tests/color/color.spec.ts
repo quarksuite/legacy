@@ -2,6 +2,16 @@ import { color } from '../../src/';
 
 describe('Color functions', () => {
   const input = '#348ec9';
+  describe('color.a11y(): Color', () => {
+    test('can grab accessible defaults', () => {
+      expect(color.a11y('teal')).toBe('#39cccc');
+    });
+    test('rejects undefined colors', () => {
+      expect(color.a11y('wheat')).toThrowError(
+        'Color wheat is not defined (See http://clrs.cc)'
+      );
+    });
+  });
   describe('color.adjust(): Color', () => {
     test('Double the value of current hue, then nudge 25 degrees left', () => {
       const hue = color.adjust('hue', (h: number) => h * 2 - 25);
