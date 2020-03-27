@@ -29,6 +29,7 @@ export const ratios: RatioFormat = {
   min3rd: 1.2,
   maj3rd: 1.25,
   perf4th: 1.333,
+  aug4th: 1.414,
   dim5th: 1.414,
   perf5th: 1.5,
   min6th: 1.6,
