@@ -2,16 +2,11 @@ import { w3c } from './w3c-colors';
 import { compose } from '../toolbox';
 
 // Conversion helpers
-export const intToHex = (x: number): string => x.toString(16).padStart(2, '0');
-export const hexToInt = (s: string, s2: string): number => parseInt(s + s2, 16);
-export const extractValue = (s: string): number =>
-  parseInt(s.replace(/\D+/g, ''));
-export const toFraction = (v: number): number => v / 100;
-export const toPercentage = (v: number): number => v * 100;
+const intToHex = (x: number): string => x.toString(16).padStart(2, '0');
+const hexToInt = (s: string, s2: string): number => parseInt(s + s2, 16);
+const extractValue = (s: string): number => parseInt(s.replace(/\D+/g, ''));
 
-const parsePercent = compose(toFraction, extractValue);
-
-export const checkFormat = (color: string, format: string): boolean => {
+const checkFormat = (color: string, format: string): boolean => {
   interface Format {
     [index: string]: RegExp;
   }
@@ -26,6 +21,11 @@ export const checkFormat = (color: string, format: string): boolean => {
 
   return list[format].test(color);
 };
+
+export const toFraction = (v: number): number => v / 100;
+export const toPercentage = (v: number): number => v * 100;
+
+const parsePercent = compose(toFraction, extractValue);
 
 export const parseHSL = (hsl: string): number[] => {
   // TypeScript requires a double assertion in this case
@@ -49,8 +49,7 @@ export const parseHSL = (hsl: string): number[] => {
   return [H, S, L];
 };
 
-// When there's an axiomatic way to represent an equation,
-// why not let that be the model?
+// https://www.rapidtables.com/convert/color/hsl-to-rgb.html
 const calcChannels = (
   C: number,
   X: number,
@@ -65,7 +64,7 @@ const calcChannels = (
     [[C, 0, X], 300 <= H && H < 360]
   ]);
 
-export const calcRGB = (h: number, s: number, l: number): number[] => {
+const calcRGB = (h: number, s: number, l: number): number[] => {
   // Calculate chroma
   const C = (1 - Math.abs(2 * l - 1)) * s;
   const X = C * (1 - Math.abs(((h / 60) % 2) - 1));
@@ -73,16 +72,15 @@ export const calcRGB = (h: number, s: number, l: number): number[] => {
 
   // Evaluate channels
   const [R, G, B] = Array.from(calcChannels(C, X, h))
-    .filter(([axiom, condition]): number[] | null => {
-      if (condition) return axiom;
-      return null;
-    })[0][0]
+    .filter(([evaluation, condition]): number[] | null =>
+      condition ? evaluation : null
+    )[0][0]
     .map((channel: number) => (channel + m) * 255);
 
   return [Math.round(R), Math.round(G), Math.round(B)];
 };
 
-export const parseRGB = (rgb: string): number[] => {
+const parseRGB = (rgb: string): number[] => {
   // TypeScript requires a double assertion in this case
   // because null can't overlap with other types.
   const values = (rgb.match(/[^rgb(,)]+/g) as unknown) as string[];
@@ -93,7 +91,7 @@ export const parseRGB = (rgb: string): number[] => {
   });
 };
 
-export const calcHSL = (r: number, g: number, b: number): number[] => {
+const calcHSL = (r: number, g: number, b: number): number[] => {
   // Convert each channel to a fraction
   const R = r / 255;
   const G = g / 255;
@@ -132,7 +130,7 @@ export const calcHSL = (r: number, g: number, b: number): number[] => {
 };
 
 // Hex -> RGB
-export const hexToRGB = (hex: string): string => {
+const hexToRGB = (hex: string): string => {
   let output = [];
   const [, ...values] = hex;
 
@@ -158,7 +156,7 @@ export const hexToRGB = (hex: string): string => {
 };
 
 // RGB -> Hex
-export const rgbToHex = (rgb: string): string => {
+const rgbToHex = (rgb: string): string => {
   const hexValues = parseRGB(rgb).map((channel: number): string => {
     return intToHex(channel);
   });
@@ -167,7 +165,7 @@ export const rgbToHex = (rgb: string): string => {
 };
 
 // RGB -> HSL
-export const rgbToHSL = (rgb: string): string => {
+const rgbToHSL = (rgb: string): string => {
   const [R, G, B] = parseRGB(rgb);
   const [H, S, L] = calcHSL(R, G, B);
 
@@ -177,7 +175,7 @@ export const rgbToHSL = (rgb: string): string => {
 };
 
 // Hex -> W3C color
-export const hexToW3C = (hex: string): string => {
+const hexToW3C = (hex: string): string => {
   let output: string;
 
   if (hex.length == 4) {
@@ -197,7 +195,7 @@ export const hexToW3C = (hex: string): string => {
 };
 
 // HSL -> RGB
-export const hslToRGB = (hsl: string): string => {
+const hslToRGB = (hsl: string): string => {
   const [H, S, L] = parseHSL(hsl);
   const [R, G, B] = calcRGB(H, S, L);
 
@@ -205,25 +203,25 @@ export const hslToRGB = (hsl: string): string => {
 };
 
 // Hex -> HSL
-export const hexToHSL = compose(rgbToHSL, hexToRGB);
+const hexToHSL = compose(rgbToHSL, hexToRGB);
 
 // HSL -> Hex
-export const hslToHex = compose(rgbToHex, hslToRGB);
+const hslToHex = compose(rgbToHex, hslToRGB);
 
 // RGB -> W3C
-export const rgbToW3C = compose(hexToW3C, rgbToHex);
+const rgbToW3C = compose(hexToW3C, rgbToHex);
 
 // HSL -> W3C
-export const hslToW3C = compose(hexToW3C, hslToHex);
+const hslToW3C = compose(hexToW3C, hslToHex);
 
 // W3C -> RGB
-export const w3cToRGB = (name: string): string => hexToRGB(w3c[name]);
+const w3cToRGB = (name: string): string => hexToRGB(w3c[name]);
 
 // W3C -> HSL
-export const w3cToHSL = (name: string): string => hexToHSL(w3c[name]);
+const w3cToHSL = (name: string): string => hexToHSL(w3c[name]);
 
 // W3C -> Hex
-export const w3cToHex = (name: string): string => w3c[name];
+const w3cToHex = (name: string): string => w3c[name];
 
 export const format = (to: string, input: string): string => {
   switch (to) {

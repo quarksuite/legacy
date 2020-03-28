@@ -51,18 +51,57 @@ describe('Color functions', () => {
     });
   });
   describe('color.convert(): Color', () => {
-    test('Convert a color to Hex', () => {
-      const toHex = color.convert('hex');
-      expect(toHex(input)).toBe('#348ec9');
-    });
-    test('Convert a color to RGB', () => {
-      const toRGB = color.convert('rgb');
-      expect(toRGB(input)).toBe('rgb(52, 142, 201)');
-    });
-    test('Convert a color to hsl', () => {
-      const toHSL = color.convert('hsl');
-      expect(toHSL(input)).toBe('hsl(204, 59%, 50%)');
-    });
+    test('convert Hex to RGB', () =>
+      expect(color.convert('rgb', '#499aa0')).toBe('rgb(73, 154, 160)'));
+    test('convert Hex to HSL', () =>
+      expect(color.convert('hsl', '#499aa0')).toBe('hsl(184, 37%, 46%)'));
+    test('convert Hex to w3c', () =>
+      expect(color.convert('w3c', '#663399')).toBe('rebeccapurple'));
+    test('convert Hex to Hex', () =>
+      expect(color.convert('hex', '#663399')).toBe('#663399'));
+    test('convert Hex3 works', () =>
+      expect(color.convert('rgb', '#bad')).toBe('rgb(187, 170, 221)'));
+
+    test('convert RGB to Hex', () =>
+      expect(color.convert('hex', 'rgb(73, 154, 160)')).toBe('#499aa0'));
+    test('convert RGB to HSL', () =>
+      expect(color.convert('hsl', 'rgb(73, 154, 160)')).toBe(
+        'hsl(184, 37%, 46%)'
+      ));
+    test('convert RGB to w3c', () =>
+      expect(color.convert('w3c', 'rgb(255, 0, 0)')).toBe('red'));
+    test('convert RGB to RGB', () =>
+      expect(color.convert('rgb', 'rgb(255, 0, 0)')).toBe('rgb(255, 0, 0)'));
+    test('convert percentage RGB works', () =>
+      expect(color.convert('hex', 'rgb(75%, 45%, 75%)')).toBe('#bf73bf'));
+
+    test('convert HSL to Hex', () =>
+      expect(color.convert('hex', 'hsl(184, 37%, 46%)')).toBe('#4a9ba1'));
+    test('convert HSL to RGB', () =>
+      expect(color.convert('rgb', 'hsl(184, 37%, 46%)')).toBe(
+        'rgb(74, 155, 161)'
+      ));
+    test('convert HSL to w3c', () =>
+      expect(color.convert('w3c', 'hsl(120, 100%, 50%)')).toBe('lime'));
+    test('convert HSL to HSL', () =>
+      expect(color.convert('hsl', 'hsl(3, 39%, 45%)')).toBe(
+        'hsl(3, 39%, 45%)'
+      ));
+    test('Hdeg works', () =>
+      expect(color.convert('hex', 'hsl(42deg, 70%, 30%)')).toBe('#826217'));
+    test('Hrad works', () =>
+      expect(color.convert('hex', 'hsl(0.15rad, 70%, 50%)')).toBe('#26d95f'));
+    test('Hturn works', () =>
+      expect(color.convert('hex', 'hsl(0.35turn, 80%, 40%)')).toBe('#b81414'));
+
+    test('convert w3c to Hex', () =>
+      expect(color.convert('hex', 'skyblue')).toBe('#87ceeb'));
+    test('convert w3c to RGB', () =>
+      expect(color.convert('rgb', 'firebrick')).toBe('rgb(178, 34, 34)'));
+    test('convert w3c to HSL', () =>
+      expect(color.convert('hsl', 'seagreen')).toBe('hsl(146, 50%, 36%)'));
+    test('convert w3c to w3c', () =>
+      expect(color.convert('w3c', 'orange')).toBe('orange'));
   });
 });
 
