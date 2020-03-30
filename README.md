@@ -1,14 +1,47 @@
-# Quarksuite (Core v3.0.0)
+![npm (scoped)](https://img.shields.io/npm/v/@quarksuite/core?label=release&logo=npm&style=for-the-badge)
+![Travis (.org)](https://img.shields.io/travis/quarksuite/core?logo=travis&style=for-the-badge)
+![Coveralls github](https://img.shields.io/coveralls/github/quarksuite/core?logo=coveralls&style=for-the-badge)
+![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/quarksuite/core?style=for-the-badge)
+![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/@quarksuite/core?style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/quarksuite/core?style=for-the-badge)
+# Quarksuite
 
 ![Quarksuite Logo](assets/logo.png)
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+Table of Contents
+
+- [Summary](#summary)
+- [Installation](#installation)
+  - [As a Module](#as-a-module)
+  - [In the Browser](#in-the-browser)
+- [Usage Examples](#usage-examples)
+  - [Prototyping](#prototyping)
+  - [Advanced Demonstration](#advanced-demonstration)
+- [What's Next?](#whats-next)
+- [Concept](#concept)
+- [Project Objectives](#project-objectives)
+  - [Small, Yet Complete](#small-yet-complete)
+  - [Work the Way You Work](#work-the-way-you-work)
+  - [Zero Lock-In](#zero-lock-in)
+  - [Familiarity](#familiarity)
+- [Contributing](#contributing)
+- [Thanks to:](#thanks-to)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Summary
 
-Quarksuite is a tool for designers and developers that reimagines core principles as data. It aims to streamline the basic so we can focus more on what our tools can't do.
+Quarksuite is a tool for front-end developers, designers, and front-end designers that treats core visual elements as data.
 
-This library [manipulates color](#color), [generates schemes](#scheme), creates [full palettes](#variant), and defines [modular scales](#scale) for content and proportion. As a bonus, it also provides [operating system font stacks](https://systemfontstack.com/) for quick prototyping.
+It [adjusts colors](#color-functions). It [generates schemes](#scheme-functions). It creates [full palettes](#variant-functions). And it defines [modular scales](#scale-functions) for content and layout. As a bonus, it also provides [operating system font stacks](#typography-functions) to aid rapid prototyping.
 
-You can use it as a Node.js module or right in a modern browser.
+The goal here is to codify the consistency, order, and utility expected of good design. Thereby leaving more time for the personality, expression, and resonance that makes great design.
+
+I made this for myself first—as a developer/designer with a somewhat mathematically inclined sense of aesthetics.
+
+I figure other people may get use out of it, too.
 
 ## Installation
 
@@ -68,7 +101,7 @@ OR
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Quarksuite (v2.4.x) Example</title>
+    <title>Quarksuite (v3.0.0) Example</title>
   </head>
   <body>
     <script type="module">
@@ -82,11 +115,12 @@ OR
 
 ## Usage Examples
 
-### Templating Baseline
+### Prototyping
 
 ```js
 const { color, variant, typography, scale } = require('@quarksuite/core');
 
+// Monochromatic palette
 const main = 'gainsboro';
 const toRGB = color.convert('rgb');
 const [tints, shades] = [variant.tints(95, 4), variant.shades(95, 3)];
@@ -97,21 +131,24 @@ module.exports.palette = {
   shades: shades(main)
 };
 
-const [sans, mono] = typography.system('sans', 'monospace');
+// All system fonts
+const [sans, serif, mono] = typography.system();
 
 module.exports.fonts = {
   sans,
+  serif,
   mono
 };
 
+// basic golden ratio modular scale
 const base = 1;
 const asRems = scale.output('rem');
-const content = scale.create('golden', 6);
+const content = scale.create('golden', 8);
 
 module.exports.ms = scale.pipe(content, asRems)(base);
 ```
 
-### Advanced Baseline
+### Advanced Demonstration
 
 ```js
 const {
@@ -123,11 +160,10 @@ const {
 } = require('@quarksuite/core');
 
 // Color -> Color
-const swatch = 'dodgerblue';
+const swatch = color.a11y('blue');
 const desaturate = color.adjust('saturation', s => s - 15);
-const mixLime = color.mix('lime', 25);
-const mixSkyBlue = color.mix('skyblue', 50);
-const colorInput = color.pipe(mixSkyBlue, mixLime, desaturate);
+const mixLime = color.mix(color.a11y('lime'), 25);
+const colorInput = color.pipe(mixLime, desaturate);
 
 // Color -> Scheme
 const midAnalogous = scheme.analogous(30);
@@ -162,207 +198,77 @@ module.exports.fonts = {
   mono
 };
 
-const base = 1;
+// Prepare output
 const asRems = scale.output('rem');
-const content = scale.create('golden', 6);
+const asEms = scale.output('em');
 
-module.exports.ms = scale.pipe(content, asRems)(base);
+// define scales
+const [base, ...content] = scale.create('golden', 6, 1);
+const layout = scale.create('octave', 4);
+const [b, i] = [layout(base), scale.update(v => v * 0.3125, layout(base))];
+
+const [, ...block] = b;
+const inline = i;
+
+module.exports.ms = {
+  base,
+  content: asRems(content),
+  block: asRems(block),
+  inline: asEms(inline)
+};
 ```
 
-## API
+## What's Next?
 
-*All functions in v3.0.0 of Quarksuite come curried. You can [read more about currying](https://medium.com/@kbrainwave/currying-in-javascript-ce6da2d324fe) in this article*.
+Since each UI foundation created with Quarksuite is regular JavaScript, you can use it:
 
-You can [try all examples on RunKit](https://npm.runkit.com/%40quarksuite%2Fcore).
++ as-is with any [CSS-in-JS approach](https://github.com/MicheleBertoli/css-in-js), 
++ with [Tailwind](https://tailwindcss.com/) 
++ as design tokens when transformed with [Style Dictionary](https://github.com/amzn/style-dictionary) or [Theo](https://github.com/salesforce-ux/theo)
 
-### Color
+Really, any method that fits your actual workflow and tools is viable. It's up to you.
 
-The color functions accept a `color` of any valid CSS format (hex, rgb, hsl, w3c named colors) and output a color as `rgb()`. Keep in mind that there is no processing of alpha transparency.
 
-#### pipe(...operations)(color)
+## Concept
 
-This function executes operations in a right to left order on a color.
+Quarksuite is built around the idea that fundamental, **quantifiable** visual elements can be represented as another kind of dataset about our interfaces.
 
-##### Params
+[This isn't a new idea](https://css-tricks.com/what-are-design-tokens/).
 
-+ `operations: Function[]`: The chain of functions to execute on the value
+The library's domain is on a similar level&mdash;or just below design tokens. It uses a structure similar to projects like [Styled System](https://styled-system.com/) or [Ether](https://ether.thescenery.co/), but it doesn't ask you to use React.
 
-##### Example
+The library is designed to mirror the steps designers are likely to take while making these decisions on their own.
 
-```js
-const swatch = 'orange';
-const desat = color.adjust('saturation', s => s - 10); // valid: standby argument is color
-const mixRed = color.mix('red', 45); // valid: standby argument is color
+## Project Objectives
 
-// color -> desaturate color by 10% -> mix 45% with red -> color
-color.pipe(mixRed, desat)(swatch)
-```
+### Small, Yet Complete
 
-##### Notes
+Quarksuite aims to have a chinchilla's footprint in size but remain flexible enough to allow you to create as simple or complex a foundation as you wish.
 
-+ It's better to perform color adjustments before mixtures
-+ Pay special attention to the result of hue adjustments after mixtures
+### Work the Way You Work
 
-#### adjust(property)(modifier)(color)
-#### adjust(property)(modifier, color)
-#### adjust(property, modifier)(color)
-#### adjust(property, modifier, color)
+Quarksuite's structure begins and ends as data. It will impose no restrictions on how you structure, export, or use data.
 
-This function allows you to adjust the properties of a color with a modifier function.
+### Zero Lock-In
 
-##### Params
+Quarksuite should do its job and then go away. After creating your foundation, updates ought to be quick, frictionless, and not ask you to rewrite much. If you ever want to stop using this library, it should be as painless as uninstalling it.
 
-+ `property: string`: the property of the color you want to modify (`hue`, `saturation`, `lightness`)
-+ `modifier: (current: number) => number`: modifier function to adjust the property
-+ `color: string`: the color to modify
+### Familiarity
 
-##### Example
-
-```js
-// rotate the hue of a color 90 degrees
-const swatch = 'dodgerblue';
-const hue = color.adjust('hue' h => h + 90);
-
-hueBy90(swatch);
-
-// desaturate by 20%
-const desat20 = color.adjust('saturation', s => s - 20);
-
-desat20(swatch);
-
-// lighten by 15%
-const lighten15 = color.adjust('lightness', l => l + 15);
-
-lighten15(swatch);
-```
-
-##### Notes
-
-+ Hue adjustments have a lower bound of `0` and an upper bound of `720`. This is to allow multiple rotations. A result below or exceeding will yield pure red
-+ Saturation adjustments have a lower bound of `0` and an upper bound of `100`. A modifier that returns a number below will yield pure gray. A modifier that exceeds the limit will yield a fully saturated color.
-+ Lightness adjustments have the same bounds as saturation. A modifier that returns a number below yields pure black. A modifier that exceeds the limit will yield pure white
-
-#### mix(target)(amount)(color)
-#### mix(target)(amount, color)
-#### mix(target, amount)(color)
-#### mix(target, amount, color)
-
-This function mixes a color with a target by a given amount.
-
-##### Params
-
-+ `target: string`: the target color to mix with
-+  `amount: number`: how much to mix with the target (as a percentage)
-+  `color: string`: the color to mix
-
-##### Example
-
-```js
-const swatch = 'rgb(30%, 35%, 90%)';
-const target = 'yellowgreen';
-
-const mixYellowGreen = color.mix(target);
-
-mixYellowGreen(50, swatch);
-mixYellowGreen(32, swatch);
-mixYellowGreen(85, swatch);
-```
-
-##### Notes
-
-+ A great way to use `mix()` is to warm or cool a color. Mixing your main color carefully with your hues can also add harmony to a stark or chaotic color scheme
-
-#### complement(color)
-
-This function fetches the complement of a color.
-
-##### Params
-
-+ `color: string`: the input color
-
-##### Example
-
-```js
-const swatch = '#c0ffee';
-
-color.complement(swatch);
-
-// equivalent to
-color.adjust('hue', h => h + 180, swatch);
-```
-
-#### negate(color)
-
-This function neutralizes a color with its complement.
-
-##### Params
-
-+ `color: string`: the input color
-
-##### Example
-
-```js
-
-const swatch = 'hsl(42, 80%, 40%)';
-
-color.negate(swatch);
-
-// equivalent to
-color.mix(color.complement(swatch), 50, swatch);
-```
-
-##### Notes
-
-+ The main usage of `negate()` is for creating a neutral palette base
-
-#### convert(to)(color)
-#### convert(to, color)
-
-This function converts a color to another CSS format.
-
-##### Params
-
-+ `to: string`: the output format (`hex`, `rgb`, `hsl`, `w3c`)
-
-##### Example
-
-```js
-// convert a color to HSL format
-const toHSL = color.convert('hsl');
-
-toHSL('red');
-```
+Pursue the most declarative structure possible. Using this library ought to be as intuitive as the process designers work through without it.
 
 ## Contributing
 
 Please [read the contribution guidelines](CONTRIBUTING.md).
 
-## Development
+## Thanks to:
 
-If you’d like to hack on Quarksuite in a local environment, do the following:
++ [Jon Kantner for: Converting Color Spaces in JavaScript](https://css-tricks.com/converting-color-spaces-in-javascript).  The internal color conversion functions borrow heavily from this article.
 
-### Clone the Repo
++ [Folktale's](https://folktale.origamitower.com) implementation of [curry](https://folktale.origamitower.com/api/v2.3.0/en/folktale.core.lambda.curry.curry.html) and [compose.all](https://folktale.origamitower.com/api/v2.3.0/en/folktale.core.lambda.compose.all.html) was vital in making the module functions more&hellip; modular.
 
-```bash
-https://github.com/quarksuite/core.git
-```
++ Every developer who gives me those moments of clarity as I learn functional programming and **when** to use it. 
 
-### Install Dependencies
++ Every designer who opens my eyes to better ways of composing UI and reminds me that dev tools aren't everything.
 
-```bash
-npm install 
-
-# OR
-
-yarn
-```
-
-### Commands
-
-+ `npm run dev` OR `yarn dev`: run tests on save
-+ `npm run build`  OR `yarn build`: build project
-
-## Credit
-
-All of the code for the new internal color conversions was modified from [this CSS Tricks article by Jon Kantner](https://css-tricks.com/converting-color-spaces-in-javascript). Be sure to read it if you want to understand how they work.
-
++ You, who considered this project enough to read this far.
