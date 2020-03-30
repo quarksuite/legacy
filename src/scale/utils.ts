@@ -1,4 +1,4 @@
-import { ratios } from './ratio-lookup';
+import { ratios } from "./ratio-lookup";
 
 export const calcScaleValues = (
   ratio: string | number,

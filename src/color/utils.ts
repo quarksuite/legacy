@@ -1,4 +1,4 @@
-import * as convert from './convert';
+import * as convert from "./convert";
 
 // Color modification utils
 const calculateDifference = (
@@ -12,8 +12,8 @@ const calculateMix = (
   target: string,
   amount: number
 ): number[] => {
-  const [O_RED, O_GREEN, O_BLUE] = origin.split(', ');
-  const [T_RED, T_GREEN, T_BLUE] = target.split(', ');
+  const [O_RED, O_GREEN, O_BLUE] = origin.split(", ");
+  const [T_RED, T_GREEN, T_BLUE] = target.split(", ");
   const RGB_STORE: Map<string, string> = new Map([
     [O_RED, T_RED],
     [O_GREEN, T_GREEN],
@@ -22,7 +22,7 @@ const calculateMix = (
   return Array.from(RGB_STORE).map(([origin, target]): number => {
     const matchChars = /\D/g;
     const getValueOf = (s: string): number =>
-      parseInt(s.replace(matchChars, ''));
+      parseInt(s.replace(matchChars, ""));
     return calculateDifference(getValueOf(origin), getValueOf(target), amount);
   });
 };
@@ -31,34 +31,34 @@ const normalization = (a: number, b: number, x: number): number =>
   Math.round(Math.min(Math.max(x, a), b));
 
 export const modify = (
-  property: 'hue' | 'saturation' | 'lightness',
+  property: "hue" | "saturation" | "lightness",
   modifier: (current: number) => number,
   color: string
 ): string => {
-  const values = convert.parseHSL(convert.format('hsl', color));
+  const values = convert.parseHSL(convert.format("hsl", color));
   let [H] = values;
   let [, S, L] = values.map((v: number) => convert.toPercentage(v));
 
   // Putting H, S, L in an array to allow the modifier access to
   // the currentValue nudges me as a little inefficient,
   // but it's good enough for the quick operations involved
-  if (property === 'hue') {
+  if (property === "hue") {
     // Allow multiple rotations on the color wheel
     const [h] = [H].map((current: number) => modifier(current));
     H = normalization(0, 720, h) % 360;
   }
 
-  if (property === 'saturation') {
+  if (property === "saturation") {
     const [s] = [S].map((current: number) => Math.round(modifier(current)));
     S = normalization(0, 100, s);
   }
 
-  if (property === 'lightness') {
+  if (property === "lightness") {
     const [l] = [L].map((current: number) => Math.round(modifier(current)));
     L = normalization(0, 100, l);
   }
 
-  return convert.format('rgb', `hsl(${H}, ${S}%, ${L}%)`);
+  return convert.format("rgb", `hsl(${H}, ${S}%, ${L}%)`);
 };
 
 export const mixColors = (
@@ -68,8 +68,8 @@ export const mixColors = (
 ): string => {
   // Convert arguments to RGB
   const [R, G, B] = calculateMix(
-    convert.format('rgb', color),
-    convert.format('rgb', target),
+    convert.format("rgb", color),
+    convert.format("rgb", target),
     convert.toFraction(amount)
   );
 
@@ -82,8 +82,8 @@ export const createBlend = (
   limit: number,
   color: string
 ): string[] => {
-  const colorToRGB = convert.format('rgb', color);
-  const targetToRGB = convert.format('rgb', target);
+  const colorToRGB = convert.format("rgb", color);
+  const targetToRGB = convert.format("rgb", target);
 
   return Array.from(Array(limit).fill(colorToRGB))
     .map((value: string, index: number): string => {

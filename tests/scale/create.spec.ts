@@ -1,10 +1,10 @@
-import { scale } from '../../src';
+import { scale } from "../../src";
 
-describe('Scale creation function', () => {
+describe("Scale creation function", () => {
   const base = 1;
-  describe('create(): Scale', () => {
-    test('outputs a modular scale', () => {
-      const input = scale.create('golden', 6);
+  describe("create(): Scale", () => {
+    test("outputs a modular scale", () => {
+      const input = scale.create("golden", 6);
       expect(input(base)).toStrictEqual([
         1,
         1.61804,
@@ -14,7 +14,7 @@ describe('Scale creation function', () => {
         11.0903
       ]);
     });
-    test('accepts custom ratios', () => {
+    test("accepts custom ratios", () => {
       const input = scale.create(2.25, 6);
       expect(input(base)).toStrictEqual([
         1,

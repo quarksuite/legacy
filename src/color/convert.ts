@@ -1,10 +1,10 @@
-import { w3c } from './w3c-colors';
-import { compose } from '../toolbox';
+import { w3c } from "./w3c-colors";
+import { compose } from "../toolbox";
 
 // Conversion helpers
-const intToHex = (x: number): string => x.toString(16).padStart(2, '0');
+const intToHex = (x: number): string => x.toString(16).padStart(2, "0");
 const hexToInt = (s: string, s2: string): number => parseInt(s + s2, 16);
-const extractValue = (s: string): number => parseInt(s.replace(/\D+/g, ''));
+const extractValue = (s: string): number => parseInt(s.replace(/\D+/g, ""));
 
 const checkFormat = (color: string, format: string): boolean => {
   interface Format {
@@ -17,7 +17,7 @@ const checkFormat = (color: string, format: string): boolean => {
     hsl: /^hsl\(((((([12]?[1-9]?\d)|[12]0\d|(3[0-5]\d))(\.\d+)?)|(\.\d+))(deg)?|(0|0?\.\d+)turn|(([0-6](\.\d+)?)|(\.\d+))rad)((,\s?(([1-9]?\d(\.\d+)?)|100|(\.\d+))%){2}|(\s(([1-9]?\d(\.\d+)?)|100|(\.\d+))%){2})\)$/i
   };
 
-  if (format === 'w3c') return w3c[color] !== undefined;
+  if (format === "w3c") return w3c[color] !== undefined;
 
   return list[format].test(color);
 };
@@ -33,10 +33,10 @@ export const parseHSL = (hsl: string): number[] => {
   const values = (hsl.toString().match(/[^hsl(,)]+/g) as unknown) as string[];
 
   let [H] = values.map((value: string): number => {
-    if (value.includes('deg')) return extractValue(value);
-    if (value.includes('rad'))
+    if (value.includes("deg")) return extractValue(value);
+    if (value.includes("rad"))
       return Math.round(extractValue(value) * (180 / Math.PI));
-    if (value.includes('turn')) return Math.round(extractValue(value)) * 360;
+    if (value.includes("turn")) return Math.round(extractValue(value)) * 360;
     return extractValue(value);
   });
 
@@ -86,7 +86,7 @@ const parseRGB = (rgb: string): number[] => {
   const values = (rgb.match(/[^rgb(,)]+/g) as unknown) as string[];
 
   return values.map((channel: string): number => {
-    if (channel.includes('%')) return Math.round(parsePercent(channel) * 255);
+    if (channel.includes("%")) return Math.round(parsePercent(channel) * 255);
     return extractValue(channel);
   });
 };
@@ -161,7 +161,7 @@ const rgbToHex = (rgb: string): string => {
     return intToHex(channel);
   });
 
-  return ['#', ...hexValues].join('');
+  return ["#", ...hexValues].join("");
 };
 
 // RGB -> HSL
@@ -180,7 +180,7 @@ const hexToW3C = (hex: string): string => {
 
   if (hex.length == 4) {
     const [hash, R, G, B] = hex;
-    output = [hash, R, R, G, G, B, B].join('');
+    output = [hash, R, R, G, G, B, B].join("");
   } else {
     output = hex;
   }
@@ -225,29 +225,29 @@ const w3cToHex = (name: string): string => w3c[name];
 
 export const format = (to: string, input: string): string => {
   switch (to) {
-    case 'rgb':
-      if (checkFormat(input, 'hex')) return hexToRGB(input);
-      if (checkFormat(input, 'hsl')) return hslToRGB(input);
-      if (checkFormat(input, 'w3c')) return w3cToRGB(input);
-      if (checkFormat(input, 'rgb')) return input;
+    case "rgb":
+      if (checkFormat(input, "hex")) return hexToRGB(input);
+      if (checkFormat(input, "hsl")) return hslToRGB(input);
+      if (checkFormat(input, "w3c")) return w3cToRGB(input);
+      if (checkFormat(input, "rgb")) return input;
       break;
-    case 'hex':
-      if (checkFormat(input, 'rgb')) return rgbToHex(input);
-      if (checkFormat(input, 'hsl')) return hslToHex(input);
-      if (checkFormat(input, 'w3c')) return w3cToHex(input);
-      if (checkFormat(input, 'hex')) return input;
+    case "hex":
+      if (checkFormat(input, "rgb")) return rgbToHex(input);
+      if (checkFormat(input, "hsl")) return hslToHex(input);
+      if (checkFormat(input, "w3c")) return w3cToHex(input);
+      if (checkFormat(input, "hex")) return input;
       break;
-    case 'hsl':
-      if (checkFormat(input, 'hex')) return hexToHSL(input);
-      if (checkFormat(input, 'rgb')) return rgbToHSL(input);
-      if (checkFormat(input, 'w3c')) return w3cToHSL(input);
-      if (checkFormat(input, 'hsl')) return input;
+    case "hsl":
+      if (checkFormat(input, "hex")) return hexToHSL(input);
+      if (checkFormat(input, "rgb")) return rgbToHSL(input);
+      if (checkFormat(input, "w3c")) return w3cToHSL(input);
+      if (checkFormat(input, "hsl")) return input;
       break;
-    case 'w3c':
-      if (checkFormat(input, 'hex')) return hexToW3C(input);
-      if (checkFormat(input, 'rgb')) return rgbToW3C(input);
-      if (checkFormat(input, 'hsl')) return hslToW3C(input);
-      if (checkFormat(input, 'w3c')) return input;
+    case "w3c":
+      if (checkFormat(input, "hex")) return hexToW3C(input);
+      if (checkFormat(input, "rgb")) return rgbToW3C(input);
+      if (checkFormat(input, "hsl")) return hslToW3C(input);
+      if (checkFormat(input, "w3c")) return input;
       break;
   }
 

@@ -1,10 +1,10 @@
-import { scale } from '../../src';
+import { scale } from "../../src";
 
-describe('Scale creation and modification', () => {
+describe("Scale creation and modification", () => {
   const base = 1;
-  describe('merge(): Scale', () => {
-    test('merges two scales', () => {
-      const baseScale = scale.create('golden', 6);
+  describe("merge(): Scale", () => {
+    test("merges two scales", () => {
+      const baseScale = scale.create("golden", 6);
       const first = baseScale(base);
       const second = baseScale(base * 2);
 

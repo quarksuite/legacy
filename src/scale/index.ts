@@ -1,5 +1,5 @@
-import { calcScaleValues, modify, build } from './utils';
-import { curry } from '../toolbox';
+import { calcScaleValues, modify, build } from "./utils";
+import { curry } from "../toolbox";
 
 export const create = curry(3, calcScaleValues);
 export const update = curry(2, modify);
