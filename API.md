@@ -1,494 +1,680 @@
-# Quarksuite API (v2.4.x)
+# API (v3.0.0)
 
-*IMPORTANT: Be careful when upgrading from a previous version. Don’t hesitate to [submit an issue](https://github.com/quarksuite/core/issues) if you have any trouble upgrading.*
+*The modules in v3.0.0 of Quarksuite come with curried functions. You can [read more about currying](https://medium.com/@kbrainwave/currying-in-javascript-ce6da2d324fe) in this article*.
 
-*You can [try out any example](https://npm.runkit.com/%40quarksuite%2Fcore) on RunKit.*
-
-As of v2.3.0, the color module has been separated into the `color`, `scheme`, and `variant` modules.
+You can [try out all examples on RunKit](https://npm.runkit.com/%40quarksuite%2Fcore).
 
 ## Color Functions
 
-### color.hue
+The color functions accept a `color` of any valid CSS format (hex, rgb, hsl, w3c named colors). Keep in mind that there is no processing of alpha transparency. 
 
-Updates the hue of a color with a modifier function.
+*Also, for simplicity, `hsl()` values don't currently wrap negative hue values. This means `hsl(-30, 58%, 50%)` will throw an error in this version even though it's a valid CSS color.*
 
-If the result of your modifier would be invalid, the hue is set to `0`. The upper limit is two full rotations or `720`. Either case sets the color to be red.
+*I'll implement the negative hue syntax, if it's truly needed, in a future update. [Let me know in the issues](https://github.com/quarksuite/core/issues) or you can submit a pull request.* 
 
-#### Parameters
+### color.pipe
 
-+ `color: Color`: an input color
-+ `modifier: (current: Hue) => Color`: a function to modify the hue
+This function executes operations in a right to left order on a color.
 
+#### Call
 
-#### Return
++ `color.pipe(...operations)(color)`
 
-`Color`: a color with a modified hue
+#### Params
 
-#### Examples
++ `operations: Function[]`: The chain of functions to execute
++ `color: string`: the color to transform
 
-```js
-// Shift hue 45 degrees clockwise
-color.hue('#348ec9', hue => hue + 45);
+#### Returns
 
-// Shift hue 90 degrees clockwise, then nudge 15 degrees counterclockwise
-color.hue('#348ec9', hue => (hue + 90) - 15);
-```
-
-### color.saturation
-
-Updates the saturation of a color with a modifier function.
-
-If the result of your modifier would be invalid, the saturation is set to `0` or `100`. At `0`, the color is gray. At `100`, the color is fully saturated.
-
-#### Parameters
-
-+ `color: Color`: an input color
-+ `modifier: (current: Saturation) => Color`: a function to modify the saturation 
-
-#### Return
-
-`Color`: a color with a modified saturation
-
-#### Examples
-
-```js
-// Increase saturation by 25%
-color.saturation('#348ec9', sat => sat + 25);
-
-// Decrease saturation by half
-color.saturation ('#348ec9', sat => sat / 2);
-```
-
-### color.lightness
-
-Updates the lightness of a color with a modifier function.
-
-If the result of your modifier would be invalid, the lightness is set to `0` or `100`. At `0`,
-the color is black. At `100`, the color is white.
-
-#### Parameters
-
-+ `color: Color`: an input color
-+ `modifier: (current: Lightness) => Color`: your function to modify the hue
-
-#### Return
-
-`Color`: a color with a modified lightness
-
-#### Examples
-
-```js
-// Decrease lightness by 10%
-color.lightness('#348ec9', light => light - 10%);
-
-// Increase lightness by a quarter
-color.lightness('#348ec9', light => light * 0.25);
-```
-
-### color.mix
-
-Mixes the input color with a target color.
-
-You can also pass in a percentage to mix with the target color more or less. An even mix is `50`.
-
-#### Parameters
-
-+ `color: Color`: an input color
-+ `withTarget: Color`: a blend target
-+ `byAmount?: Percent`: how much to blend with target
-
-#### Return
-
-`Color`: the result of mixing a color with a target color
+`string`: the color after all transformations are applied as `rgb()`
 
 #### Example
 
 ```js
-color.mix('#348ec9', 'coral');
+const swatch = color.a11y('orange');
+const desat = color.adjust('saturation', s => s - 10); // valid: standby argument is color
+const mixRed = color.mix(color.a11y('red'), 45); // valid: standby argument is color
 
-// less
-color.mix('#348ec9', 'coral', 30);
+// color -> desaturate color by 10% -> mix 45% with red -> color
+color.pipe(mixRed, desat)(swatch)
+```
 
-// more
-color.mix('#348ec9', 'coral', 80);
+#### Notes
+
++ It's better to perform color adjustments before mixtures
++ Pay special attention to the result of hue adjustments **after** mixtures
+
+### color.a11y
+
+This function matches the colors [defined on clrs.cc](http://clrs.cc) to provide more accessible web defaults.
+
+#### Call
+
++ `color.a11y(color)`
+
+#### Params
+
+`color: string`: the color to query for its accessible counterpart
+
+#### Returns
+
+`string | (() => never)`: the found color as `rgb()` or an error
+
+#### Example
+
+```js
+// Use clrs.cc teal
+color.a11y('teal');
+
+// Use clrs.cc orange
+color.a11y('orange');
+
+// Use clrs.cc yellow
+color.a11y('yellow');
+```
+
+### color.adjust
+
+This function allows you to adjust the properties of a color with a modifier function.
+
+#### Calls
+
++ `color.adjust(property)(modifier)(color)`
++ `color.adjust(property)(modifier, color)`
++ `color.adjust(property, modifier)(color)`
++ `color.adjust(property, modifier, color)`
+
+#### Params
+
++ `property: string`: the property of the color you want to modify (`hue`, `saturation`, `lightness`)
++ `modifier: (current: number) => number`: modifier function to adjust the property
++ `color: string`: the color to modify
+
+#### Returns
+
+`string`: an adjusted color as `rgb()`
+
+#### Example
+
+```js
+// rotate the hue of a color 90 degrees
+const swatch = 'dodgerblue';
+const hue = color.adjust('hue' h => h + 90);
+
+hueBy90(swatch);
+
+// desaturate by 20%
+const desat20 = color.adjust('saturation', s => s - 20);
+
+desat20(swatch);
+
+// lighten by 15%
+const lighten15 = color.adjust('lightness', l => l + 15);
+
+lighten15(swatch);
+```
+
+#### Notes
+
++ Hue adjustments have a lower bound of `0` and an upper bound of `720`. This is to allow multiple rotations. A result below or exceeding will yield pure red
++ Saturation adjustments have a lower bound of `0` and an upper bound of `100`. A modifier that returns a number below will yield pure gray. A modifier that exceeds the limit will yield a fully saturated color.
++ Lightness adjustments have the same bounds as saturation. A modifier that returns a number below yields pure black. A modifier that exceeds the limit will yield pure white
+
+### color.mix
+
+This function mixes a color with a target by a given amount.
+
+#### Calls
+
++ `color.mix(target)(amount)(color)`
++ `color.mix(target)(amount, color)`
++ `color.mix(target, amount)(color)`
++ `color.mix(target, amount, color)`
+
+
+#### Params
+
++ `target: string`: the target color to mix with
++ `amount: number`: how much to mix with the target (as a percentage)
++ `color: string`: the color to mix
+
+#### Returns
+
+`string`: the mixture result as `rgb()`
+
+#### Example
+
+```js
+const swatch = 'rgb(30%, 35%, 90%)';
+const target = 'yellowgreen';
+
+const mixYellowGreen = color.mix(target);
+
+// evenly
+mixYellowGreen(50, swatch);
+
+// less with target
+mixYellowGreen(32, swatch);
+
+// more with target
+mixYellowGreen(85, swatch);
 ```
 
 ### color.complement
 
-Grabs the complement of a color.
+This function fetches the complement of a color.
 
-The complement is the color on the opposite side, or a 180 degree turn, from the input color.
+#### Call
 
-#### Parameters
++ `color.complement(color)`
 
-+ `color: Color`: an input color
+#### Params
 
-#### Return
++ `color: string`: the input color
 
-`Color`: complement of input color
+#### Returns
+
+`string`: the color complement as `rgb()`
 
 #### Example
 
 ```js
-color.complement('#348ec9')
+const swatch = '#c0ffee';
+
+color.complement(swatch);
+
+// equivalent
+color.adjust('hue', h => h + 180)(swatch);
 ```
 
 ### color.negate
 
-Negates a color.
+This function neutralizes a color with its complement.
 
-The negation of a color is the result of that color evenly mixed with its complement.
+#### Call
 
-#### Parameters
++ `color.negate(color)`
 
-+ `color: Color`: an input color
+#### Params
 
-#### Return
++ `color: string`: the input color
 
-`Color`: negation of input color
+#### Returns
+
+`string`: the negated color
 
 #### Example
 
 ```js
-color.negate('#348ec9')
+
+const swatch = 'hsl(42, 80%, 40%)';
+
+color.negate(swatch);
+
+// equivalent
+color.mix(color.complement(swatch), 50)(swatch);
 ```
 
 ### color.convert
 
-Converts a color to another CSS format.
+This function converts a color to another CSS format.
 
-The formats accepted are: `rgb` (default), `hsl`, `hex`, `w3c`.
+#### Calls
 
-#### Parameters
++ `color.convert(to)(color)`
++ `color.convert(to, color)`
 
-+ `color: Color`: an input color
-+ `toFormat: CSSFormats`: desired format for conversion
+#### Params
 
-#### Return 
-
-`Color`: input color converted to new format
-
-#### Example
-
-```js
-// RGB by default
-color.convert('#348ec9');
-
-// Convert to HSL
-color.convert('#348ec9', 'hsl');
-```
-
-## Scheme Functions
-
-### scheme.complementary
-
-Creates a complementary scheme.
-
-#### Parameters
-
-+ `color: Color`: an input color
++ `to: string`: the output format (`hex`, `rgb`, `hsl`, `w3c`)
++  `color: string`: the input color
 
 #### Return
 
-`Scheme`: an array of `Color` as `[color, complement]`
+`string | (() => never)`: the converted color (or unchanged input color if same format), otherwise throw an error for invalid color
+
+#### Example
+```js
+// convert a color to HSL format
+const toHSL = color.convert('hsl');
+
+toHSL('red');
+```
+
+#### Notes
+
++ every color function does a conversion internally to output as `rgb()`, so an invalid color is immediately detected
+
+## Scheme Functions
+
+As with the color module, alpha transparency is not processed and output is `rgb()`. These functions are responsible for generating base hues for schemes. For monochromatic schemes, [see the variant module](#variant).
+
+### scheme.complementary
+
+This function creates a complementary scheme.
+
+#### Call
+
++ `scheme.complementary(color)`
+
+#### Params
+
++ `color: string`: the input color to create a scheme
+
+#### Returns
+
+`[color, complement]`: the complementary scheme
 
 #### Example
 
 ```js
-scheme.complementary('#348ec9');
+// create a complementary scheme
+scheme.complementary('#bad');
 ```
 
 ### scheme.analogous
 
-Creates an analogous scheme.
+This function creates an analogous scheme.
 
-#### Parameters
+#### Calls
 
-+ `color: Color`: an input color
-+ `spreadBy?: Degrees = 30`: degrees to spread adjacent colors
++ `scheme.analogous(offset)(color)`
++ `scheme.analogous(offset, color)`
 
-#### Return
+#### Params
 
-`Scheme`: an array of `Color` as `[leftOfColor, color, rightOfColor]`
++ `offset: number`: the degree of split from the input color
++ `color: string`: the input color
+
+#### Returns
+
+`[leftOfColor, color, rightOfColor]`: the analogous scheme
 
 #### Example
 
 ```js
-scheme.analogous('#348ec9');
+const swatch = 'rgb(33, 66, 120)';
 
-// low contrast analogous
-scheme.analogous('#348ec9', 15);
+// create low, mid, and high contrast analogous schemes
+const lowContrastAnalogous = scheme.analogous(15);
+const midContrastAnalogous = scheme.analogous(30);
+const highCOntrastAnalogous = scheme.analogous(45);
 
-// high contrast analogous
-scheme.analgous('#348ec9', 45);
+lowContrastAnalogous(swatch);
+midContrastAnalogous(swatch);
+highContrastAnalogous(swatch);
 ```
 
 ### scheme.triad
 
-Creates a color triad from input color.
+This function creates a color triad.
 
-#### Parameters
+#### Calls
 
-+ `color: Color`: an input color
-+ `splitComplementBy?: Degrees = 60`: degrees to split from the complement
++ `scheme.triad(offset)(color)`
++ `scheme.triad(offset, color)`
 
-#### Return
+#### Params
 
-`Scheme`: an array of `Color` as `[color, leftOfComplement, rightOfComplement]`
++ `offset: number`: the degree of split from the complement of input color
++ `color: string`: the input color
+
+#### Returns
+
+`[color, leftOfComplement, rightOfComplement]`: the triadic scheme
 
 #### Example
 
 ```js
-// 60 degrees from complement = perfect triad
-scheme.triad('#348ec9')
+const swatch = 'seagreen';
 
-// Second parameter can alter split to produce imperfect triads
-scheme.triad('#348ec9', 32);
+// create a triadic and split complementary scheme
+const triadic = scheme.triad(60);
+const split = scheme.triad(30);
+
+triadic(swatch);
+split(swatch);
 ```
 
 ### scheme.tetrad
 
-Creates a color tetrad from input color.
+This function creates a color tetrad.
 
-#### Parameters
+#### Calls
 
-+ `color: Color`: an input color
-+ `spreadBy?: Degrees = 90`: degrees to spread from color and complement
++ `scheme.tetrad(offset)(color)`
++ `scheme.tetrad(offset, color)`
 
-#### Return
+#### Params
 
-`Scheme`: an aray of color as `[color, complement, rightOfColor, rightOfComplement]`
+`offset: number`: the degree of rotation from input color and complement
+`color: string`: the input color
+
+#### Returns
+
+`[color, complement, offsetFromColor, offsetFromComplement]`: the tetradic scheme
 
 #### Example
 
 ```js
-// 90 degree spread from origin and complement = perfect tetrad
-scheme.tetrad('#348ec9');
+const swatch = 'hsl(188, 28%, 48%)';
 
-// Second parameter can alter spread to produce imperfect tetrads
-scheme.tetrad('#348ec9', 45);
+// create a square and tetradic scheme
+const square = scheme.tetrad(90);
+const tetradic = scheme.tetrad(45);
+
+square(swatch);
+tetradic(swatch);
 ```
-
 ## Variant Functions
 
-### variant.create
+The variant functions create blends, tints, tones, and shades. These complete your palette. You can adjust the contrast of the output as well as set a limit.
 
-Create a blend variant from input color and a target color.
+As with the previous modules for color, variant does not process alpha transparency.
 
-#### Parameters
+### variant.blend
 
-+ `color: Color`: an input color
-+ `fromTarget: Color`: target color to blend
-+ `withContrast?: Percent = 97`: contrast between variant values
-+ `upToRange?: Limit = 3`: variant output limit
+This function creates blends from your input color and a target color.
 
-#### Return
+#### Calls
 
-`Variant`: an array of `Color` as a blend of color and target color with adjustments
++ `variant.blend(target)(contrast)(limit)(color)`
++ `variant.blend(target)(contrast, limit, color)`
++ `variant.blend(target, contrast)(limit, color)`
++ `variant.blend(target, contrast, limit)(color)`
++ `variant.blend(target, contrast, limit, color)`
+
+#### Params
+
++ `target: string`: the target color to blend with
++ `contrast: number`: overall blend contrast (as a percentage)
++ `limit: number`: the number of blends to output
++ `color: string`: the input color
+
+#### Returns
+
+`string[]`: an array of blend variants from least blended with target to most
 
 #### Example
 
 ```js
-variant.create('#348ec9', 'coral');
+const swatch = '#348ec9';
 
-// can change the contrast
-variant.create('#348ec9', 'coral', 72);
+// create ten lime blends, and five aqua blends
+const blendLime = variant.blend(color.a11y('lime'), 75, 10);
+const blendAqua = variant.blend(color.a11y('aqua'), 75, 5);
 
-// can also change the range
-variant.create('#348ec9', 'coral', 85, 5);
+blendLime(swatch);
+blendAqua(swatch);
 ```
-
 ### variant.tints
 
-Creates tints from input color.
+Creates tints for a color.
 
-Tints are the result of a color mixed with white.
+#### Calls
 
-#### Parameters
++ `variant.tints(contrast)(limit)(color)`
++ `variant.tints(contrast, limit)(color)`
++ `variant.tints(contrast, limit, color)`
 
-+ `color: Color`: an input color
-+ `withContrast?: Percent = 97`: contrast between variant values
-+ `upToRange?: Limit = 3`: variant output limit
+#### Params
 
-#### Return
++ `contrast: number`: overall tint contrast (as a percentage)
++ `limit: number`: the number of tints to output
++ `color: string`: the input color
 
-`Variant`: an array of `Color` as tints
+#### Returns
+
+`string[]`: an array of tints from light to lightest
 
 #### Example
 
 ```js
-variant.tints('#348ec9');
+const swatch = '#bada55';
 
-// can change the contrast
-variant.tints('#348ec9', 80);
+// create 4 tints with 95% contrast
+const tint = variant.tints(95, 4);
 
-// can also adjust the range
-variant.tints('#348ec9', 90, 5);
+tint(swatch);
 ```
 
 ### variant.tones
 
-Creates tones from input color.
+Creates tones for a color.
 
-Tones are the result of a color mixed with gray.
+#### Calls
 
-#### Parameters
++ `variant.tones(contrast)(limit)(color)`
++ `variant.tones(contrast, limit)(color)`
++ `variant.tones(contrast, limit, color)`
 
-+ `color: Color`: an input color
-+ `withContrast?: Percent = 97`: contrast between variant values
-+ `upToRange?: Limit = 3`: variant output limit
+#### Params
 
-#### Return
++ `contrast: number`: overall tone contrast (as a percentage)
++ `limit: number`: the number of tones to output
++ `color: string`: the input color
 
-`Variant`: an array of `Color` as tones
+#### Returns
+
+`string[]`: an array of tones from least to most saturated
 
 #### Example
 
 ```js
-variant.tones('#348ec9');
+const swatch = '#bada55';
 
-// can change the contrast
-variant.tones('#348ec9', 80);
+// create 3 tones with 70% contrast
+const tone = variant.tones(70, 3);
 
-// can also adjust the range
-variant.tones('#348ec9', 90, 5);
+tone(swatch);
 ```
-
 
 ### variant.shades
 
-Creates shades from input color.
+Creates shades for a color.
 
-Shades are the result of a color mixed with black.
+#### Calls
 
-#### Parameters
++ `variant.shades(contrast)(limit)(color)`
++ `variant.shades(contrast, limit)(color)`
++ `variant.shades(contrast, limit, color)`
 
-+ `color: Color`: an input color
-+ `withContrast?: Percent = 97`: contrast between variant values
-+ `upToRange?: Limit = 3`: variant output limit
+#### Params
 
-#### Return
++ `contrast: number`: overall shade contrast (as a percentage)
++ `limit: number`: the number of shades to output
++ `color: string`: the input color
 
-`Variant`: an array of `Color` as shades
+#### Returns
+
+`string[]`: an array of shades from dark to darkest
 
 #### Example
 
 ```js
-variant.shades('#348ec9');
+const swatch = '#bada55';
 
-// can change the contrast
-variant.shades('#348ec9', 80);
+// create 2 shades with 90% contrast
+const shade = variant.shades(90, 2);
 
-// can also adjust the range
-variant.shades('#348ec9', 90, 5);
+shade(swatch);
 ```
-
-
 ## Typography Functions
+
+The typography module contains a sole function `system()` that creates system font stacks.
 
 ### typography.system
 
-Outputs system font stacks.
+This function outputs [OS font stacks](http://systemfontstack.com) based on the keys passed in.
 
+#### Calls
+
++ `typography.system(...fonts)`
++ `typography.system()`
+
+#### Params
+
++ `fonts: string | string[] | undefined`: the font stacks you want (`sans`, `serif`, `monospace`)
+
+#### Returns
+
+`string | string[]`: your OS stacks as arrays or a string if only one parameter
+
+#### Example
 ```js
-// By default, calling will output all available system stacks
-typography.system()
+// single stack
+const stack = typography.system('sans');
 
-// But you can also use one family
-typography('sans');
+// multiple
+const [sans, mono] = typography.system('sans', 'monospace');
 
-// or two
-typography.system('sans', 'monospace');
+// all
+const [sans, serif, mono] = typography.system()
 ```
-
-#### Values
-
-| Family      | Stack                                                        |
-| ----------- | ------------------------------------------------------------ |
-| `sans`      | `-apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif` |
-| `serif`     | `Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol` |
-| `monospace` | `Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace` |
-
-
 ## Scale Functions
+
+Scale functions allow you to create, update, merge, and output [modular scales](https://modularscale.com). You can use them for your content, layout, proportion, or anywhere else in your design that requires consistent values.
 
 ### scale.create
 
-Creates a modular from a `base` and `ratio` with the option to set an output `limit`.
+This function creates a new modular scale.
 
+#### Calls
+
++ `scale.create(ratio)(limit)(base)`
++ `scale.create(ratio, limit)(base)`
++ `scale.create(ratio, limit, base)`
+
+#### Params
+
++ `ratio: string | number`: any named ratio or custom ratio
++ `limit: number`: the number of values to output
++ `base: number`: base scale value (can be integer or decimal)
+
+#### Returns
+
+`number[]`: values of a modular scale (base included)
+
+#### Example
 ```js
-// Creates a scale with a base of 1, the golden
-// ratio and 6 values by default
-scale.create();
+const base = 1;
 
-// Passing in another base
-scale.create(1.125);
+// create a modular scale using the golden ratio with 6 values
+const s = scale.create('golden', 6);
 
-// Ratios can be named
-scale.create(1, 'min7th')
-
-// Custom ratios are allowed
-scale.create(1, 2.25)
-
-// You can set a limit
-scale.create(1, 'maj3rd', 8);
-
-// You can invert the scale (divide)
-scale.create(1, 'maj3rd', 8, true)
+s(base);
 ```
+#### Notes
 
-#### Ratios
++ No internal conversions are performed on the base value. It trusts that you know exactly what you want.
 
-All ratios have been borrowed from [modularscale.com](https://modularscale.com). Except `golden` which was calculated from the 15th and 16th values of a Fibonacci sequence.
+#### Named Ratios
 
-| Key        | Value                      |
-| ---------- | -------------------------- |
-| `min2nd`   | `1.067`                    |
-| `maj2nd`   | `1.125`                    |
-| `min3rd`   | `1.2`                      |
-| `maj3rd`   | `1.25`                     |
-| `perf4th`  | `1.333`                    |
-| `dim5th`   | `1.414`                    |
-| `min6th`   | `1.6`                      |
-| `golden`   | `1.6180371352785146`       |
-| `maj6th`   | `1.667`                    |
-| `min7th`   | `1.778`                    |
-| `maj7th`   | `1.875`                    |
-| `octave`   | `2`                        |
-| `maj10th`  | `2.5`                      |
-| `maj12th`  | `3`                        |
-| `x2octave` | `4`                        |
+Below is a table of all the available named ratios you can use when creating a scale.
 
-### scale.modify
 
-Modify a new or existing `scale` with `n` and a `modifier` function.
+| ratio =             | value                      |
+| ------------------- | -------------------------- |
+| `min2nd`            | `1.067`                    |
+| `maj2nd`            | `1.125`                    |
+| `min3rd`            | `1.2`                      |
+| `maj3rd`            | `1.25`                     |
+| `perf4th`           | `1.333`                    |
+| `aug4th`/`dim5th`   | `1.414`                    |
+| `perf5th`           | `1.5`                      |
+| `min6th`            | `1.6`                      |
+| `golden`            | `1.6180371352785146`       |
+| `maj6th`            | `1.667`                    |
+| `min7th`            | `1.778`                    |
+| `maj7th`            | `1.875`                    |
+| `octave`            | `2`                        |
+| `maj10th`           | `2.5`                      |
+| `maj12th`           | `3`                        |
+| `x2octave`          | `4`                        |
 
+### scale.update
+
+This function processes scale values with a modifier and outputs a new, updated scale.
+
+#### Calls
+
++ `scale.update(modifier)(scale)`
++ `scale.update(modifier, scale)`
+
+#### Params
+
++ `modifier: (value: number) => number`: the function to modify each scale value
++ `scale: number[]`: the scale to update
+
+#### Returns
+
+`number[]`: a new updated scale as raw values
+
+#### Example 
 ```js
-// add ten to each value in the scale
-scale.modify(scale.create(), 10, (n, v) => n + v)
-```
+const base = 1
+const original = scale.create('maj3rd', 8);
 
+// double each value
+const double = scale.update(v => v * 2);
+
+scale.pipe(original, double)(base);
+```
 ### scale.merge
 
-Merges `scales` and removes any duplicate values. Recommended not to merge more than three or use dissonant bases or ratios.
+This function takes two or more scales and merges them into a single scale with unique values.
 
+#### Call
+
++ `scale.merge(...scales)`
+
+#### Params
+
++ `scales: number[][]`: the scales to merge
+
+#### Returns
+
+`number[]`: the merged scales
+
+#### Example
 ```js
-const first = scale.create();
-const second = scale.create(1.25);
-const third = scale.create(1.5);
+const base = 1;
 
-scale.merge(first, second, third);
+const shared = scale.create('golden', 6);
+
+// merge two scales with the same ratio and limit, but different base values
+const first = shared(base);
+const second = shared(base * 2);
+
+const multithread = scale.merge;
+
+multithread(first, second);
 ```
-
 ### scale.output
 
-Outputs a scale with the desired `unit`. Accepts `ch`, `'(r)em`, `ex`, `v(w | h | min | max)` `px`.
+This function takes a raw scale and attaches any valid CSS unit to each value.
 
+#### Calls
+
++ `scale.output(unit)(scale)`
++ `scale.output(unit, scale)`
+
+#### Params
+
++ `unit: string`: any valid CSS unit
++ `scale`: the scale to transform
+
+#### Returns
+
+`string[]`: a ready-to-use modular scale
+
+#### Example
 ```js
-// By default, it returns 'rem' units
-scale.output(scale.create());
+const content = scale.create('perf5th', 8, 16);
 
-// Allows you to use another unit
-scale.output(scale.create(), 'em');
+// output scale as px
+const asPixels = scale.output('px');
 
+asPixels(content);
 ```
