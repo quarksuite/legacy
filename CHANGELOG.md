@@ -2,7 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).‘’
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## v3.0.0
+
+### Changed
+
++ `hue`, `saturation`, `lightness` reduced to one function `color.adjust`. [See the API](API.md)
++ `scale.modify` renamed `scale.update`
++ Entire structure overhauled to be more declarative, functions curried
++ `pipe` composition helper added to `color` and `scale` modules
++ Entirely rewritten and ordered documentation
+
+### Added
+
++ `color.a11y`: a function that accepts a color and grabs its [clrs.cc](http://clrs.cc) accessible default if it exists
+
+### Fixed
+
++ more logical errors with color creation, manipulation, and conversion have been resolved
++ reduced overall library size
++ removed some unneeded arguments. [See the API](API.md) 
 
 ## v2.4.1
 
