@@ -34,7 +34,7 @@ Table of Contents
 
 ## Summary
 
-Quarksuite is a tool for front-end developers, designers, and front-end designers that treats core visual elements as data.
+Quarksuite is a tool for developers, designers, and front-end designers that treats core visual elements as data.
 
 It [adjusts colors](API.md#color-functions). It [generates schemes](API.md#scheme-functions). It creates [full palettes](API.md#variant-functions). And it defines [modular scales](API.md#scale-functions) for content and layout. As a bonus, it also provides [operating system font stacks](API.md#typography-functions) to aid rapid prototyping.
 
