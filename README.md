@@ -20,13 +20,14 @@ Table of Contents
   - [Prototyping](#prototyping)
   - [Advanced Demonstration](#advanced-demonstration)
 - [What's Next?](#whats-next)
+- [API](#api)
+- [Contributing](#contributing)
 - [Concept](#concept)
 - [Project Objectives](#project-objectives)
   - [Small, Yet Complete](#small-yet-complete)
   - [Work the Way You Work](#work-the-way-you-work)
   - [Zero Lock-In](#zero-lock-in)
   - [Familiarity](#familiarity)
-- [Contributing](#contributing)
 - [Thanks to:](#thanks-to)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -35,9 +36,9 @@ Table of Contents
 
 Quarksuite is a tool for front-end developers, designers, and front-end designers that treats core visual elements as data.
 
-It [adjusts colors](#color-functions). It [generates schemes](#scheme-functions). It creates [full palettes](#variant-functions). And it defines [modular scales](#scale-functions) for content and layout. As a bonus, it also provides [operating system font stacks](#typography-functions) to aid rapid prototyping.
+It [adjusts colors](API.md#color-functions). It [generates schemes](API.md#scheme-functions). It creates [full palettes](API.md#variant-functions). And it defines [modular scales](API.md#scale-functions) for content and layout. As a bonus, it also provides [operating system font stacks](API.md#typography-functions) to aid rapid prototyping.
 
-The goal here is to codify the consistency, order, and utility expected of good design. Thereby leaving more time for the personality, expression, and resonance that makes great design.
+The goal here is to codify the consistency, order, and utility expected of any good design. Thereby leaving more time for the personality, expression, and resonance that makes great design.
 
 I made this for myself first—as a developer/designer with a somewhat mathematically inclined sense of aesthetics.
 
@@ -220,55 +221,64 @@ module.exports.ms = {
 
 ## What's Next?
 
-Since each UI foundation created with Quarksuite is regular JavaScript, you can use it:
+Since each UI foundation created with Quarksuite is vanilla JavaScript, you can use it:
 
-+ as-is with any [CSS-in-JS approach](https://github.com/MicheleBertoli/css-in-js), 
++ as-is with any [CSS-in-JS approach](https://github.com/MicheleBertoli/css-in-js) 
 + with [Tailwind](https://tailwindcss.com/) 
 + as design tokens when transformed with [Style Dictionary](https://github.com/amzn/style-dictionary) or [Theo](https://github.com/salesforce-ux/theo)
 
 Really, any method that fits your actual workflow and tools is viable. It's up to you.
 
+## API
 
-## Concept
-
-Quarksuite is built around the idea that fundamental, **quantifiable** visual elements can be represented as another kind of dataset about our interfaces.
-
-[This isn't a new idea](https://css-tricks.com/what-are-design-tokens/).
-
-The library's domain is on a similar level&mdash;or just below design tokens. It uses a structure similar to projects like [Styled System](https://styled-system.com/) or [Ether](https://ether.thescenery.co/), but it doesn't ask you to use React.
-
-The library is designed to mirror the steps designers are likely to take while making these decisions on their own.
-
-## Project Objectives
-
-### Small, Yet Complete
-
-Quarksuite aims to have a chinchilla's footprint in size but remain flexible enough to allow you to create as simple or complex a foundation as you wish.
-
-### Work the Way You Work
-
-Quarksuite's structure begins and ends as data. It will impose no restrictions on how you structure, export, or use data.
-
-### Zero Lock-In
-
-Quarksuite should do its job and then go away. After creating your foundation, updates ought to be quick, frictionless, and not ask you to rewrite much. If you ever want to stop using this library, it should be as painless as uninstalling it.
-
-### Familiarity
-
-Pursue the most declarative structure possible. Using this library ought to be as intuitive as the process designers work through without it.
+You can [read the full API documentation](API.md) for every module and available function.
 
 ## Contributing
 
-Please [read the contribution guidelines](CONTRIBUTING.md).
+You can read about [how to contribute](CONTRIBUTING.md) and the guidelines for this project.
+
+## Concept
+
+Quarksuite is built around the idea that fundamental, **quantifiable** visual elements can be represented as another category of data about our interfaces.
+
+[This isn't a new idea](https://css-tricks.com/what-are-design-tokens/).
+
+The library's domain is on a similar level&mdash;or just below design tokens. It allows a structure similar to projects like [Styled System](https://styled-system.com/) or [Ether](https://ether.thescenery.co/), but it doesn't ask you to use React.
+
+Quarksuite is designed to mirror the steps designers are likely to take while making these decisions on their own.
+
+## Project Objectives
+
+This the map guiding current and future development of this library. Any changes or feature requests that veer too far off this road will not be considered at this time.
+
+### Small, Nimble, Adaptive
+
++ Aims to stay compact in size but flexible
++ Make your data as light or heavy as you want
+
+### Work the Way You Work
+
++ Imposes no restrictions on structure, exporting, or using your data
+
+### Zero Lock-In
+
++ Does its job and leaves
++ Update your data quickly without extensive rewrites 
++ Detach from the library by writing your data to a JSON file
+
+### Familiarity
+
++ Pursues the most declarative structure possible 
++ Made to be as intuitive as the process designers work through themselves
 
 ## Thanks to:
 
-+ [Jon Kantner for: Converting Color Spaces in JavaScript](https://css-tricks.com/converting-color-spaces-in-javascript).  The internal color conversion functions borrow heavily from this article.
++ [Jon Kantner for: Converting Color Spaces in JavaScript](https://css-tricks.com/converting-color-spaces-in-javascript).  The internal color functions borrow heavily from this article and [color conversion formulas from RapidTables](https://www.rapidtables.com/convert/color/index.html).
 
 + [Folktale's](https://folktale.origamitower.com) implementation of [curry](https://folktale.origamitower.com/api/v2.3.0/en/folktale.core.lambda.curry.curry.html) and [compose.all](https://folktale.origamitower.com/api/v2.3.0/en/folktale.core.lambda.compose.all.html) was vital in making the module functions more&hellip; modular.
 
-+ Every developer who gives me those moments of clarity as I learn functional programming and **when** to use it. 
++ Every developer who gives me moments of clarity as I learn functional programming and **when** to use it. 
 
-+ Every designer who opens my eyes to better ways of composing UI and reminds me that dev tools aren't everything.
++ Every designer who shows me better ways of composing UI and reminds me to be careful about my enthusiasm over developer tools.
 
-+ You, who considered this project enough to read this far.
++ You, who considered this project enough to reach the bottom of this Readme.

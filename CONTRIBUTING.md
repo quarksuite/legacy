@@ -1,29 +1,57 @@
-# Contributing
+# How to Contribute to Quarksuite
 
-First, I want to thank you for for your interest in helping the project grow. Since this is still a small, obscure library, I have no community-wide guidelines or a formal Code of Conduct. I’ll add them if they’re needed.
+*I'm still really new to maintaining open source projects. I won't attempt to write my own contribution guidelines from scratch. Instead these guidelines are lifted in part from @nayafia's [contributing template](https://github.com/nayafia/contributing-template).*
 
-For now, I do have a light set of rules.
+## Introduction
 
-## Guideline #1: Explain Your Issue Clearly
+First, I want to thank you. Both for your interest in this project and in improving it.
 
-If and when something breaks, please remember to be thorough so we can figure out the problem together. I’ll try to be as prompt as I can, but I ask that you help me help you. When submitting an issue, include if applicable:
+Following these guidelines will go a long way toward helping me to help you. Whether it's with usage issues, bug triage, or assessing and completing pull requests.
 
-+ The nature of your issue
-+ The error message returned by the terminal
-+ Your OS
-+ Your Node version
-+ The version of Quarksuite
-+ What you’ve already tried to fix
+## Contributions Welcome
 
-## Guideline #2: Be Patient
+I focus a lot on improving the core of this project, and while I stay on top of the documentation, something is bound to escape my notice. If you want to write tutorials, examples, improve the existing docs, or even share some of the cool ways you use this project, I absolutely welcome that.
 
-I understand it’s no fun when code breaks. I understand bug panic especially when a project is out in production. But I’m not in a habit of rushing, and it’s best to take that into account.
+If you're an experienced functional programmer with suggestions on improving the source code, or willing to point out where I overdid it, I'd definitely appreciate your help. I'm still learning my way through this very project, which explains its rapid release schedule up through v3.
 
-I take a lot of breaks from the Internet—sometimes for weeks. I have personal reasons for staying off. If you happen to run into an issue during my downtime, [submit an issue](https://github.com/quarksuite/core/issues) and I'll see to it when I'm back.
+## Caveats
 
-## Guideline #3: Keep the Stated Goals in Mind
+Some contributions will be accepted or rejected on a case-by-case basis.
 
-I’m thrilled that you want to submit a pull request. I appreciate that you put in the time and effort to improve and contribute to this project. I admit to having a particular vision for it that might be incompatible with a lot of feature requests and enhancements. If your contribution would veer the project away from [its goals](README.md#goals), I’m not gonna accept it. We can certainly discuss the code and its motivation, but I won’t merge it.
+I'm not currently looking for feature requests as I have a solid idea of this library's intended features and architecture. Unless it's something the community demands and shows that it would improve the experience and workflow.
 
-However, if your contribution would make the project smaller, faster, cleaner, and easier to understand while honoring its purpose: **please**  [submit a pull request](https://github.com/quarksuite/core/pulls). I’d really appreciate the help.
+Especially important to me is keeping the size of the library ~3-5KB (minified and gzipped). Any changes that jump this threshold, unless they demonstrate they well justify the exception, will not be considered.
 
+Any changes that fall outside any of the [project's other objectives][project obj] will also not be considered.
+
+None of the above is really a hard rejection. I'm just asking that you put a little more thought into why they would be necessary changes.
+
+## Ground Rules
+
+I understand that it's frustrating when software breaks, but open source maintainers&mdash;whether me or someone else&mdash;are not the real source of your ire. Nor are other members of the community who may try to help you.
+
+Your issue is the problem. Respond accordingly.
+
+Failing that, I have a [Code of Conduct][COC] under active enforcement. And please don't hesitate to call out when my own behavior as a project maintainer sets a bad example. It's there for my words and actions as well.
+
+## How to Report a Bug
+
+Solving your issue will go much smoother if you follow this outline:
+
++ Information about your environment (OS, Node version/browser)
++ What you expected would happen
++ What actually happened
++ The error thrown by your console, if any
++ The code that caused the issue, if applicable
++ What you've already tried to resolve your issue
+
+## Review Schedule
+
+I usually check out the project for issues and pull requests on a weekly basis. Honestly, I'm not on the internet that much anymore, but I'll try to get to your bugs and contributions as quickly as I can. If it seems to be taking a while, you can email me at: crjr.code@gmail.com and give me a nudge.
+
+## Code Style
+
+This project uses standard Prettier formatting and recommended ESLint TypeScript settings. These are checked before each commit.
+
+[project obj]: https://github.com/quarksuite/core/blob/master/README.md#project-objectives
+[COC]: https://github.com/quarksuite/core/blob/master/CODE_OF_CONDUCT.md

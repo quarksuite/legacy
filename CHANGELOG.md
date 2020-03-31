@@ -13,6 +13,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 + Entire structure overhauled to be more declarative, functions curried
 + `pipe` composition helper added to `color` and `scale` modules
 + Entirely rewritten and ordered documentation
++ `variant.create` renamed `variant.blend`
++ License changed to MIT
 
 ### Added
 
