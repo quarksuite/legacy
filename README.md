@@ -24,7 +24,7 @@ Table of Contents
 - [Contributing](#contributing)
 - [Concept](#concept)
 - [Project Objectives](#project-objectives)
-  - [Small, Yet Complete](#small-yet-complete)
+  - [Small, Nimble, Adaptive](#small-nimble-adaptive)
   - [Work the Way You Work](#work-the-way-you-work)
   - [Zero Lock-In](#zero-lock-in)
   - [Familiarity](#familiarity)
