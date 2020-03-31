@@ -36,7 +36,7 @@ Table of Contents
 
 Quarksuite is a tool for developers, designers, and front-end designers that treats core visual elements as data.
 
-It [adjusts colors](API.md#color-functions). It [generates schemes](API.md#scheme-functions). It creates [full palettes](API.md#variant-functions). And it defines [modular scales](API.md#scale-functions) for content and layout. As a bonus, it also provides [operating system font stacks](API.md#typography-functions) to aid rapid prototyping.
+It [adjusts colors](https://github.com/quarksuite/core/blob/master/API.md#color-functions). It [generates schemes](https://github.com/quarksuite/core/blob/master/API.md#scheme-functions). It creates [full palettes](https://github.com/quarksuite/core/blob/master/API.md#variant-functions). And it defines [modular scales](https://github.com/quarksuite/core/blob/master/API.md#scale-functions) for content and layout. As a bonus, it also provides [operating system font stacks](https://github.com/quarksuite/core/blob/master/API.md#typography-functions) to aid rapid prototyping.
 
 The goal here is to codify the consistency, order, and utility expected of any good design. Thereby leaving more time for the personality, expression, and resonance that makes great design.
 
@@ -231,11 +231,11 @@ Really, any method that fits your actual workflow and tools is viable. It's up t
 
 ## API
 
-You can [read the full API documentation](API.md) for every module and available function.
+You can [read the full API documentation](https://github.com/quarksuite/core/blob/master/API.md) for every module and available function.
 
 ## Contributing
 
-You can read about [how to contribute](CONTRIBUTING.md) and the guidelines for this project.
+You can read about [how to contribute](https://github.com/quarksuite/core/blob/master/CONTRIBUTING.md) and the guidelines for this project.
 
 ## Concept
 
