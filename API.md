@@ -235,6 +235,7 @@ This function converts a color to another CSS format.
 `string | (() => never)`: the converted color (or unchanged input color if same format), otherwise throw an error for invalid color
 
 #### Example
+
 ```js
 // convert a color to HSL format
 const toHSL = color.convert('hsl');
@@ -367,6 +368,7 @@ const tetradic = scheme.tetrad(45);
 square(swatch);
 tetradic(swatch);
 ```
+
 ## Variant Functions
 
 The variant functions create blends, tints, tones, and shades. These complete your palette. You can adjust the contrast of the output as well as set a limit.
@@ -408,6 +410,7 @@ const blendAqua = variant.blend(color.a11y('aqua'), 75, 5);
 blendLime(swatch);
 blendAqua(swatch);
 ```
+
 ### variant.tints
 
 Creates tints for a color.
@@ -500,6 +503,7 @@ const shade = variant.shades(90, 2);
 
 shade(swatch);
 ```
+
 ## Typography Functions
 
 The typography module contains a sole function `system()` that creates system font stacks.
@@ -522,6 +526,7 @@ This function outputs [OS font stacks](http://systemfontstack.com) based on the 
 `string | string[]`: your OS stacks as arrays or a string if only one parameter
 
 #### Example
+
 ```js
 // single stack
 const stack = typography.system('sans');
@@ -532,6 +537,7 @@ const [sans, mono] = typography.system('sans', 'monospace');
 // all
 const [sans, serif, mono] = typography.system()
 ```
+
 ## Scale Functions
 
 Scale functions allow you to create, update, merge, and output [modular scales](https://modularscale.com). You can use them for your content, layout, proportion, or anywhere else in your design that requires consistent values.
@@ -557,6 +563,7 @@ This function creates a new modular scale.
 `number[]`: values of a modular scale (base included)
 
 #### Example
+
 ```js
 const base = 1;
 
@@ -565,6 +572,7 @@ const s = scale.create('golden', 6);
 
 s(base);
 ```
+
 #### Notes
 
 + No internal conversions are performed on the base value. It trusts that you know exactly what you want.
@@ -612,15 +620,15 @@ This function processes scale values with a modifier and outputs a new, updated 
 `number[]`: a new updated scale as raw values
 
 #### Example 
+
 ```js
 const base = 1
 const original = scale.create('maj3rd', 8);
 
 // double each value
-const double = scale.update(v => v * 2);
-
-scale.pipe(original, double)(base);
+const double = scale.update(v => v * 2, original(base));
 ```
+
 ### scale.merge
 
 This function takes two or more scales and merges them into a single scale with unique values.
@@ -638,6 +646,7 @@ This function takes two or more scales and merges them into a single scale with 
 `number[]`: the merged scales
 
 #### Example
+
 ```js
 const base = 1;
 
@@ -651,6 +660,7 @@ const multithread = scale.merge;
 
 multithread(first, second);
 ```
+
 ### scale.output
 
 This function takes a raw scale and attaches any valid CSS unit to each value.
@@ -670,6 +680,7 @@ This function takes a raw scale and attaches any valid CSS unit to each value.
 `string[]`: a ready-to-use modular scale
 
 #### Example
+
 ```js
 const content = scale.create('perf5th', 8, 16);
 
@@ -677,4 +688,30 @@ const content = scale.create('perf5th', 8, 16);
 const asPixels = scale.output('px');
 
 asPixels(content);
+```
+
+### scale.pipe
+
+This function executes a chain of operations from right to left on a scale.
+
+#### Calls
+
++ `scale.pipe(...operations)(scale)`
+
+#### Params
+
++ `operations: Function[]`: the chain of functions to execute on a scale
++ `scale: number[]`: the scale to be operated on
+
+#### Example
+
+```js
+const base = 1;
+const original = scale.create('maj3rd', 8, base);
+
+const update = scale.update(v => v / 3);
+const asRems = scale.output('rem');
+
+// pipe operations to end up with a rem value output
+scale.pipe(asRems, update)(original)
 ```
