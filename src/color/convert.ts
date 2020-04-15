@@ -129,30 +129,33 @@ const calcHSL = (r: number, g: number, b: number): number[] => {
   return [h, s, l];
 };
 
-// Hex -> RGB
-const hexToRGB = (hex: string): string => {
-  let output = [];
+const formatHexValues = (hex: string): (string | string[])[] => {
   const [, ...values] = hex;
 
-  if (values.length == 3) {
-    const [R, G, B] = values;
-    output = [
-      [R, R],
-      [G, G],
-      [B, B]
-    ].map(([x, y]: string[]): number => hexToInt(x, y));
-  } else {
-    const [R, R2, G, G2, B, B2] = values;
-    output = [
-      [R, R2],
-      [G, G2],
-      [B, B2]
-    ].map(([x, y]: string[]): number => hexToInt(x, y));
-  }
+  return values.length === 3
+    ? values.map((C: string): string[] => C.repeat(2).split(""))
+    : values
+        .map((C: string, i: number, a: string[]): string[] | string => {
+          switch (i) {
+            case 0:
+            case 2:
+            case 4:
+              return [C, a[i + 1]];
+          }
+          return C;
+        })
+        .filter((v: string[] | string): boolean => Array.isArray(v));
+};
 
-  const [r, g, b] = output;
+const parseHex = (hex: string): number[] =>
+  formatHexValues(hex).map(([x, y]: string | string[]): number =>
+    hexToInt(x, y)
+  );
 
-  return `rgb(${r}, ${g}, ${b})`;
+// Hex -> RGB
+const hexToRGB = (hex: string): string => {
+  const [R, G, B] = parseHex(hex);
+  return `rgb(${R}, ${G}, ${B})`;
 };
 
 // RGB -> Hex
@@ -176,14 +179,12 @@ const rgbToHSL = (rgb: string): string => {
 
 // Hex -> W3C color
 const hexToW3C = (hex: string): string => {
-  let output: string;
-
-  if (hex.length == 4) {
-    const [hash, R, G, B] = hex;
-    output = [hash, R, R, G, G, B, B].join("");
-  } else {
-    output = hex;
-  }
+  const output = formatHexValues(hex).reduce(
+    (acc: string, v: string | string[]) => {
+      return acc.concat(...v);
+    },
+    "#"
+  );
 
   const found = Object.keys(w3c).filter((named: string) => {
     return output === w3c[named];
