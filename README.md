@@ -38,7 +38,7 @@ Quarksuite is a tool for developers, designers, and front-end designers that tre
 
 It [adjusts colors](https://github.com/quarksuite/core/blob/master/API.md#color-functions). It [generates schemes](https://github.com/quarksuite/core/blob/master/API.md#scheme-functions). It creates [full palettes](https://github.com/quarksuite/core/blob/master/API.md#variant-functions). And it defines [modular scales](https://github.com/quarksuite/core/blob/master/API.md#scale-functions) for content and layout. As a bonus, it also provides [operating system font stacks](https://github.com/quarksuite/core/blob/master/API.md#typography-functions) to aid rapid prototyping.
 
-The goal here is to codify the consistency, order, and utility expected of any good design. Thereby leaving more time for the personality, expression, and resonance that makes great design.
+The goal here is to codify the consistency, utility, and order expected of any good design. Thereby leaving more time for the personality, expression, and resonance of great design.
 
 I made this for myself first—as a developer/designer with a somewhat mathematically inclined sense of aesthetics.
 
@@ -81,7 +81,7 @@ npx snowpack
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Quarksuite (v3.0.0) Example</title>
+    <title>Quarksuite (v3.1.x) Example</title>
   </head>
   <body>
     <script type="module" src="/index.js"></script>
@@ -102,11 +102,11 @@ OR
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Quarksuite (v3.0.0) Example</title>
+    <title>Quarksuite (v3.1.x) Example</title>
   </head>
   <body>
     <script type="module">
-      import { color, scheme, variant, typography, scale } from "https://unpkg.com/@quarksuite/core@3.0.0/dist-web/index.bundled.js"
+      import { color, scheme, variant, typography, scale } from "https://unpkg.com/@quarksuite/core"
       
       // Your baseline system
     </script>
@@ -119,32 +119,27 @@ OR
 ### Prototyping
 
 ```js
-const { color, variant, typography, scale } = require('@quarksuite/core');
+const { color, variant, typography, scale } = require("@quarksuite/core");
 
-// Monochromatic palette
-const main = 'gainsboro';
-const toRGB = color.convert('rgb');
-const [tints, shades] = [variant.tints(95, 4), variant.shades(95, 3)];
+const main = color.toRGB("gainsboro");
+const [tints, shades] = [variant.tints(95, 3), variant.shades(95, 2)];
 
 module.exports.palette = {
-  base: toRGB(main),
+  base: main,
   tints: tints(main),
-  shades: shades(main)
+  shades: shades(main),
 };
 
-// All system fonts
-const [sans, serif, mono] = typography.system();
+const [sans, mono] = typography.system("sans", "monospace");
 
 module.exports.fonts = {
   sans,
-  serif,
-  mono
+  mono,
 };
 
-// basic golden ratio modular scale
 const base = 1;
-const asRems = scale.output('rem');
-const content = scale.create('golden', 8);
+const asRems = scale.output("rem");
+const content = scale.create("golden", 6);
 
 module.exports.ms = scale.pipe(content, asRems)(base);
 ```
@@ -157,13 +152,13 @@ const {
   scheme,
   variant,
   typography,
-  scale
-} = require('@quarksuite/core');
+  scale,
+} = require("@quarksuite/core");
 
 // Color -> Color
-const swatch = color.a11y('blue');
-const desaturate = color.adjust('saturation', s => s - 15);
-const mixLime = color.mix(color.a11y('lime'), 25);
+const swatch = color.a11y("blue");
+const desaturate = color.adjust("saturation", (s) => s - 15);
+const mixLime = color.mix(color.a11y("lime"), 25);
 const colorInput = color.pipe(mixLime, desaturate);
 
 // Color -> Scheme
@@ -173,40 +168,38 @@ const [secondary, main, accent] = midAnalogous(colorInput(swatch));
 // Color -> Variant
 const [tints, shades] = [variant.tints(95, 3), variant.shades(95, 2)];
 
-const toRGB = color.convert('rgb');
-
 // Color -> Scheme | Variant -> Palette
 module.exports.palette = {
   main: {
-    base: toRGB(main),
+    base: main,
     tints: tints(main),
-    shades: shades(main)
+    shades: shades(main),
   },
   secondary: {
-    base: toRGB(secondary),
-    shades: shades(secondary)
+    base: secondary,
+    shades: shades(secondary),
   },
   accent: {
-    base: toRGB(accent),
-    shades: shades(accent)
-  }
+    base: accent,
+    shades: shades(accent),
+  },
 };
 
-const [sans, mono] = typography.system('sans', 'monospace');
+const [sans, mono] = typography.system("sans", "monospace");
 
 module.exports.fonts = {
   sans,
-  mono
+  mono,
 };
 
 // Prepare output
-const asRems = scale.output('rem');
-const asEms = scale.output('em');
+const asRems = scale.output("rem");
+const asEms = scale.output("em");
 
 // define scales
-const [base, ...content] = scale.create('golden', 6, 1);
-const layout = scale.create('octave', 4);
-const [b, i] = [layout(base), scale.update(v => v * 0.3125, layout(base))];
+const [base, ...content] = scale.create("golden", 6, 1);
+const layout = scale.create("octave", 4);
+const [b, i] = [layout(base), scale.update((v) => v * 0.3125, layout(base))];
 
 const [, ...block] = b;
 const inline = i;
@@ -215,7 +208,7 @@ module.exports.ms = {
   base,
   content: asRems(content),
   block: asRems(block),
-  inline: asEms(inline)
+  inline: asEms(inline),
 };
 ```
 
@@ -249,27 +242,25 @@ Quarksuite is designed to mirror the steps designers are likely to take while ma
 
 ## Project Objectives
 
-This the map guiding current and future development of this library. Any changes or feature requests that veer too far off this road will not be considered at this time.
+These are the principles guiding current and future development of the library. Any changes or feature requests that stray from this road will not be considered at this time.
 
 ### Small, Nimble, Adaptive
 
 + Aims to stay compact in size but flexible
 + Make your data as light or heavy as you want
 
-### Work the Way You Work
+### Works the Way You Work
 
-+ Imposes no restrictions on structure, exporting, or using your data
++ Imposes no restrictions on structuring, exporting, or using your data
 
 ### Zero Lock-In
 
-+ Does its job and leaves
 + Update your data quickly without extensive rewrites 
-+ Detach from the library by writing your data to a JSON file
++ Detach from the library at any time
 
 ### Familiarity
 
-+ Pursues the most declarative structure possible 
-+ Made to be as intuitive as the process designers work through themselves
++ A focus on allowing the most declarative structure possible 
 
 ## Thanks to:
 

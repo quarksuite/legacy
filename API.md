@@ -1,6 +1,4 @@
-# API (v3.0.0)
-
-*The modules in v3.0.0 of Quarksuite come with curried functions. You can [read more about currying](https://medium.com/@kbrainwave/currying-in-javascript-ce6da2d324fe) in this article*.
+# API (v3.1.0)
 
 You can [try out all examples on RunKit](https://npm.runkit.com/%40quarksuite%2Fcore).
 
@@ -33,8 +31,8 @@ This function executes operations in a right to left order on a color.
 
 ```js
 const swatch = color.a11y('orange');
-const desat = color.adjust('saturation', s => s - 10); // valid: standby argument is color
-const mixRed = color.mix(color.a11y('red'), 45); // valid: standby argument is color
+const desat = color.adjust('saturation', s => s - 10);
+const mixRed = color.mix(color.a11y('red'), 45);
 
 // color -> desaturate color by 10% -> mix 45% with red -> color
 color.pipe(mixRed, desat)(swatch)
@@ -53,13 +51,13 @@ This function matches the colors [defined on clrs.cc](http://clrs.cc) to provide
 
 + `color.a11y(color)`
 
-#### Params
+#### Param
 
 `color: string`: the color to query for its accessible counterpart
 
 #### Returns
 
-`string | (() => never)`: the found color as `rgb()` or an error
+`string | Error`: the found color as `rgb()` or an error
 
 #### Example
 
@@ -169,7 +167,7 @@ This function fetches the complement of a color.
 
 + `color.complement(color)`
 
-#### Params
+#### Param
 
 + `color: string`: the input color
 
@@ -196,7 +194,7 @@ This function neutralizes a color with its complement.
 
 + `color.negate(color)`
 
-#### Params
+#### Param
 
 + `color: string`: the input color
 
@@ -216,36 +214,103 @@ color.negate(swatch);
 color.mix(color.complement(swatch), 50)(swatch);
 ```
 
-### color.convert
+## Conversion Functions
 
-This function converts a color to another CSS format.
+*v3.1 split the former color.convert function into discrete format functions reflecting how they were used anyway*
 
-#### Calls
+### color.toHex
 
-+ `color.convert(to)(color)`
-+ `color.convert(to, color)`
+This function converts a color to a hexadecimal format.
 
-#### Params
+#### Call
 
-+ `to: string`: the output format (`hex`, `rgb`, `hsl`, `w3c`)
++ `color.toHex(color)`
+
+#### Param
+
 +  `color: string`: the input color
 
 #### Return
 
-`string | (() => never)`: the converted color (or unchanged input color if same format), otherwise throw an error for invalid color
+`string | Error`: the converted color (or unchanged input color if same format), otherwise throw an error for invalid color
 
 #### Example
 
 ```js
-// convert a color to HSL format
-const toHSL = color.convert('hsl');
-
-toHSL('red');
+color.toHex('red');
 ```
 
-#### Notes
+### color.toHSL
 
-+ every color function does a conversion internally to output as `rgb()`, so an invalid color is immediately detected
+This function converts a color to HSL format.
+
+#### Call
+
++ `color.toHSL(color)`
+
+#### Param
+
++  `color: string`: the input color
+
+#### Return
+
+`string | Error`: the converted color (or unchanged input color if same format), otherwise throw an error for invalid color
+
+#### Example
+
+```js
+color.toHSL('#c0ffee');
+```
+
+### color.toRGB
+
+This function converts a color to RGB format.
+
+#### Call
+
++ `color.toRGB(color)`
+
+#### Param
+
++  `color: string`: the input color
+
+#### Return
+
+`string | Error`: the converted color (or unchanged input color if same format), otherwise throw an error for invalid color
+
+#### Example
+
+```js
+color.toRGB('#deaded');
+```
+
+### color.toW3C
+
+This function converts a color to its w3c name if it exists.
+
+#### Call
+
++ `color.toW3C(color)`
+
+#### Param
+
++  `color: string`: the input color
+
+#### Return
+
+`string | Error`: the converted color (or unchanged input color if same format), otherwise throw an error for invalid color
+
+#### Example
+
+```js
+color.toW3C('#deaded');
+```
+
+#### Note
+
+Internally, HSL conversions are *close enough* and not precise.
+
+The rounding of saturation and lightness percentages causes the lookup for this format to fail. This behavior may be patched in the future.
 
 ## Scheme Functions
 
