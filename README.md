@@ -1,9 +1,10 @@
-![npm (scoped)](https://img.shields.io/npm/v/@quarksuite/core?label=release&logo=npm&style=for-the-badge)
-![Travis (.org)](https://img.shields.io/travis/quarksuite/core?logo=travis&style=for-the-badge)
-![Coveralls github](https://img.shields.io/coveralls/github/quarksuite/core?logo=coveralls&style=for-the-badge)
+[![NPM Version](https://img.shields.io/npm/v/@quarksuite/core?label=release&logo=npm&style=for-the-badge)](https://npmjs.com/package/@quarksuite/core)
+[![Travis CI](https://img.shields.io/travis/quarksuite/core?logo=travis&style=for-the-badge)](https://travis-ci.com/github/quarksuite/core)
+[![Coveralls](https://img.shields.io/coveralls/github/quarksuite/core?logo=coveralls&style=for-the-badge)](https://coveralls.io/github/quarksuite/core)
 ![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/quarksuite/core?style=for-the-badge)
-![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/@quarksuite/core?style=for-the-badge)
-![GitHub](https://img.shields.io/github/license/quarksuite/core?style=for-the-badge)
+[![Minzipped bundle](https://img.shields.io/bundlephobia/minzip/@quarksuite/core?style=for-the-badge)](https://bundlephobia.com/result?p=@quarksuite/core)
+[![License: MIT](https://img.shields.io/github/license/quarksuite/core?style=for-the-badge)](https://github.com/quarksuite/core/blob/master/LICENSE)
+
 # Quarksuite
 
 ![Quarksuite Logo](assets/logo.png)
