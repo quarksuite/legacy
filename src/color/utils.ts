@@ -1,6 +1,11 @@
-import * as convert from "./convert";
+import { parseHSL, toPercentage, toFraction, toHSL, toRGB } from "./convert";
+import { compose } from "../toolbox";
 
 // Color modification utils
+
+// Original algorithm modified from:
+// https://github.com/PimpTrizkit/PJs/wiki/12.-Shade,-Blend-and-Convert-a-Web-Color-(pSBC.js)#micro-functions-version-4
+// Though, with the linear blend function excluded
 const calculateDifference = (
   origin: number,
   target: number,
@@ -35,9 +40,9 @@ export const modify = (
   modifier: (current: number) => number,
   color: string
 ): string => {
-  const values = convert.parseHSL(convert.format("hsl", color));
+  const values = compose(parseHSL, toHSL)(color);
   let [H] = values;
-  let [, S, L] = values.map((v: number) => convert.toPercentage(v));
+  let [, S, L] = values.map((v: number) => toPercentage(v));
 
   // Putting H, S, L in an array to allow the modifier access to
   // the currentValue nudges me as a little inefficient,
@@ -58,7 +63,7 @@ export const modify = (
     L = normalization(0, 100, l);
   }
 
-  return convert.format("rgb", `hsl(${H}, ${S}%, ${L}%)`);
+  return toRGB(`hsl(${H}, ${S}%, ${L}%)`) as string;
 };
 
 export const mixColors = (
@@ -66,12 +71,10 @@ export const mixColors = (
   amount: number,
   color: string
 ): string => {
-  // Convert arguments to RGB
-  const [R, G, B] = calculateMix(
-    convert.format("rgb", color),
-    convert.format("rgb", target),
-    convert.toFraction(amount)
-  );
+  const colorToRGB = toRGB(color) as string;
+  const targetToRGB = toRGB(target) as string;
+
+  const [R, G, B] = calculateMix(colorToRGB, targetToRGB, toFraction(amount));
 
   return `rgb(${R}, ${G}, ${B})`;
 };
@@ -82,8 +85,8 @@ export const createBlend = (
   limit: number,
   color: string
 ): string[] => {
-  const colorToRGB = convert.format("rgb", color);
-  const targetToRGB = convert.format("rgb", target);
+  const colorToRGB = toRGB(color) as string;
+  const targetToRGB = toRGB(target) as string;
 
   return Array.from(Array(limit).fill(colorToRGB))
     .map((value: string, index: number): string => {

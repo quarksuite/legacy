@@ -6,10 +6,9 @@ describe("Color functions", () => {
     test("can grab accessible defaults", () => {
       expect(color.a11y("teal")).toBe("rgb(57, 204, 204)");
     });
-    test("rejects undefined colors", () => {
-      expect(color.a11y("wheat")).toThrowError(
-        "Color wheat is not defined (See http://clrs.cc)"
-      );
+    test("rejects unlisted colors", () => {
+      const error = (): string | Error => color.a11y("wheat");
+      expect(error).toThrowError("accessibility table");
     });
   });
   describe("color.adjust(): Color", () => {
@@ -50,58 +49,100 @@ describe("Color functions", () => {
       expect(color.negate(input)).toBe("rgb(148, 128, 147)");
     });
   });
-  describe("color.convert(): Color", () => {
-    test("convert Hex to RGB", () =>
-      expect(color.convert("rgb", "#499aa0")).toBe("rgb(73, 154, 160)"));
-    test("convert Hex to HSL", () =>
-      expect(color.convert("hsl", "#499aa0")).toBe("hsl(184, 37%, 46%)"));
-    test("convert Hex to w3c", () =>
-      expect(color.convert("w3c", "#663399")).toBe("rebeccapurple"));
-    test("convert Hex to Hex", () =>
-      expect(color.convert("hex", "#663399")).toBe("#663399"));
-    test("convert Hex3 works", () =>
-      expect(color.convert("rgb", "#bad")).toBe("rgb(187, 170, 221)"));
+  describe("color.toHex(): Color", () => {
+    test("fails with invalid format", () => {
+      const error = (): string | Error => color.toHex("#banana");
+      expect(error).toThrow("cannot be converted");
+    });
+    test("does nothing with same format", () => {
+      expect(color.toHex("#348ec9")).toBe("#348ec9");
+    });
+    test("converts RGB colors", () => {
+      expect(color.toHex("rgb(30, 220, 180)")).toBe("#1edcb4");
+      expect(color.toHex("rgb(66%, 60%, 45%)")).toBe("#a89973");
+    });
+    test("converts HSL colors", () => {
+      expect(color.toHex("hsl(10, 40%, 60%)")).toBe("#c27e70");
+      expect(color.toHex("hsl(10deg, 40%, 60%)")).toBe("#c27e70");
+      expect(color.toHex("hsl(5rad, 40%, 60%)")).toBe("#af70c2");
+      expect(color.toHex("hsl(0.49turn, 40%, 80%)")).toBe("#e0b8b8");
+    });
+    test("converts w3c colors", () => {
+      expect(color.toHex("wheat")).toBe("#f5deb3");
+      expect(color.toHex("dodgerblue")).toBe("#1e90ff");
+      expect(color.toHex("orchid")).toBe("#da70d6");
+    });
+  });
+  describe("color.toHSL(): Color", () => {
+    test("fails with invalid format", () => {
+      const error = (): string | Error => color.toHSL("rgb(30a, 339, 0)");
+      expect(error).toThrow("cannot be converted");
+    });
+    test("does nothing with same format", () => {
+      expect(color.toHSL("hsl(330, 25%, 75%)")).toBe("hsl(330, 25%, 75%)");
+    });
+    test("converts Hex colors", () => {
+      expect(color.toHSL("#40c00a")).toBe("hsl(102, 90%, 40%)");
+      expect(color.toHSL("#bad")).toBe("hsl(260, 43%, 77%)");
+    });
+    test("converts RGB colors", () => {
+      expect(color.toHSL("rgb(10, 150, 100)")).toBe("hsl(159, 88%, 31%)");
+      expect(color.toHSL("rgb(32%, 48%, 68%)")).toBe("hsl(214, 36%, 50%)");
+    });
+    test("converts w3c colors", () => {
+      expect(color.toHSL("wheat")).toBe("hsl(39, 77%, 83%)");
+      expect(color.toHSL("dodgerblue")).toBe("hsl(210, 100%, 56%)");
+      expect(color.toHSL("orchid")).toBe("hsl(302, 59%, 65%)");
+    });
+  });
+  describe("color.toRGB(): Color", () => {
+    test("fails with invalid format", () => {
+      const error = (): string | Error => color.toRGB("hsl(100%, 10p, 5c)");
+      expect(error).toThrow("cannot be converted");
+    });
+    test("does nothing with same format", () => {
+      expect(color.toRGB("rgb(15, 151, 115)")).toBe("rgb(15, 151, 115)");
+    });
+    test("converts Hex colors", () => {
+      expect(color.toRGB("#3030aa")).toBe("rgb(48, 48, 170)");
+      expect(color.toRGB("#a51")).toBe("rgb(170, 85, 17)");
+    });
+    test("converts HSL colors", () => {
+      expect(color.toRGB("hsl(30, 100%, 50%)")).toBe("rgb(255, 128, 0)");
+      expect(color.toRGB("hsl(30deg, 100%, 50%)")).toBe("rgb(255, 128, 0)");
+      expect(color.toRGB("hsl(2.25rad, 100%, 50%)")).toBe("rgb(221, 0, 255)");
+      expect(color.toRGB("hsl(0.32turn, 48%, 68%)")).toBe("rgb(213, 134, 134)");
+    });
+    test("converts w3c colors", () => {
+      expect(color.toRGB("wheat")).toBe("rgb(245, 222, 179)");
+      expect(color.toRGB("dodgerblue")).toBe("rgb(30, 144, 255)");
+      expect(color.toRGB("orchid")).toBe("rgb(218, 112, 214)");
+    });
+  });
 
-    test("convert RGB to Hex", () =>
-      expect(color.convert("hex", "rgb(73, 154, 160)")).toBe("#499aa0"));
-    test("convert RGB to HSL", () =>
-      expect(color.convert("hsl", "rgb(73, 154, 160)")).toBe(
-        "hsl(184, 37%, 46%)"
-      ));
-    test("convert RGB to w3c", () =>
-      expect(color.convert("w3c", "rgb(255, 0, 0)")).toBe("red"));
-    test("convert RGB to RGB", () =>
-      expect(color.convert("rgb", "rgb(255, 0, 0)")).toBe("rgb(255, 0, 0)"));
-    test("convert percentage RGB works", () =>
-      expect(color.convert("hex", "rgb(75%, 45%, 75%)")).toBe("#bf73bf"));
+  describe("color.toW3C(): Color", () => {
+    test("fails with invalid format", () => {
+      const error = (): string | Error => color.toRGB("redis");
+      expect(error).toThrow("cannot be converted");
+    });
+    test("does nothing with same format", () => {
+      expect(color.toW3C("firebrick")).toBe("firebrick");
+    });
+    test("fails when color is not found in w3c definitions", () => {
+      const error = (): string | Error => color.toW3C("#400acc");
+      expect(error).toThrow("does not map");
+    });
 
-    test("convert HSL to Hex", () =>
-      expect(color.convert("hex", "hsl(184, 37%, 46%)")).toBe("#4a9ba1"));
-    test("convert HSL to RGB", () =>
-      expect(color.convert("rgb", "hsl(184, 37%, 46%)")).toBe(
-        "rgb(74, 155, 161)"
-      ));
-    test("convert HSL to w3c", () =>
-      expect(color.convert("w3c", "hsl(120, 100%, 50%)")).toBe("lime"));
-    test("convert HSL to HSL", () =>
-      expect(color.convert("hsl", "hsl(3, 39%, 45%)")).toBe(
-        "hsl(3, 39%, 45%)"
-      ));
-    test("Hdeg works", () =>
-      expect(color.convert("hex", "hsl(42deg, 70%, 30%)")).toBe("#826217"));
-    test("Hrad works", () =>
-      expect(color.convert("hex", "hsl(0.15rad, 70%, 50%)")).toBe("#26d95f"));
-    test("Hturn works", () =>
-      expect(color.convert("hex", "hsl(0.35turn, 80%, 40%)")).toBe("#b81414"));
-
-    test("convert w3c to Hex", () =>
-      expect(color.convert("hex", "skyblue")).toBe("#87ceeb"));
-    test("convert w3c to RGB", () =>
-      expect(color.convert("rgb", "firebrick")).toBe("rgb(178, 34, 34)"));
-    test("convert w3c to HSL", () =>
-      expect(color.convert("hsl", "seagreen")).toBe("hsl(146, 50%, 36%)"));
-    test("convert w3c to w3c", () =>
-      expect(color.convert("w3c", "orange")).toBe("orange"));
+    test("converts Hex colors", () => {
+      expect(color.toW3C("#f5deb3")).toBe("wheat");
+    });
+    test("bug: does not map W3C -> HSL accurately", () => {
+      const error = (): string | Error => color.toW3C("hsl(302, 59%, 65%)");
+      expect(error).toThrow("does not map");
+    });
+    test("converts RGB colors", () => {
+      expect(color.toW3C("rgb(30, 144, 255)")).toBe("dodgerblue");
+    });
   });
 });
 

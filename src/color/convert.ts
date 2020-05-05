@@ -6,20 +6,24 @@ const intToHex = (x: number): string => x.toString(16).padStart(2, "0");
 const hexToInt = (s: string, s2: string): number => parseInt(s + s2, 16);
 const extractValue = (s: string): number => parseInt(s.replace(/\D+/g, ""));
 
-const checkFormat = (color: string, format: string): boolean => {
-  interface Format {
-    [index: string]: RegExp;
+const parseColor = (color: string): string => {
+  interface Categories {
+    [index: string]: RegExp | boolean;
   }
 
-  const list: Format = {
+  const formats: Categories = {
     hex: /^#([\da-f]{3}){1,2}$/i,
     rgb: /^rgb\((((((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5]),\s?)){2}|((((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5])\s)){2})((1?[1-9]?\d)|10\d|(2[0-4]\d)|25[0-5]))|((((([1-9]?\d(\.\d+)?)|100|(\.\d+))%,\s?){2}|((([1-9]?\d(\.\d+)?)|100|(\.\d+))%\s){2})(([1-9]?\d(\.\d+)?)|100|(\.\d+))%))\)$/i,
-    hsl: /^hsl\(((((([12]?[1-9]?\d)|[12]0\d|(3[0-5]\d))(\.\d+)?)|(\.\d+))(deg)?|(0|0?\.\d+)turn|(([0-6](\.\d+)?)|(\.\d+))rad)((,\s?(([1-9]?\d(\.\d+)?)|100|(\.\d+))%){2}|(\s(([1-9]?\d(\.\d+)?)|100|(\.\d+))%){2})\)$/i
+    hsl: /^hsl\(((((([12]?[1-9]?\d)|[12]0\d|(3[0-5]\d))(\.\d+)?)|(\.\d+))(deg)?|(0|0?\.\d+)turn|(([0-6](\.\d+)?)|(\.\d+))rad)((,\s?(([1-9]?\d(\.\d+)?)|100|(\.\d+))%){2}|(\s(([1-9]?\d(\.\d+)?)|100|(\.\d+))%){2})\)$/i,
+    w3c: !!w3c[color]
   };
 
-  if (format === "w3c") return w3c[color] !== undefined;
-
-  return list[format].test(color);
+  return Object.keys(formats)
+    .filter((category: string) => {
+      if (category === "w3c") return formats[category];
+      return (formats[category] as RegExp).test(color);
+    })
+    .join("");
 };
 
 export const toFraction = (v: number): number => v / 100;
@@ -72,12 +76,11 @@ const calcRGB = (h: number, s: number, l: number): number[] => {
 
   // Evaluate channels
   const [R, G, B] = Array.from(calcChannels(C, X, h))
-    .filter(([evaluation, condition]): number[] | null =>
-      condition ? evaluation : null
-    )[0][0]
-    .map((channel: number) => (channel + m) * 255);
+    .filter((result: [number[], boolean]): boolean => result[1])
+    .flatMap((result: [number[], boolean]): number[] => result[0])
+    .map((channel: number): number => Math.round((channel + m) * 255));
 
-  return [Math.round(R), Math.round(G), Math.round(B)];
+  return [R, G, B];
 };
 
 const parseRGB = (rgb: string): number[] => {
@@ -178,7 +181,7 @@ const rgbToHSL = (rgb: string): string => {
 };
 
 // Hex -> W3C color
-const hexToW3C = (hex: string): string => {
+const hexToW3C = (hex: string): string | Error => {
   const output = formatHexValues(hex).reduce(
     (acc: string, v: string | string[]) => {
       return acc.concat(...v);
@@ -190,7 +193,7 @@ const hexToW3C = (hex: string): string => {
     return output === w3c[named];
   })[0];
 
-  if (!found) throw Error(`${output} is not a w3c named color`);
+  if (!found) throw new Error("Color does not map to a color defined by w3c");
 
   return found;
 };
@@ -224,33 +227,50 @@ const w3cToHSL = (name: string): string => hexToHSL(w3c[name]);
 // W3C -> Hex
 const w3cToHex = (name: string): string => w3c[name];
 
-export const format = (to: string, input: string): string => {
-  switch (to) {
-    case "rgb":
-      if (checkFormat(input, "hex")) return hexToRGB(input);
-      if (checkFormat(input, "hsl")) return hslToRGB(input);
-      if (checkFormat(input, "w3c")) return w3cToRGB(input);
-      if (checkFormat(input, "rgb")) return input;
-      break;
-    case "hex":
-      if (checkFormat(input, "rgb")) return rgbToHex(input);
-      if (checkFormat(input, "hsl")) return hslToHex(input);
-      if (checkFormat(input, "w3c")) return w3cToHex(input);
-      if (checkFormat(input, "hex")) return input;
-      break;
-    case "hsl":
-      if (checkFormat(input, "hex")) return hexToHSL(input);
-      if (checkFormat(input, "rgb")) return rgbToHSL(input);
-      if (checkFormat(input, "w3c")) return w3cToHSL(input);
-      if (checkFormat(input, "hsl")) return input;
-      break;
-    case "w3c":
-      if (checkFormat(input, "hex")) return hexToW3C(input);
-      if (checkFormat(input, "rgb")) return rgbToW3C(input);
-      if (checkFormat(input, "hsl")) return hslToW3C(input);
-      if (checkFormat(input, "w3c")) return input;
-      break;
-  }
+const ColorError = (format: string): Error => {
+  return new Error("Invalid format cannot be converted to " + format);
+};
 
-  throw Error(`Invalid: ${input} is not a CSS color`);
+export const toHex = (color: string): string | Error => {
+  const format = parseColor(color);
+
+  if (format === "rgb") return rgbToHex(color);
+  if (format === "hsl") return hslToHex(color);
+  if (format === "w3c") return w3cToHex(color);
+  if (format === "hex") return color;
+
+  throw ColorError(format);
+};
+
+export const toHSL = (color: string): string | Error => {
+  const format = parseColor(color);
+
+  if (format === "hex") return hexToHSL(color);
+  if (format === "rgb") return rgbToHSL(color);
+  if (format === "w3c") return w3cToHSL(color);
+  if (format === "hsl") return color;
+
+  throw ColorError(format);
+};
+
+export const toRGB = (color: string): string | Error => {
+  const format = parseColor(color);
+
+  if (format === "hex") return hexToRGB(color);
+  if (format === "hsl") return hslToRGB(color);
+  if (format === "w3c") return w3cToRGB(color);
+  if (format === "rgb") return color;
+
+  throw ColorError(format);
+};
+
+export const toW3C = (color: string): string | Error => {
+  const format = parseColor(color);
+
+  if (format === "hex") return hexToW3C(color);
+  if (format === "hsl") return hslToW3C(color);
+  if (format === "rgb") return rgbToW3C(color);
+  if (format === "w3c") return color;
+
+  throw ColorError(format);
 };

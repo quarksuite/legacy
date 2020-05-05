@@ -1,4 +1,14 @@
-import { a11y, adjust, mix, complement, negate, convert } from "./color";
+import {
+  a11y,
+  adjust,
+  mix,
+  complement,
+  negate,
+  toHex,
+  toRGB,
+  toHSL,
+  toW3C
+} from "./color";
 import { complementary, analogous, triad, tetrad } from "./color/scheme";
 import { blend, tints, tones, shades } from "./color/variant";
 import { system } from "./typography";
@@ -12,7 +22,10 @@ export const color = {
   mix,
   complement,
   negate,
-  convert
+  toHex,
+  toHSL,
+  toRGB,
+  toW3C
 };
 
 export const scheme = {
