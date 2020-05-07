@@ -6,7 +6,7 @@ const intToHex = (x: number): string => x.toString(16).padStart(2, "0");
 const hexToInt = (s: string, s2: string): number => parseInt(s + s2, 16);
 const extractValue = (s: string): number => parseInt(s.replace(/\D+/g, ""));
 
-const parseColor = (color: string): string => {
+export const parseColor = (color: string): string => {
   interface Categories {
     [index: string]: RegExp | boolean;
   }

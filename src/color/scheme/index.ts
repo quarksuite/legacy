@@ -9,27 +9,27 @@ const scheme = curry(2, assemble);
 const splitOrigin = (offset: number, color: string): string[] =>
   scheme([
     adjust("hue", (h: number) => h - offset),
-    adjust("hue", (h: number) => h),
+    adjust("hue", (h: number) => h + 0),
     adjust("hue", (h: number) => h + offset)
   ])(color);
 
 const splitComplement = (offset: number, color: string): string[] =>
   scheme([
-    adjust("hue", (h: number) => h),
+    adjust("hue", (h: number) => h + 0),
     adjust("hue", (h: number) => h + 180 - offset),
     adjust("hue", (h: number) => h + 180 + offset)
   ])(color);
 
 const spreadOC = (offset: number, color: string): string[] =>
   scheme([
-    adjust("hue", (h: number) => h),
+    adjust("hue", (h: number) => h + 0),
     adjust("hue", (h: number) => h + 180),
     adjust("hue", (h: number) => h + offset),
     adjust("hue", (h: number) => h + 180 + offset)
   ])(color);
 
 export const complementary = scheme([
-  adjust("hue", (h: number) => h),
+  adjust("hue", (h: number) => h + 0),
   adjust("hue", (h: number) => h + 180)
 ]);
 

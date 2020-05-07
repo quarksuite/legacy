@@ -1,4 +1,12 @@
-import { parseHSL, toPercentage, toFraction, toHSL, toRGB } from "./convert";
+import {
+  parseHSL,
+  toPercentage,
+  toFraction,
+  toHex,
+  toHSL,
+  toRGB,
+  parseColor
+} from "./convert";
 import { compose } from "../toolbox";
 
 // Color modification utils
@@ -35,11 +43,22 @@ const calculateMix = (
 const normalization = (a: number, b: number, x: number): number =>
   Math.round(Math.min(Math.max(x, a), b));
 
+export const preserveInputFormat = (
+  target: string,
+  color: string
+): string | Error => {
+  const format = parseColor(color);
+
+  if (format === "rgb") return toRGB(target);
+  if (format === "hsl") return toHSL(target);
+  return toHex(target);
+};
+
 export const modify = (
   property: "hue" | "saturation" | "lightness",
   modifier: (current: number) => number,
   color: string
-): string => {
+): string | Error => {
   const values = compose(parseHSL, toHSL)(color);
   let [H] = values;
   let [, S, L] = values.map((v: number) => toPercentage(v));
@@ -60,20 +79,20 @@ export const modify = (
     L = normalization(0, 100, l);
   }
 
-  return toRGB(`hsl(${H}, ${S}%, ${L}%)`) as string;
+  return preserveInputFormat(`hsl(${H}, ${S}%, ${L}%)`, color);
 };
 
 export const mixColors = (
   target: string,
   amount: number,
   color: string
-): string => {
+): string | Error => {
   const colorToRGB = toRGB(color) as string;
   const targetToRGB = toRGB(target) as string;
 
   const [R, G, B] = calculateMix(colorToRGB, targetToRGB, toFraction(amount));
 
-  return `rgb(${R}, ${G}, ${B})`;
+  return preserveInputFormat(`rgb(${R}, ${G}, ${B})`, color);
 };
 
 export const createBlend = (
@@ -81,14 +100,10 @@ export const createBlend = (
   contrast: number,
   limit: number,
   color: string
-): string[] => {
-  const colorToRGB = toRGB(color) as string;
-  const targetToRGB = toRGB(target) as string;
-
-  return Array.from(Array(limit).fill(colorToRGB))
-    .map((value: string, index: number): string => {
+): (string | Error)[] =>
+  Array.from(Array(limit).fill(color))
+    .map((value: string, index: number): string | Error => {
       const amount = contrast - (contrast / limit) * index;
-      return mixColors(targetToRGB, amount, value);
+      return mixColors(target, amount, value);
     })
     .reverse();
-};

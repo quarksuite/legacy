@@ -4,7 +4,7 @@ describe("Color functions", () => {
   const input = "#348ec9";
   describe("color.a11y(): Color", () => {
     test("can grab accessible defaults", () => {
-      expect(color.a11y("teal")).toBe("rgb(57, 204, 204)");
+      expect(color.a11y("teal")).toBe("#39cccc");
     });
     test("rejects unlisted colors", () => {
       const error = (): string | Error => color.a11y("wheat");
@@ -14,113 +14,122 @@ describe("Color functions", () => {
   describe("color.adjust(): Color", () => {
     test("Double the value of current hue, then nudge 25 degrees left", () => {
       const hue = color.adjust("hue", (h: number) => h * 2 - 25);
-      expect(hue(input)).toBe("rgb(203, 110, 52)");
+      expect(hue(input)).toBe("#cb6e34");
     });
     test("Increase saturation by 30%", () => {
       const saturation = color.adjust("saturation", (s: number) => s + 30);
-      expect(saturation(input)).toBe("rgb(14, 150, 241)");
+      expect(saturation(input)).toBe("#0e96f1");
     });
     test("Darken by 10%", () => {
       const lightness = color.adjust("lightness", (l: number) => l - 10);
-      expect(lightness(input)).toBe("rgb(42, 114, 162)");
+      expect(lightness(input)).toBe("#2a72a2");
+    });
+
+    test("retains the format of the input color", () => {
+      const rgb = color.toRGB(input);
+      const hsl = color.toHSL(input);
+      const hue = color.adjust("hue", (h: number) => h * 2 - 25);
+
+      expect(hue(rgb)).toBe("rgb(203, 110, 52)");
+      expect(hue(hsl)).toBe("hsl(23, 59%, 50%)");
     });
   });
   describe("color.hue(): Color", () => {
     test("rotate 15 degrees right", () => {
       const hue = color.hue(15);
-      expect(hue(input)).toBe("rgb(52, 105, 203)");
+      expect(hue(input)).toBe("#3469cb");
     });
     test("rotate 72 degrees left", () => {
       const hue = color.hue(-72);
-      expect(hue(input)).toBe("rgb(52, 203, 82)");
+      expect(hue(input)).toBe("#34cb52");
     });
     test("allows rotation >360", () => {
       const hue = color.hue(400);
-      expect(hue(input)).toBe("rgb(62, 52, 203)");
+      expect(hue(input)).toBe("#3e34cb");
     });
     test("below bounds sets hue to 0", () => {
       const hue = color.hue(-720);
-      expect(hue(input)).toBe("rgb(203, 52, 52)");
+      expect(hue(input)).toBe("#cb3434");
     });
     test("exceeding bounds locks hue at 720", () => {
       const hue = color.hue(720);
-      expect(hue(input)).toBe("rgb(203, 52, 52)");
+      expect(hue(input)).toBe("#cb3434");
     });
     test("color.h alias works", () => {
-      const hue = color.h(720);
-      expect(hue(input)).toBe("rgb(203, 52, 52)");
+      const hue = color.h(45);
+      expect(hue(input)).toBe("#4b34cb");
     });
   });
   describe("color.saturation(): Color", () => {
     test("can saturate a color", () => {
-      const hue = color.saturation(25);
-      expect(hue(input)).toBe("rgb(20, 149, 235)");
+      const saturation = color.saturation(25);
+      expect(saturation(input)).toBe("#1495eb");
     });
     test("negative values desaturate", () => {
-      const hue = color.saturation(-32);
-      expect(hue(input)).toBe("rgb(93, 134, 162)");
+      const saturation = color.saturation(-32);
+      expect(saturation(input)).toBe("#5d86a2");
     });
     test("below bounds sets saturation to 0", () => {
-      const hue = color.saturation(-100);
-      expect(hue(input)).toBe("rgb(128, 128, 128)");
+      const saturation = color.saturation(-100);
+      expect(saturation(input)).toBe("#808080");
     });
     test("above bounds locks saturation at 100%", () => {
-      const hue = color.saturation(100 * 2);
-      expect(hue(input)).toBe("rgb(0, 153, 255)");
+      const saturation = color.saturation(100 * 2);
+      expect(saturation(input)).toBe("#0099ff");
     });
     test("color.s alias works", () => {
-      const hue = color.s(100 * 2);
-      expect(hue(input)).toBe("rgb(0, 153, 255)");
+      const saturation = color.s(2 + 15);
+      expect(saturation(input)).toBe("#1f93e0");
     });
   });
   describe("color.lightness(): Color", () => {
     test("can lighten a color", () => {
-      const hue = color.lightness(30);
-      expect(hue(input)).toBe("rgb(174, 210, 234)");
+      const lightness = color.lightness(30);
+      expect(lightness(input)).toBe("#aed2ea");
     });
     test("negative values darken", () => {
-      const hue = color.lightness(-15);
-      expect(hue(input)).toBe("rgb(37, 100, 142)");
+      const lightness = color.lightness(-15);
+      expect(lightness(input)).toBe("#25648e");
     });
     test("below bounds sets lightness to 0", () => {
-      const hue = color.lightness(-100);
-      expect(hue(input)).toBe("rgb(0, 0, 0)");
+      const lightness = color.lightness(-100);
+      expect(lightness(input)).toBe("#000000");
     });
     test("above bounds locks lightness at 100%", () => {
-      const hue = color.lightness(200);
-      expect(hue(input)).toBe("rgb(255, 255, 255)");
+      const lightness = color.lightness(200);
+      expect(lightness(input)).toBe("#ffffff");
     });
     test("color.luminance alias works", () => {
-      const hue = color.luminance(200);
-      expect(hue(input)).toBe("rgb(255, 255, 255)");
+      const lightness = color.luminance(15);
+      expect(lightness(input)).toBe("#71b0da");
     });
     test("color.l alias works", () => {
-      const hue = color.l(200);
-      expect(hue(input)).toBe("rgb(255, 255, 255)");
+      const lightness = color.l(40);
+      expect(lightness(input)).toBe("#d6e9f5");
     });
   });
   describe("color.mix(): Color", () => {
     test("Mix a color evenly", () => {
       const evenly = color.mix("coral", 50);
-      expect(evenly(input)).toBe("rgb(184, 135, 153)");
+      expect(evenly(input)).toBe("#b88799");
     });
     test("Mix a color more with target", () => {
       const moreOfTarget = color.mix("coral", 72);
-      expect(moreOfTarget(input)).toBe("rgb(218, 131, 126)");
+      expect(moreOfTarget(input)).toBe("#da837e");
     });
     test("Mix a color less with target", () => {
       const lessOfTarget = color.mix("coral", 30);
-      expect(lessOfTarget(input)).toBe("rgb(146, 138, 174)");
+      expect(lessOfTarget(input)).toBe("#928aae");
     });
   });
   describe("color.complement(): Color", () => {
     test("Grab the complement of a color", () => {
-      expect(color.complement(input)).toBe("rgb(203, 112, 52)");
+      expect(color.complement(input)).toBe("#cb7034");
     });
   });
   describe("color.negate(): Color", () => {
     test("Negate a color", () => {
-      expect(color.negate(input)).toBe("rgb(148, 128, 147)");
+      expect(color.negate(input)).toBe("#948093");
     });
   });
   describe("color.toHex(): Color", () => {
@@ -202,7 +211,6 @@ describe("Color functions", () => {
       expect(color.toRGB("orchid")).toBe("rgb(218, 112, 214)");
     });
   });
-
   describe("color.toW3C(): Color", () => {
     test("fails with invalid format", () => {
       const error = (): string | Error => color.toRGB("redis");
@@ -219,7 +227,7 @@ describe("Color functions", () => {
     test("converts Hex colors", () => {
       expect(color.toW3C("#f5deb3")).toBe("wheat");
     });
-    test("bug: does not map W3C -> HSL accurately", () => {
+    test("bug: does not map HSL -> W3C accurately", () => {
       const error = (): string | Error => color.toW3C("hsl(302, 59%, 65%)");
       expect(error).toThrow("does not map");
     });
@@ -236,22 +244,22 @@ describe("color.pipe(): Color", () => {
     const reduceSat = color.adjust("saturation", (s: number) => s - s / 4);
     const input = color.pipe(reduceSat, turnQuarterCircle);
 
-    expect(input(base)).toBe("rgb(32, 223, 128)");
+    expect(input(base)).toBe("#20df80");
   });
   test("scenario: begin with dodgerblue, mix 60% with lime, fetch complement of result, raise lightness by half", () => {
     const base = "dodgerblue";
-    const withLime = color.mix("lime", 60);
+    const withLime = color.mix(color.a11y("lime"), 60);
     const setLightness = color.adjust("lightness", (l: number) => l + l / 2);
     const input = color.pipe(setLightness, color.complement, withLime);
 
-    expect(input(base)).toBe("rgb(161, 239, 109)");
+    expect(input(base)).toBe("#a1ef8c");
   });
   test("scenario: begin with goldenrod, negate, raise saturation by 23%", () => {
     const base = "goldenrod";
     const setSaturation = color.adjust("saturation", (v: number) => v + 23);
     const input = color.pipe(setSaturation, color.negate);
 
-    expect(input(base)).toBe("rgb(174, 135, 174)");
+    expect(input(base)).toBe("#ae87ae");
   });
   test("scenario: begin with goldenrod, consecutively mix with red, yellow", () => {
     const base = "goldenrod";
@@ -259,6 +267,6 @@ describe("color.pipe(): Color", () => {
     const withYellow = color.mix("yellow", 50);
     const input = color.pipe(withYellow, withRed);
 
-    expect(input(base)).toBe("rgb(251, 108, 12)");
+    expect(input(base)).toBe("#fb6c0c");
   });
 });
