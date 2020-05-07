@@ -25,6 +25,80 @@ describe("Color functions", () => {
       expect(lightness(input)).toBe("rgb(42, 114, 162)");
     });
   });
+  describe("color.hue(): Color", () => {
+    test("rotate 15 degrees right", () => {
+      const hue = color.hue(15);
+      expect(hue(input)).toBe("rgb(52, 105, 203)");
+    });
+    test("rotate 72 degrees left", () => {
+      const hue = color.hue(-72);
+      expect(hue(input)).toBe("rgb(52, 203, 82)");
+    });
+    test("allows rotation >360", () => {
+      const hue = color.hue(400);
+      expect(hue(input)).toBe("rgb(62, 52, 203)");
+    });
+    test("below bounds sets hue to 0", () => {
+      const hue = color.hue(-720);
+      expect(hue(input)).toBe("rgb(203, 52, 52)");
+    });
+    test("exceeding bounds locks hue at 720", () => {
+      const hue = color.hue(720);
+      expect(hue(input)).toBe("rgb(203, 52, 52)");
+    });
+    test("color.h alias works", () => {
+      const hue = color.h(720);
+      expect(hue(input)).toBe("rgb(203, 52, 52)");
+    });
+  });
+  describe("color.saturation(): Color", () => {
+    test("can saturate a color", () => {
+      const hue = color.saturation(25);
+      expect(hue(input)).toBe("rgb(20, 149, 235)");
+    });
+    test("negative values desaturate", () => {
+      const hue = color.saturation(-32);
+      expect(hue(input)).toBe("rgb(93, 134, 162)");
+    });
+    test("below bounds sets saturation to 0", () => {
+      const hue = color.saturation(-100);
+      expect(hue(input)).toBe("rgb(128, 128, 128)");
+    });
+    test("above bounds locks saturation at 100%", () => {
+      const hue = color.saturation(100 * 2);
+      expect(hue(input)).toBe("rgb(0, 153, 255)");
+    });
+    test("color.s alias works", () => {
+      const hue = color.s(100 * 2);
+      expect(hue(input)).toBe("rgb(0, 153, 255)");
+    });
+  });
+  describe("color.lightness(): Color", () => {
+    test("can lighten a color", () => {
+      const hue = color.lightness(30);
+      expect(hue(input)).toBe("rgb(174, 210, 234)");
+    });
+    test("negative values darken", () => {
+      const hue = color.lightness(-15);
+      expect(hue(input)).toBe("rgb(37, 100, 142)");
+    });
+    test("below bounds sets lightness to 0", () => {
+      const hue = color.lightness(-100);
+      expect(hue(input)).toBe("rgb(0, 0, 0)");
+    });
+    test("above bounds locks lightness at 100%", () => {
+      const hue = color.lightness(200);
+      expect(hue(input)).toBe("rgb(255, 255, 255)");
+    });
+    test("color.luminance alias works", () => {
+      const hue = color.luminance(200);
+      expect(hue(input)).toBe("rgb(255, 255, 255)");
+    });
+    test("color.l alias works", () => {
+      const hue = color.l(200);
+      expect(hue(input)).toBe("rgb(255, 255, 255)");
+    });
+  });
   describe("color.mix(): Color", () => {
     test("Mix a color evenly", () => {
       const evenly = color.mix("coral", 50);
@@ -60,6 +134,9 @@ describe("Color functions", () => {
     test("converts RGB colors", () => {
       expect(color.toHex("rgb(30, 220, 180)")).toBe("#1edcb4");
       expect(color.toHex("rgb(66%, 60%, 45%)")).toBe("#a89973");
+      expect(color.toHex("rgb(0, 0, 0)")).toBe("#000000");
+      expect(color.toHex("rgb(255, 255, 255)")).toBe("#ffffff");
+      expect(color.toHex("rgb(200, 200, 200)")).toBe("#c8c8c8");
     });
     test("converts HSL colors", () => {
       expect(color.toHex("hsl(10, 40%, 60%)")).toBe("#c27e70");
@@ -88,6 +165,9 @@ describe("Color functions", () => {
     test("converts RGB colors", () => {
       expect(color.toHSL("rgb(10, 150, 100)")).toBe("hsl(159, 88%, 31%)");
       expect(color.toHSL("rgb(32%, 48%, 68%)")).toBe("hsl(214, 36%, 50%)");
+      expect(color.toHSL("rgb(0, 0, 0)")).toBe("hsl(0, 0%, 0%)");
+      expect(color.toHSL("rgb(255, 255, 255)")).toBe("hsl(0, 0%, 100%)");
+      expect(color.toHSL("rgb(200, 200, 200)")).toBe("hsl(0, 0%, 78%)");
     });
     test("converts w3c colors", () => {
       expect(color.toHSL("wheat")).toBe("hsl(39, 77%, 83%)");
@@ -112,6 +192,9 @@ describe("Color functions", () => {
       expect(color.toRGB("hsl(30deg, 100%, 50%)")).toBe("rgb(255, 128, 0)");
       expect(color.toRGB("hsl(2.25rad, 100%, 50%)")).toBe("rgb(221, 0, 255)");
       expect(color.toRGB("hsl(0.32turn, 48%, 68%)")).toBe("rgb(213, 134, 134)");
+      expect(color.toRGB("hsl(0, 0%, 0%)")).toBe("rgb(0, 0, 0)");
+      expect(color.toRGB("hsl(0, 0%, 100%)")).toBe("rgb(255, 255, 255)");
+      expect(color.toRGB("hsl(0, 0%, 78%)")).toBe("rgb(199, 199, 199)");
     });
     test("converts w3c colors", () => {
       expect(color.toRGB("wheat")).toBe("rgb(245, 222, 179)");

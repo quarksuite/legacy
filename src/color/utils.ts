@@ -44,9 +44,6 @@ export const modify = (
   let [H] = values;
   let [, S, L] = values.map((v: number) => toPercentage(v));
 
-  // Putting H, S, L in an array to allow the modifier access to
-  // the currentValue nudges me as a little inefficient,
-  // but it's good enough for the quick operations involved
   if (property === "hue") {
     // Allow multiple rotations on the color wheel
     const [h] = [H].map((current: number) => modifier(current));

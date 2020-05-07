@@ -9,6 +9,23 @@ export const a11y = (color: string): string | Error => {
 };
 
 export const adjust = curry(3, modify);
+
+const h = adjust("hue");
+const s = adjust("saturation");
+const l = adjust("lightness");
+
+export const hue = curry(2, (degrees: number, color: string): string =>
+  h((h: number) => h + degrees, color)
+);
+
+export const saturation = curry(2, (amount: number, color: string): string =>
+  s((s: number) => s + amount, color)
+);
+
+export const lightness = curry(2, (amount: number, color: string): string =>
+  l((l: number) => l + amount, color)
+);
+
 export const mix = curry(3, mixColors);
 
 export const complement = adjust("hue", (h: number) => h + 180);
