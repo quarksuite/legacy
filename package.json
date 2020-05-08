@@ -1,6 +1,6 @@
 {
   "name": "@quarksuite/core",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "Quarksuite is a tool for developers, designers, and front-end designers that treats core visual elements as data.",
   "author": "Chatman R. Jr <crjr.code@gmail.com>",
   "repository": {
