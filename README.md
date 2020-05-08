@@ -158,7 +158,7 @@ const {
 
 // Color -> Color
 const swatch = color.a11y("blue");
-const desaturate = color.adjust("saturation", (s) => s - 15);
+const desaturate = color.saturation(-15);
 const mixLime = color.mix(color.a11y("lime"), 25);
 const colorInput = color.pipe(mixLime, desaturate);
 

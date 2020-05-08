@@ -1,10 +1,12 @@
-# API (v3.1.0)
+# API (v3.2.0)
 
 You can [try out all examples on RunKit](https://npm.runkit.com/%40quarksuite%2Fcore).
 
 ## Color Functions
 
 The color functions accept a `color` of any valid CSS format (hex, rgb, hsl, w3c named colors). Keep in mind that there is no processing of alpha transparency. 
+
+Additionally, all the color functions will error with an invalid color.
 
 *Also, for simplicity, `hsl()` values don't currently wrap negative hue values. This means `hsl(-30, 58%, 50%)` will throw an error in this version even though it's a valid CSS color.*
 
@@ -25,7 +27,7 @@ This function executes operations in a right to left order on a color.
 
 #### Returns
 
-`string`: the color after all transformations are applied as `rgb()`
+`string | Error`: the color after all transformations are applied or an error
 
 #### Example
 
@@ -57,7 +59,7 @@ This function matches the colors [defined on clrs.cc](http://clrs.cc) to provide
 
 #### Returns
 
-`string | Error`: the found color as `rgb()` or an error
+`string | Error`: the found color or an error
 
 #### Example
 
@@ -74,7 +76,8 @@ color.a11y('yellow');
 
 ### color.adjust
 
-This function allows you to adjust the properties of a color with a modifier function.
+This function allows you to adjust the properties of a color with a modifier function. As of v3.2,
+you should use this for complex adjustments __not__ covered by `color.hue`, `color.saturation`, or `color.lightness`.
 
 #### Calls
 
@@ -91,7 +94,7 @@ This function allows you to adjust the properties of a color with a modifier fun
 
 #### Returns
 
-`string`: an adjusted color as `rgb()`
+`string | Error`: the adjusted color or an error
 
 #### Example
 
@@ -115,9 +118,100 @@ lighten15(swatch);
 
 #### Notes
 
-+ Hue adjustments have a lower bound of `0` and an upper bound of `720`. This is to allow multiple rotations. A result below or exceeding will yield pure red
++ Hue adjustments have a lower bound of `0` and an upper bound of `720`. This is to allow multiple rotations. A result below or exceeding sets the hue to 0 or 360
 + Saturation adjustments have a lower bound of `0` and an upper bound of `100`. A modifier that returns a number below will yield pure gray. A modifier that exceeds the limit will yield a fully saturated color.
 + Lightness adjustments have the same bounds as saturation. A modifier that returns a number below yields pure black. A modifier that exceeds the limit will yield pure white
+
+### color.hue (alias: h)
+
+This function is for adjusting the hue of a color. As of v3.2, this is the preferred method.
+
+#### Calls
+
++ `color.hue(degrees)(color)`
++ `color.hue(degrees, color)`
++ `color.h(degrees)(color)`
++ `color.h(degrees, color)`
+
+#### Params
+
++ `degrees: number`: how many degrees to adjust the hue
++ `color: string`: the color to modify
+
+#### Returns
+
+`string | Error`: the adjusted color or an error
+
+#### Example
+
+```js
+color.hue(45, '#348ec9'); // rotate hue right
+color.hue(-25, '#348ec9'); // rotate hue left
+
+color.h(13, 'rgb(30, 110, 12)');
+```
+
+### color.saturation (alias: s)
+
+This function is for adjusting the saturation of a color. As of v3.2, this is the preferred method.
+
+#### Calls
+
++ `color.saturation(degrees)(color)`
++ `color.saturation(degrees, color)`
++ `color.s(degrees)(color)`
++ `color.s(degrees, color)`
+
+#### Params
+
++ `degrees: number`: how many degrees to adjust the saturation
++ `color: string`: the color to modify
+
+#### Returns
+
+`string | Error`: the adjusted color or an error
+
+#### Example
+
+```js
+color.saturation(10, '#348ec9'); // increase saturation
+color.saturation(-20, '#348ec9'); // decrease saturation
+
+color.s(13, 'rgb(30, 110, 12)');
+```
+
+### color.lightness (aliases: luminance, l)
+
+This function is for adjusting the lightness of a color. As of v3.2, this is the preferred method.
+
+#### Calls
+
++ `color.lightness(degrees)(color)`
++ `color.lightness(degrees, color)`
++ `color.luminance(degrees)(color)`
++ `color.luminance(degrees, color)`
++ `color.l(degrees)(color)`
++ `color.l(degrees, color)`
+
+#### Params
+
++ `degrees: number`: how many degrees to adjust the lightness
++ `color: string`: the color to modify
+
+#### Returns
+
+`string | Error`: the adjusted color or an error
+
+#### Example
+
+```js
+color.lightness(30, '#348ec9'); // lighten
+color.lightness(-12, '#348ec9'); // darken
+
+color.luminance(13, 'rgb(30, 110, 12)');
+
+color.l(5, 'hsl(128, 32%, 48%)')
+```
 
 ### color.mix
 
