@@ -33,7 +33,7 @@ This function executes operations in a right to left order on a color.
 
 ```js
 const swatch = color.a11y('orange');
-const desat = color.adjust('saturation', s => s - 10);
+const desat = color.saturation(-10);
 const mixRed = color.mix(color.a11y('red'), 45);
 
 // color -> desaturate color by 10% -> mix 45% with red -> color
@@ -157,14 +157,14 @@ This function is for adjusting the saturation of a color. As of v3.2, this is th
 
 #### Calls
 
-+ `color.saturation(degrees)(color)`
-+ `color.saturation(degrees, color)`
-+ `color.s(degrees)(color)`
-+ `color.s(degrees, color)`
++ `color.saturation(amount)(color)`
++ `color.saturation(amount, color)`
++ `color.s(amount)(color)`
++ `color.s(amount, color)`
 
 #### Params
 
-+ `degrees: number`: how many degrees to adjust the saturation
++ `amount: number`: the percentage to adjust saturation
 + `color: string`: the color to modify
 
 #### Returns
@@ -186,16 +186,16 @@ This function is for adjusting the lightness of a color. As of v3.2, this is the
 
 #### Calls
 
-+ `color.lightness(degrees)(color)`
-+ `color.lightness(degrees, color)`
-+ `color.luminance(degrees)(color)`
-+ `color.luminance(degrees, color)`
-+ `color.l(degrees)(color)`
-+ `color.l(degrees, color)`
++ `color.lightness(amount)(color)`
++ `color.lightness(amount, color)`
++ `color.luminance(amount)(color)`
++ `color.luminance(amount, color)`
++ `color.l(amount)(color)`
++ `color.l(amount, color)`
 
 #### Params
 
-+ `degrees: number`: how many degrees to adjust the lightness
++ `amount: number`: the percentage to adjust lightness
 + `color: string`: the color to modify
 
 #### Returns
