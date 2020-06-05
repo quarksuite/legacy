@@ -45,6 +45,8 @@ I made this for myself first—as a developer/designer with a somewhat mathemati
 
 I figure other people may get use out of it, too.
 
+I've recently [built a starter kit](https://github.com/quarksuite/starter-kit) to make the transformation of raw data into usable values (via design tokens) a bit more straightforward. You could also call it a demonstration of this library's purpose.
+
 ## Installation
 
 ### As a Module
