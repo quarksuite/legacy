@@ -76,8 +76,8 @@ const calcRGB = (h: number, s: number, l: number): number[] => {
 
   // Evaluate channels
   const [R, G, B] = Array.from(calcChannels(C, X, h))
-    .filter((result: [number[], boolean]): boolean => result[1])
-    .flatMap((result: [number[], boolean]): number[] => result[0])
+    .filter(([, condition]: [number[], boolean]): boolean => condition)
+    .flatMap(([evaluation]: [number[], boolean]): number[] => evaluation)
     .map((channel: number): number => Math.round((channel + m) * 255));
 
   return [R, G, B];
@@ -180,24 +180,6 @@ const rgbToHSL = (rgb: string): string => {
   )}%, ${Math.round(toPercentage(L))}%)`;
 };
 
-// Hex -> W3C color
-const hexToW3C = (hex: string): string | Error => {
-  const output = formatHexValues(hex).reduce(
-    (acc: string, v: string | string[]) => {
-      return acc.concat(...v);
-    },
-    "#"
-  );
-
-  const found = Object.keys(w3c).filter((named: string) => {
-    return output === w3c[named];
-  })[0];
-
-  if (!found) throw new Error("Color does not map to a color defined by w3c");
-
-  return found;
-};
-
 // HSL -> RGB
 const hslToRGB = (hsl: string): string => {
   const [H, S, L] = parseHSL(hsl);
@@ -212,12 +194,6 @@ const hexToHSL = compose(rgbToHSL, hexToRGB);
 // HSL -> Hex
 const hslToHex = compose(rgbToHex, hslToRGB);
 
-// RGB -> W3C
-const rgbToW3C = compose(hexToW3C, rgbToHex);
-
-// HSL -> W3C
-const hslToW3C = compose(hexToW3C, hslToHex);
-
 // W3C -> RGB
 const w3cToRGB = (name: string): string => hexToRGB(w3c[name]);
 
@@ -228,7 +204,7 @@ const w3cToHSL = (name: string): string => hexToHSL(w3c[name]);
 const w3cToHex = (name: string): string => w3c[name];
 
 const ColorError = (format: string): Error => {
-  return new Error("Invalid format cannot be converted to " + format);
+  return new Error("Invalid format: cannot be converted");
 };
 
 export const toHex = (color: string): string | Error => {
@@ -260,17 +236,6 @@ export const toRGB = (color: string): string | Error => {
   if (format === "hsl") return hslToRGB(color);
   if (format === "w3c") return w3cToRGB(color);
   if (format === "rgb") return color;
-
-  throw ColorError(format);
-};
-
-export const toW3C = (color: string): string | Error => {
-  const format = parseColor(color);
-
-  if (format === "hex") return hexToW3C(color);
-  if (format === "hsl") return hslToW3C(color);
-  if (format === "rgb") return rgbToW3C(color);
-  if (format === "w3c") return color;
 
   throw ColorError(format);
 };

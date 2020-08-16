@@ -211,30 +211,6 @@ describe("Color functions", () => {
       expect(color.toRGB("orchid")).toBe("rgb(218, 112, 214)");
     });
   });
-  describe("color.toW3C(): Color", () => {
-    test("fails with invalid format", () => {
-      const error = (): string | Error => color.toRGB("redis");
-      expect(error).toThrow("cannot be converted");
-    });
-    test("does nothing with same format", () => {
-      expect(color.toW3C("firebrick")).toBe("firebrick");
-    });
-    test("fails when color is not found in w3c definitions", () => {
-      const error = (): string | Error => color.toW3C("#400acc");
-      expect(error).toThrow("does not map");
-    });
-
-    test("converts Hex colors", () => {
-      expect(color.toW3C("#f5deb3")).toBe("wheat");
-    });
-    test("bug: does not map HSL -> W3C accurately", () => {
-      const error = (): string | Error => color.toW3C("hsl(302, 59%, 65%)");
-      expect(error).toThrow("does not map");
-    });
-    test("converts RGB colors", () => {
-      expect(color.toW3C("rgb(30, 144, 255)")).toBe("dodgerblue");
-    });
-  });
 });
 
 describe("color.pipe(): Color", () => {

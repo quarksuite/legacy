@@ -9,8 +9,7 @@ import {
   negate,
   toHex,
   toRGB,
-  toHSL,
-  toW3C
+  toHSL
 } from "./color";
 import { complementary, analogous, triad, tetrad } from "./color/scheme";
 import { blend, tints, tones, shades } from "./color/variant";
@@ -34,8 +33,7 @@ export const color = {
   negate,
   toHex,
   toHSL,
-  toRGB,
-  toW3C
+  toRGB
 };
 
 export const scheme = {

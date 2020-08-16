@@ -378,34 +378,6 @@ This function converts a color to RGB format.
 color.toRGB('#deaded');
 ```
 
-### color.toW3C
-
-This function converts a color to its w3c name if it exists.
-
-#### Call
-
-+ `color.toW3C(color)`
-
-#### Param
-
-+  `color: string`: the input color
-
-#### Return
-
-`string | Error`: the converted color (or unchanged input color if same format), otherwise throw an error for invalid color
-
-#### Example
-
-```js
-color.toW3C('#deaded');
-```
-
-#### Note
-
-Internally, HSL conversions are *close enough* and not precise.
-
-The rounding of saturation and lightness percentages causes the lookup for this format to fail. This behavior may be patched in the future.
-
 ## Scheme Functions
 
 As with the color module, alpha transparency is not processed and output is `rgb()`. These functions are responsible for generating base hues for schemes. For monochromatic schemes, [see the variant module](#variant).
