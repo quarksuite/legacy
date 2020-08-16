@@ -70,12 +70,12 @@ export const modify = (
   }
 
   if (property === "saturation") {
-    const [s] = [S].map((current: number) => Math.round(modifier(current)));
+    const [s] = [S].map((current: number) => modifier(current));
     S = normalization(0, 100, s);
   }
 
   if (property === "lightness") {
-    const [l] = [L].map((current: number) => Math.round(modifier(current)));
+    const [l] = [L].map((current: number) => modifier(current));
     L = normalization(0, 100, l);
   }
 
