@@ -35,4 +35,3 @@ export const negate = (color: string): string =>
 export const toHex = convert.toHex;
 export const toHSL = convert.toHSL;
 export const toRGB = convert.toRGB;
-export const toW3C = convert.toW3C;
