@@ -84,7 +84,7 @@ npx snowpack
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Quarksuite (v3.1.x) Example</title>
+    <title>Quarksuite Example</title>
   </head>
   <body>
     <script type="module" src="/index.js"></script>
@@ -105,7 +105,7 @@ OR
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Quarksuite (v3.1.x) Example</title>
+    <title>Quarksuite Example</title>
   </head>
   <body>
     <script type="module">
