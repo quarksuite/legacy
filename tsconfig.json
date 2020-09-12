@@ -7,7 +7,14 @@
       "esnext"
     ],
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "baseUrl": "src",
+    "paths": {
+      "@architecture/*": ["architecture/*"],
+      "@color/*": ["color/*"],
+      "@typography/*": ["typography/*"],
+      "@scale/*": ["scale/*"]
+    }
   },
   "exclude": ["node_modules", "pkg"]
 }
