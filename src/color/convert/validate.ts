@@ -4,7 +4,7 @@ const InvalidColorError = (input: string): Error => {
   throw Error(`'${input}' is not a valid CSS color`);
 };
 
-export const validateColor = (color: string): string | Error => {
+export const validateColor = (color: string): boolean | Error => {
   interface Categories {
     [index: string]: RegExp | boolean;
   }
@@ -18,10 +18,12 @@ export const validateColor = (color: string): string | Error => {
     w3c: !!w3c[color]
   };
 
-  const isValid = Object.keys(formats).filter((category: string) => {
-    if (category === "w3c") return formats[category];
-    return (formats[category] as RegExp).test(color);
-  })[0];
+  const isValid = Boolean(
+    Object.keys(formats).filter((category: string) => {
+      if (category === "w3c") return formats[category];
+      return (formats[category] as RegExp).test(color);
+    })[0]
+  );
 
   return isValid || InvalidColorError(color);
 };
