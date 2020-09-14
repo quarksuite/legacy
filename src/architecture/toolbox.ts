@@ -1,13 +1,12 @@
 // Functional mini-toolbox
 
-// Compose
-export const compose = (f: Function, g: Function): Function => (
+// Composition
+const _compose = (f: Function, g: Function): Function => (
   x: string | number | boolean
 ): string | number | boolean => f(g(x));
 
-// Variadic
-export const composeAll = (...fns: Function[]): Function =>
-  fns.reduceRight(compose);
+export const compose = (...fns: Function[]): Function =>
+  fns.reduceRight(_compose);
 
 // Currying borrowed from:
 // https://folktale.origamitower.com/api/v2.3.0/en/folktale.core.lambda.curry.curry.html
