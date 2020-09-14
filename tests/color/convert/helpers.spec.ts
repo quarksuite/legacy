@@ -2,10 +2,12 @@ import {
   intToHex,
   hexToInt,
   extractNumber,
-  toFraction,
-  toPercent,
-  parseFraction,
-  parsePercent
+  percentAsFraction,
+  percentAsFloat,
+  channelAsFraction,
+  percentChannelAsInt,
+  matchValues,
+  alphaAsHex
 } from "@color/convert/helpers";
 
 describe("intToHex :: number -> string", () => {
@@ -47,32 +49,86 @@ describe("extractNumber :: string -> number", () => {
   });
 });
 
-describe("toFraction :: number -> number", () => {
-  test("converts an percentage to a fraction", () => {
-    expect(toFraction(10)).toBe(0.1);
-    expect(toFraction(25)).toBe(0.25);
-    expect(toFraction(31.8)).toBe(0.318);
+describe("percentAsFraction :: number -> number", () => {
+  test("n% -> n / 100", () => {
+    expect(percentAsFraction(0)).toBe(0);
+    expect(percentAsFraction(10)).toBe(0.1);
+    expect(percentAsFraction(25)).toBe(0.25);
+    expect(percentAsFraction(31.8)).toBe(0.318);
+    expect(percentAsFraction(100)).toBe(1);
   });
 });
 
-describe("toPercent :: number -> number", () => {
-  test("converts an fraction to a percent", () => {
-    expect(toPercent(0.1)).toBe(10);
-    expect(toPercent(0.25)).toBe(25);
-    expect(toPercent(0.394)).toBe(39.4);
+describe("percentAsFloat :: number -> number", () => {
+  test("n / 100 -> n%", () => {
+    expect(percentAsFloat(0.1)).toBe(10);
+    expect(percentAsFloat(0.25)).toBe(25);
+    expect(percentAsFloat(0.394)).toBe(39.4);
   });
 });
 
-describe("parsePercent :: string -> number -> number", () => {
-  test("parses a percent and converts it to a fraction", () => {
-    expect(parsePercent("15%")).toBe(0.15);
-    expect(parsePercent("39.6%")).toBe(0.396);
+describe("channelAsFraction :: number -> number", () => {
+  test("n -> n / 255", () => {
+    expect(channelAsFraction(0)).toBe(0);
+    expect(channelAsFraction(5)).toBe(0.0196);
+    expect(channelAsFraction(25)).toBe(0.098);
+    expect(channelAsFraction(42)).toBe(0.165);
+    expect(channelAsFraction(120)).toBe(0.471);
+    expect(channelAsFraction(255)).toBe(1);
   });
 });
 
-describe("parseFraction :: string -> number -> number", () => {
-  test("parses a fraction and converts it to a percent", () => {
-    expect(parseFraction("0.781")).toBe(78.1);
-    expect(parseFraction("0.42")).toBe(42);
+describe("percentChannelAsInt :: number -> number", () => {
+  test("n% -> n", () => {
+    expect(percentChannelAsInt(0)).toBe(0);
+    expect(percentChannelAsInt(25)).toBe(64);
+    expect(percentChannelAsInt(50)).toBe(128);
+    expect(percentChannelAsInt(75)).toBe(191);
+    expect(percentChannelAsInt(100)).toBe(255);
+  });
+});
+
+describe("matchValues :: string -> string[]", () => {
+  test("s -> [a, b, c[, d]]", () => {
+    expect(matchValues("#fec0a0")).toStrictEqual(["fe", "c0", "a0"]);
+    expect(matchValues("#fec0a0cc")).toStrictEqual(["fe", "c0", "a0", "cc"]);
+    expect(matchValues("rgb(30, 10, 100)")).toStrictEqual(["30", "10", "100"]);
+    expect(matchValues("rgb(30%, 20%, 100%)")).toStrictEqual([
+      "30%",
+      "20%",
+      "100%"
+    ]);
+    expect(matchValues("hsl(320, 20%, 30%)")).toStrictEqual([
+      "320",
+      "20%",
+      "30%"
+    ]);
+    expect(matchValues("hsl(10deg, 40%, 30%)")).toStrictEqual([
+      "10deg",
+      "40%",
+      "30%"
+    ]);
+    expect(matchValues("hsl(0.25turn, 40%, 30%)")).toStrictEqual([
+      "0.25turn",
+      "40%",
+      "30%"
+    ]);
+    expect(matchValues("hsla(75, 60%, 80%, 0.344)")).toStrictEqual([
+      "75",
+      "60%",
+      "80%",
+      "0.344"
+    ]);
+  });
+});
+
+describe("alphaAsHex :: number -> number", () => {
+  test("n / 100 -> AA", () => {
+    expect(alphaAsHex(0)).toBe("00");
+    expect(alphaAsHex(0.25)).toBe("40");
+    expect(alphaAsHex(0.5)).toBe("80");
+    expect(alphaAsHex(0.66714919)).toBe("aa");
+    expect(alphaAsHex(0.75)).toBe("bf");
+    expect(alphaAsHex(1)).toBe("ff");
   });
 });
