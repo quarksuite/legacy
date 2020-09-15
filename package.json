@@ -1,6 +1,6 @@
 {
   "name": "@quarksuite/core",
-  "version": "3.3.1",
+  "version": "4.0.0-alpha",
   "description": "Quarksuite is a tool for developers, designers, and front-end designers that treats core visual elements as data.",
   "author": "Chatman R. Jr <crjr.code@gmail.com>",
   "repository": {
@@ -85,7 +85,10 @@
         "@pika/plugin-build-web"
       ],
       [
-        "@pika/plugin-build-umd", { "name": "quarksuite" }
+        "@pika/plugin-build-umd",
+        {
+          "name": "quarksuite"
+        }
       ],
       [
         "@pika/plugin-build-types",
