@@ -36,7 +36,7 @@ describe("RGB formatting", () => {
 });
 
 describe("RGB calculations", () => {
-  describe("calcHSL :: (number, number, number) -> number", () => {
+  describe("calcHSL :: (number, number, number) -> number[]", () => {
     test("(R, G, B) -> raw [H, S, L]", () => {
       expect(calcHSL(0, 0, 0)).toStrictEqual([0, 0, 0]);
       expect(calcHSL(170, 170, 170)).toStrictEqual([0, 0, 0.667]);

@@ -1,29 +1,15 @@
-import { extractValue, parsePercent } from "@color/convert/helpers";
-
-export const parseHSL = (hsl: string): number[] => {
-  // TypeScript requires a double assertion in this case
-  // because null can't overlap with other types.
-  const values = (hsl.toString().match(/[^hsl(,)]+/g) as unknown) as string[];
-
-  let [H] = values.map((value: string): number => {
-    if (value.includes("deg")) return extractValue(value);
-    if (value.includes("rad"))
-      return Math.round(extractValue(value) * (180 / Math.PI));
-    if (value.includes("turn")) return Math.round(extractValue(value)) * 360;
-    return extractValue(value);
-  });
-
-  if (H >= 360) H %= 360;
-
-  const [, S, L] = values.map((value: string): number => {
-    return parsePercent(value);
-  });
-
-  return [H, S, L];
-};
+import { compose } from "@architecture/toolbox";
+import {
+  extractNumber,
+  matchValues,
+  percentAsFraction,
+  radToDeg,
+  angleToDeg
+} from "@color/convert/helpers";
+import { toHex as hex } from "@color/convert/rgb";
 
 // https://www.rapidtables.com/convert/color/hsl-to-rgb.html
-export const calcChannels = (
+const calcChannels = (
   C: number,
   X: number,
   H: number
@@ -36,6 +22,28 @@ export const calcChannels = (
     [[X, 0, C], 240 <= H && H < 300],
     [[C, 0, X], 300 <= H && H < 360]
   ]);
+
+export const extractHSL = (hsl: string): number[] => {
+  const values = matchValues(hsl);
+
+  const [H] = values.map((value: string): number => {
+    const h = extractNumber(value);
+    const n = h >= 360 ? h % 360 : h; // hue correction
+    if (value.includes("deg")) return n;
+    if (value.includes("rad")) return radToDeg(n);
+    if (value.includes("turn")) return angleToDeg(n);
+    return n;
+  });
+
+  const [, S, L] = values.map((value: string): number => {
+    const n = extractNumber(value);
+    return percentAsFraction(n);
+  });
+
+  const [, , , A] = values;
+
+  return A ? [H, S, L, extractNumber(A)] : [H, S, L];
+};
 
 export const calcRGB = (h: number, s: number, l: number): number[] => {
   // Calculate chroma
@@ -51,3 +59,12 @@ export const calcRGB = (h: number, s: number, l: number): number[] => {
 
   return [R, G, B];
 };
+
+export const toRGB = (hsl: string): string => {
+  const [H, S, L, A] = extractHSL(hsl);
+  const [R, G, B] = calcRGB(H, S, L);
+
+  return A ? `rgba(${R}, ${G}, ${B}, ${A})` : `rgb(${R}, ${G}, ${B})`;
+};
+
+export const toHex = compose(toRGB, hex);

@@ -35,3 +35,6 @@ export const percentChannelAsInt = compose(
 );
 
 export const alphaAsHex = compose(productOf(255), Math.round, intToHex);
+
+export const radToDeg = compose(productOf(180 / Math.PI), Math.round);
+export const angleToDeg = compose(productOf(360), Math.round);

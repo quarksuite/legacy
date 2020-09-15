@@ -4,7 +4,7 @@ import {
   channelAsFraction,
   matchValues
 } from "@color/convert/helpers";
-import { toHSL as endpoint } from "@color/convert/rgb";
+import { toHSL as hsl } from "@color/convert/rgb";
 
 export const extractHexChannels = (hex: string): string[] => {
   // #RGB(A)
@@ -31,4 +31,4 @@ export const toRGB = (hex: string): string => {
   return A ? `rgba(${R}, ${G}, ${B}, ${A})` : `rgb(${R}, ${G}, ${B})`;
 };
 
-export const toHSL = compose(toRGB, endpoint);
+export const toHSL = compose(toRGB, hsl);
