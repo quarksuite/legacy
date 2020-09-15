@@ -9,6 +9,10 @@
 
 ![Quarksuite Logo](assets/logo.png)
 
+> **Note**: This project is the middle of a rewrite. Expect gaps and leaks on this branch.
+> See the master branch if you landed here by accident 
+> v4 will land by October 2
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 Table of Contents
@@ -45,7 +49,6 @@ I made this for myself first—as a developer/designer with a somewhat mathemati
 
 I figure other people may get use out of it, too.
 
-I've recently [built a starter kit](https://github.com/quarksuite/starter-kit) to make the transformation of raw data into usable values (via design tokens) a bit more straightforward. You could also call it a demonstration of this library's purpose.
 
 ## Installation
 
