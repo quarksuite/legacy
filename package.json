@@ -85,7 +85,7 @@
         "@pika/plugin-build-web"
       ],
       [
-        "@pika/plugin-build-umd"
+        "@pika/plugin-build-umd", { "name": "quarksuite" }
       ],
       [
         "@pika/plugin-build-types",
