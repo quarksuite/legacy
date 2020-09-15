@@ -27,6 +27,7 @@ describe("HSL formatting", () => {
         0.3,
         0.37
       ]);
+      expect(extractHSL("hsl(-45, 74%, 88%)")).toStrictEqual([315, 0.74, 0.88]);
     });
   });
 });
@@ -51,6 +52,7 @@ describe("HSL color conversion", () => {
       expect(toRGB("hsl(0, 0% 66.7%)")).toBe("rgb(170, 170, 170)");
       expect(toRGB("hsl(0, 0%, 100%)")).toBe("rgb(255, 255, 255)");
       expect(toRGB("hsl(30, 60%, 90%)")).toBe("rgb(245, 230, 214)");
+      expect(toRGB("hsl(-30, 60%, 90%)")).toBe("rgb(245, 214, 230)");
       expect(toRGB("hsl(195deg, 30%, 27.5%)")).toBe("rgb(49, 81, 91)");
       expect(toRGB("hsl(100grad, 30%, 27%)")).toBe("rgb(69, 90, 48)");
       expect(toRGB("hsl(2.5rad, 10%, 7.5%)")).toBe("rgb(17, 21, 19)");

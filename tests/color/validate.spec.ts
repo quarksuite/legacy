@@ -31,6 +31,10 @@ describe("validateColor :: string -> string | Error", () => {
     expect(validateColor("hsla(100, 11%, 40%, 0.75)")).toBeTruthy();
     expect(validateColor("hsla(3.5rad, 70%, 89%, 0.1)")).toBeTruthy();
     expect(validateColor("hsla(0.25turn, 70%, 89%, 0.1)")).toBeTruthy();
+    expect(validateColor("hsl(-30, 70%, 89%)")).toBeTruthy();
+    expect(validateColor("hsl(-75deg, 70%, 89%)")).toBeTruthy();
+    expect(validateColor("hsl(-3.4rad, 70%, 89%)")).toBeTruthy();
+    expect(validateColor("hsl(-0.43turn, 70%, 89%)")).toBeTruthy();
     expect(() => validateColor("hsl(30h, 20, 1)")).toThrow();
   });
   test("can validate named colors", () => {

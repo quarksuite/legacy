@@ -58,6 +58,11 @@ describe("matchValues :: string -> string[]", () => {
       "90%",
       "0.25"
     ]);
+    expect(matchValues("hsl(-33, 59%, 44%)")).toStrictEqual([
+      "-33",
+      "59%",
+      "44%"
+    ]);
   });
 });
 

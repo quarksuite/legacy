@@ -27,15 +27,25 @@ export const extractHSL = (hsl: string): number[] => {
   const values = matchValues(hsl);
 
   const [H] = values.map((value: string): number => {
-    const h = extractNumber(value);
-    const n = h >= 360 ? h % 360 : h; // hue correction
+    // if gradian, radian, or turn, nothing else happens
+    const hue = extractNumber(value);
+    let degrees;
+
+    // hue correction
+    if (hue >= 360) {
+      degrees = hue % 360;
+    } else if (Math.sign(hue) === -1) {
+      degrees = hue + 360;
+    } else {
+      degrees = hue;
+    }
 
     // Note: grad must checked first. rad is considered a substring
     // otherwise. And that borks the math
-    if (value.endsWith("grad")) return gradToDeg(h);
-    if (value.endsWith("rad")) return radToDeg(h);
-    if (value.endsWith("turn")) return angleToDeg(h);
-    return n;
+    if (value.endsWith("grad")) return gradToDeg(hue);
+    if (value.endsWith("rad")) return radToDeg(hue);
+    if (value.endsWith("turn")) return angleToDeg(hue);
+    return degrees;
   });
 
   const [, S, L] = values.map((value: string): number => {
