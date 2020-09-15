@@ -6,8 +6,31 @@ import {
   percentAsFloat,
   alphaAsHex,
   channelAsFraction,
-  percentChannelAsInt
+  percentChannelAsInt,
+  calculateChannelDifference,
+  normalization
 } from "@color/math";
+
+describe("normalization :: (number, number, number) -> number", () => {
+  test("bounds values within a range", () => {
+    expect(normalization(0, 100, 20)).toBe(20);
+    expect(normalization(0, 100, -25)).toBe(0);
+    expect(normalization(0, 100, 900)).toBe(100);
+    expect(normalization(0, 360, 220)).toBe(220);
+    expect(normalization(0, 360, -45)).toBe(0);
+    expect(normalization(0, 360, 720)).toBe(360);
+  });
+});
+
+describe("calculateChannelDifference :: (number, number, number) -> number", () => {
+  test("calculates the channel variance between two colors", () => {
+    expect(calculateChannelDifference(0, 0, 0.5)).toBe(0);
+    expect(calculateChannelDifference(255, 255, 0.5)).toBe(255);
+    expect(calculateChannelDifference(255, 0, 0.5)).toBe(180);
+    expect(calculateChannelDifference(0, 255, 0.5)).toBe(180);
+    expect(calculateChannelDifference(38, 215, 0.5)).toBe(154);
+  });
+});
 
 describe("radToDeg :: number -> number", () => {
   test("n ㎭ -> n°", () => {
