@@ -33,4 +33,5 @@ export const percentChannelAsInt = compose(
   percentAsFraction,
   Math.round
 );
+
 export const alphaAsHex = compose(productOf(255), Math.round, intToHex);

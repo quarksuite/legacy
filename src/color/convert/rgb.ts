@@ -1,50 +1,76 @@
-import { extractValue, parsePercent } from "@color/convert/helpers";
+import {
+  matchValues,
+  extractNumber,
+  percentAsFloat,
+  channelAsFraction,
+  percentChannelAsInt,
+  intToHex,
+  alphaAsHex
+} from "@color/convert/helpers";
 
-export const parseRGB = (rgb: string): number[] => {
-  // TypeScript requires a double assertion in this case
-  // because null can't overlap with other types.
-  const values = (rgb.match(/[^rgb(,)]+/g) as unknown) as string[];
-
-  return values.map((channel: string): number => {
-    if (channel.includes("%")) return Math.round(parsePercent(channel) * 255);
-    return extractValue(channel);
+export const extractRGBChannels = (rgb: string): number[] => {
+  const values = matchValues(rgb);
+  const [R, G, B] = values.map((channel: string): number => {
+    const n = extractNumber(channel);
+    if (channel.endsWith("%")) return percentChannelAsInt(n);
+    return n;
   });
+  const [, , , A] = values;
+
+  return A ? [R, G, B, extractNumber(A)] : [R, G, B];
 };
 
-export const calcHSL = (r: number, g: number, b: number): number[] => {
-  // Convert each channel to a fraction
-  const R = r / 255;
-  const G = g / 255;
-  const B = b / 255;
+// https://www.rapidtables.com/convert/color/rgb-to-hsl.html
+const calcHue = (
+  R: number,
+  G: number,
+  B: number,
+  cmax: number,
+  delta: number
+): Map<number, boolean> =>
+  new Map([
+    [0, delta === 0],
+    [(60 * ((G - B) / delta)) % 6, cmax === R],
+    [(60 * (B - R)) / delta + 2, cmax === G],
+    [(60 * (R - G)) / delta + 4, cmax === B]
+  ]);
 
-  // Find minimum and maximum channel values
+const calcSat = (delta: number, L: number): number =>
+  delta === 0 ? 0 : delta / (1 - Math.abs(2 * L - 1));
+
+const calcLightness = (cmin: number, cmax: number): number => (cmax + cmin) / 2;
+
+export const calcHSL = (r: number, g: number, b: number): number[] => {
+  const [R, G, B] = [r, g, b].map((channel: number): number =>
+    channelAsFraction(channel)
+  );
   const cmin = Math.min(R, G, B);
   const cmax = Math.max(R, G, B);
   const delta = cmax - cmin;
 
-  // Set hsl
-  let h = 0;
-  let s = 0;
-  let l = 0;
+  const [H] = Array.from(calcHue(R, G, B, cmax, delta))
+    .filter(([, condition]: [number, boolean]): boolean => condition)
+    .flatMap(([value]: [number, boolean]): number => Math.round(value));
 
-  // Calculate hue
-  if (delta == 0) h = 0;
-  if (cmax == R) h = ((G - B) / delta) % 6;
-  if (cmax == G) h = (B - R) / delta + 2;
-  if (cmax == B) h = (R - G) / delta + 4;
+  const L = calcLightness(cmin, cmax);
 
-  h = Math.round(h * 60);
+  const S = calcSat(delta, L);
 
-  if (h < 0) h += 360;
+  return [H < 0 ? H + 360 : H, S, L];
+};
 
-  // Calculate lightness
-  l = (cmax + cmin) / 2;
+export const toHex = (rgb: string): string => {
+  const values = extractRGBChannels(rgb);
+  const [R, G, B] = values.map((n: number): string => intToHex(n));
+  const [, , , A] = values;
 
-  // calculate saturation
-  s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+  return A ? ["#", R, G, B, alphaAsHex(A)].join("") : ["#", R, G, B].join("");
+};
 
-  s = +s.toPrecision(3);
-  l = +l.toPrecision(3);
+export const toHSL = (rgb: string): string => {
+  const [R, G, B, A] = extractRGBChannels(rgb);
+  const [h, s, l] = calcHSL(R, G, B);
+  const [H, S, L] = [h, percentAsFloat(s), percentAsFloat(l)];
 
-  return [h, s, l];
+  return A ? `hsla(${H}, ${S}%, ${L}%, ${A})` : `hsl(${H}, ${S}%, ${L}%)`;
 };

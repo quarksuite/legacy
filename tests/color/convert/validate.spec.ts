@@ -1,6 +1,6 @@
 import { validateColor } from "@color/convert/validate";
 
-describe("validateColor :: string -> boolean | Error", () => {
+describe("validateColor :: string -> string | Error", () => {
   test("can validate hex colors", () => {
     expect(validateColor("#000000")).toBeTruthy();
     expect(validateColor("#aaaaaa")).toBeTruthy();
