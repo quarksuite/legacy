@@ -1,11 +1,11 @@
 import { compose } from "@architecture/toolbox";
+import { extractNumber, matchValues } from "@color/formatting";
 import {
-  extractNumber,
-  matchValues,
   percentAsFraction,
   radToDeg,
+  gradToDeg,
   angleToDeg
-} from "@color/convert/helpers";
+} from "@color/math";
 import { toHex as hex } from "@color/convert/rgb";
 
 // https://www.rapidtables.com/convert/color/hsl-to-rgb.html
@@ -29,9 +29,12 @@ export const extractHSL = (hsl: string): number[] => {
   const [H] = values.map((value: string): number => {
     const h = extractNumber(value);
     const n = h >= 360 ? h % 360 : h; // hue correction
-    if (value.includes("deg")) return n;
-    if (value.includes("rad")) return radToDeg(n);
-    if (value.includes("turn")) return angleToDeg(n);
+
+    // Note: grad must checked first. rad is considered a substring
+    // otherwise. And that borks the math
+    if (value.endsWith("grad")) return gradToDeg(h);
+    if (value.endsWith("rad")) return radToDeg(h);
+    if (value.endsWith("turn")) return angleToDeg(h);
     return n;
   });
 

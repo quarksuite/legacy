@@ -1,12 +1,10 @@
+import { matchValues, extractNumber, intToHex } from "@color/formatting";
 import {
-  matchValues,
-  extractNumber,
   percentAsFloat,
   channelAsFraction,
   percentChannelAsInt,
-  intToHex,
   alphaAsHex
-} from "@color/convert/helpers";
+} from "@color/math";
 
 export const extractRGBChannels = (rgb: string): number[] => {
   const values = matchValues(rgb);

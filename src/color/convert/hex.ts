@@ -1,9 +1,6 @@
 import { compose } from "@architecture/toolbox";
-import {
-  hexToInt,
-  channelAsFraction,
-  matchValues
-} from "@color/convert/helpers";
+import { hexToInt, matchValues } from "@color/formatting";
+import { channelAsFraction } from "@color/math";
 import { toHSL as hsl } from "@color/convert/rgb";
 
 export const extractHexChannels = (hex: string): string[] => {
