@@ -1,22 +1,34 @@
-import { hexToInt } from "@color/convert/helpers";
+import { compose } from "@architecture/toolbox";
+import {
+  hexToInt,
+  channelAsFraction,
+  matchValues
+} from "@color/convert/helpers";
+import { toHSL as endpoint } from "@color/convert/rgb";
 
-export const formatHexValues = (hex: string): (string | string[])[] => {
-  const [, ...values] = hex;
+export const extractHexChannels = (hex: string): string[] => {
+  // #RGB(A)
+  if (hex.length === 4 || hex.length === 5) {
+    const [, ...values] = hex;
+    return values.map((channel: string): string => channel.repeat(2));
+  }
 
-  return values.length === 3
-    ? values.map((C: string): string[] => C.repeat(2).split(""))
-    : values
-        .map((C: string, i: number, a: string[]): string[] | string => {
-          switch (i) {
-            case 0:
-            case 2:
-            case 4:
-              return [C, a[i + 1]];
-          }
-          return C;
-        })
-        .filter((v: string[] | string): boolean => Array.isArray(v));
+  // #RRGGBB(AA)
+  return matchValues(hex);
 };
 
-export const parseHex = (hex: string): number[] =>
-  formatHexValues(hex).map((s: string | string[]): number => hexToInt(s));
+export const mapToRGB = (hex: string): number[] => {
+  const [R, G, B, A] = extractHexChannels(hex).map((channel: string): number =>
+    hexToInt(channel)
+  );
+
+  return A ? [R, G, B, channelAsFraction(A)] : [R, G, B];
+};
+
+export const toRGB = (hex: string): string => {
+  const [R, G, B, A] = mapToRGB(hex);
+
+  return A ? `rgba(${R}, ${G}, ${B}, ${A})` : `rgb(${R}, ${G}, ${B})`;
+};
+
+export const toHSL = compose(toRGB, endpoint);
