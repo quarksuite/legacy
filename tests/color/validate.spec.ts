@@ -8,8 +8,8 @@ describe("validateColor :: string -> string | Error", () => {
     expect(validateColor("#00f")).toBeTruthy();
     expect(validateColor("#0fa31011")).toBeTruthy();
     expect(validateColor("#af15")).toBeTruthy();
-    expect(() => validateColor("#fqq000")).toThrow();
-    expect(() => validateColor("f0aa00")).toThrow();
+    expect(validateColor("#fqq000")).toBeFalsy();
+    expect(validateColor("f0aa00")).toBeFalsy();
   });
   test("can validate rgb colors", () => {
     expect(validateColor("rgb(0, 0, 0)")).toBeTruthy();
@@ -19,7 +19,7 @@ describe("validateColor :: string -> string | Error", () => {
     expect(validateColor("rgba(10, 210, 119, 0.1)")).toBeTruthy();
     expect(validateColor("rgb(20%, 70%, 19%)")).toBeTruthy();
     expect(validateColor("rgba(2%, 7%, 79%, 0.5)")).toBeTruthy();
-    expect(() => validateColor("rgb(301, 200, 1)")).toThrow();
+    expect(validateColor("rgb(301, 200, 1)")).toBeFalsy();
   });
   test("can validate hsl colors", () => {
     expect(validateColor("hsl(0, 0%, 0%)")).toBeTruthy();
@@ -32,10 +32,7 @@ describe("validateColor :: string -> string | Error", () => {
     expect(validateColor("hsla(3.5rad, 70%, 89%, 0.1)")).toBeTruthy();
     expect(validateColor("hsla(0.25turn, 70%, 89%, 0.1)")).toBeTruthy();
     expect(validateColor("hsl(-30, 70%, 89%)")).toBeTruthy();
-    expect(validateColor("hsl(-75deg, 70%, 89%)")).toBeTruthy();
-    expect(validateColor("hsl(-3.4rad, 70%, 89%)")).toBeTruthy();
-    expect(validateColor("hsl(-0.43turn, 70%, 89%)")).toBeTruthy();
-    expect(() => validateColor("hsl(30h, 20, 1)")).toThrow();
+    expect(validateColor("hsl(30h, 20, 1)")).toBeFalsy();
   });
   test("can validate named colors", () => {
     expect(validateColor("black")).toBeTruthy();
@@ -43,6 +40,6 @@ describe("validateColor :: string -> string | Error", () => {
     expect(validateColor("white")).toBeTruthy();
     expect(validateColor("dodgerblue")).toBeTruthy();
     expect(validateColor("coral")).toBeTruthy();
-    expect(() => validateColor("evergreen")).toThrow();
+    expect(validateColor("evergreen")).toBeFalsy();
   });
 });
