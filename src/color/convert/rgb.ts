@@ -3,6 +3,7 @@ import {
   percentAsFloat,
   channelAsFraction,
   percentChannelAsInt,
+  ccwHueCorrection,
   alphaAsHex
 } from "@color/math";
 
@@ -54,7 +55,7 @@ export const calcHSL = (r: number, g: number, b: number): number[] => {
 
   const S = calcSat(delta, L);
 
-  return [H < 0 ? H + 360 : H, S, L];
+  return [Math.sign(H) === -1 ? ccwHueCorrection(H) : H, S, L];
 };
 
 export const toHex = (rgb: string): string => {

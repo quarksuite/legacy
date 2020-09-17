@@ -6,20 +6,32 @@ const precision = curry(
   2,
   (place: number, n: number): number => +n.toPrecision(place)
 );
+
+const significant3 = precision(3);
+
+const sumOf = curry(2, (y: number, x: number): number => significant3(x + y));
+
 const quotientOf = curry(2, (divisor: number, n: number): number =>
-  precision(3, n / divisor)
+  significant3(n / divisor)
 );
+
 const productOf = curry(2, (multiplicand: number, n: number): number =>
-  precision(3, n * multiplicand)
+  significant3(n * multiplicand)
 );
+
+const residueOf = curry(2, (modulo: number, n: number): number => n % modulo);
 
 export const normalization = (a: number, b: number, x: number): number =>
   Math.round(Math.min(Math.max(x, a), b));
 
-// hue
+// Hrad, Hgrad, Hturn -> hue
 export const radToDeg = compose(productOf(180 / Math.PI), Math.round);
 export const gradToDeg = productOf(0.9);
-export const angleToDeg = compose(productOf(360), Math.round);
+export const fractionToDeg = compose(productOf(360), Math.round);
+
+// hue correction
+export const ccwHueCorrection = sumOf(360);
+export const cwHueCorrection = residueOf(360);
 
 // saturation, lightness
 export const percentAsFraction = quotientOf(100);

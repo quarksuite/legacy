@@ -1,7 +1,7 @@
 import {
   radToDeg,
   gradToDeg,
-  angleToDeg,
+  fractionToDeg,
   percentAsFraction,
   percentAsFloat,
   alphaAsHex,
@@ -52,13 +52,13 @@ describe("gradToDeg :: number -> number", () => {
   });
 });
 
-describe("angleToDeg :: number -> number", () => {
-  test("n(turn) -> n°", () => {
-    expect(angleToDeg(0)).toBe(0);
-    expect(angleToDeg(0.25)).toBe(90);
-    expect(angleToDeg(0.5)).toBe(180);
-    expect(angleToDeg(0.75)).toBe(270);
-    expect(angleToDeg(1)).toBe(360);
+describe("fractionToDeg :: number -> number", () => {
+  test("n / 360 -> n°", () => {
+    expect(fractionToDeg(0)).toBe(0);
+    expect(fractionToDeg(0.25)).toBe(90);
+    expect(fractionToDeg(0.5)).toBe(180);
+    expect(fractionToDeg(0.75)).toBe(270);
+    expect(fractionToDeg(1)).toBe(360);
   });
 });
 

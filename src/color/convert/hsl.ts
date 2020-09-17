@@ -4,7 +4,9 @@ import {
   percentAsFraction,
   radToDeg,
   gradToDeg,
-  angleToDeg
+  fractionToDeg,
+  cwHueCorrection,
+  ccwHueCorrection
 } from "@color/math";
 import { toHex as hex } from "@color/convert/rgb";
 
@@ -28,23 +30,31 @@ export const extractHSL = (hsl: string): number[] => {
 
   const [H] = values.map((value: string): number => {
     // if gradian, radian, or turn, nothing else happens
-    const hue = extractNumber(value);
-    let degrees;
+    const n = extractNumber(value);
+    const isNegative = (n: number): boolean => Math.sign(n) === -1;
+    let hue;
+
+    // Set hue based on unit
+    if (value.endsWith("grad")) {
+      hue = isNegative(n) ? gradToDeg(n + 400) : gradToDeg(n);
+    } else if (value.endsWith("rad")) {
+      hue = isNegative(n) ? radToDeg(n + 6.28319) : radToDeg(n);
+    } else if (value.endsWith("turn")) {
+      hue = isNegative(n) ? fractionToDeg(n + 1) : fractionToDeg(n);
+    } else {
+      hue = n;
+    }
 
     // hue correction
+    let degrees;
     if (hue >= 360) {
-      degrees = hue % 360;
-    } else if (Math.sign(hue) === -1) {
-      degrees = hue + 360;
+      degrees = cwHueCorrection(hue);
+    } else if (isNegative(hue)) {
+      degrees = ccwHueCorrection(hue);
     } else {
       degrees = hue;
     }
 
-    // Note: grad must checked first. rad is considered a substring
-    // otherwise. And that borks the math
-    if (value.endsWith("grad")) return gradToDeg(hue);
-    if (value.endsWith("rad")) return radToDeg(hue);
-    if (value.endsWith("turn")) return angleToDeg(hue);
     return degrees;
   });
 

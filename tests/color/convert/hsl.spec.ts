@@ -52,7 +52,6 @@ describe("HSL color conversion", () => {
       expect(toRGB("hsl(0, 0% 66.7%)")).toBe("rgb(170, 170, 170)");
       expect(toRGB("hsl(0, 0%, 100%)")).toBe("rgb(255, 255, 255)");
       expect(toRGB("hsl(30, 60%, 90%)")).toBe("rgb(245, 230, 214)");
-      expect(toRGB("hsl(-30, 60%, 90%)")).toBe("rgb(245, 214, 230)");
       expect(toRGB("hsl(195deg, 30%, 27.5%)")).toBe("rgb(49, 81, 91)");
       expect(toRGB("hsl(100grad, 30%, 27%)")).toBe("rgb(69, 90, 48)");
       expect(toRGB("hsl(2.5rad, 10%, 7.5%)")).toBe("rgb(17, 21, 19)");
@@ -61,13 +60,25 @@ describe("HSL color conversion", () => {
         "rgba(134, 178, 198, 0.4881)"
       );
     });
+    test("correctly adjusts the hue when < 360", () => {
+      expect(toRGB("hsl(-30, 60%, 90%)")).toBe("rgb(245, 214, 230)");
+      expect(toRGB("hsl(-270grad, 60%, 69%)")).toBe("rgb(133, 223, 129)");
+      expect(toRGB("hsl(-2.5rad, 60%, 69%)")).toBe("rgb(129, 165, 223)");
+      expect(toRGB("hsl(-0.42turn, 40%, 59%)")).toBe("rgb(109, 152, 192)");
+      expect(toRGB("hsla(-48, 40%, 59%, 0.35)")).toBe(
+        "rgba(192, 109, 176, 0.35)"
+      );
+    });
     test("correctly adjusts the hue when > 360", () => {
       expect(toRGB("hsl(451, 39%, 80%)")).toBe("rgb(203, 224, 184)");
       expect(toRGB("hsl(760, 69%, 30%)")).toBe("rgb(129, 94, 24)");
       expect(toRGB("hsla(660, 69%, 30%, 0.5)")).toBe("rgba(129, 24, 129, 0.5)");
+      expect(toRGB("hsl(720grad, 69%, 30%)")).toBe("rgb(108, 24, 129)");
+      expect(toRGB("hsl(10rad, 69%, 30%)")).toBe("rgb(24, 71, 129)");
+      expect(toRGB("hsl(2.25turn, 69%, 30%)")).toBe("rgb(77, 129, 24)");
     });
   });
-  describe("toHSL :: string -> string", () => {
+  describe("toHex :: string -> string", () => {
     test("hsl[a](H, S%, L%[, A]) -> #RRGGBB[AA]", () => {
       expect(toHex("hsl(0, 0, 0)")).toBe("#000000");
       expect(toHex("hsl(0, 0% 66.7%)")).toBe("#aaaaaa");
@@ -77,10 +88,20 @@ describe("HSL color conversion", () => {
       expect(toHex("hsl(1.5rad, 78%, 52%)")).toBe("#91e425");
       expect(toHex("hsla(5.7rad, 78%, 32%, 0.1011)")).toBe("#9112581a");
     });
+    test("correctly adjusts the hue when < 360", () => {
+      expect(toHex("hsl(-30, 60%, 90%)")).toBe("#f5d6e6");
+      expect(toHex("hsl(-270grad, 60%, 69%)")).toBe("#85df81");
+      expect(toHex("hsl(-2.5rad, 60%, 69%)")).toBe("#81a5df");
+      expect(toHex("hsl(-0.42turn, 40%, 59%)")).toBe("#6d98c0");
+      expect(toHex("hsla(-48, 40%, 59%, 0.35)")).toBe("#c06db059");
+    });
     test("correctly adjusts the hue when > 360", () => {
-      expect(toHex("hsl(900, 79%, 30.9%)")).toBe("#118d8d");
-      expect(toHex("hsl(720, 49%, 80%)")).toBe("#e5b3b3");
-      expect(toHex("hsla(420, 79%, 20%)")).toBe("#5b5b0b");
+      expect(toHex("hsl(451, 39%, 80%)")).toBe("#cbe0b8");
+      expect(toHex("hsl(760, 69%, 30%)")).toBe("#815e18");
+      expect(toHex("hsla(660, 69%, 30%, 0.5)")).toBe("#81188180");
+      expect(toHex("hsl(720grad, 69%, 30%)")).toBe("#6c1881");
+      expect(toHex("hsl(10rad, 69%, 30%)")).toBe("#184781");
+      expect(toHex("hsl(2.25turn, 69%, 30%)")).toBe("#4d8118");
     });
   });
 });
