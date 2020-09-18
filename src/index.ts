@@ -1,6 +1,6 @@
-import { hue, saturation, lightness, alpha } from "@color/adjust";
-import { toHex, toRGB, toHSL } from "@color/convert";
-import { mix } from "@color/mix";
+import { hue, saturation, lightness, alpha } from "./color/adjust";
+import { toHex, toRGB, toHSL } from "./color/convert";
+import { mix } from "./color/mix";
 
 export const color = {
   // adjustment
