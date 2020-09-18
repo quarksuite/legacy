@@ -49,8 +49,8 @@ export const percentChannelAsInt = compose(
   Math.round
 );
 
-export const calculateChannelDifference = (
+export const calculateDifference = (
   origin: number,
   target: number,
   p: number
-): number => Math.round(((1 - p) * origin ** 2 + p * target ** 2) ** 0.5);
+): number => significant3(((1 - p) * origin ** 2 + p * target ** 2) ** 0.5);

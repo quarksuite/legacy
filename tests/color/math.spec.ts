@@ -7,7 +7,7 @@ import {
   alphaAsHex,
   channelAsFraction,
   percentChannelAsInt,
-  calculateChannelDifference,
+  calculateDifference,
   normalization
 } from "@color/math";
 
@@ -22,13 +22,13 @@ describe("normalization :: (number, number, number) -> number", () => {
   });
 });
 
-describe("calculateChannelDifference :: (number, number, number) -> number", () => {
-  test("calculates the channel variance between two colors", () => {
-    expect(calculateChannelDifference(0, 0, 0.5)).toBe(0);
-    expect(calculateChannelDifference(255, 255, 0.5)).toBe(255);
-    expect(calculateChannelDifference(255, 0, 0.5)).toBe(180);
-    expect(calculateChannelDifference(0, 255, 0.5)).toBe(180);
-    expect(calculateChannelDifference(38, 215, 0.5)).toBe(154);
+describe("calculateDifference :: (number, number, number) -> number", () => {
+  test("calculates the variance between two values", () => {
+    expect(calculateDifference(0, 0, 0.5)).toBe(0);
+    expect(calculateDifference(255, 255, 0.5)).toBe(255);
+    expect(calculateDifference(255, 0, 0.5)).toBe(180);
+    expect(calculateDifference(0, 255, 0.5)).toBe(180);
+    expect(calculateDifference(38, 215, 0.5)).toBe(154);
   });
 });
 
