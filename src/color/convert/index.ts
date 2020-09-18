@@ -33,3 +33,11 @@ const queryConversionDict = curry(2, (target: string, color: string):
 export const toHex = queryConversionDict("hex");
 export const toRGB = queryConversionDict("rgb");
 export const toHSL = queryConversionDict("hsl");
+
+export const preserveFormat = (target: string, color: string): string => {
+  const format = validateColor(color);
+
+  if (format === "rgb") return toRGB(target);
+  if (format === "hsl") return toHSL(target);
+  return toHex(target);
+};
