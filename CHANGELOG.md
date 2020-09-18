@@ -11,6 +11,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Removed
 
 + higher-order `color.adjust` was unecessarily complex and error prone
++ `color.complement` is gone. `color.hue(180, 'red')` works the same way
++ `color.negate` is gone. `color.mix(50, color.hue(180, 'blue'), 'blue')` works the same way
 
 ### Added
 
@@ -22,7 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 + Alpha transparency is no longer ignored. Conversion functions now consume and output formats with transparency
-+ Alpha transparency is removed from color if adjusted to `1`
++ Alpha transparency is removed from color if adjusted to `100` percent
 + `color.mix` now respects and and mixes transparency
 
 ### Fixed
