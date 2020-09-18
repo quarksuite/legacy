@@ -14,18 +14,14 @@ export const extractHexChannels = (hex: string): string[] => {
   return matchValues(hex);
 };
 
-export const mapToRGB = (hex: string): number[] => {
-  const [R, G, B, A] = extractHexChannels(hex).map((channel: string): number =>
+export const toRGB = (hex: string): string => {
+  const [r, g, b, a] = extractHexChannels(hex);
+  const [R, G, B] = [r, g, b].map((channel: string): number =>
     hexToInt(channel)
   );
+  const A = a != null ? channelAsFraction(hexToInt(a)) : 1;
 
-  return A ? [R, G, B, channelAsFraction(A)] : [R, G, B];
-};
-
-export const toRGB = (hex: string): string => {
-  const [R, G, B, A] = mapToRGB(hex);
-
-  return A ? `rgba(${R}, ${G}, ${B}, ${A})` : `rgb(${R}, ${G}, ${B})`;
+  return A === 1 ? `rgb(${R}, ${G}, ${B})` : `rgba(${R}, ${G}, ${B}, ${A})`;
 };
 
 export const toHSL = compose(toRGB, hsl);

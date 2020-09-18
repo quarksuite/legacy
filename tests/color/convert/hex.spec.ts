@@ -1,4 +1,4 @@
-import { extractHexChannels, mapToRGB, toRGB, toHSL } from "@color/convert/hex";
+import { extractHexChannels, toRGB, toHSL } from "@color/convert/hex";
 
 describe("Hex formatting", () => {
   describe("extractHexChannels :: string -> string[]", () => {
@@ -39,6 +39,18 @@ describe("Hex formatting", () => {
         "cc",
         "ee"
       ]);
+      expect(extractHexChannels("#3c00")).toStrictEqual([
+        "33",
+        "cc",
+        "00",
+        "00"
+      ]);
+      expect(extractHexChannels("#ac0f")).toStrictEqual([
+        "aa",
+        "cc",
+        "00",
+        "ff"
+      ]);
     });
     test("#RRGGBB[AA] -> [R, G, B[, A]]", () => {
       expect(extractHexChannels("#000000")).toStrictEqual(["00", "00", "00"]);
@@ -59,32 +71,19 @@ describe("Hex formatting", () => {
         "9f",
         "b7"
       ]);
-    });
-  });
-  describe("mapToRGB :: string -> number[]", () => {
-    describe("maps a hex color string to its raw red, green, blue values", () => {
-      test("#RGB[A] -> [R, G, B[, A]]", () => {
-        expect(mapToRGB("#000")).toStrictEqual([0, 0, 0]);
-        expect(mapToRGB("#aaa")).toStrictEqual([170, 170, 170]);
-        expect(mapToRGB("#fff")).toStrictEqual([255, 255, 255]);
-        expect(mapToRGB("#b0b")).toStrictEqual([187, 0, 187]);
-        expect(mapToRGB("#fab")).toStrictEqual([255, 170, 187]);
-        expect(mapToRGB("#be7")).toStrictEqual([187, 238, 119]);
-        expect(mapToRGB("#0003")).toStrictEqual([0, 0, 0, 0.2]);
-        expect(mapToRGB("#aaaa")).toStrictEqual([170, 170, 170, 0.667]);
-        expect(mapToRGB("#ffff")).toStrictEqual([255, 255, 255, 1]);
-      });
-      test("#RRGGBB[AA] -> [R, G, B[, A]]", () => {
-        expect(mapToRGB("#000000")).toStrictEqual([0, 0, 0]);
-        expect(mapToRGB("#aaaaaa")).toStrictEqual([170, 170, 170]);
-        expect(mapToRGB("#ffffff")).toStrictEqual([255, 255, 255]);
-        expect(mapToRGB("#a3001c")).toStrictEqual([163, 0, 28]);
-        expect(mapToRGB("#a99cc0")).toStrictEqual([169, 156, 192]);
-        expect(mapToRGB("#0fce00")).toStrictEqual([15, 206, 0]);
-        expect(mapToRGB("#00000033")).toStrictEqual([0, 0, 0, 0.2]);
-        expect(mapToRGB("#aaaaaaaa")).toStrictEqual([170, 170, 170, 0.667]);
-        expect(mapToRGB("#ffffffff")).toStrictEqual([255, 255, 255, 1]);
-      });
+      expect(extractHexChannels("#c3c89f00")).toStrictEqual([
+        "c3",
+        "c8",
+        "9f",
+        "00"
+      ]);
+
+      expect(extractHexChannels("#c3c89fff")).toStrictEqual([
+        "c3",
+        "c8",
+        "9f",
+        "ff"
+      ]);
     });
   });
 });
@@ -111,6 +110,12 @@ describe("hex color conversion", () => {
       expect(toRGB("#3030fa")).toBe("rgb(48, 48, 250)");
       expect(toRGB("#cc939310")).toBe("rgba(204, 147, 147, 0.0627)");
       expect(toRGB("#dc3ea3ac")).toBe("rgba(220, 62, 163, 0.675)");
+    });
+    test("works with zero transparency", () => {
+      expect(toRGB("#f0ff0000")).toBe("rgba(240, 255, 0, 0)");
+    });
+    test("alpha of 1 will be stripped from conversion", () => {
+      expect(toRGB("#30fc00ff")).toBe("rgb(48, 252, 0)");
     });
   });
   describe("toHSL :: string -> string", () => {

@@ -8,15 +8,16 @@ import {
 } from "@color/math";
 
 export const extractRGBChannels = (rgb: string): number[] => {
-  const values = matchValues(rgb);
-  const [R, G, B] = values.map((channel: string): number => {
+  const [r, g, b, a] = matchValues(rgb);
+  const [R, G, B] = [r, g, b].map((channel: string): number => {
     const n = extractNumber(channel);
     if (channel.endsWith("%")) return percentChannelAsInt(n);
     return n;
   });
-  const [, , , A] = values;
 
-  return A ? [R, G, B, extractNumber(A)] : [R, G, B];
+  const A = a != null ? extractNumber(a) : 1;
+
+  return A === 1 ? [R, G, B] : [R, G, B, A];
 };
 
 // https://www.rapidtables.com/convert/color/rgb-to-hsl.html
@@ -59,17 +60,20 @@ export const calcHSL = (r: number, g: number, b: number): number[] => {
 };
 
 export const toHex = (rgb: string): string => {
-  const values = extractRGBChannels(rgb);
-  const [R, G, B] = values.map((n: number): string => intToHex(n));
-  const [, , , A] = values;
+  const [r, g, b, a] = extractRGBChannels(rgb);
 
-  return A ? ["#", R, G, B, alphaAsHex(A)].join("") : ["#", R, G, B].join("");
+  const [R, G, B] = [r, g, b].map((n: number): string => intToHex(n));
+  const A = a != null ? alphaAsHex(a) : alphaAsHex(1);
+
+  return A === "ff" ? ["#", R, G, B].join("") : ["#", R, G, B, A].join("");
 };
 
 export const toHSL = (rgb: string): string => {
-  const [R, G, B, A] = extractRGBChannels(rgb);
-  const [h, s, l] = calcHSL(R, G, B);
-  const [H, S, L] = [h, percentAsFloat(s), percentAsFloat(l)];
+  const [r, g, b, a] = extractRGBChannels(rgb);
+  const [h, s, l] = calcHSL(r, g, b);
 
-  return A ? `hsla(${H}, ${S}%, ${L}%, ${A})` : `hsl(${H}, ${S}%, ${L}%)`;
+  const [H, S, L] = [h, `${percentAsFloat(s)}%`, `${percentAsFloat(l)}%`];
+  const A = a != null ? a : 1;
+
+  return A === 1 ? `hsl(${H}, ${S}, ${L})` : `hsla(${H}, ${S}, ${L}, ${A})`;
 };

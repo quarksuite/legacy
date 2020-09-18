@@ -28,6 +28,12 @@ describe("HSL formatting", () => {
         0.37
       ]);
       expect(extractHSL("hsl(-45, 74%, 88%)")).toStrictEqual([315, 0.74, 0.88]);
+      expect(extractHSL("hsla(-4rad, 74%, 88%, 0)")).toStrictEqual([
+        131,
+        0.74,
+        0.88,
+        0
+      ]);
     });
   });
 });
@@ -77,6 +83,12 @@ describe("HSL color conversion", () => {
       expect(toRGB("hsl(10rad, 69%, 30%)")).toBe("rgb(24, 71, 129)");
       expect(toRGB("hsl(2.25turn, 69%, 30%)")).toBe("rgb(77, 129, 24)");
     });
+    test("respects zero transparency", () => {
+      expect(toRGB("hsla(420, 23%, 42%, 0)")).toBe("rgba(132, 132, 82, 0)");
+    });
+    test("removes alpha for opaque color", () => {
+      expect(toRGB("hsla(420, 23%, 42%, 1)")).toBe("rgb(132, 132, 82)");
+    });
   });
   describe("toHex :: string -> string", () => {
     test("hsl[a](H, S%, L%[, A]) -> #RRGGBB[AA]", () => {
@@ -102,6 +114,12 @@ describe("HSL color conversion", () => {
       expect(toHex("hsl(720grad, 69%, 30%)")).toBe("#6c1881");
       expect(toHex("hsl(10rad, 69%, 30%)")).toBe("#184781");
       expect(toHex("hsl(2.25turn, 69%, 30%)")).toBe("#4d8118");
+    });
+    test("respects zero transparency", () => {
+      expect(toHex("hsla(20, 23%, 42%, 0)")).toBe("#84635200");
+    });
+    test("removes alpha for opaque color", () => {
+      expect(toHex("hsla(42, 23%, 42%, 1)")).toBe("#847552");
     });
   });
 });

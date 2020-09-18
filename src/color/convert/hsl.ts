@@ -26,9 +26,9 @@ const calcChannels = (
   ]);
 
 export const extractHSL = (hsl: string): number[] => {
-  const values = matchValues(hsl);
+  const [h, s, l, a] = matchValues(hsl);
 
-  const [H] = values.map((value: string): number => {
+  const [H] = [h].map((value: string): number => {
     // if gradian, radian, or turn, nothing else happens
     const n = extractNumber(value);
     const isNegative = (n: number): boolean => Math.sign(n) === -1;
@@ -58,14 +58,14 @@ export const extractHSL = (hsl: string): number[] => {
     return degrees;
   });
 
-  const [, S, L] = values.map((value: string): number => {
+  const [S, L] = [s, l].map((value: string): number => {
     const n = extractNumber(value);
     return percentAsFraction(n);
   });
 
-  const [, , , A] = values;
+  const A = a != null ? extractNumber(a) : 1;
 
-  return A ? [H, S, L, extractNumber(A)] : [H, S, L];
+  return A === 1 ? [H, S, L] : [H, S, L, A];
 };
 
 export const calcRGB = (h: number, s: number, l: number): number[] => {
@@ -84,10 +84,12 @@ export const calcRGB = (h: number, s: number, l: number): number[] => {
 };
 
 export const toRGB = (hsl: string): string => {
-  const [H, S, L, A] = extractHSL(hsl);
-  const [R, G, B] = calcRGB(H, S, L);
+  const [h, s, l, a] = extractHSL(hsl);
 
-  return A ? `rgba(${R}, ${G}, ${B}, ${A})` : `rgb(${R}, ${G}, ${B})`;
+  const [R, G, B] = calcRGB(h, s, l);
+  const A = a != null ? a : 1;
+
+  return A === 1 ? `rgb(${R}, ${G}, ${B})` : `rgba(${R}, ${G}, ${B}, ${A})`;
 };
 
 export const toHex = compose(toRGB, hex);
