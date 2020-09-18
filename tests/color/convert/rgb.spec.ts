@@ -1,52 +1,27 @@
-import { extractRGBChannels, calcHSL, toHex, toHSL } from "@color/convert/rgb";
+import { extractRGB, calcHSL, toHex, toHSL } from "@color/convert/rgb";
 
 describe("RGB formatting", () => {
-  describe("extractRGBChannels :: string -> number[]", () => {
+  describe("extractRGB :: string -> number[]", () => {
     test("rgb[a](R[%], G[%], B[%][, A]) -> [R, G, B[, A]]", () => {
-      expect(extractRGBChannels("rgb(0, 0, 0)")).toStrictEqual([0, 0, 0]);
-      expect(extractRGBChannels("rgb(170, 170, 170)")).toStrictEqual([
-        170,
-        170,
-        170
-      ]);
-      expect(extractRGBChannels("rgb(255, 255, 255)")).toStrictEqual([
-        255,
-        255,
-        255
-      ]);
-      expect(extractRGBChannels("rgb(20, 55, 5)")).toStrictEqual([20, 55, 5]);
-      expect(extractRGBChannels("rgb(120, 120, 0)")).toStrictEqual([
-        120,
-        120,
-        0
-      ]);
-      expect(extractRGBChannels("rgb(10%, 55%, 80%)")).toStrictEqual([
-        26,
-        140,
-        204
-      ]);
-      expect(extractRGBChannels("rgba(120, 74, 200, 0.1)")).toStrictEqual([
+      expect(extractRGB("rgb(0, 0, 0)")).toStrictEqual([0, 0, 0]);
+      expect(extractRGB("rgb(170, 170, 170)")).toStrictEqual([170, 170, 170]);
+      expect(extractRGB("rgb(255, 255, 255)")).toStrictEqual([255, 255, 255]);
+      expect(extractRGB("rgb(20, 55, 5)")).toStrictEqual([20, 55, 5]);
+      expect(extractRGB("rgb(120, 120, 0)")).toStrictEqual([120, 120, 0]);
+      expect(extractRGB("rgb(10%, 55%, 80%)")).toStrictEqual([26, 140, 204]);
+      expect(extractRGB("rgba(120, 74, 200, 0.1)")).toStrictEqual([
         120,
         74,
         200,
         0.1
       ]);
-      expect(extractRGBChannels("rgba(120, 74, 20, 1)")).toStrictEqual([
-        120,
-        74,
-        20
-      ]);
-      expect(extractRGBChannels("rgba(10, 74, 20, 0)")).toStrictEqual([
-        10,
-        74,
-        20,
-        0
-      ]);
+      expect(extractRGB("rgba(120, 74, 20, 1)")).toStrictEqual([120, 74, 20]);
+      expect(extractRGB("rgba(10, 74, 20, 0)")).toStrictEqual([10, 74, 20, 0]);
     });
   });
 });
 
-xdescribe("RGB calculations", () => {
+describe("RGB calculations", () => {
   describe("calcHSL :: (number, number, number) -> number[]", () => {
     test("(R, G, B) -> raw [H, S, L]", () => {
       expect(calcHSL(0, 0, 0)).toStrictEqual([0, 0, 0]);

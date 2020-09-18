@@ -7,7 +7,7 @@ import {
   alphaAsHex
 } from "@color/math";
 
-export const extractRGBChannels = (rgb: string): number[] => {
+export const extractRGB = (rgb: string): number[] => {
   const [r, g, b, a] = matchValues(rgb);
   const [R, G, B] = [r, g, b].map((channel: string): number => {
     const n = extractNumber(channel);
@@ -60,7 +60,7 @@ export const calcHSL = (r: number, g: number, b: number): number[] => {
 };
 
 export const toHex = (rgb: string): string => {
-  const [r, g, b, a] = extractRGBChannels(rgb);
+  const [r, g, b, a] = extractRGB(rgb);
 
   const [R, G, B] = [r, g, b].map((n: number): string => intToHex(n));
   const A = a != null ? alphaAsHex(a) : alphaAsHex(1);
@@ -69,7 +69,7 @@ export const toHex = (rgb: string): string => {
 };
 
 export const toHSL = (rgb: string): string => {
-  const [r, g, b, a] = extractRGBChannels(rgb);
+  const [r, g, b, a] = extractRGB(rgb);
   const [h, s, l] = calcHSL(r, g, b);
 
   const [H, S, L] = [h, `${percentAsFloat(s)}%`, `${percentAsFloat(l)}%`];
