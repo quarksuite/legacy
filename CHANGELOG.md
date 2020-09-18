@@ -4,24 +4,31 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased - 2020-09-15
+## Unreleased - 2020-09-17
 
 > This project is currently being rewritten. Tread carefully
+
+### Removed
+
++ higher-order `color.adjust` was unecessarily complex and error prone
 
 ### Added
 
 + `hsl` format now accepts negative hues
 + `hsl` format also accepts hue as gradians (`150grad`)
 + UMD build for legacy environments
++ `color.alpha` color adjustment
 
 ### Changed
 
 + Alpha transparency is no longer ignored. Conversion functions now consume and output formats with transparency
++ Alpha transparency is removed from color if adjusted to `1`
++ `color.mix` now respects and and mixes transparency
 
 ### Fixed
 
-+ Some named colors were not being converted correctly (mainly `dodgerblue`)
-+ Alpha transparency no longer breaks conversion
++ Redundant operations were breaking conversion for some hex and named colors (mainly `dodgerblue` and `color.a11y('orange')`)
++ Alpha transparency no longer breaks
 
 ## v3.3.0 - 2020-08-16
 

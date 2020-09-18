@@ -110,7 +110,8 @@
     "*.ts": [
       "eslint --fix",
       "jest --bail --coverage --findRelatedTests",
-      "git add"
+      "git add",
+      "pika build"
     ]
   }
 }
