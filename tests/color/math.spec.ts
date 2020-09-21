@@ -1,14 +1,14 @@
 import {
   radToDeg,
   gradToDeg,
-  fractionToDeg,
+  fractionOfCircle,
   percentAsFraction,
   percentAsFloat,
   alphaAsHex,
   channelAsFraction,
   percentChannelAsInt,
   calculateDifference,
-  normalization
+  normalization,
 } from "@color/math";
 
 describe("normalization :: (number, number, number) -> number", () => {
@@ -52,13 +52,13 @@ describe("gradToDeg :: number -> number", () => {
   });
 });
 
-describe("fractionToDeg :: number -> number", () => {
+describe("fractionOfCircle :: number -> number", () => {
   test("n / 360 -> n°", () => {
-    expect(fractionToDeg(0)).toBe(0);
-    expect(fractionToDeg(0.25)).toBe(90);
-    expect(fractionToDeg(0.5)).toBe(180);
-    expect(fractionToDeg(0.75)).toBe(270);
-    expect(fractionToDeg(1)).toBe(360);
+    expect(fractionOfCircle(0)).toBe(0);
+    expect(fractionOfCircle(0.25)).toBe(90);
+    expect(fractionOfCircle(0.5)).toBe(180);
+    expect(fractionOfCircle(0.75)).toBe(270);
+    expect(fractionOfCircle(1)).toBe(360);
   });
 });
 
