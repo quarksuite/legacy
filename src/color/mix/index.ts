@@ -1,10 +1,11 @@
-import { curry, compose } from "@architecture/toolbox";
+import { compose } from "../../fn";
 import {
   calculateDifference,
   normalization,
   percentAsFraction,
-  percentAsFloat
+  percentAsFloat,
 } from "@color/math";
+import { validateColor } from "../validate";
 import { toRGB, preserveFormat } from "@color/convert";
 import { extractRGB } from "@color/convert/rgb";
 
@@ -21,7 +22,7 @@ const calculateMix = (
   const RGB_STORE = [
     [OR, TR],
     [OG, TG],
-    [OB, TB]
+    [OB, TB],
   ];
 
   // Calculate new RGB
@@ -30,9 +31,15 @@ const calculateMix = (
   );
 };
 
-export const mix = curry(3, (amount: number, target: string, color: string):
-  | string
-  | Error => {
+export const mix = (
+  amount: number,
+  target: string,
+  color: string
+): string | Error => {
+  // If either color is invalid, reject
+  validateColor("Cannot mix invalid target with color", target);
+  validateColor("Input color is invalid and cannot be mixed", color);
+
   const pickRGB = compose(toRGB, extractRGB);
   const p = percentAsFraction(amount);
 
@@ -55,4 +62,4 @@ export const mix = curry(3, (amount: number, target: string, color: string):
     A === 1 ? `rgb(${R}, ${G}, ${B})` : `rgba(${R}, ${G}, ${B}, ${A})`,
     color
   );
-});
+};
