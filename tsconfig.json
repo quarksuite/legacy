@@ -1,16 +1,17 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
+    "target": "ES2019",
+    "module": "commonjs",
     "moduleResolution": "node",
     "lib": [
-      "esnext"
+      "ES2019"
     ],
     "strict": true,
     "esModuleInterop": true,
     "baseUrl": "src",
     "paths": {
-      "@architecture/*": ["architecture/*"],
+      "@api/*": ["index.ts"],
+      "@fn/*": ["fn/*"],
       "@color/*": ["color/*"],
       "@typography/*": ["typography/*"],
       "@scale/*": ["scale/*"]

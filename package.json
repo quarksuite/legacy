@@ -36,8 +36,8 @@
     "@pika/plugin-copy-assets": "^0.9.2",
     "@pika/plugin-standard-pkg": "^0.9.2",
     "@pika/plugin-ts-standard-pkg": "^0.9.2",
-    "@types/jest": "^26.0.13",
-    "@types/node": "^14.10.2",
+    "@types/jest": "^26.0.14",
+    "@types/node": "^14.11.1",
     "@typescript-eslint/eslint-plugin": "^4.1.1",
     "@typescript-eslint/parser": "^4.1.1",
     "babel-eslint": "^10.1.0",
@@ -47,20 +47,23 @@
     "eslint": "^7.9.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-tsdoc": "^0.2.7",
     "husky": "^4.3.0",
     "jest": "^26.4.2",
-    "lint-staged": "^10.3.0",
+    "lint-staged": "^10.4.0",
     "npm-run-all": "^4.1.5",
     "onchange": "^7.0.2",
-    "prettier": "^2.1.1",
+    "prettier": "^2.1.2",
     "ts-jest": "^26.3.0",
     "tsc": "^1.20150623.0",
     "tslint": "^6.1.3",
-    "typescript": "^4.0.2"
+    "typescript": "^4.0.3"
   },
   "scripts": {
     "dev": "onchange 'src/**/*.ts' 'tests/**/*.ts' -- yarn test",
+    "lint:dev": "onchange 'src/**/*.ts' -- yarn lint",
     "build": "run-s -n test pika:build",
+    "lint": "eslint src/**/*.ts",
     "pika:build": "pika build",
     "test": "jest",
     "version": "npm run build"
@@ -110,7 +113,6 @@
     "*.ts": [
       "eslint --fix",
       "jest --bail --coverage --findRelatedTests",
-      "git add",
       "pika build"
     ]
   }
