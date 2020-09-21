@@ -1,7 +1,7 @@
 import { hue, saturation, lightness, alpha } from "@color/adjust";
 
 describe("Pulblic color adjustment functions", () => {
-  describe("hue :: (number, string) -> string", () => {
+  describe("hue :: (number, string) -> string | Error", () => {
     test("allows hue adjustment of any valid color", () => {
       expect(hue(60, "#ff0000")).toBe("#ffff00");
       expect(hue(120, "rgb(110, 220, 0)")).toBe("rgb(0, 110, 220)");
@@ -14,6 +14,11 @@ describe("Pulblic color adjustment functions", () => {
       expect(hue(-15, "hsla(30, 40%, 62%, 0.42)")).toBe(
         "hsla(15, 40%, 62%, 0.42)"
       );
+    });
+    test("rejects invalid colors", () => {
+      expect(() => hue(30, "hsa(3311, 330, 1100)")).toThrow();
+      expect(() => hue(30, "rgb(339, 11, 999)")).toThrow();
+      expect(() => hue(-11, "#ffaa3cz")).toThrow();
     });
   });
   describe("saturation :: (number, string) -> string", () => {
@@ -60,6 +65,11 @@ describe("Pulblic color adjustment functions", () => {
       );
       expect(saturation(100, "hotpink")).toBe("#ff69b4");
     });
+    test("rejects invalid colors", () => {
+      expect(() => saturation(30, "hsa(3311, 330, 1100)")).toThrow();
+      expect(() => saturation(30, "rgb(339, 11, 999)")).toThrow();
+      expect(() => saturation(-11, "#ffaa3cz")).toThrow();
+    });
   });
   describe("lightness :: (number, string) -> string", () => {
     test("allows lightness adjustment of any valid color", () => {
@@ -105,6 +115,11 @@ describe("Pulblic color adjustment functions", () => {
       );
       expect(lightness(100, "hotpink")).toBe("#ffffff");
     });
+    test("rejects invalid colors", () => {
+      expect(() => lightness(30, "hsa(3311, 330, 1100)")).toThrow();
+      expect(() => lightness(30, "rgb(339, 11, 999)")).toThrow();
+      expect(() => lightness(-11, "#ffaa3cz")).toThrow();
+    });
   });
   describe("alpha :: (number, string) -> string", () => {
     test("allows alpha transparency adjustment of any valid color", () => {
@@ -143,6 +158,11 @@ describe("Pulblic color adjustment functions", () => {
       expect(alpha(100, "rgba(175, 150, 0, 0.4)")).toBe("rgb(175, 149, 0)");
       expect(alpha(100, "hsla(30, 40%, 62%, 0.42)")).toBe("hsl(30, 40%, 62%)");
       expect(alpha(100, "hotpink")).toBe("#ff69b4");
+    });
+    test("rejects invalid colors", () => {
+      expect(() => alpha(30, "hsa(3311, 330, 1100)")).toThrow();
+      expect(() => alpha(30, "rgb(339, 11, 999)")).toThrow();
+      expect(() => alpha(-11, "#ffaa3cz")).toThrow();
     });
   });
 });
