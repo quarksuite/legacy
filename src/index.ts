@@ -1,8 +1,13 @@
+import { compose, curryN } from "./fn";
 import { hue, saturation, lightness, alpha } from "./color/adjust";
-import { toHex, toRGB, toHSL } from "./color/convert";
 import { mix } from "./color/mix";
+import { toHex, toRGB, toHSL } from "./color/convert";
 
 export const color = {
+  // advanced setup
+  settings: curryN,
+  create: compose,
+
   // adjustment
   hue,
   h: hue,
@@ -13,11 +18,13 @@ export const color = {
   alpha,
   a: alpha,
 
-  // conversion
-  toHex,
-  toRGB,
-  toHSL,
-
   // mixing
-  mix
+  mix,
+
+  // utilities
+  utilities: {
+    toHex,
+    toRGB,
+    toHSL,
+  },
 };

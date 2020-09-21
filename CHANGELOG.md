@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased - 2020-09-17
+## Unreleased - 2020-09-21
 
 > This project is currently being rewritten. Tread carefully
 
@@ -20,10 +20,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 + `hsl` format also accepts hue as gradians (`150grad`)
 + UMD build for legacy environments
 + `color.alpha` color adjustment
++ `color.settings` function that partially applies any color function
++ `color.create` function that allows you to compose color functions
++ `color.utilities` wraps all the color conversion functions. **They're not
+  intended to be used as part of the main workflow in v4**
 
 ### Changed
 
-+ Alpha transparency is no longer ignored. Conversion functions now consume and output formats with transparency
++ Alpha transparency is no longer ignored
 + Alpha transparency is removed from color if adjusted to `100` percent
 + `color.mix` now respects and and mixes transparency
 
