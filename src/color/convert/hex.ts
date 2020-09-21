@@ -1,7 +1,7 @@
-import { compose } from "@architecture/toolbox";
-import { hexToInt, matchValues } from "@color/formatting";
-import { channelAsFraction } from "@color/math";
-import { toHSL as hsl } from "@color/convert/rgb";
+import { compose } from "../../fn";
+import { hexToInt, matchValues } from "../formatting";
+import { channelAsFraction } from "../math";
+import { toHSL as hsl } from "./rgb";
 
 export const extractHexChannels = (hex: string): string[] => {
   // #RGB(A)

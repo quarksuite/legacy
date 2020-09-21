@@ -1,11 +1,11 @@
-import { matchValues, extractNumber, intToHex } from "@color/formatting";
+import { matchValues, extractNumber, intToHex } from "../formatting";
 import {
   percentAsFloat,
   channelAsFraction,
   percentChannelAsInt,
   ccwHueCorrection,
-  alphaAsHex
-} from "@color/math";
+  alphaAsHex,
+} from "../math";
 
 export const extractRGB = (rgb: string): number[] => {
   const [r, g, b, a] = matchValues(rgb);
@@ -32,7 +32,7 @@ const calcHue = (
     [0, delta === 0],
     [60 * (((G - B) / delta) % 6), cmax === R],
     [60 * ((B - R) / delta + 2), cmax === G],
-    [60 * ((R - G) / delta + 4), cmax === B]
+    [60 * ((R - G) / delta + 4), cmax === B],
   ]);
 
 const calcSat = (delta: number, L: number): number =>

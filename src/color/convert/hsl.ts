@@ -1,14 +1,14 @@
-import { compose } from "@architecture/toolbox";
-import { extractNumber, matchValues } from "@color/formatting";
+import { compose } from "../../fn";
+import { extractNumber, matchValues } from "../formatting";
 import {
   percentAsFraction,
   radToDeg,
   gradToDeg,
-  fractionToDeg,
+  fractionOfCircle,
   cwHueCorrection,
-  ccwHueCorrection
-} from "@color/math";
-import { toHex as hex } from "@color/convert/rgb";
+  ccwHueCorrection,
+} from "../math";
+import { toHex as hex } from "./rgb";
 
 // https://www.rapidtables.com/convert/color/hsl-to-rgb.html
 const calcChannels = (
@@ -22,7 +22,7 @@ const calcChannels = (
     [[0, C, X], 120 <= H && H < 180],
     [[0, X, C], 180 <= H && H < 240],
     [[X, 0, C], 240 <= H && H < 300],
-    [[C, 0, X], 300 <= H && H < 360]
+    [[C, 0, X], 300 <= H && H < 360],
   ]);
 
 export const extractHSL = (hsl: string): number[] => {
@@ -40,7 +40,7 @@ export const extractHSL = (hsl: string): number[] => {
     } else if (value.endsWith("rad")) {
       hue = isNegative(n) ? radToDeg(n + 6.28319) : radToDeg(n);
     } else if (value.endsWith("turn")) {
-      hue = isNegative(n) ? fractionToDeg(n + 1) : fractionToDeg(n);
+      hue = isNegative(n) ? fractionOfCircle(n + 1) : fractionOfCircle(n);
     } else {
       hue = n;
     }
