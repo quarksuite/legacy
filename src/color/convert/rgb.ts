@@ -1,3 +1,14 @@
+import {
+  Channel,
+  Color,
+  ColorFragment,
+  HexFragment,
+  HSLData,
+  Hue,
+  Lightness,
+  RGBData,
+  Saturation,
+} from "../data/types";
 import { matchValues, extractNumber, intToHex } from "../formatting";
 import {
   percentAsFraction,
@@ -8,13 +19,15 @@ import {
   alphaAsHex,
 } from "../math";
 
-export const extractRGB = (rgb: string): number[] => {
+export const extractRGB = (rgb: Color): RGBData => {
   const [r, g, b, a] = matchValues(rgb);
-  const [R, G, B] = [r, g, b].map((channel: string): number => {
-    const n = extractNumber(channel);
-    if (channel.endsWith("%")) return percentChannelAsInt(n);
-    return n;
-  });
+  const [R, G, B] = [r, g, b].map(
+    (channel: ColorFragment): Channel => {
+      const n = extractNumber(channel);
+      if (channel.endsWith("%")) return percentChannelAsInt(n);
+      return n;
+    }
+  );
 
   const A =
     a != null
@@ -28,12 +41,12 @@ export const extractRGB = (rgb: string): number[] => {
 
 // https://www.rapidtables.com/convert/color/rgb-to-hsl.html
 const calcHue = (
-  R: number,
-  G: number,
-  B: number,
+  R: Channel,
+  G: Channel,
+  B: Channel,
   cmax: number,
   delta: number
-): Map<number, boolean> =>
+): Map<Hue, boolean> =>
   new Map([
     [0, delta === 0],
     [60 * (((G - B) / delta) % 6), cmax === R],
@@ -41,22 +54,24 @@ const calcHue = (
     [60 * ((R - G) / delta + 4), cmax === B],
   ]);
 
-const calcSat = (delta: number, L: number): number =>
+const calcSat = (delta: number, L: Lightness): Saturation =>
   delta === 0 ? 0 : delta / (1 - Math.abs(2 * L - 1));
 
-const calcLightness = (cmin: number, cmax: number): number => (cmax + cmin) / 2;
+const calcLightness = (cmin: number, cmax: number): Lightness =>
+  (cmax + cmin) / 2;
 
-export const calcHSL = (r: number, g: number, b: number): number[] => {
-  const [R, G, B] = [r, g, b].map((channel: number): number =>
-    channelAsFraction(channel)
+export const calcHSL = (r: Channel, g: Channel, b: Channel): HSLData => {
+  const [R, G, B] = [r, g, b].map(
+    (channel: Channel): Channel => channelAsFraction(channel)
   );
+
   const cmin = Math.min(R, G, B);
   const cmax = Math.max(R, G, B);
   const delta = cmax - cmin;
 
   const [H] = Array.from(calcHue(R, G, B, cmax, delta))
-    .filter(([, condition]: [number, boolean]): boolean => condition)
-    .flatMap(([value]: [number, boolean]): number => Math.round(value));
+    .filter(([, condition]: [Hue, boolean]): boolean => condition)
+    .flatMap(([value]: [Hue, boolean]): number => Math.round(value));
 
   const L = calcLightness(cmin, cmax);
 
@@ -65,16 +80,16 @@ export const calcHSL = (r: number, g: number, b: number): number[] => {
   return [Math.sign(H) === -1 ? ccwHueCorrection(H) : H, S, L];
 };
 
-export const toHex = (rgb: string): string => {
+export const toHex = (rgb: Color): Color => {
   const [r, g, b, a] = extractRGB(rgb);
 
-  const [R, G, B] = [r, g, b].map((n: number): string => intToHex(n));
+  const [R, G, B] = [r, g, b].map((n: Channel): HexFragment => intToHex(n));
   const A = a != null ? alphaAsHex(a) : alphaAsHex(1);
 
   return A === "ff" ? ["#", R, G, B].join("") : ["#", R, G, B, A].join("");
 };
 
-export const toHSL = (rgb: string): string => {
+export const toHSL = (rgb: Color): Color => {
   const [r, g, b, a] = extractRGB(rgb);
   const [h, s, l] = calcHSL(r, g, b);
 

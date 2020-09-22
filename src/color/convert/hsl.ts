@@ -1,3 +1,12 @@
+import {
+  Channel,
+  Color,
+  ColorFragment,
+  HSLData,
+  Hue,
+  Lightness,
+  Saturation,
+} from "../data/types";
 import { compose } from "../../fn";
 import { extractNumber, matchValues } from "../formatting";
 import {
@@ -15,7 +24,7 @@ const calcChannels = (
   C: number,
   X: number,
   H: number
-): Map<[number, number, number], boolean> =>
+): Map<[Channel, Channel, Channel], boolean> =>
   new Map([
     [[C, X, 0], 0 <= H && H < 60],
     [[X, C, 0], 60 <= H && H < 120],
@@ -25,40 +34,42 @@ const calcChannels = (
     [[C, 0, X], 300 <= H && H < 360],
   ]);
 
-export const extractHSL = (hsl: string): number[] => {
+export const extractHSL = (hsl: Color): HSLData => {
   const [h, s, l, a] = matchValues(hsl);
 
-  const [H] = [h].map((value: string): number => {
-    // if gradian, radian, or turn, nothing else happens
-    const n = extractNumber(value);
-    const isNegative = (n: number): boolean => Math.sign(n) === -1;
-    let hue;
+  const [H] = [h].map(
+    (value: ColorFragment): Hue => {
+      // if gradian, radian, or turn, nothing else happens
+      const n = extractNumber(value);
+      const isNegative = (n: Hue): boolean => Math.sign(n) === -1;
+      let hue;
 
-    // Set hue based on unit
-    if (value.endsWith("grad")) {
-      hue = isNegative(n) ? gradToDeg(n + 400) : gradToDeg(n);
-    } else if (value.endsWith("rad")) {
-      hue = isNegative(n) ? radToDeg(n + 6.28319) : radToDeg(n);
-    } else if (value.endsWith("turn")) {
-      hue = isNegative(n) ? fractionOfCircle(n + 1) : fractionOfCircle(n);
-    } else {
-      hue = n;
+      // Set hue based on unit
+      if (value.endsWith("grad")) {
+        hue = isNegative(n) ? gradToDeg(n + 400) : gradToDeg(n);
+      } else if (value.endsWith("rad")) {
+        hue = isNegative(n) ? radToDeg(n + 6.28319) : radToDeg(n);
+      } else if (value.endsWith("turn")) {
+        hue = isNegative(n) ? fractionOfCircle(n + 1) : fractionOfCircle(n);
+      } else {
+        hue = n;
+      }
+
+      // hue correction
+      let degrees;
+      if (hue >= 360) {
+        degrees = cwHueCorrection(hue);
+      } else if (isNegative(hue)) {
+        degrees = compose(cwHueCorrection, ccwHueCorrection)(hue);
+      } else {
+        degrees = hue;
+      }
+
+      return degrees;
     }
+  );
 
-    // hue correction
-    let degrees;
-    if (hue >= 360) {
-      degrees = cwHueCorrection(hue);
-    } else if (isNegative(hue)) {
-      degrees = compose(cwHueCorrection, ccwHueCorrection)(hue);
-    } else {
-      degrees = hue;
-    }
-
-    return degrees;
-  });
-
-  const [S, L] = [s, l].map((value: string): number => {
+  const [S, L] = [s, l].map((value: ColorFragment): Saturation | Lightness => {
     const n = extractNumber(value);
     return percentAsFraction(n);
   });
@@ -73,7 +84,7 @@ export const extractHSL = (hsl: string): number[] => {
   return A === 1 ? [H, S, L] : [H, S, L, A];
 };
 
-export const calcRGB = (h: number, s: number, l: number): number[] => {
+export const calcRGB = (h: Hue, s: Saturation, l: Lightness): HSLData => {
   // Calculate chroma
   const C = (1 - Math.abs(2 * l - 1)) * s;
   const X = C * (1 - Math.abs(((h / 60) % 2) - 1));
@@ -81,14 +92,14 @@ export const calcRGB = (h: number, s: number, l: number): number[] => {
 
   // Evaluate channels
   const [R, G, B] = Array.from(calcChannels(C, X, h))
-    .filter(([, condition]: [number[], boolean]): boolean => condition)
-    .flatMap(([evaluation]: [number[], boolean]): number[] => evaluation)
-    .map((channel: number): number => Math.round((channel + m) * 255));
+    .filter(([, condition]: [Channel[], boolean]): boolean => condition)
+    .flatMap(([evaluation]: [Channel[], boolean]): Channel[] => evaluation)
+    .map((channel: Channel): Channel => Math.round((channel + m) * 255));
 
   return [R, G, B];
 };
 
-export const toRGB = (hsl: string): string => {
+export const toRGB = (hsl: Color): Color => {
   const [h, s, l, a] = extractHSL(hsl);
 
   const [R, G, B] = calcRGB(h, s, l);

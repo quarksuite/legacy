@@ -1,4 +1,11 @@
 import { compose, curry2 } from "../fn";
+import {
+  HueCalc,
+  SatCalc,
+  LumCalc,
+  AlphaCalc,
+  ChannelCalc,
+} from "./data/types";
 import { intToHex } from "./formatting";
 
 // Arithmetic
@@ -28,27 +35,26 @@ const calcChannel = productOf(255);
 // Hrad, Hgrad, Hturn -> hue
 
 /** Formula: n° = n ㎭ × 180/π */
-export const radToDeg = compose(calcRad, Math.round);
+export const radToDeg: HueCalc = compose(calcRad, Math.round);
 
 /** Formula: n° = nᵍ × 180/200 */
-export const gradToDeg = calcGrad;
+export const gradToDeg: HueCalc = calcGrad;
 
 /** Formula: n° = n% × 360 */
-export const fractionOfCircle = compose(calcTurn, Math.round);
+export const fractionOfCircle: HueCalc = compose(calcTurn, Math.round);
 
 // hue correction
 
 /** Formula: n° = -n + 360 */
-export const ccwHueCorrection = sumOf(360);
+export const ccwHueCorrection: HueCalc = sumOf(360);
 
 /** Formula: n° = n % 360 */
-export const cwHueCorrection = remainderOf(360);
+export const cwHueCorrection: HueCalc = remainderOf(360);
 
-// saturation, lightness
-export const percentAsFraction = quotientOf(100);
-export const percentAsFloat = productOf(100);
+// saturation, lightness, alpha
+export const percentAsFraction: SatCalc | LumCalc | AlphaCalc = quotientOf(100);
+export const percentAsFloat: SatCalc | LumCalc | AlphaCalc = productOf(100);
 
-// alpha
 export const alphaAsHex = compose(compose(calcChannel, Math.round), intToHex);
 
 export const normalization = (a: number, b: number, x: number): number =>
@@ -57,9 +63,9 @@ export const normalization = (a: number, b: number, x: number): number =>
 // red, green, blue calculations
 
 /** Formula: n = n / 255 */
-export const channelAsFraction = quotientOf(255);
+export const channelAsFraction: ChannelCalc = quotientOf(255);
 
-export const percentChannelAsInt = compose(
+export const percentChannelAsInt: ChannelCalc = compose(
   compose(calcChannel, percentAsFraction),
   Math.round
 );

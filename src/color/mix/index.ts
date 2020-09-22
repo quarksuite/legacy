@@ -4,10 +4,10 @@ import {
   normalization,
   percentAsFraction,
   percentAsFloat,
-} from "@color/math";
+} from "../math";
 import { validateColor } from "../validate";
-import { toRGB, preserveFormat } from "@color/convert";
-import { extractRGB } from "@color/convert/rgb";
+import { toRGB, preserveFormat } from "../convert";
+import { extractRGB } from "../convert/rgb";
 
 const calculateMix = (
   original: number[],
