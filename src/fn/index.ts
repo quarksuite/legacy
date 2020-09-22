@@ -11,7 +11,7 @@ export type Variadic<T extends any[], U extends any[], R> = (
  * @param g - second function
  * @param f - first function
  * @param x - the value to be composed
- * @return `h(x) = g`
+ * @returns `h(x) = g`
  *
  * @remarks
  * If function `arity > 1`, you'll have to curry it to `1`.
@@ -34,7 +34,7 @@ export const compose = <T, U, R>(f: Unary<T, U>, g: Unary<U, R>) => (x: T) =>
  * @param fn - the function to curry
  * @param y - arg
  * @param x - data
- * @return the args of `fn` as a sequence of 2 calls
+ * @returns the args of `fn` as a sequence of 2 calls
  *
  */
 export const curry2 = <T, U, R>(fn: Binary<T, U, R>) => (y: U) => (x: T): R =>
@@ -53,7 +53,7 @@ export const curry2 = <T, U, R>(fn: Binary<T, U, R>) => (y: U) => (x: T): R =>
  * @param z - arg
  * @param y - arg
  * @param x - data
- * @return the args of `fn` as a sequence of 3 calls
+ * @returns the args of `fn` as a sequence of 3 calls
  *
  */
 export const curry3 = <T, U, V, R>(fn: Ternary<T, U, V, R>) => (z: V) => (
@@ -71,7 +71,7 @@ export const curry3 = <T, U, V, R>(fn: Ternary<T, U, V, R>) => (z: V) => (
  * @param fn - the function to curry
  * @param applied - initial arguments
  * @param remaining - remaining arguments
- * @return the args of `fn` as a sequence of two calls of its arguments
+ * @returns the args of `fn` as a sequence of two calls of its arguments
  *
  */
 export const curryN = <T extends any[], U extends any[], R>(
