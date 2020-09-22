@@ -1,6 +1,6 @@
 import { compose, curryN } from "./fn";
 import { clrs } from "./color/data/clrs";
-import { Color } from "./color/data/types";
+import { Color, CSSColor } from "./color/data/types";
 import { validateColor } from "./color/validate";
 import { hue, saturation, lightness, alpha } from "./color/adjust";
 import { mix } from "./color/mix";
@@ -32,21 +32,21 @@ export const color = {
 
   // utilities
   utilities: {
-    a11y: (color: string): Color | Error => {
+    a11y: (color: CSSColor): Color => {
       validateColor("Invalid color format: cannot be read", color);
 
       if (clrs[color]) return preserveFormat(clrs[color], color);
       throw Error("Color not defined in accessibility table");
     },
-    toHex: (color: Color): Color | Error =>
+    toHex: (color: CSSColor): Color =>
       validateColor(
         "Invalid color format: cannot convert to hexadecimal",
         color
       ) && toHex(color),
-    toRGB: (color: Color): Color | Error =>
+    toRGB: (color: CSSColor): Color =>
       validateColor("Invalid color format: cannot convert to RGB", color) &&
       toRGB(color),
-    toHSL: (color: Color): Color | Error =>
+    toHSL: (color: CSSColor): Color =>
       validateColor("Invalid color format: cannot convert to HSL", color) &&
       toHSL(color),
   },
