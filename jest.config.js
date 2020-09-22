@@ -17,6 +17,8 @@ module.exports = {
     "^@api(.*)$": "<rootDir>/src/index.ts",
     "^@fn(.*)$": "<rootDir>/src/fn$1",
     "^@color(.*)$": "<rootDir>/src/color$1",
+    "^@scheme(.*)$": "<rootDir>/src/scheme$1",
+    "^@variant(.*)$": "<rootDir>/src/variant$1",
     "^@typography(.*)$": "<rootDir>/src/typography$1",
     "^@scale(.*)$": "<rootDir>/src/scale$1",
   },

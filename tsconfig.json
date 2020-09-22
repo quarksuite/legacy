@@ -10,9 +10,11 @@
     "esModuleInterop": true,
     "baseUrl": "src",
     "paths": {
-      "@api/*": ["index.ts"],
+      "@api/*": ["/"],
       "@fn/*": ["fn/*"],
       "@color/*": ["color/*"],
+      "@scheme/*": ["scheme/*"],
+      "@variant/*": ["variant/*"],
       "@typography/*": ["typography/*"],
       "@scale/*": ["scale/*"]
     }
