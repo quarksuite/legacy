@@ -8,10 +8,11 @@ import {
 import { validateColor } from "../validate";
 import { toRGB, preserveFormat } from "../convert";
 import { extractRGB } from "../convert/rgb";
+import { BlendValue, Color, RGBData } from "../data/types";
 
 const calculateMix = (
-  original: number[],
-  target: number[],
+  original: RGBData,
+  target: RGBData,
   amount: number
 ): number[] => {
   // Isolate the channel values
@@ -31,11 +32,35 @@ const calculateMix = (
   );
 };
 
+/**
+ * A function that allows you to mix colors.
+ *
+ * ## Usage
+ * ```ts
+ * // evenly
+ * color.mix(50, 'red', 'blue');
+ *
+ * // less
+ * color.mix(34, 'green', 'blue');
+ *
+ * // more
+ * color.mix(75, 'blue', 'white');
+ * ```
+ *
+ * @remarks
+ * The amount should be passed in as an integer or float.
+ *
+ * `79` rather than '0.79'
+ *
+ * @param amount - the percentage to blend with target
+ * @param target - the color you want to blend
+ * @param color - the input color
+ */
 export const mix = (
-  amount: number,
-  target: string,
-  color: string
-): string | Error => {
+  amount: BlendValue,
+  target: Color,
+  color: Color
+): Color | Error => {
   // If either color is invalid, reject
   validateColor("Cannot mix invalid target with color", target);
   validateColor("Input color is invalid and cannot be mixed", color);
@@ -61,5 +86,5 @@ export const mix = (
   return preserveFormat(
     A === 1 ? `rgb(${R}, ${G}, ${B})` : `rgba(${R}, ${G}, ${B}, ${A})`,
     color
-  );
+  ) as Color;
 };

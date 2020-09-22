@@ -11,8 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Removed
 
 + higher-order function `color.adjust` was unecessarily complex and error prone
-+ `color.complement` is gone. `color.hue(180, 'red')` works the same way
-+ `color.negate` is gone. `color.mix(50, color.hue(180, 'blue'), 'blue')` works the same way
++ `color.negate` and `color.complement` are just conveniences for certain adjustments. Use `color.hue(180, color)` and `color.mix(50, color.hue(180, color), color)`
 
 ### Added
 
@@ -30,7 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 + `color.alpha` color adjustment
 + `color.settings` function that partially applies any color function
 + `color.create` function that allows you to compose color functions
-+ `color.utilities` wraps all the color conversion functions. **They're not
++ `color.utilities` wraps `color.to[format]` conversion functions, and `color.a11y` . **They're not
   intended to be used as part of the main workflow in v4**
 
 ##### scheme
@@ -50,6 +49,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 + `color.hue` now binds all adjustments to one full revolution in either direction, correcting for the input
 + `color.mix` now respects and and mixes transparency
++ `color.complement`, `color.negate`, and `color.a11y` are now functions of `color.utilities`
 
 ### Fixed
 

@@ -1,3 +1,4 @@
+// Color attributes
 export type Hue = number;
 export type Saturation = number;
 export type Lightness = number;
@@ -5,12 +6,14 @@ export type Alpha = number;
 export type Channel = number;
 export type HexFragment = string;
 
+// Color calculations
 export type HueCalc = (x: Hue) => Hue;
 export type SatCalc = (x: Saturation) => Saturation;
 export type LumCalc = (x: Lightness) => Lightness;
 export type AlphaCalc = (x: Alpha) => Alpha;
 export type ChannelCalc = (x: Channel) => Channel;
 
+// Color formatting
 export type ColorFragment = string;
 export type ColorValues = [
   r: ColorFragment,
@@ -29,6 +32,13 @@ export type HSLData = [h: Hue, s: Saturation, l: Lightness, a?: Alpha];
 
 export type ColorFormats = "hex" | "rgb" | "hsl" | "named";
 
+// Knobs and settings
+export type AdjustmentValue = number;
+export type BlendValue = number;
+export type Angle = number;
+export type Range = number;
+
+// Palette assembly
 export type Color = string;
 export type Scheme = [
   a: Color,

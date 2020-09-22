@@ -9,6 +9,7 @@ import {
 import { validateColor } from "../validate";
 import { extractHSL } from "../convert/hsl";
 import { toHSL, preserveFormat } from "../convert";
+import { AdjustmentValue, Color } from "../data/types";
 
 /**
  * Allows hue adjustment of any color.
@@ -26,17 +27,22 @@ import { toHSL, preserveFormat } from "../convert";
  * ```
  *
  * @remarks
- * The hue is locked by modular arithmetic to one full revolution in either direction.
+ * The output format of an adjustment matches its input. No need to explicitly convert.
+ *
+ * The hue is bound by modular arithmetic to one full revolution in either direction.
+ *
+ * The hue adjustment is **relative** to the input color. So a value of `0` or one
+ * equal to a full revolution will return the input color
  *
  * If the resulting hue is > 360, it'll be adjusted left to the correct value
- * If the resulting hue is < 0, it'll be adjusted right to the correct value
+ * If the resulting hue is negative, it'll be adjusted right to the correct value
  *
  * @param n - the value for adjustment
  * @param color - the color to adjust
  * @returns The adjust color or an error if invalid
  *
  */
-export const hue = (n: number, color: string): string | Error => {
+export const hue = (n: AdjustmentValue, color: Color): Color | Error => {
   // Reject invalid color
   validateColor("Cannot adjust hue of an invalid color", color);
 
@@ -67,19 +73,27 @@ export const hue = (n: number, color: string): string | Error => {
  *
  * ## Usage
  * ```ts
- * // positive values adjust clockwise
+ * // positive values increase
  * color.saturation(30, 'red');
  *
- * // negative values adjust counterclockwise
+ * // negative values decrease
  * color.saturation(-45, 'lime');
  * ```
+ *
+ * @remarks
+ * The output format of an adjustment matches its input. No need to explicitly convert.
+ *
+ * The saturation is bound between minimum and maximum values by linear normalization.
+ *
+ * This means any adjustment that would result in a negative value will return the
+ * minimum of `0` and any that exceeds the maximum will instead return `100`
  *
  * @param n - the value for adjustment
  * @param color - the color to adjust
  * @returns The adjust color or an error if invalid
  *
  */
-export const saturation = (n: number, color: string): string | Error => {
+export const saturation = (n: AdjustmentValue, color: Color): Color | Error => {
   // Reject invalid color
   validateColor("Cannot adjust saturation of an invalid color", color);
 
@@ -93,10 +107,35 @@ export const saturation = (n: number, color: string): string | Error => {
   const target =
     A === 1 ? `hsl(${H}, ${S}, ${L})` : `hsla(${H}, ${S}, ${L}, ${A})`;
 
-  return preserveFormat(target, color);
+  return preserveFormat(target, color) as Color;
 };
 
-export const lightness = (n: number, color: string): string | Error => {
+/**
+ * Allows lightness adjustment of any color.
+ *
+ * ## Usage
+ * ```ts
+ * // positive values increase
+ * color.lightness(30, 'red');
+ *
+ * // negative values decrease
+ * color.lightness(-45, 'lime');
+ * ```
+ *
+ * @remarks
+ * The output format of an adjustment matches its input. No need to explicitly convert.
+ *
+ * The lightness is bound between minimum and maximum values by linear normalization.
+ *
+ * This means any adjustment that would result in a negative value will return the
+ * minimum of `0` and any that exceeds the maximum will instead return `100`
+ *
+ * @param n - the value for adjustment
+ * @param color - the color to adjust
+ * @returns The adjust color or an error if invalid
+ *
+ */
+export const lightness = (n: AdjustmentValue, color: Color): Color | Error => {
   // Reject invalid color
   validateColor("Cannot adjust lightness of an invalid color", color);
 
@@ -110,10 +149,36 @@ export const lightness = (n: number, color: string): string | Error => {
   const target =
     A === 1 ? `hsl(${H}, ${S}, ${L})` : `hsla(${H}, ${S}, ${L}, ${A})`;
 
-  return preserveFormat(target, color);
+  return preserveFormat(target, color) as Color;
 };
 
-export const alpha = (n: number, color: string): string | Error => {
+/**
+ * Allows alpha transparency adjustment of any color.
+ *
+ * ## Usage
+ * ```ts
+ * // positive values increase
+ * color.saturation(30, 'red');
+ *
+ * // negative values decrease
+ * color.saturation(-45, 'lime');
+ * ```
+ *
+ * @remarks
+ * The lightness is bound between minimum and maximum values by linear normalization.
+ *
+ * This means any adjustment that would result in a negative value will return the
+ * minimum of `0` and any that exceeds the maximum will instead return `100`
+ *
+ * Following the spec, an alpha adjustment `>= 100` means a solid color. So the alpha
+ * is removed.
+ *
+ * @param n - the value for adjustment
+ * @param color - the color to adjust
+ * @returns The adjust color or an error if invalid
+ *
+ */
+export const alpha = (n: AdjustmentValue, color: Color): Color | Error => {
   // Reject invalid color
   validateColor("Cannot adjust transparency of an invalid color", color);
 
@@ -128,5 +193,5 @@ export const alpha = (n: number, color: string): string | Error => {
   const target =
     A === 1 ? `hsl(${H}, ${S}, ${L})` : `hsla(${H}, ${S}, ${L}, ${A})`;
 
-  return preserveFormat(target, color);
+  return preserveFormat(target, color) as Color;
 };

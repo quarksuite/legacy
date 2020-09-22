@@ -19,7 +19,7 @@ export type Variadic<T extends any[], U extends any[], R> = (
  * This library never composes more than three functions, so a classical binary
  * compose utility is just right.
  */
-export const compose = <T, U, R>(f: Unary<T, U>, g: Unary<U, R>) => (x: T) =>
+export const compose = <T, U, R>(f: Unary<T, U>, g: Unary<U, R>) => (x: T): R =>
   g(f(x));
 
 /**
