@@ -2,9 +2,11 @@ import {
   Channel,
   Color,
   ColorFragment,
+  CSSColor,
   HSLData,
   Hue,
   Lightness,
+  RawColor,
   Saturation,
 } from "../data/types";
 import { compose } from "../../fn";
@@ -34,7 +36,7 @@ const calcChannels = (
     [[C, 0, X], 300 <= H && H < 360],
   ]);
 
-export const extractHSL = (hsl: Color): HSLData => {
+export const extractHSL = (hsl: CSSColor): HSLData => {
   const [h, s, l, a] = matchValues(hsl);
 
   const [H] = [h].map(
@@ -99,7 +101,7 @@ export const calcRGB = (h: Hue, s: Saturation, l: Lightness): HSLData => {
   return [R, G, B];
 };
 
-export const toRGB = (hsl: Color): Color => {
+export const toRGB = (hsl: CSSColor): RawColor => {
   const [h, s, l, a] = extractHSL(hsl);
 
   const [R, G, B] = calcRGB(h, s, l);

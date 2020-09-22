@@ -8,7 +8,7 @@ import {
 import { validateColor } from "../validate";
 import { toRGB, preserveFormat } from "../convert";
 import { extractRGB } from "../convert/rgb";
-import { BlendValue, Color, RGBData } from "../data/types";
+import { BlendValue, Color, CSSColor, RGBData } from "../data/types";
 
 const calculateMix = (
   original: RGBData,
@@ -58,9 +58,9 @@ const calculateMix = (
  */
 export const mix = (
   amount: BlendValue,
-  target: Color,
-  color: Color
-): Color | Error => {
+  target: CSSColor,
+  color: CSSColor
+): Color => {
   // If either color is invalid, reject
   validateColor("Cannot mix invalid target with color", target);
   validateColor("Input color is invalid and cannot be mixed", color);

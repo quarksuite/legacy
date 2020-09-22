@@ -9,7 +9,7 @@ import {
 import { validateColor } from "../validate";
 import { extractHSL } from "../convert/hsl";
 import { toHSL, preserveFormat } from "../convert";
-import { AdjustmentValue, Color } from "../data/types";
+import { AdjustmentValue, Color, CSSColor } from "../data/types";
 
 /**
  * Allows hue adjustment of any color.
@@ -42,7 +42,7 @@ import { AdjustmentValue, Color } from "../data/types";
  * @returns The adjust color or an error if invalid
  *
  */
-export const hue = (n: AdjustmentValue, color: Color): Color | Error => {
+export const hue = (n: AdjustmentValue, color: CSSColor): Color => {
   // Reject invalid color
   validateColor("Cannot adjust hue of an invalid color", color);
 
@@ -93,7 +93,7 @@ export const hue = (n: AdjustmentValue, color: Color): Color | Error => {
  * @returns The adjust color or an error if invalid
  *
  */
-export const saturation = (n: AdjustmentValue, color: Color): Color | Error => {
+export const saturation = (n: AdjustmentValue, color: CSSColor): Color => {
   // Reject invalid color
   validateColor("Cannot adjust saturation of an invalid color", color);
 
@@ -107,7 +107,7 @@ export const saturation = (n: AdjustmentValue, color: Color): Color | Error => {
   const target =
     A === 1 ? `hsl(${H}, ${S}, ${L})` : `hsla(${H}, ${S}, ${L}, ${A})`;
 
-  return preserveFormat(target, color) as Color;
+  return preserveFormat(target, color);
 };
 
 /**
@@ -135,7 +135,7 @@ export const saturation = (n: AdjustmentValue, color: Color): Color | Error => {
  * @returns The adjust color or an error if invalid
  *
  */
-export const lightness = (n: AdjustmentValue, color: Color): Color | Error => {
+export const lightness = (n: AdjustmentValue, color: CSSColor): Color => {
   // Reject invalid color
   validateColor("Cannot adjust lightness of an invalid color", color);
 
@@ -149,7 +149,7 @@ export const lightness = (n: AdjustmentValue, color: Color): Color | Error => {
   const target =
     A === 1 ? `hsl(${H}, ${S}, ${L})` : `hsla(${H}, ${S}, ${L}, ${A})`;
 
-  return preserveFormat(target, color) as Color;
+  return preserveFormat(target, color);
 };
 
 /**
@@ -178,7 +178,7 @@ export const lightness = (n: AdjustmentValue, color: Color): Color | Error => {
  * @returns The adjust color or an error if invalid
  *
  */
-export const alpha = (n: AdjustmentValue, color: Color): Color | Error => {
+export const alpha = (n: AdjustmentValue, color: CSSColor): Color => {
   // Reject invalid color
   validateColor("Cannot adjust transparency of an invalid color", color);
 
@@ -193,5 +193,5 @@ export const alpha = (n: AdjustmentValue, color: Color): Color | Error => {
   const target =
     A === 1 ? `hsl(${H}, ${S}, ${L})` : `hsla(${H}, ${S}, ${L}, ${A})`;
 
-  return preserveFormat(target, color) as Color;
+  return preserveFormat(target, color);
 };

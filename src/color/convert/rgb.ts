@@ -2,10 +2,12 @@ import {
   Channel,
   Color,
   ColorFragment,
+  CSSColor,
   HexFragment,
   HSLData,
   Hue,
   Lightness,
+  RawColor,
   RGBData,
   Saturation,
 } from "../data/types";
@@ -19,7 +21,7 @@ import {
   alphaAsHex,
 } from "../math";
 
-export const extractRGB = (rgb: Color): RGBData => {
+export const extractRGB = (rgb: CSSColor): RGBData => {
   const [r, g, b, a] = matchValues(rgb);
   const [R, G, B] = [r, g, b].map(
     (channel: ColorFragment): Channel => {
@@ -80,7 +82,7 @@ export const calcHSL = (r: Channel, g: Channel, b: Channel): HSLData => {
   return [Math.sign(H) === -1 ? ccwHueCorrection(H) : H, S, L];
 };
 
-export const toHex = (rgb: Color): Color => {
+export const toHex = (rgb: CSSColor): RawColor => {
   const [r, g, b, a] = extractRGB(rgb);
 
   const [R, G, B] = [r, g, b].map((n: Channel): HexFragment => intToHex(n));
@@ -89,7 +91,7 @@ export const toHex = (rgb: Color): Color => {
   return A === "ff" ? ["#", R, G, B].join("") : ["#", R, G, B, A].join("");
 };
 
-export const toHSL = (rgb: Color): Color => {
+export const toHSL = (rgb: CSSColor): RawColor => {
   const [r, g, b, a] = extractRGB(rgb);
   const [h, s, l] = calcHSL(r, g, b);
 

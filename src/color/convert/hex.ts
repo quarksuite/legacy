@@ -1,10 +1,16 @@
-import { Channel, Color, HexData, HexFragment } from "../data/types";
+import {
+  Channel,
+  CSSColor,
+  HexData,
+  HexFragment,
+  RawColor,
+} from "../data/types";
 import { compose } from "../../fn";
 import { hexToInt, matchValues } from "../formatting";
 import { channelAsFraction } from "../math";
 import { toHSL as hsl } from "./rgb";
 
-export const extractHexChannels = (hex: Color): HexData => {
+export const extractHexChannels = (hex: CSSColor): HexData => {
   // #RGB(A)
   if (hex.length === 4 || hex.length === 5) {
     const [, ...values] = hex;
@@ -17,7 +23,7 @@ export const extractHexChannels = (hex: Color): HexData => {
   return matchValues(hex);
 };
 
-export const toRGB = (hex: Color): Color => {
+export const toRGB = (hex: CSSColor): RawColor => {
   const [r, g, b, a] = extractHexChannels(hex);
   const [R, G, B] = [r, g, b].map(
     (channel: HexFragment): Channel => hexToInt(channel)

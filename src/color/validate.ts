@@ -1,11 +1,11 @@
 import { w3c } from "../color/data/w3c-x11";
-import { Color, ColorFormats } from "./data/types";
+import { ColorError, ColorFormats, CSSColor } from "./data/types";
 
 const InvalidColorError = (message: string): Error => {
   throw Error(message);
 };
 
-export const queryFormat = (color: Color): ColorFormats => {
+export const queryFormat = (color: CSSColor): ColorFormats => {
   interface Categories {
     [index: string]: RegExp | boolean;
   }
@@ -23,7 +23,10 @@ export const queryFormat = (color: Color): ColorFormats => {
   })[0] as ColorFormats;
 };
 
-export const validateColor = (msg: string, color: Color): true | Error =>
+export const validateColor = (
+  msg: string,
+  color: CSSColor
+): true | ColorError =>
   !!queryFormat(color) ||
   InvalidColorError(`
 ${msg}

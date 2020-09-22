@@ -32,19 +32,19 @@ export type HSLData = [h: Hue, s: Saturation, l: Lightness, a?: Alpha];
 
 export type ColorFormats = "hex" | "rgb" | "hsl" | "named";
 
+export type CSSColor = string;
+export type RawColor = string;
+export type ColorError = Error;
+
 // Knobs and settings
 export type AdjustmentValue = number;
 export type BlendValue = number;
 export type Angle = number;
-export type Range = number;
+export type PaletteRange = number;
 
 // Palette assembly
-export type Color = string;
-export type Scheme = [
-  a: Color,
-  b: Color,
-  c?: Color,
-  d?: Color,
-  ...custom: [...Color[]]
-];
+export type Color = CSSColor | ColorError;
+export type BasicScheme = [a: Color, b: Color, c?: Color, d?: Color];
+
+export type CustomScheme = [...custom: [...Color[]]];
 export type Variant = [...color: [...Color[]]];
