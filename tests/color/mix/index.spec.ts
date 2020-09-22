@@ -1,8 +1,8 @@
 import { mix } from "@color/mix";
 
-xdescribe("Public color mixing functions", () => {
-  xdescribe("mix :: number -> string -> string -> string", () => {
-    xtest("mixes two colors of any format", () => {
+describe("Public color mixing functions", () => {
+  describe("mix :: number -> string -> string -> string", () => {
+    test("mixes two colors of any format", () => {
       expect(mix(50, "white", "black")).toBe("#b4b4b4");
       expect(mix(50, "white", "gray")).toBe("#cacaca");
       expect(mix(50, "black", "coral")).toBe("#b45a39");
@@ -10,7 +10,7 @@ xdescribe("Public color mixing functions", () => {
       expect(mix(50, "yellow", "hsl(180, 40.95%, 90%)")).toBe(
         "hsl(68, 85%, 82%)"
       );
-      expect(mix(50, "green", "rgba(240, 230, 0, 0.5)")).toBe(
+      expect(mix(50, "lime", "rgba(240, 230, 0, 0.5)")).toBe(
         "rgba(170, 243, 0, 0.79)"
       );
       expect(mix(50, "cyan", "dodgerblue")).toBe("#15cfff");
@@ -19,7 +19,7 @@ xdescribe("Public color mixing functions", () => {
         "hsla(298, 31.4%, 59.5%, 0.73)"
       );
     });
-    xtest("calculates alpha distance when both colors have a transparency", () => {
+    test("calculates alpha distance when both colors have a transparency", () => {
       expect(mix(25, "rgba(33, 10, 240, 0.5)", "hsla(22, 75%, 34%, 0.5)")).toBe(
         "hsla(309, 37.9%, 37.9%, 0.5)"
       );
