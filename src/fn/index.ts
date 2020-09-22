@@ -1,7 +1,7 @@
 export type Unary<T, R> = (x: T) => R;
 export type Binary<T, U, R> = (y: U, x: T) => R;
 export type Ternary<T, U, V, R> = (z: V, y: U, x: T) => R;
-export type Variadic<T extends any[], U extends any[], R> = (
+export type Variadic<T extends unknown[], U extends unknown[], R> = (
   ...args: [...T, ...U]
 ) => R;
 
@@ -19,7 +19,7 @@ export type Variadic<T extends any[], U extends any[], R> = (
  * This library never composes more than three functions, so a classical binary
  * compose utility is just right.
  */
-export const compose = <T, U, R>(f: Unary<T, U>, g: Unary<U, R>) => (x: T): R =>
+export const compose = <T, U, R>(f: Unary<U, T>, g: Unary<T, R>) => (x: U): R =>
   g(f(x));
 
 /**
@@ -74,7 +74,7 @@ export const curry3 = <T, U, V, R>(fn: Ternary<T, U, V, R>) => (z: V) => (
  * @returns the args of `fn` as a sequence of two calls of its arguments
  *
  */
-export const curryN = <T extends any[], U extends any[], R>(
+export const curryN = <T extends unknown[], U extends unknown[], R>(
   fn: Variadic<T, U, R>,
   ...applied: T
 ) => (...remaining: U): R => fn(...applied, ...remaining);
