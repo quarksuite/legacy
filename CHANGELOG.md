@@ -10,12 +10,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Removed
 
-+ higher-order `color.adjust` was unecessarily complex and error prone
++ higher-order function `color.adjust` was unecessarily complex and error prone
 + `color.complement` is gone. `color.hue(180, 'red')` works the same way
 + `color.negate` is gone. `color.mix(50, color.hue(180, 'blue'), 'blue')` works the same way
 
 ### Added
 
++ `rgb`/`hsl` newer syntax supported as input. ex: `rgb(110 44 95)`, `hsl(50 75% 25%)`, `hsla(250 72% 49% / 69%);`
 + `hsl` format now accepts negative hues
 + `hsl` format also accepts hue as gradians (`150grad`)
 + UMD build for legacy environments
@@ -29,12 +30,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 + Alpha transparency is no longer ignored
 + Alpha transparency is removed from color if adjusted to `100` percent
++ `color.hue` now binds all adjustments to one full revolution in either direction, correcting for the input
 + `color.mix` now respects and and mixes transparency
 
 ### Fixed
 
 + Redundant operations were breaking conversion for some hex and named colors (mainly `dodgerblue` and `color.a11y('orange')`)
 + Alpha transparency no longer breaks
++ colors now properly validated **before** they're transformed or generated
 
 ## v3.3.0 - 2020-08-16
 
