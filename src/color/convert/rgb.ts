@@ -1,5 +1,6 @@
 import { matchValues, extractNumber, intToHex } from "../formatting";
 import {
+  percentAsFraction,
   percentAsFloat,
   channelAsFraction,
   percentChannelAsInt,
@@ -15,7 +16,12 @@ export const extractRGB = (rgb: string): number[] => {
     return n;
   });
 
-  const A = a != null ? extractNumber(a) : 1;
+  const A =
+    a != null
+      ? extractNumber(a) > 1
+        ? percentAsFraction(extractNumber(a))
+        : extractNumber(a)
+      : 1;
 
   return A === 1 ? [R, G, B] : [R, G, B, A];
 };

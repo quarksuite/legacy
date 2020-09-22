@@ -13,10 +13,19 @@ describe("RGB formatting", () => {
         120,
         74,
         200,
-        0.1
+        0.1,
       ]);
       expect(extractRGB("rgba(120, 74, 20, 1)")).toStrictEqual([120, 74, 20]);
       expect(extractRGB("rgba(10, 74, 20, 0)")).toStrictEqual([10, 74, 20, 0]);
+    });
+    test("rgb[a](R[%] G[%] B[%][/ A%]) -> [R, G, B[, A]]", () => {
+      expect(extractRGB("rgba(120 74 20 / 100%)")).toStrictEqual([120, 74, 20]);
+      expect(extractRGB("rgba(10 74 20 / 40%)")).toStrictEqual([
+        10,
+        74,
+        20,
+        0.4,
+      ]);
     });
   });
 });
@@ -30,12 +39,12 @@ describe("RGB calculations", () => {
       expect(calcHSL(120, 64, 100)).toStrictEqual([
         322,
         0.3047091412742382,
-        0.361
+        0.361,
       ]);
       expect(calcHSL(81, 95, 120)).toStrictEqual([
         218,
         0.19391634980988592,
-        0.39449999999999996
+        0.39449999999999996,
       ]);
     });
   });

@@ -9,30 +9,45 @@ describe("HSL formatting", () => {
       expect(extractHSL("hsl(120deg, 50%, 68%)")).toStrictEqual([
         120,
         0.5,
-        0.68
+        0.68,
       ]);
       expect(extractHSL("hsl(3.4rad, 31%, 80%)")).toStrictEqual([
         195,
         0.31,
-        0.8
+        0.8,
       ]);
       expect(extractHSL("hsl(0.25turn, 64%, 30%)")).toStrictEqual([
         90,
         0.64,
-        0.3
+        0.3,
       ]);
       expect(extractHSL("hsla(220, 64%, 30%, 0.37)")).toStrictEqual([
         220,
         0.64,
         0.3,
-        0.37
+        0.37,
       ]);
       expect(extractHSL("hsl(-45, 74%, 88%)")).toStrictEqual([315, 0.74, 0.88]);
       expect(extractHSL("hsla(-4rad, 74%, 88%, 0)")).toStrictEqual([
         131,
         0.74,
         0.88,
-        0
+        0,
+      ]);
+    });
+    test("hsl[a](H S% L%[/ A%]) -> [H, S, L[, A]]", () => {
+      expect(extractHSL("hsla(220 64% 30% / 37%)")).toStrictEqual([
+        220,
+        0.64,
+        0.3,
+        0.37,
+      ]);
+      expect(extractHSL("hsl(-45 74% 88%)")).toStrictEqual([315, 0.74, 0.88]);
+      expect(extractHSL("hsla(-4rad 74% 88% / 0%)")).toStrictEqual([
+        131,
+        0.74,
+        0.88,
+        0,
       ]);
     });
   });

@@ -50,7 +50,7 @@ export const extractHSL = (hsl: string): number[] => {
     if (hue >= 360) {
       degrees = cwHueCorrection(hue);
     } else if (isNegative(hue)) {
-      degrees = ccwHueCorrection(hue);
+      degrees = compose(cwHueCorrection, ccwHueCorrection)(hue);
     } else {
       degrees = hue;
     }
@@ -63,7 +63,12 @@ export const extractHSL = (hsl: string): number[] => {
     return percentAsFraction(n);
   });
 
-  const A = a != null ? extractNumber(a) : 1;
+  const A =
+    a != null
+      ? extractNumber(a) > 1
+        ? percentAsFraction(extractNumber(a))
+        : extractNumber(a)
+      : 1;
 
   return A === 1 ? [H, S, L] : [H, S, L, A];
 };
