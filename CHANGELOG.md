@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased - 2020-09-21
+## Unreleased - 2020-09-22
 
 > This project is currently being rewritten. Tread carefully
 
@@ -16,27 +16,44 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+#### Color Formats
+
 + `rgb`/`hsl` newer syntax supported as input. ex: `rgb(110 44 95)`, `hsl(50 75% 25%)`, `hsla(250 72% 49% / 69%);`
 + `hsl` format now accepts negative hues
 + `hsl` format also accepts hue as gradians (`150grad`)
+
 + UMD build for legacy environments
+#### Modules
+
+##### color
+
 + `color.alpha` color adjustment
 + `color.settings` function that partially applies any color function
 + `color.create` function that allows you to compose color functions
 + `color.utilities` wraps all the color conversion functions. **They're not
   intended to be used as part of the main workflow in v4**
 
+##### scheme
+
++ `scheme.custom` now available for creating five hue, six hue, `n` hue, etc
+
 ### Changed
+
+#### Color Formats
 
 + Alpha transparency is no longer ignored
 + Alpha transparency is removed from color if adjusted to `100` percent
+
+#### Modules
+
+##### color
+
 + `color.hue` now binds all adjustments to one full revolution in either direction, correcting for the input
 + `color.mix` now respects and and mixes transparency
 
 ### Fixed
 
 + Redundant operations were breaking conversion for some hex and named colors (mainly `dodgerblue` and `color.a11y('orange')`)
-+ Alpha transparency no longer breaks
 + colors now properly validated **before** they're transformed or generated
 
 ## v3.3.0 - 2020-08-16
