@@ -15,6 +15,16 @@ describe("Pulblic color adjustment functions", () => {
         "hsla(15, 40%, 62%, 0.42)"
       );
     });
+    test("corrects for hue adjustments > 360", () => {
+      expect(hue(640, "#ff0000")).toBe("#aa00ff");
+      expect(hue(390, "rgb(110, 220, 0)")).toBe("rgb(0, 220, 0)");
+      expect(hue(1337, "hsl(340, 40%, 62%)")).toBe("hsl(237, 40%, 62%)");
+    });
+    test("corrects for hue adjustments < 0", () => {
+      expect(hue(-131, "#ff0000")).toBe("#002fff");
+      expect(hue(-440, "rgb(110, 220, 0)")).toBe("rgb(220, 37, 0)");
+      expect(hue(-1337, "hsl(340, 40%, 62%)")).toBe("hsl(83, 40%, 62%)");
+    });
     test("rejects invalid colors", () => {
       expect(() => hue(30, "hsa(3311, 330, 1100)")).toThrow();
       expect(() => hue(30, "rgb(339, 11, 999)")).toThrow();
