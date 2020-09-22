@@ -7,7 +7,7 @@ interface A11yColors {
   [index: string]: string;
 }
 
-export const a11y: A11yColors = {
+export const clrs: A11yColors = {
   navy: "#001f3f",
   blue: "#0074d9",
   aqua: "#7fdbff",
@@ -25,5 +25,5 @@ export const a11y: A11yColors = {
   gray: "#aaaaaa",
   grey: "#aaaaaa",
   silver: "#dddddd",
-  white: "#ffffff"
+  white: "#ffffff",
 };
