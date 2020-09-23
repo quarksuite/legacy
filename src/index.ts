@@ -6,6 +6,7 @@ import { hue, saturation, lightness, alpha } from "./color/adjust";
 import { mix } from "./color/mix";
 import { toHex, toRGB, toHSL, preserveFormat } from "./color/convert";
 import { complementary, analogous, triad, tetrad, custom } from "./scheme";
+import { tints, tones, shades } from "./variant";
 
 export const color = {
   // advanced setup
@@ -63,4 +64,10 @@ export const scheme = {
   triad,
   tetrad,
   custom,
+};
+
+export const variant = {
+  tints,
+  tones,
+  shades,
 };

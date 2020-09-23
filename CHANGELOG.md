@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 + higher-order function `color.adjust` was unecessarily complex and error prone
 + `color.negate` and `color.complement` are just conveniences for certain adjustments. Use `color.hue(180, color)` and `color.mix(50, color.hue(180, color), color)`
++ `variant.blend` functionality is approximately covered by `scheme.custom`. That said, generating **gradients** is outside the scope of this project
 
 ### Added
 
@@ -20,8 +21,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 + `rgb`/`hsl` newer syntax supported as input. ex: `rgb(110 44 95)`, `hsl(50 75% 25%)`, `hsla(250 72% 49% / 69%);`
 + `hsl` format now accepts negative hues
 + `hsl` format also accepts hue as gradians (`150grad`)
-
 + UMD build for legacy environments
+
 #### Modules
 
 ##### color
@@ -49,12 +50,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 + `color.hue` now binds all adjustments to one full revolution in either direction, correcting for the input
 + `color.mix` now respects and and mixes transparency
-+ `color.complement`, `color.negate`, and `color.a11y` are now functions of `color.utilities`
+
+##### variant
+
++ `variant.tints`, `variant.tones`, `variant.shades` now blend with pure white, gray, and black. Blending them with the clrs.cc defaults was an opinionated choice
 
 ### Fixed
 
 + Redundant operations were breaking conversion for some hex and named colors (mainly `dodgerblue` and `color.a11y('orange')`)
 + colors now properly validated **before** they're transformed or generated
++ types now properly built and documented
 
 ## v3.3.0 - 2020-08-16
 

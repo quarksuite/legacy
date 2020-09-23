@@ -39,6 +39,7 @@ export type ColorError = Error;
 // Knobs and settings
 export type AdjustmentValue = number;
 export type BlendValue = number;
+export type Contrast = number;
 export type Angle = number;
 export type PaletteRange = number;
 
