@@ -11,7 +11,7 @@
 
 > **Note**: This project is the middle of a rewrite. Expect gaps and leaks on this branch.
 > See the master branch if you landed here by accident 
-> v4 will land by October 2
+> v4 will land by November 1
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
