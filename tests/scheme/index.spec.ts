@@ -125,16 +125,19 @@ describe("Public color scheme generator functions", () => {
       ]);
     });
   });
-  describe("custom :: number -> number -> string -> [string]", () => {
+  describe("custom :: object -> string -> [string]", () => {
     test("can generate custom color schemes", () => {
-      expect(custom(2, 45, "red")).toStrictEqual(["#ff0000", "#ffbf00"]);
-      expect(custom(4, 30, "lime")).toStrictEqual([
+      expect(custom({ hues: 2, spread: 45 }, "red")).toStrictEqual([
+        "#ff0000",
+        "#ffbf00",
+      ]);
+      expect(custom({ hues: 4, spread: 30 }, "lime")).toStrictEqual([
         "#00ff00",
         "#00ff80",
         "#00ffff",
         "#0080ff",
       ]);
-      expect(custom(8, 15, "blue")).toStrictEqual([
+      expect(custom({ hues: 8, spread: 15 }, "blue")).toStrictEqual([
         "#0000ff",
         "#4000ff",
         "#8000ff",
@@ -143,6 +146,26 @@ describe("Public color scheme generator functions", () => {
         "#ff00bf",
         "#ff0080",
         "#ff0040",
+      ]);
+    });
+    test("can rotate generated hues from the origin for even more scheme configurations", () => {
+      expect(
+        custom({ hues: 2, spread: 45, rotation: 90 }, "red")
+      ).toStrictEqual(["#ff0000", "#80ff00"]);
+      expect(
+        custom({ hues: 4, spread: 30, rotation: 60 }, "lime")
+      ).toStrictEqual(["#00ff00", "#00ffff", "#0080ff", "#0000ff"]);
+      expect(
+        custom({ hues: 8, spread: 15, rotation: 30 }, "blue")
+      ).toStrictEqual([
+        "#0000ff",
+        "#8000ff",
+        "#bf00ff",
+        "#ff00ff",
+        "#ff00bf",
+        "#ff0080",
+        "#ff0040",
+        "#ff0000",
       ]);
     });
   });
