@@ -41,10 +41,17 @@ export type AdjustmentValue = number;
 export type BlendValue = number;
 export type Contrast = number;
 export type Angle = number;
-export type PaletteRange = number;
+export type NumOfHues = number;
+export type NumOfVariants = number;
+
+export interface CustomSchemeOpts {
+  hues: NumOfHues;
+  spread: Angle;
+  rotation?: Angle;
+}
 
 // Palette assembly
-export type Color = CSSColor | ColorError;
+export type Color = CSSColor;
 export type BasicScheme = [a: Color, b: Color, c?: Color, d?: Color];
 
 export type CustomScheme = [...custom: [...Color[]]];

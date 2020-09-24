@@ -86,5 +86,5 @@ export const mix = (
   return preserveFormat(
     A === 1 ? `rgb(${R}, ${G}, ${B})` : `rgba(${R}, ${G}, ${B}, ${A})`,
     color
-  ) as Color;
+  );
 };

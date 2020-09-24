@@ -1,6 +1,5 @@
 import {
   Channel,
-  Color,
   ColorFragment,
   CSSColor,
   HSLData,
