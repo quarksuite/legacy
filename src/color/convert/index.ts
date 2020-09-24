@@ -1,5 +1,5 @@
 import { curry2 } from "../../fn";
-import { queryFormat } from "../validate";
+import { queryFormat, validateColor } from "../validate";
 import { toRGB as hex2RGB, toHSL as hex2HSL } from "./hex";
 import { toHex as r2Hex, toHSL as r2HSL } from "./rgb";
 import { toRGB as hsl2RGB, toHex as hsl2Hex } from "./hsl";
@@ -11,6 +11,9 @@ const queryConversionDict = curry2(
     interface ConversionDict {
       [index: string]: { [index: string]: (color: CSSColor) => RawColor };
     }
+
+    // If invalid, reject
+    validateColor("Invalid color: cannot convert", color);
 
     const format = queryFormat(color);
     const convert: ConversionDict = {
