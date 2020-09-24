@@ -52,7 +52,7 @@ export interface CustomSchemeOpts {
 
 // Palette assembly
 export type Color = CSSColor;
-export type BasicScheme = [a: Color, b: Color, c?: Color, d?: Color];
+export type BasicScheme = [origin: Color, b: Color, c?: Color, d?: Color];
 
 export type CustomScheme = [...custom: [...Color[]]];
 export type Variant = [...color: [...Color[]]];

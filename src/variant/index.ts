@@ -2,7 +2,7 @@ import {
   Color,
   Contrast,
   CSSColor,
-  PaletteRange,
+  NumOfVariants,
   Variant,
 } from "@color/data/types";
 import { mix } from "../color/mix";
@@ -23,19 +23,19 @@ const generate = (
     .reverse();
 
 export const tints = (
-  range: PaletteRange,
+  range: NumOfVariants,
   contrast: Contrast,
   color: CSSColor
 ): Variant => generate(range, contrast, "white", color);
 
 export const tones = (
-  range: PaletteRange,
+  range: NumOfVariants,
   contrast: Contrast,
   color: CSSColor
 ): Variant => generate(range, contrast, "gray", color);
 
 export const shades = (
-  range: PaletteRange,
+  range: NumOfVariants,
   contrast: Contrast,
   color: CSSColor
 ): Variant => generate(range, contrast, "black", color);
