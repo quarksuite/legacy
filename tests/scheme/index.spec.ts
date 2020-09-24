@@ -168,5 +168,24 @@ describe("Public color scheme generator functions", () => {
         "#ff0000",
       ]);
     });
+    test("left rotations of generated hues are allowed", () => {
+      expect(
+        custom({ hues: 2, spread: 45, rotation: -90 }, "red")
+      ).toStrictEqual(["#ff0000", "#8000ff"]);
+      expect(
+        custom({ hues: 4, spread: 30, rotation: -60 }, "lime")
+      ).toStrictEqual(["#00ff00", "#ffff00", "#80ff00"]);
+      expect(
+        custom({ hues: 8, spread: 15, rotation: -30 }, "blue")
+      ).toStrictEqual([
+        "#0000ff",
+        "#0080ff",
+        "#0040ff",
+        "#4000ff",
+        "#8000ff",
+        "#bf00ff",
+        "#ff00ff",
+      ]);
+    });
   });
 });

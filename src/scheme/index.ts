@@ -180,8 +180,10 @@ export const tetrad = (rotation: Angle, color: CSSColor): BasicScheme => [
  * The basic schemes will get you going, but they can't account for every possible
  * scheme configuration. So as of v4, this library provides a custom scheme generator.
  *
- * It allows you to set how many colors you want; including the origin. Then set an
- * offset
+ * It allows you to set how many hues you want; including the origin. Then set a
+ * spread from the origin, and optionally rotate the output from the origin.
+ *
+ * If any of the adjustments overlap with the origin, you may end up with one less color
  *
  * @param options - a configuration object defining desired points (or hues), spread
  * @param color - any valid CSS color
