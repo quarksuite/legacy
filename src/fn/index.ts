@@ -8,19 +8,31 @@ export type Variadic<T extends unknown[], U extends unknown[], R> = (
 /**
  * Composes two **unary** functions of any return type.
  *
+ * In the public API, this function is exposed as `pipe`
+ *
+ * ## Usage
+ * ```ts
+ * const thirdOfCircle = set(hue, 360 / 3);
+ * const muteByHalf = set(saturation, 100 / 2);
+ *
+ * pipe(thirdOfCircle, muteByHalf)('royalblue');
+ * ```
+ *
  * @param g - second function
  * @param f - first function
  * @param x - the value to be composed
- * @returns `h(x) = g`
+ * @returns `h(x)`
  *
  * @remarks
  * If function `arity > 1`, you'll have to curry it to `1`.
  *
- * This library never composes more than three functions, so a classical binary
- * compose utility is just right.
+ * For simplicity's sake, this is a classic f => g => h(x) composition. If you
+ * pass more than two functions, it will whine at you.
  */
-export const compose = <T, U, R>(f: Unary<U, T>, g: Unary<T, R>) => (x: U): R =>
-  g(f(x));
+export const compose = <T, U, R>(
+  f: Unary<U, T>,
+  g: Unary<T, R>
+): Unary<U, R> => (x: U): R => g(f(x));
 
 /**
  * A higher order function that accepts a binary function, and separates
@@ -61,12 +73,16 @@ export const curry3 = <T, U, V, R>(fn: Ternary<T, U, V, R>) => (z: V) => (
 ) => (x: T): R => fn(z, y, x);
 
 /**
- * A higher order function that accepts a variadic function, and separates
+ * A higher order function that accepts a function, and separates
  * its parameters into a sequence of calls.
  *
- * @remarks
- * If called on a function of fixed arity, it enables partial application
- * of its parameters
+ * In the public API, this function is exposed as `set`
+ *
+ * ## Usage
+ * ```ts
+ * const mixWithGreen = set(mix, 32, 'lime');
+ * mixWithGreen('skyblue');
+ * ```
  *
  * @param fn - the function to curry
  * @param applied - initial arguments

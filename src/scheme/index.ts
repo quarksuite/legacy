@@ -12,10 +12,7 @@ export const complementary = (color: CSSColor): BasicScheme => [
   hue(180, color),
 ];
 
-export const analogous = (
-  offset: Angle,
-  color: CSSColor
-): (string | Error)[] => [
+export const analogous = (offset: Angle, color: CSSColor): BasicScheme => [
   hue(0, color),
   hue(-offset, color),
   hue(offset, color),
