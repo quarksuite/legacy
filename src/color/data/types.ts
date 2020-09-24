@@ -56,3 +56,25 @@ export type BasicScheme = [origin: Color, b: Color, c?: Color, d?: Color];
 
 export type CustomScheme = [...custom: [...Color[]]];
 export type Variant = [...color: [...Color[]]];
+
+// Utility types
+export type Clrs =
+  | "navy"
+  | "blue"
+  | "teal"
+  | "olive"
+  | "green"
+  | "lime"
+  | "yellow"
+  | "orange"
+  | "red"
+  | "maroon"
+  | "maroon"
+  | "fuchsia"
+  | "purple"
+  | "black"
+  | "gray"
+  | "grey"
+  | "silver"
+  | "white";
+export type Stack = "sans-serif" | "serif" | "monospace";
