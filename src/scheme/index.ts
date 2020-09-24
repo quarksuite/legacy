@@ -162,13 +162,13 @@ export const tetrad = (rotation: Angle, color: CSSColor): BasicScheme => [
  * ```ts
  *
  * // pure pentad
- * custom(5, 72, '#e33a00');
+ * custom({ hues: 5, spread: 72 }, '#e33a00');
  *
  * // pure hexad
- * custom(6, 60, 'hsl(320grad, 75%, 50%)');
+ * custom({ hues: 6, spread: 60 }, 'hsl(320grad, 75%, 50%)');
  *
  * // pure octad
- * custom(8, 45, 'rgb(120, 230, 72)')
+ * custom({hues: 8, spread: 45}, 'rgb(120, 230, 72)')
  * ```
  *
  * @remarks
@@ -178,31 +178,32 @@ export const tetrad = (rotation: Angle, color: CSSColor): BasicScheme => [
  * > `tones`, and/or `shades` to complete your palette.
  *
  * The basic schemes will get you going, but they can't account for every possible
- * scheme configuration. So as of v4, this library provides a custom scheme generator.
+ * scheme configuration you may want. So as of v4, this library provides a custom
+ * scheme generator.
  *
  * It allows you to set how many hues you want; including the origin. Then set a
- * spread from the origin, and optionally rotate the output from the origin.
+ * distance from the origin, and optionally rotate the output from the origin.
  *
- * If any of the adjustments overlap with the origin, you may end up with one less color
+ * If any of the adjustments overlap with the origin, the duplicate is removed
  *
- * @param options - a configuration object defining desired points (or hues), spread
+ * @param options - a configuration object defining desired points (or hues), spread, and rotation from origin
  * @param color - any valid CSS color
  * @returns custom scheme base hues
  */
 export const custom = (
-  { hues, spread, rotation = 0 }: CustomSchemeOpts,
+  { hues, distance, rotation = 0 }: CustomSchemeOpts,
   color: CSSColor
 ): CustomScheme => [
   ...new Set([
     hue(0, color),
     ...(rotation
       ? Array(hues - 1)
-          .fill(spread)
+          .fill(distance)
           .map((value: number, i: number): string =>
             hue(value * i + rotation, color)
           )
       : Array(hues)
-          .fill(spread)
+          .fill(distance)
           .map((value: number, i: number): string => hue(value * i, color))),
   ]),
 ];
