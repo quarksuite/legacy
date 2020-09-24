@@ -38,13 +38,13 @@ const calculateMix = (
  * ## Usage
  * ```ts
  * // evenly
- * color.mix(50, 'red', 'blue');
+ * mix(50, 'red', 'blue');
  *
  * // less
- * color.mix(34, 'green', 'blue');
+ * mix(34, 'green', 'blue');
  *
  * // more
- * color.mix(75, 'blue', 'white');
+ * mix(75, 'blue', 'white');
  * ```
  *
  * @remarks
