@@ -126,3 +126,5 @@ export const systemfonts = (...fonts: string[]): string[] => {
 
   return fonts.map((stack: string) => families[stack]);
 };
+
+export { ms, update, merge, units } from "./scale";
