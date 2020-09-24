@@ -1,73 +1,29 @@
-import { compose, curryN } from "./fn";
-import { clrs } from "./color/data/clrs";
+import { clrs as a11y } from "./color/data/clrs";
 import { Color, CSSColor } from "./color/data/types";
 import { validateColor } from "./color/validate";
-import { hue, saturation, lightness, alpha } from "./color/adjust";
-import { mix } from "./color/mix";
 import { toHex, toRGB, toHSL, preserveFormat } from "./color/convert";
-import { complementary, analogous, triad, tetrad, custom } from "./scheme";
-import { tints, tones, shades } from "./variant";
 
-export const color = {
-  // advanced setup
-  settings: curryN,
-  create: compose,
+export { compose as pipe, curryN as init } from "./fn";
+export { hue, saturation, lightness, alpha } from "./color/adjust";
+export { mix } from "./color/mix";
+export { complementary, analogous, triad, tetrad, custom } from "./scheme";
+export { tints, tones, shades } from "./variant";
 
-  // adjustment
-  hue,
-  h: hue,
+export const hex = (color: CSSColor): Color =>
+  validateColor("Invalid color format: cannot convert to hexadecimal", color) &&
+  toHex(color);
 
-  saturation,
-  s: saturation,
+export const rgb = (color: CSSColor): Color =>
+  validateColor("Invalid color format: cannot convert to RGB", color) &&
+  toRGB(color);
 
-  lightness,
-  luminance: lightness,
-  l: lightness,
+export const hsl = (color: CSSColor): Color =>
+  validateColor("Invalid color format: cannot convert to HSL", color) &&
+  toHSL(color);
 
-  alpha,
-  transparency: alpha,
-  a: alpha,
+export const clrs = (color: CSSColor): Color => {
+  validateColor("Invalid color format: cannot be read", color);
 
-  // mixing
-  mix,
-
-  // utilities
-  utilities: {
-    a11y: (color: CSSColor): Color => {
-      validateColor("Invalid color format: cannot be read", color);
-
-      if (clrs[color]) return preserveFormat(clrs[color], color);
-      throw Error("Color not defined in accessibility table");
-    },
-    toHex: (color: CSSColor): Color =>
-      validateColor(
-        "Invalid color format: cannot convert to hexadecimal",
-        color
-      ) && toHex(color),
-    toRGB: (color: CSSColor): Color =>
-      validateColor("Invalid color format: cannot convert to RGB", color) &&
-      toRGB(color),
-    toHSL: (color: CSSColor): Color =>
-      validateColor("Invalid color format: cannot convert to HSL", color) &&
-      toHSL(color),
-  },
-};
-
-export const scheme = {
-  // advanced setup
-  settings: curryN,
-  create: compose,
-
-  // available schemes
-  complementary,
-  analogous,
-  triad,
-  tetrad,
-  custom,
-};
-
-export const variant = {
-  tints,
-  tones,
-  shades,
+  if (a11y[color]) return preserveFormat(a11y[color], color);
+  throw Error("Color not defined in accessibility table");
 };
