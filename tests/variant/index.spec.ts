@@ -21,6 +21,12 @@ describe("Public color variant generator functions", () => {
         "#ddddff",
         "#ffffff",
       ]);
+
+      expect(tints(3, 98, "#348ec9")).toStrictEqual([
+        "#98bbdc",
+        "#d0deee",
+        "#fdfdfe",
+      ]);
     });
   });
   describe("tones :: number -> number -> string -> [string]", () => {
@@ -43,6 +49,7 @@ describe("Public color variant generator functions", () => {
         "#6f6fa9",
         "#808080",
       ]);
+      expect(tones(1, 98, "#348ec9")).toStrictEqual(["#7f8082"]);
     });
   });
   describe("shades :: number -> number -> string -> [string]", () => {
@@ -65,6 +72,7 @@ describe("Public color variant generator functions", () => {
         "#000080",
         "#000000",
       ]);
+      expect(shades(2, 98, "#348ec9")).toStrictEqual(["#256590", "#07141c"]);
     });
   });
 });

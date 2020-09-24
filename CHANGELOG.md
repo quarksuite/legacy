@@ -16,6 +16,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+#### General
+
++ Properly defined types
++ Updated logo
+
 #### Color Formats
 
 + `rgb`/`hsl` newer syntax supported as input. ex: `rgb(110 44 95)`, `hsl(50 75% 25%)`, `hsla(250 72% 49% / 69%);`
@@ -35,7 +40,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ##### scheme
 
-+ `scheme.custom` now available for creating five hue, six hue, `n` hue, etc
++ `scheme.custom` now available for creating five hue, six hue, `n` hue, and other configurations not covered by the basic schemes
 
 ### Changed
 

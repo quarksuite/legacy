@@ -22,20 +22,68 @@ const generate = (
     )
     .reverse();
 
+/**
+ * Generates tints from any valid CSS color.
+ *
+ * ## Usage
+ * ```ts
+ * tints(4, 98, 'royalblue');
+ * ```
+ *
+ * @remarks
+ * In color theory, a tint is a hue mixed with pure white.
+ *
+ * @param count - the number of tints you want
+ * @param contrast - the percent of contrast between tints
+ * @param color - any valid CSS color
+ * @returns an array of tints up the lightest
+ */
 export const tints = (
-  range: NumOfVariants,
+  count: NumOfVariants,
   contrast: Contrast,
   color: CSSColor
-): Variant => generate(range, contrast, "white", color);
+): Variant => generate(count, contrast, "white", color);
 
+/**
+ * Generates tones from any valid CSS color.
+ *
+ * ## Usage
+ * ```ts
+ * tones(4, 98, 'royalblue');
+ * ```
+ *
+ * @remarks
+ * In color theory, a tone is a hue mixed with pure gray.
+ *
+ * @param count - the number of tones you want
+ * @param contrast - the percent of contrast between tones
+ * @param color - any valid CSS color
+ * @returns an array of tones up the most muted
+ */
 export const tones = (
-  range: NumOfVariants,
+  count: NumOfVariants,
   contrast: Contrast,
   color: CSSColor
-): Variant => generate(range, contrast, "gray", color);
+): Variant => generate(count, contrast, "gray", color);
 
+/**
+ * Generates shades from any valid CSS color.
+ *
+ * ## Usage
+ * ```ts
+ * shades(4, 98, 'royalblue');
+ * ```
+ *
+ * @remarks
+ * In color theory, a shade is a hue mixed with pure black.
+ *
+ * @param count - the number of shades you want
+ * @param contrast - the percent of contrast between shades
+ * @param color - any valid CSS color
+ * @returns an array of shades up the darkest
+ */
 export const shades = (
-  range: NumOfVariants,
+  count: NumOfVariants,
   contrast: Contrast,
   color: CSSColor
-): Variant => generate(range, contrast, "black", color);
+): Variant => generate(count, contrast, "black", color);
