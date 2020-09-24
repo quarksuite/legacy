@@ -61,14 +61,14 @@ export const complementary = (color: CSSColor): BasicScheme => [
  *
  * Example: `orange`, `red`, and `yellow` are analogous
  *
- * @param distance - the angular distance split from the origin
+ * @param arc - the angular distance split from the origin
  * @param color - any valid CSS color
  * @returns analogous scheme base hues
  */
-export const analogous = (distance: Angle, color: CSSColor): BasicScheme => [
+export const analogous = (arc: Angle, color: CSSColor): BasicScheme => [
   hue(0, color),
-  hue(-distance, color),
-  hue(distance, color),
+  hue(-arc, color),
+  hue(arc, color),
 ];
 
 /**
@@ -107,14 +107,14 @@ export const analogous = (distance: Angle, color: CSSColor): BasicScheme => [
  *
  * Example: `red`, approximately `springgreen`, approximately `blueviolet`
  *
- * @param distance - the angular distance split from the complement
+ * @param arc - the angular distance split from the complement
  * @param color - any valid CSS color
  * @returns triadic scheme base hues
  */
-export const triad = (distance: Angle, color: CSSColor): BasicScheme => [
+export const triad = (arc: Angle, color: CSSColor): BasicScheme => [
   hue(0, color),
-  hue(180 + -distance, color),
-  hue(180 + distance, color),
+  hue(180 + -arc, color),
+  hue(180 + arc, color),
 ];
 
 /**
@@ -162,13 +162,13 @@ export const tetrad = (rotation: Angle, color: CSSColor): BasicScheme => [
  * ```ts
  *
  * // pure pentad
- * custom({ hues: 5, spread: 72 }, '#e33a00');
+ * custom({ hues: 5, arc: 72 }, '#e33a00');
  *
  * // pure hexad
- * custom({ hues: 6, spread: 60 }, 'hsl(320grad, 75%, 50%)');
+ * custom({ hues: 6, arc: 60 }, 'hsl(320grad, 75%, 50%)');
  *
  * // pure octad
- * custom({hues: 8, spread: 45}, 'rgb(120, 230, 72)')
+ * custom({hues: 8, arc: 45}, 'rgb(120, 230, 72)')
  * ```
  *
  * @remarks
@@ -191,19 +191,19 @@ export const tetrad = (rotation: Angle, color: CSSColor): BasicScheme => [
  * @returns custom scheme base hues
  */
 export const custom = (
-  { hues, distance, rotation = 0 }: CustomSchemeOpts,
+  { hues, arc, rotation = 0 }: CustomSchemeOpts,
   color: CSSColor
 ): CustomScheme => [
   ...new Set([
     hue(0, color),
     ...(rotation
       ? Array(hues - 1)
-          .fill(distance)
+          .fill(arc)
           .map((value: number, i: number): string =>
             hue(value * i + rotation, color)
           )
       : Array(hues)
-          .fill(distance)
+          .fill(arc)
           .map((value: number, i: number): string => hue(value * i, color))),
   ]),
 ];

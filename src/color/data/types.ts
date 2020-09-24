@@ -46,7 +46,7 @@ export type NumOfVariants = number;
 
 export interface CustomSchemeOpts {
   hues: NumOfHues;
-  distance: Angle;
+  arc: Angle;
   rotation?: Angle;
 }
 
