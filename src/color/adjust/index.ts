@@ -17,13 +17,11 @@ import { AdjustmentValue, Color, CSSColor } from "../data/types";
  * ## Usage
  * ```ts
  * // positive values adjust clockwise
- * color.hue(30, 'red');
+ * hue(30, 'red');
  *
  * // negative values adjust counterclockwise
- * color.hue(-45, 'lime');
+ * hue(-45, 'lime');
  *
- * // aliased
- * color.h(90, 'blue');
  * ```
  *
  * @remarks
@@ -74,10 +72,10 @@ export const hue = (n: AdjustmentValue, color: CSSColor): Color => {
  * ## Usage
  * ```ts
  * // positive values increase
- * color.saturation(30, 'red');
+ * saturation(30, 'red');
  *
  * // negative values decrease
- * color.saturation(-45, 'lime');
+ * saturation(-45, 'lime');
  * ```
  *
  * @remarks
@@ -116,10 +114,10 @@ export const saturation = (n: AdjustmentValue, color: CSSColor): Color => {
  * ## Usage
  * ```ts
  * // positive values increase
- * color.lightness(30, 'red');
+ * lightness(30, 'red');
  *
  * // negative values decrease
- * color.lightness(-45, 'lime');
+ * lightness(-45, 'lime');
  * ```
  *
  * @remarks
@@ -158,14 +156,14 @@ export const lightness = (n: AdjustmentValue, color: CSSColor): Color => {
  * ## Usage
  * ```ts
  * // positive values increase
- * color.saturation(30, 'red');
+ * alpha(30, 'red');
  *
  * // negative values decrease
- * color.saturation(-45, 'lime');
+ * alpha(-45, 'lime');
  * ```
  *
  * @remarks
- * The lightness is bound between minimum and maximum values by linear normalization.
+ * The alpha is bound between minimum and maximum values by linear normalization.
  *
  * This means any adjustment that would result in a negative value will return the
  * minimum of `0` and any that exceeds the maximum will instead return `100`
