@@ -1,5 +1,5 @@
 import { clrs as a11y } from "./color/data/clrs";
-import { Color, CSSColor, Clrs, Stack } from "./color/data/types";
+import { Color, CSSColor, Clrs } from "./color/data/types";
 import { validateColor } from "./color/validate";
 import { toHex, toRGB, toHSL, preserveFormat } from "./color/convert";
 
@@ -92,10 +92,7 @@ export const hsl = (color: CSSColor): Color =>
  * @returns the hex color matching the lookup string
  */
 export const clrs = (color: Clrs): Color => {
-  validateColor("Invalid color format: cannot be read", color);
-
-  if (a11y[color]) return preserveFormat(a11y[color], color);
-  throw Error("Color not defined in accessibility table");
+  return preserveFormat(a11y[color], color);
 };
 
 // system font stacks
@@ -106,17 +103,14 @@ export const clrs = (color: Clrs): Color => {
  *
  * ## Usage
  * ```ts
- * // Will output all by default
- * systemfonts()
- *
- * // Otherwise will output system font stacks of the matched keys
- * systemfonts(['sans-serif', 'serif']);
+ * // Will output system font stacks of the matched keys
+ * systemfonts('sans-serif', 'serif');
  * ```
  *
- * @param fonts - an array of "serif", "sans-serif", and/or "monospace",
- * @returns array of font stacks matching the defined keys or a string if only one matched key
+ * @param fonts - "serif", "sans-serif", and/or "monospace",
+ * @returns array of font stacks matching the defined keys
  */
-export const systemfonts = (...fonts: Stack[]): string | string[] => {
+export const systemfonts = (...fonts: string[]): string[] => {
   interface SystemStack {
     [index: string]: string;
   }
@@ -130,18 +124,5 @@ export const systemfonts = (...fonts: Stack[]): string | string[] => {
       "Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace",
   };
 
-  // No arguments outputs all stacks by default
-  if (!fonts.length)
-    return ["sans", "serif", "monospace"].map(
-      (stack: string): string => families[stack]
-    );
-
-  // Output a string if only one family
-  if (fonts.length === 1) {
-    const [font] = fonts;
-    return families[font];
-  }
-
-  // Output an array otherwise
   return fonts.map((stack: string) => families[stack]);
 };

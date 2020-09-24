@@ -77,4 +77,3 @@ export type Clrs =
   | "grey"
   | "silver"
   | "white";
-export type Stack = "sans-serif" | "serif" | "monospace";

@@ -14,7 +14,7 @@ module.exports = {
     color: "cyan",
   },
   moduleNameMapper: {
-    "^@api(.*)$": "<rootDir>/src/index.ts",
+    "^@api(.*)$": "<rootDir>/src/$1",
     "^@fn(.*)$": "<rootDir>/src/fn$1",
     "^@color(.*)$": "<rootDir>/src/color$1",
     "^@scheme(.*)$": "<rootDir>/src/scheme$1",

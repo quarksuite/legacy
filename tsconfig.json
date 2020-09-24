@@ -10,7 +10,7 @@
     "esModuleInterop": true,
     "baseUrl": "src",
     "paths": {
-      "@api/*": ["/"],
+      "@api/*": ["*"],
       "@fn/*": ["fn/*"],
       "@color/*": ["color/*"],
       "@scheme/*": ["scheme/*"],
