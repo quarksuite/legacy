@@ -4,15 +4,20 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased - 2020-09-22
+## Unreleased - 2020-09-24
 
-> This project is currently being rewritten. Tread carefully
+> This project is currently being rewritten. Tread carefully. Also, it'll likely be ready for launch
+> by the middle of October
+
+The upcoming version is another full rewrite and refinement. The notable changes include a flattened API, functional utilities,
+wider support of CSS color format syntax, and a refined workflow. You'll want to check the API docs for the full view
+of what's new and different.
 
 ### Removed
 
 + higher-order function `color.adjust` was unecessarily complex and error prone
-+ `color.negate` and `color.complement` are just conveniences for certain adjustments. Use `color.hue(180, color)` and `color.mix(50, color.hue(180, color), color)`
-+ `variant.blend` functionality is approximately covered by `scheme.custom`. That said, generating **gradients** is outside the scope of this project
++ `color.negate` and `color.complement` are just conveniences for certain adjustments. Use `hue(180, color)` and `mix(50, hue(180, color), color)`
++ `variant.blend` functionality is approximately covered by the new `custom` scheme function. That said, generating **gradients** is outside the scope of this project
 
 ### Added
 
@@ -28,43 +33,47 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 + `hsl` format also accepts hue as gradians (`150grad`)
 + UMD build for legacy environments
 
-#### Modules
++ `alpha` color adjustment
 
-##### color
+##### scheme functions
 
-+ `color.alpha` color adjustment
-+ `color.settings` function that partially applies any color function
-+ `color.create` function that allows you to compose color functions
-+ `color.utilities` wraps `color.to[format]` conversion functions, and `color.a11y` . **They're not
-  intended to be used as part of the main workflow in v4**
-
-##### scheme
-
-+ `scheme.custom` now available for creating five hue, six hue, `n` hue, and other configurations not covered by the basic schemes
++ `custom` now available for creating five hue, six hue, `n` hue, and other configurations not covered by the basic schemes
 
 ### Changed
+
+Functions in this library no longer come already curried. It made defining correct types a nightmare, and it also meant
+documentation was needlessly complicated. That said, the new `set` function allows you to initialize any of the of the
+other functions with a few of their arguments. So... roughly the same thing
+
+
+In addition, every function is now a top level module. The domain module API **will not work** with v4. The rewrite made 
+encapsulation under domain modules (`color`, `scheme`, `variant`, etc...) cumbersome. 
 
 #### Color Formats
 
 + Alpha transparency is no longer ignored
 + Alpha transparency is removed from color if adjusted to `100` percent
 
-#### Modules
+#### color functions
 
-##### color
++ `hue` now binds all adjustments to one full revolution in either direction, correcting for the input
++ `mix` now respects and and mixes transparency
++ `color.a11y` is now `clrs`
 
-+ `color.hue` now binds all adjustments to one full revolution in either direction, correcting for the input
-+ `color.mix` now respects and and mixes transparency
+#### variant functions
 
-##### variant
-
-+ `variant.tints`, `variant.tones`, `variant.shades` now blend with pure white, gray, and black. Blending them with the clrs.cc defaults was an opinionated choice
++ `tints`, `tones`, `shades` now blend with pure white, gray, and black. Blending them with the clrs.cc defaults was an opinionated choice
 
 ### Fixed
 
 + Redundant operations were breaking conversion for some hex and named colors (mainly `dodgerblue` and `color.a11y('orange')`)
-+ colors now properly validated **before** they're transformed or generated
++ colors now properly validate **before** they're transformed or generated
 + types now properly built and documented
+
+#### prototyping functions
+
++ `typography.system` is now `systemfonts`
+
 
 ## v3.3.0 - 2020-08-16
 
