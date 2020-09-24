@@ -69,6 +69,7 @@ encapsulation under domain modules (`color`, `scheme`, `variant`, etc...) cumber
 + Redundant operations were breaking conversion for some hex and named colors (mainly `dodgerblue` and `color.a11y('orange')`)
 + colors now properly validate **before** they're transformed or generated
 + types now properly built and documented
++ `merge` was not actually merging. It now correctly removes duplicates
 
 #### prototyping functions
 
