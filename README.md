@@ -5,12 +5,12 @@
 [![Minzipped bundle](https://img.shields.io/bundlephobia/minzip/@quarksuite/core?style=for-the-badge)](https://bundlephobia.com/result?p=@quarksuite/core)
 [![License: MIT](https://img.shields.io/github/license/quarksuite/core?style=for-the-badge)](https://github.com/quarksuite/core/blob/master/LICENSE)
 
-# Quarksuite
-
 ![Quarksuite Logo](assets/logo.png)
 
+# Quarksuite
+
 > Note: v4 is now in its pre-release stage and will launch after extensive testing, bug fixes, and documentation
-> updates around **10/5**. The API itself is complete and stable.
+> updates around **10/5**. The API itself is now complete and stable and no more **breaking** changes will be made.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -29,7 +29,7 @@ Table of Contents
 - [Concept](#concept)
 - [Project Objectives](#project-objectives)
   - [Small, Nimble, Adaptive](#small-nimble-adaptive)
-  - [Work the Way You Work](#work-the-way-you-work)
+  - [Works the Way You Work](#works-the-way-you-work)
   - [Zero Lock-In](#zero-lock-in)
   - [Familiarity](#familiarity)
 - [Thanks to:](#thanks-to)

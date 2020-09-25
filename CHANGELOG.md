@@ -4,10 +4,97 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Unreleased - 2020-09-25](#unreleased---2020-09-25)
+  - [Removed](#removed)
+  - [Added](#added)
+    - [General](#general)
+    - [Color Formats](#color-formats)
+    - [scheme functions](#scheme-functions)
+    - [scale functions](#scale-functions)
+  - [Changed](#changed)
+    - [Color Formats](#color-formats-1)
+    - [color functions](#color-functions)
+    - [variant functions](#variant-functions)
+    - [scale functions](#scale-functions-1)
+  - [Fixed](#fixed)
+    - [prototyping functions](#prototyping-functions)
+- [v3.3.0 - 2020-08-16](#v330---2020-08-16)
+  - [Removed](#removed-1)
+- [v3.2.1 - 2020-06-05](#v321---2020-06-05)
+  - [Added](#added-1)
+- [v3.2.0 - 2020-05-07](#v320---2020-05-07)
+  - [Added](#added-2)
+  - [Changed](#changed-1)
+  - [Fixed](#fixed-1)
+- [v3.1.0](#v310)
+  - [Changed](#changed-2)
+  - [Fixed](#fixed-2)
+- [v3.0.0](#v300)
+  - [Changed](#changed-3)
+  - [Added](#added-3)
+  - [Fixed](#fixed-3)
+- [v2.4.1](#v241)
+  - [Fixed](#fixed-4)
+- [v.2.4.0](#v240)
+  - [Changed](#changed-4)
+- [v2.3.2](#v232)
+  - [Fixed](#fixed-5)
+- [v2.3.0](#v230)
+  - [Changed](#changed-5)
+  - [Added](#added-4)
+  - [Fixed](#fixed-6)
+  - [Removed](#removed-2)
+- [v2.2.0](#v220)
+  - [Changed](#changed-6)
+- [v2.1.0](#v210)
+  - [Changed](#changed-7)
+  - [Removed](#removed-3)
+- [v2.0.3](#v203)
+  - [Fixed](#fixed-7)
+- [v2.0.2](#v202)
+  - [Fixed](#fixed-8)
+- [v2.0.1](#v201)
+  - [Changed](#changed-8)
+- [v2.0.0](#v200)
+  - [Added](#added-5)
+  - [Removed](#removed-4)
+  - [Changed](#changed-9)
+- [v1.4.1](#v141)
+  - [Changed](#changed-10)
+- [v1.4.0](#v140)
+  - [Added](#added-6)
+  - [Removed](#removed-5)
+- [v1.3.0](#v130)
+  - [Changed](#changed-11)
+- [v1.2.0](#v120)
+  - [Fixed](#fixed-9)
+- [v1.1.1](#v111)
+  - [Added](#added-7)
+- [v1.1.0](#v110)
+  - [Changed](#changed-12)
+- [v1.0.0](#v100)
+  - [Added](#added-8)
+  - [Changed](#changed-13)
+  - [Fixed](#fixed-10)
+  - [Removed](#removed-6)
+- [v0.2.3](#v023)
+  - [Added](#added-9)
+- [v0.2.2](#v022)
+  - [Changed](#changed-14)
+  - [Fixed](#fixed-11)
+- [v0.1.0](#v010)
+  - [Added](#added-10)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Unreleased - 2020-09-25
 
-> This project is currently being rewritten. Tread carefully. Also, it'll likely be ready for launch
-> by the middle of October
+> This project is now in its prerelease stage for v4. No more breaking changes will be written and you can expect launch
+> by **10/5**
 
 The upcoming version is another full rewrite and refinement. The notable changes include a flattened API, functional utilities,
 wider support of CSS color format syntax, and a more intentional workflow. You'll want to check the README and API docs for the full view
