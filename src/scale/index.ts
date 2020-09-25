@@ -8,6 +8,7 @@ import {
   Ratio,
   ScaleBase,
   UpdateCalc,
+  PartitionSize,
 } from "./types";
 
 /**
@@ -71,6 +72,8 @@ export const update = (
  * @remarks
  * Any duplicate values are stripped from the merged scale.
  *
+ * This function is lets you create multithreaded scales.
+ *
  * @param scales - the scales you want to merge
  * @return a new scale with the merged values
  * ```
@@ -80,6 +83,40 @@ export const merge = (...scales: RawScaleValues[]): RawScaleValues => {
     ...new Set(scales.reduce((acc, scale) => [...acc, ...scale], [])),
   ].sort((a: number, b: number) => a - b);
 };
+
+/**
+ * Splits a scale into partitions.
+ *
+ * ## Usage
+ * ```ts
+ * const content = ms(30, 1.414, 1);
+ * partition(6, content);
+ * ```
+ *
+ * @remarks
+ * The main use case for this function is when you have a large scale
+ * that you want to break into smaller bits.
+ *
+ * A good example would be for content breakpoints or when you want
+ * to stagger over a certain range of values
+ *
+ * @param size - the number of values in each partition
+ * @param scale - the scale you want to break up
+ * @returns a new scale split into partitions up to the size
+ */
+export const partition = (
+  size: PartitionSize,
+  scale: RawScaleValues
+): RawScaleValues[] =>
+  scale.reduce(
+    (
+      acc: RawScaleValues[],
+      _,
+      index: number,
+      array: RawScaleValues
+    ): RawScaleValues[] => [...acc, array.splice(index, size)],
+    []
+  );
 
 /**
  * Processes raw scale values into a CSS-ready modular scale.

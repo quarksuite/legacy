@@ -4,6 +4,7 @@ export type Ratio = number;
 export type ScaleBase = number;
 export type SignificantDigits = number;
 export type UpdateCalc = (value: number) => number;
+export type PartitionSize = number;
 
 // units
 export type AbsoluteUnits = "cm" | "mm" | "Q" | "in" | "pc" | "pt" | "px";

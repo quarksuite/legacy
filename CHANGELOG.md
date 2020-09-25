@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased - 2020-09-24
+## Unreleased - 2020-09-25
 
 > This project is currently being rewritten. Tread carefully. Also, it'll likely be ready for launch
 > by the middle of October
@@ -35,9 +35,13 @@ of what's new and different.
 
 + `alpha` color adjustment
 
-##### scheme functions
+#### scheme functions
 
 + `custom` now available for creating five hue, six hue, `n` hue, and other configurations not covered by the basic schemes
+
+#### scale functions
+
++ `partition` now available for splitting large scales into smaller scales of a given size
 
 ### Changed
 
@@ -74,7 +78,6 @@ encapsulation under domain modules (`color`, `scheme`, `variant`, etc...) cumber
 #### prototyping functions
 
 + `typography.system` is now `systemfonts`
-
 
 ## v3.3.0 - 2020-08-16
 
