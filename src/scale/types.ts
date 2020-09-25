@@ -9,6 +9,7 @@ export type PartitionSize = number;
 // units
 export type AbsoluteUnits = "cm" | "mm" | "Q" | "in" | "pc" | "pt" | "px";
 export type RelativeUnits =
+  | "fr"
   | "em"
   | "ex"
   | "ch"
