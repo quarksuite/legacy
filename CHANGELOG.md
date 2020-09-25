@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 > by the middle of October
 
 The upcoming version is another full rewrite and refinement. The notable changes include a flattened API, functional utilities,
-wider support of CSS color format syntax, and a refined workflow. You'll want to check the API docs for the full view
+wider support of CSS color format syntax, and a more intentional workflow. You'll want to check the README and API docs for the full view
 of what's new and different.
 
 ### Removed
@@ -47,7 +47,7 @@ of what's new and different.
 
 Functions in this library no longer come already curried. It made defining correct types a nightmare, and it also meant
 documentation was needlessly complicated. That said, the new `set` function allows you to initialize any of the of the
-other functions with a few of their arguments. So... roughly the same thing
+other functions with a few of their arguments. And it can be chained. So... roughly the same thing
 
 
 In addition, every function is now a top level module. The domain module API **will not work** with v4. The rewrite made 
@@ -63,10 +63,15 @@ encapsulation under domain modules (`color`, `scheme`, `variant`, etc...) cumber
 + `hue` now binds all adjustments to one full revolution in either direction, correcting for the input
 + `mix` now respects and and mixes transparency
 + `color.a11y` is now `clrs`
++ the toFormat conversion functions are now just `hex`, `rgb`, `hsl`
 
 #### variant functions
 
 + `tints`, `tones`, `shades` now blend with pure white, gray, and black. Blending them with the clrs.cc defaults was an opinionated choice
+
+#### scale functions
+
+`scale.output` is now `units`
 
 ### Fixed
 
@@ -74,6 +79,7 @@ encapsulation under domain modules (`color`, `scheme`, `variant`, etc...) cumber
 + colors now properly validate **before** they're transformed or generated
 + types now properly built and documented
 + `merge` was not actually merging. It now correctly removes duplicates
++ the variant functions were not properly sorting sorting tints, tones, or shades. Now it sorts correctly
 
 #### prototyping functions
 
