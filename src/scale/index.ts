@@ -107,8 +107,10 @@ export const merge = (...scales: RawScaleValues[]): RawScaleValues => {
 export const partition = (
   size: PartitionSize,
   scale: RawScaleValues
-): RawScaleValues[] =>
-  scale.reduce(
+): RawScaleValues[] => {
+  const store = Array.from(scale);
+
+  return store.reduce(
     (
       acc: RawScaleValues[],
       _,
@@ -117,6 +119,7 @@ export const partition = (
     ): RawScaleValues[] => [...acc, array.splice(index, size)],
     []
   );
+};
 
 /**
  * Processes raw scale values into a CSS-ready modular scale.
