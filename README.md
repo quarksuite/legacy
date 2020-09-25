@@ -9,9 +9,8 @@
 
 ![Quarksuite Logo](assets/logo.png)
 
-> **Note**: This project is the middle of a rewrite. Expect gaps and leaks on this branch.
-> See the master branch if you landed here by accident 
-> v4 will land by November 1
+> Note: v4 is now in its pre-release stage and will launch after extensive testing, bug fixes, and documentation
+> updates around **10/5**. The API itself is complete and stable.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
