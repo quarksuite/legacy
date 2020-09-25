@@ -1,9 +1,12 @@
 import {
+  Analogous,
   Angle,
+  Complementary,
   CSSColor,
-  BasicScheme,
-  CustomScheme,
   CustomSchemeOpts,
+  Triadic,
+  Tetradic,
+  Custom,
 } from "../color/data/types";
 import { hue } from "../color/adjust";
 
@@ -29,7 +32,7 @@ import { hue } from "../color/adjust";
  * @param color - any valid CSS color
  * @returns complementary scheme base hues
  */
-export const complementary = (color: CSSColor): BasicScheme => [
+export const complementary = (color: CSSColor): Complementary => [
   hue(0, color),
   hue(180, color),
 ];
@@ -65,7 +68,7 @@ export const complementary = (color: CSSColor): BasicScheme => [
  * @param color - any valid CSS color
  * @returns analogous scheme base hues
  */
-export const analogous = (arc: Angle, color: CSSColor): BasicScheme => [
+export const analogous = (arc: Angle, color: CSSColor): Analogous => [
   hue(0, color),
   hue(-arc, color),
   hue(arc, color),
@@ -111,7 +114,7 @@ export const analogous = (arc: Angle, color: CSSColor): BasicScheme => [
  * @param color - any valid CSS color
  * @returns triadic scheme base hues
  */
-export const triad = (arc: Angle, color: CSSColor): BasicScheme => [
+export const triad = (arc: Angle, color: CSSColor): Triadic => [
   hue(0, color),
   hue(180 + -arc, color),
   hue(180 + arc, color),
@@ -148,7 +151,7 @@ export const triad = (arc: Angle, color: CSSColor): BasicScheme => [
  * @param color - any valid CSS color
  * @returns tetradic scheme base hues
  */
-export const tetrad = (rotation: Angle, color: CSSColor): BasicScheme => [
+export const tetrad = (rotation: Angle, color: CSSColor): Tetradic => [
   hue(0, color),
   hue(180, color),
   hue(rotation, color),
@@ -193,7 +196,7 @@ export const tetrad = (rotation: Angle, color: CSSColor): BasicScheme => [
 export const custom = (
   { hues, arc, rotation = 0 }: CustomSchemeOpts,
   color: CSSColor
-): CustomScheme => [
+): Custom => [
   ...new Set([
     hue(0, color),
     ...(rotation

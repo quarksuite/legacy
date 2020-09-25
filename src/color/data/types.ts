@@ -52,15 +52,31 @@ export interface CustomSchemeOpts {
 
 // Palette assembly
 export type Color = CSSColor;
-export type BasicScheme = [origin: Color, b: Color, c?: Color, d?: Color];
-
-export type CustomScheme = [...custom: [...Color[]]];
-export type Variant = [...color: [...Color[]]];
+export type Complementary = [origin: Color, opposite: Color];
+export type Analogous = [
+  origin: Color,
+  leftOfOrigin: Color,
+  rightOfOrigin: Color
+];
+export type Triadic = [
+  origin: Color,
+  leftOfOpposite: Color,
+  rightOfOpposite: Color
+];
+export type Tetradic = [
+  origin: Color,
+  opposite: Color,
+  rotationFromOrigin: Color,
+  rotationFromOpposite: Color
+];
+export type Custom = [...hue: [...Color[]]];
+export type Variant = [...variant: [...Color[]]];
 
 // Utility types
 export type Clrs =
   | "navy"
   | "blue"
+  | "aqua"
   | "teal"
   | "olive"
   | "green"
@@ -68,7 +84,6 @@ export type Clrs =
   | "yellow"
   | "orange"
   | "red"
-  | "maroon"
   | "maroon"
   | "fuchsia"
   | "purple"
