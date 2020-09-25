@@ -45,6 +45,7 @@
     "babel-jest": "^26.3.0",
     "core-js": "^3.6.5",
     "coveralls": "^3.1.0",
+    "doctoc": "^1.4.0",
     "eslint": "^7.9.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
@@ -111,6 +112,9 @@
     }
   },
   "lint-staged": {
+    "*.md": [
+      "doctoc"
+    ],
     "*.ts": [
       "eslint --fix",
       "jest --bail --coverage --findRelatedTests",
