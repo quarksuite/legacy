@@ -163,7 +163,7 @@ const [main, accent, highlight] = triad(60, color);
 const tint = set(tints, 3, 98);
 const shade = set(shades, 2, 98);
 
-const palette = {
+export const palette = {
   brand: main,
   "brand-tint": tint(main),
   "brand-shade": shade(main),
@@ -172,6 +172,8 @@ const palette = {
 };
 
 const [sans, mono] = systemfonts("sans-serif", "monospace");
+
+export const fonts = { sans, mono };
 
 const scale = ms(5, 2, 1);
 
@@ -225,7 +227,7 @@ const fractionOfMeasure = (v: number) => measure / v;
 // content fonts
 const [sans, , mono] = systemfonts();
 
-const fonts = {
+export const fonts = {
   sans: {
     name: "Roboto",
     stack: ["Roboto", sans].join(", "),
@@ -244,7 +246,7 @@ const ems = set(units, outputPrecision, "em");
 
 const sizes = initial(base).filter(isNotBaseValue);
 
-const size = {
+export const size = {
   base: rems([base])[0],
   x: rems(sizes),
   dx: ems(update(contentInversion, sizes)),
@@ -255,7 +257,7 @@ const ch = set(units, outputPrecision, "ch");
 
 const lineLength = update(fractionOfMeasure, initial(base));
 
-const line = {
+export const line = {
   base: ch([measure])[0],
   dx: ch(lineLength.filter(isNotMaximumCPL)),
 };
@@ -265,7 +267,7 @@ const ex = set(units, outputPrecision, "ex");
 
 const vr = initial(base).filter(isNotBaseValue);
 
-const spacing = {
+export const spacing = {
   base: ex([base])[0],
   x: ex(vr),
   dx: ex(update(contentInversion, vr)),
@@ -287,7 +289,7 @@ const fr = set(units, outputPrecision, "fr");
 
 const gu = initial(base);
 
-const grid = {
+export const grid = {
   base: fr(gu)[0],
   n: fr(gu.filter(isNotBaseFraction)),
 };
@@ -306,7 +308,7 @@ const vp = update((v: number) => v * 10, initial(base)).filter(
   isNotViewportMaximum
 );
 
-const viewport = {
+export const viewport = {
   vw: {
     base: vw([maximum])[0],
     dx: vw(vp),
