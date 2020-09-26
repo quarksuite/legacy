@@ -31,15 +31,15 @@ import { RelativeUnits } from "@api/scale/types";
 describe("API flow testing", () => {
   describe("v4 feature: partial application", () => {
     test("can partially apply any of the library's functions", () => {
-      const swatch = rgb("springgreen");
+      const swatch = hex("springgreen");
 
       const quarterCircle = set(hue, 90);
       const mute = set(saturation, -50);
       const brighten = set(lightness, 25);
 
-      expect(quarterCircle(swatch)).toBe("rgb(0, 0, 255)");
-      expect(mute(swatch)).toBe("rgb(64, 191, 128)");
-      expect(brighten(swatch)).toBe("rgb(128, 255, 191)");
+      expect(quarterCircle(swatch)).toBe("#0000ff");
+      expect(mute(swatch)).toBe("#40bf80");
+      expect(brighten(swatch)).toBe("#80ffbf");
     });
     test("can chain partial application", () => {
       const swatch = rgb(clrs("orange"));
@@ -266,16 +266,56 @@ describe("API flow testing", () => {
       ]);
     });
   });
+  describe("v4 fix: merge removes duplicate values", () => {
+    const values = set(ms, 10);
+    const first = values(1.75, 1);
+    const second = values(1.5, 1);
+    const third = values(1.25, 1);
+
+    expect(merge(first, second, third)).toStrictEqual([
+      1,
+      1.25,
+      1.5,
+      1.5625,
+      1.75,
+      1.953125,
+      2.25,
+      2.44140625,
+      3.0517578125,
+      3.0625,
+      3.375,
+      3.814697265625,
+      4.76837158203125,
+      5.0625,
+      5.359375,
+      5.9604644775390625,
+      7.450580596923828,
+      7.59375,
+      9.37890625,
+      11.390625,
+      16.4130859375,
+      17.0859375,
+      25.62890625,
+      28.722900390625,
+      38.443359375,
+      50.26507568359375,
+      87.96388244628906,
+      153.93679428100586,
+    ]);
+  });
 });
 
 describe("Examples", () => {
   test("Prototyping", () => {
     const color = hsl("gainsboro");
-    const [tint, shade] = [tints, shades].map((fn) => set(fn, 4, 99));
+    const [tint, tone, shade] = [tints, tones, shades].map((fn) =>
+      set(fn, 4, 99)
+    );
 
     const palette = {
       main: color,
       "main-tint": tint(color),
+      "main-tone": tone(color),
       "main-shade": shade(color),
     };
 
@@ -312,6 +352,12 @@ describe("Examples", () => {
           "hsl(0, 0%, 93.3%)",
           "hsl(0, 0%, 96.5%)",
           "hsl(0, 0%, 100%)",
+        ],
+        "main-tone": [
+          "hsl(0, 0%, 78.8%)",
+          "hsl(0, 0%, 70.6%)",
+          "hsl(0, 0%, 61.6%)",
+          "hsl(0, 0%, 50.6%)",
         ],
       },
     });

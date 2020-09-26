@@ -3,8 +3,10 @@ import { Color, CSSColor, Clrs } from "./color/data/types";
 import { validateColor } from "./color/validate";
 import { toHex, toRGB, toHSL, preserveFormat } from "./color/convert";
 
-// color, scheme, and variant functions
+// Functional utilities
 export { compose as pipe, curryN as set } from "./fn";
+
+// color, scheme, and variant functions
 export { hue, saturation, lightness, alpha } from "./color/adjust";
 export { mix } from "./color/mix";
 export { complementary, analogous, triad, tetrad, custom } from "./scheme";
