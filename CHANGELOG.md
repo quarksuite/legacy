@@ -118,7 +118,6 @@ of what's new and different.
 + `rgb`/`hsl` newer syntax supported as input. ex: `rgb(110 44 95)`, `hsl(50 75% 25%)`, `hsla(250 72% 49% / 69%);`
 + `hsl` format now accepts negative hues
 + `hsl` format also accepts hue as gradians (`150grad`)
-+ UMD build for legacy environments
 
 + `alpha` color adjustment
 
