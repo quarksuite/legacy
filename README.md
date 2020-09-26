@@ -177,7 +177,7 @@ export const fonts = { sans, mono };
 
 const scale = ms(5, 2, 1);
 
-const composition = {
+export const composition = {
   ms: units(4, "rem", scale),
 };
 ```
