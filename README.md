@@ -19,12 +19,18 @@
 Table of Contents
 
 - [Summary](#summary)
+- [Features](#features)
 - [Installation](#installation)
   - [As a Module](#as-a-module)
   - [In the Browser](#in-the-browser)
 - [Usage Examples](#usage-examples)
-  - [Prototyping](#prototyping)
-  - [Advanced Demonstration](#advanced-demonstration)
+  - [Minimal](#minimal)
+  - [Shaped Like Itself](#shaped-like-itself)
+  - [Multi-stage](#multi-stage)
+    - [Axioms](#axioms)
+    - [Palette](#palette)
+    - [Content](#content)
+    - [Layout](#layout)
 - [What's Next?](#whats-next)
 - [API](#api)
 - [Contributing](#contributing)
@@ -33,23 +39,23 @@ Table of Contents
   - [Small, Nimble, Adaptive](#small-nimble-adaptive)
   - [Works the Way You Work](#works-the-way-you-work)
   - [Zero Lock-In](#zero-lock-in)
-  - [Familiarity](#familiarity)
+  - [Ease of use](#ease-of-use)
 - [Thanks to:](#thanks-to)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Summary
 
-Quarksuite is a tool for developers, designers, and front-end designers that treats core visual elements as data.
+Quarksuite is a toolkit for developers, designers, and front-end designers with a focus on designing UI with data.
 
-It [adjusts colors](https://github.com/quarksuite/core/blob/master/API.md#color-functions). It [generates schemes](https://github.com/quarksuite/core/blob/master/API.md#scheme-functions). It creates [full palettes](https://github.com/quarksuite/core/blob/master/API.md#variant-functions). And it defines [modular scales](https://github.com/quarksuite/core/blob/master/API.md#scale-functions) for content and layout. As a bonus, it also provides [operating system font stacks](https://github.com/quarksuite/core/blob/master/API.md#typography-functions) to aid rapid prototyping.
+## Features
 
-The goal here is to codify the consistency, utility, and order expected of any good design. Thereby leaving more time for the personality, expression, and resonance of great design.
-
-I made this for myself first—as a developer/designer with a somewhat mathematically inclined sense of aesthetics.
-
-I figure other people may get use out of it, too.
-
++ make solid baselines to jumpstart your design systems
++ adjust colors, generate schemes, and build full palettes with tints, tones, and/or shades
++ create robust modular scales for your content, layout, and composition
++ use handy system font stacks to aid prototyping
++ flat, declarative API allowing you to use only what you need
++ no framework, no problem
 
 ## Installation
 
@@ -68,11 +74,11 @@ yarn add @quarksuite/core
 Then in any file:
 
 ```js
-const {color, scheme, variant, typography, scale} = require('@quarksuite/core');
+const { hex, tints, shades, systemfonts, ms, units } = require('@quarksuite/core');
 
 // OR w/ ES Modules, Webpack, Parcel
 
-import {color, scheme, variant, typography, scale} from '@quarksuite/core';
+import { hex, tints, shades, systemfonts, ms, units } from '@quarksuite/core';
 ```
 
 ### In the Browser
@@ -97,9 +103,9 @@ npx snowpack
 ```
 
 ```js
-import { color, scheme, variant, typography, scale } from '/web_modules/@quarksuite/core.js';
+import { hex, tints, shades, systemfonts, ms, units } from '/web_modules/@quarksuite/core.js';
 
-// Your baseline system
+// Your data
 ```
 
 OR
@@ -113,7 +119,7 @@ OR
   </head>
   <body>
     <script type="module">
-      import { color, scheme, variant, typography, scale } from "https://unpkg.com/@quarksuite/core"
+      import { hex, tints, shades, systemfonts, ms, units } from "https://unpkg.com/@quarksuite/core"
       
       // Your baseline system
     </script>
@@ -123,115 +129,215 @@ OR
 
 ## Usage Examples
 
-### Prototyping
+### Minimal
 
 ```js
-const { color, variant, typography, scale } = require("@quarksuite/core");
+import { hex, tints, shades, systemfonts, ms, units } from '@quarksuite/core';
 
-const main = color.toRGB("gainsboro");
-const [tints, shades] = [variant.tints(95, 3), variant.shades(95, 2)];
+const main = hex('gainsboro');
+const tint = tints(4, 100, main);
+const shade = shades(4, 100, main);
 
-module.exports.palette = {
-  base: main,
-  tints: tints(main),
-  shades: shades(main),
-};
+export const palette = { main, 'main-tint': tint, 'main-shade': shade };
 
-const [sans, mono] = typography.system("sans", "monospace");
+const [sans, mono] = systemfonts('sans-serif', 'monospace');
 
-module.exports.fonts = {
-  sans,
-  mono,
-};
+export const fonts = { sans, mono };
 
-const base = 1;
-const asRems = scale.output("rem");
-const content = scale.create("golden", 6);
+const scale = ms(8, 1.618, 1);
+const rems = units(4, 'rem', scale);
 
-module.exports.ms = scale.pipe(content, asRems)(base);
+export const composition = { scale: rems };
 ```
 
-### Advanced Demonstration
+
+### Shaped Like Itself
 
 ```js
-const {
-  color,
-  scheme,
-  variant,
-  typography,
-  scale,
-} = require("@quarksuite/core");
+import { set, rgb, triad, tints, shades, systemfonts, ms, units } from "@quarksuite/core";
 
-// Color -> Color
-const swatch = color.a11y("blue");
-const desaturate = color.saturation(-15);
-const mixLime = color.mix(color.a11y("lime"), 25);
-const colorInput = color.pipe(mixLime, desaturate);
+const color = rgb("#348ec9");
 
-// Color -> Scheme
-const midAnalogous = scheme.analogous(30);
-const [secondary, main, accent] = midAnalogous(colorInput(swatch));
+const [main, accent, highlight] = triad(60, color);
 
-// Color -> Variant
-const [tints, shades] = [variant.tints(95, 3), variant.shades(95, 2)];
+const tint = set(tints, 3, 98);
+const shade = set(shades, 2, 98);
 
-// Color -> Scheme | Variant -> Palette
-module.exports.palette = {
-  main: {
-    base: main,
-    tints: tints(main),
-    shades: shades(main),
+const palette = {
+  brand: main,
+  "brand-tint": tint(main),
+  "brand-shade": shade(main),
+  "brand-accent": accent,
+  "brand-highlight": highlight,
+};
+
+const [sans, mono] = systemfonts("sans-serif", "monospace");
+
+const scale = ms(5, 2, 1);
+
+const composition = {
+  ms: units(4, "rem", scale),
+};
+```
+
+### Multi-stage
+
+#### Axioms
+
+```js
+export const base = 1;
+export const ratio = 1.5;
+export const measure = 72;
+export const maximum = 100;
+export const range = 4;
+export const outputPrecision = 4;
+```
+
+#### Palette
+
+```js
+import { clrs } from '@quarksuite/core';
+
+export const palette = {
+  ...[
+  "navy", "blue", "aqua", "teal",
+  "olive", "green", "lime",
+  "yellow", "orange", "red",
+  "maroon", "fuchsia", "purple",
+  "black", "gray", "silver", "white",
+  ].reduce((acc, c) => ({ ...acc, ...{ [c]: clrs(c) } }), {}),
+};
+```
+
+#### Content
+
+```js
+import { set, systemfonts, ms, update, units } from '@quarksuite/core';
+
+const initial = set(ms, range, ratio);
+
+const isNotBaseValue = (v: number) => v !== base;
+const isNotMaximumCPL = (v: number) => v !== measure;
+
+const contentInversion = (v: number) => base / v;
+const fractionOfMeasure = (v: number) => measure / v;
+
+// content fonts
+const [sans, , mono] = systemfonts();
+
+const fonts = {
+  sans: {
+    name: "Roboto",
+    stack: ["Roboto", sans].join(", "),
+    weights: ["300", "400", "400i", "700", "900"],
   },
-  secondary: {
-    base: secondary,
-    shades: shades(secondary),
-  },
-  accent: {
-    base: accent,
-    shades: shades(accent),
+  mono: {
+    name: "Roboto Mono",
+    stack: ["Roboto Mono", mono].join(", "),
+    weights: ["400", "700"],
   },
 };
 
-const [sans, mono] = typography.system("sans", "monospace");
+// content size
+const rems = set(units, outputPrecision, "rem");
+const ems = set(units, outputPrecision, "em");
 
-module.exports.fonts = {
-  sans,
-  mono,
+const sizes = initial(base).filter(isNotBaseValue);
+
+const size = {
+  base: rems([base])[0],
+  x: rems(sizes),
+  dx: ems(update(contentInversion, sizes)),
 };
 
-// Prepare output
-const asRems = scale.output("rem");
-const asEms = scale.output("em");
+// measure (characters per line)
+const ch = set(units, outputPrecision, "ch");
 
-// define scales
-const [base, ...content] = scale.create("golden", 6, 1);
-const layout = scale.create("octave", 4);
-const [b, i] = [layout(base), scale.update((v) => v * 0.3125, layout(base))];
+const lineLength = update(fractionOfMeasure, initial(base));
 
-const [, ...block] = b;
-const inline = i;
+const line = {
+  base: ch([measure])[0],
+  dx: ch(lineLength.filter(isNotMaximumCPL)),
+};
 
-module.exports.ms = {
-  base,
-  content: asRems(content),
-  block: asRems(block),
-  inline: asEms(inline),
+// content spacing
+const ex = set(units, outputPrecision, "ex");
+
+const vr = initial(base).filter(isNotBaseValue);
+
+const spacing = {
+  base: ex([base])[0],
+  x: ex(vr),
+  dx: ex(update(contentInversion, vr)),
+};
+```
+
+#### Layout 
+
+```js
+import { set, ms, update, units } from '@quarksuite/core';
+
+const initial = set(ms, range, ratio);
+
+const isNotBaseFraction = (n: number) => n !== base;
+const isNotViewportMaximum = (v: number) => v !== maximum;
+
+// layout grid
+const fr = set(units, outputPrecision, "fr");
+
+const gu = initial(base);
+
+const grid = {
+  base: fr(gu)[0],
+  n: fr(gu.filter(isNotBaseFraction)),
+};
+
+// layout viewport
+const [vw, vh, vmin, vmax] = [
+  "vw",
+  "vh",
+  "vmin",
+  "vmax",
+].map((viewport: string) =>
+  set(units, outputPrecision, viewport)
+);
+
+const vp = update((v: number) => v * 10, initial(base)).filter(
+  isNotViewportMaximum
+);
+
+const viewport = {
+  vw: {
+    base: vw([maximum])[0],
+    dx: vw(vp),
+  },
+  vh: {
+    base: vh([maximum])[0],
+    dx: vh(vp),
+  },
+  vmin: {
+    base: vmin([maximum])[0],
+    dx: vmin(vp),
+  },
+  vmax: {
+    base: vmax([maximum])[0],
+    dx: vmax(vp),
+  },
 };
 ```
 
 ## What's Next?
 
-Since each UI foundation created with Quarksuite is vanilla JavaScript, you can use it:
+Each data set created with Quarksuite is vanilla JavaScript, so it'll work:
 
-+ as-is with any [CSS-in-JS approach](https://github.com/MicheleBertoli/css-in-js) 
++ with any [CSS-in-JS approach](https://github.com/MicheleBertoli/css-in-js) 
 + with [Tailwind](https://tailwindcss.com/) 
 + as design tokens when transformed with [Style Dictionary](https://github.com/amzn/style-dictionary) or [Theo](https://github.com/salesforce-ux/theo)
-
-Really, any method that fits your actual workflow and tools is viable. It's up to you.
++ right in a new browser tab
 
 ## API
 
-You can [read the full API documentation](https://github.com/quarksuite/core/blob/master/API.md) for every module and available function.
+You can [read the full API documentation](https://github.com/quarksuite/core/blob/master/API.md) for available function.
 
 ## Contributing
 
@@ -243,9 +349,7 @@ Quarksuite is built around the idea that fundamental, **quantifiable** visual el
 
 [This isn't a new idea](https://css-tricks.com/what-are-design-tokens/).
 
-The library's domain is on a similar level&mdash;or just below design tokens. It allows a structure similar to projects like [Styled System](https://styled-system.com/) or [Ether](https://ether.thescenery.co/), but it doesn't ask you to use React.
-
-Quarksuite is designed to mirror the steps designers are likely to take while making these decisions on their own.
+The library's domain is on a similar level&mdash;or just below design tokens. It allows a structure similar to projects like [Styled System](https://styled-system.com/) or [Ether](https://ether.thescenery.co/), but it doesn't require you to use a framework.
 
 ## Project Objectives
 
@@ -253,30 +357,28 @@ These are the principles guiding current and future development of the library. 
 
 ### Small, Nimble, Adaptive
 
-+ Aims to stay compact in size but flexible
-+ Make your data as light or heavy as you want
++ Aims to stay compact in size but flexible in use
++ Ought to be able to scale with the needs of your projects
 
 ### Works the Way You Work
 
-+ Imposes no restrictions on structuring, exporting, or using your data
++ support in different environments, build systems, bundlers, or with no build at all
 
 ### Zero Lock-In
 
-+ Update your data quickly without extensive rewrites 
-+ Detach from the library at any time
++ use what you need and leave the rest behind
++ library not required to **use** your data
 
-### Familiarity
+### Ease of use
 
-+ A focus on allowing the most declarative structure possible 
++ simple baselines ought to be simple to build, scalable baselines should also be simple to build 
 
 ## Thanks to:
 
 + [Jon Kantner for: Converting Color Spaces in JavaScript](https://css-tricks.com/converting-color-spaces-in-javascript).  The internal color functions borrow heavily from this article and [color conversion formulas from RapidTables](https://www.rapidtables.com/convert/color/index.html).
 
-+ [Folktale's](https://folktale.origamitower.com) implementation of [curry](https://folktale.origamitower.com/api/v2.3.0/en/folktale.core.lambda.curry.curry.html) and [compose.all](https://folktale.origamitower.com/api/v2.3.0/en/folktale.core.lambda.compose.all.html) was vital in making the module functions more&hellip; modular.
-
 + Every developer who gives me moments of clarity as I learn functional programming and **when** to use it. 
 
-+ Every designer who shows me better ways of composing UI and reminds me to be careful about my enthusiasm over developer tools.
++ Every designer who shows me better ways and checks my hubris.
 
-+ You, who considered this project enough to reach the bottom of this Readme.
++ You, for giving this a shot.
