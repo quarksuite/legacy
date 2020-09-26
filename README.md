@@ -5,9 +5,11 @@
 [![Minzipped bundle](https://img.shields.io/bundlephobia/minzip/@quarksuite/core?style=for-the-badge)](https://bundlephobia.com/result?p=@quarksuite/core)
 [![License: MIT](https://img.shields.io/github/license/quarksuite/core?style=for-the-badge)](https://github.com/quarksuite/core/blob/master/LICENSE)
 
+# Quarksuite
+
 ![Quarksuite Logo](assets/logo.png)
 
-# Quarksuite
+![Demo](assets/basic-usage.gif)
 
 > Note: v4 is now in its pre-release stage and will launch after extensive testing, bug fixes, and documentation
 > updates around **10/5**. The API itself is now complete and stable and no more **breaking** changes will be made.
