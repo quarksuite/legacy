@@ -595,12 +595,13 @@ A tetradic scheme is made of a color, its opposite, and two hues between them. A
 
 #### Usage
 
+
 ```js
+// low contrast tetrad 
+tetrad(15, 'lime'); // [ '#00ff00', '#ff00ff', '#00ff40', '#ff00bf' ]
+
 // mid contrast tetrad
 tetrad(30, 'red'); // [ '#ff0000', '#00ffff', '#ff8000', '#0080ff' ]
-
-// high contrast tetrad 
-tetrad(15, 'lime'); // [ '#00ff00', '#ff00ff', '#00ff40', '#ff00bf' ]
 
 // balanced tetrad
 tetrad(60, 'blue'); // [ '#0000ff', '#ffff00', '#ff00ff', '#00ff00' ]
