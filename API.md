@@ -1,994 +1,773 @@
-# API (v3.2.0)
+# Quarksuite API (v4.0.0)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Color Functions](#color-functions)
-  - [color.pipe](#colorpipe)
-    - [Call](#call)
-    - [Params](#params)
-    - [Returns](#returns)
-    - [Example](#example)
-    - [Notes](#notes)
-  - [color.a11y](#colora11y)
-    - [Call](#call-1)
+- [Functional Utilities](#functional-utilities)
+  - [set](#set)
+    - [Usage](#usage)
     - [Param](#param)
-    - [Returns](#returns-1)
-    - [Example](#example-1)
-  - [color.adjust](#coloradjust)
-    - [Calls](#calls)
-    - [Params](#params-1)
-    - [Returns](#returns-2)
-    - [Example](#example-2)
-    - [Notes](#notes-1)
-  - [color.hue (alias: h)](#colorhue-alias-h)
-    - [Calls](#calls-1)
-    - [Params](#params-2)
-    - [Returns](#returns-3)
-    - [Example](#example-3)
-  - [color.saturation (alias: s)](#colorsaturation-alias-s)
-    - [Calls](#calls-2)
-    - [Params](#params-3)
-    - [Returns](#returns-4)
-    - [Example](#example-4)
-  - [color.lightness (aliases: luminance, l)](#colorlightness-aliases-luminance-l)
-    - [Calls](#calls-3)
-    - [Params](#params-4)
-    - [Returns](#returns-5)
-    - [Example](#example-5)
-  - [color.mix](#colormix)
-    - [Calls](#calls-4)
-    - [Params](#params-5)
-    - [Returns](#returns-6)
-    - [Example](#example-6)
-  - [color.complement](#colorcomplement)
-    - [Call](#call-2)
+    - [Returns](#returns)
+  - [pipe](#pipe)
+    - [Usage](#usage-1)
     - [Param](#param-1)
-    - [Returns](#returns-7)
-    - [Example](#example-7)
-  - [color.negate](#colornegate)
-    - [Call](#call-3)
+    - [Returns](#returns-1)
+- [Prototyping Functions](#prototyping-functions)
+  - [clrs](#clrs)
+    - [Usage](#usage-2)
     - [Param](#param-2)
-    - [Returns](#returns-8)
-    - [Example](#example-8)
-- [Conversion Functions](#conversion-functions)
-  - [color.toHex](#colortohex)
-    - [Call](#call-4)
+    - [Returns](#returns-2)
+  - [systemfonts](#systemfonts)
+    - [Usage](#usage-3)
     - [Param](#param-3)
-    - [Return](#return)
-    - [Example](#example-9)
-  - [color.toHSL](#colortohsl)
-    - [Call](#call-5)
+    - [Returns](#returns-3)
+- [Color Functions](#color-functions)
+  - [hex](#hex)
+    - [Usage](#usage-4)
     - [Param](#param-4)
-    - [Return](#return-1)
-    - [Example](#example-10)
-  - [color.toRGB](#colortorgb)
-    - [Call](#call-6)
+    - [Returns](#returns-4)
+  - [rgb](#rgb)
+    - [Usage](#usage-5)
     - [Param](#param-5)
-    - [Return](#return-2)
-    - [Example](#example-11)
-- [Scheme Functions](#scheme-functions)
-  - [scheme.complementary](#schemecomplementary)
-    - [Call](#call-7)
-    - [Params](#params-6)
+    - [Returns](#returns-5)
+  - [hsl](#hsl)
+    - [Usage](#usage-6)
+    - [Param](#param-6)
+    - [Returns](#returns-6)
+  - [hue](#hue)
+    - [Usage](#usage-7)
+    - [Param](#param-7)
+    - [Returns](#returns-7)
+  - [saturation](#saturation)
+    - [Usage](#usage-8)
+    - [Param](#param-8)
+    - [Returns](#returns-8)
+  - [lightness](#lightness)
+    - [Usage](#usage-9)
+    - [Param](#param-9)
     - [Returns](#returns-9)
-    - [Example](#example-12)
-  - [scheme.analogous](#schemeanalogous)
-    - [Calls](#calls-5)
-    - [Params](#params-7)
+  - [alpha](#alpha)
+    - [Usage](#usage-10)
+    - [Param](#param-10)
     - [Returns](#returns-10)
-    - [Example](#example-13)
-  - [scheme.triad](#schemetriad)
-    - [Calls](#calls-6)
-    - [Params](#params-8)
+  - [mix](#mix)
+    - [Usage](#usage-11)
+    - [Param](#param-11)
     - [Returns](#returns-11)
-    - [Example](#example-14)
-  - [scheme.tetrad](#schemetetrad)
-    - [Calls](#calls-7)
-    - [Params](#params-9)
+- [Scheme Functions](#scheme-functions)
+  - [complementary](#complementary)
+    - [Usage](#usage-12)
+    - [Param](#param-12)
     - [Returns](#returns-12)
-    - [Example](#example-15)
-- [Variant Functions](#variant-functions)
-  - [variant.blend](#variantblend)
-    - [Calls](#calls-8)
-    - [Params](#params-10)
+  - [analogous](#analogous)
+    - [Usage](#usage-13)
+    - [Param](#param-13)
     - [Returns](#returns-13)
-    - [Example](#example-16)
-  - [variant.tints](#varianttints)
-    - [Calls](#calls-9)
-    - [Params](#params-11)
+  - [triad](#triad)
+    - [Usage](#usage-14)
+    - [Param](#param-14)
     - [Returns](#returns-14)
-    - [Example](#example-17)
-  - [variant.tones](#varianttones)
-    - [Calls](#calls-10)
-    - [Params](#params-12)
+  - [tetrad](#tetrad)
+    - [Usage](#usage-15)
+    - [Param](#param-15)
     - [Returns](#returns-15)
-    - [Example](#example-18)
-  - [variant.shades](#variantshades)
-    - [Calls](#calls-11)
-    - [Params](#params-13)
+  - [custom](#custom)
+    - [Usage](#usage-16)
+    - [Param](#param-16)
     - [Returns](#returns-16)
-    - [Example](#example-19)
-- [Typography Functions](#typography-functions)
-  - [typography.system](#typographysystem)
-    - [Calls](#calls-12)
-    - [Params](#params-14)
+- [Variant Functions](#variant-functions)
+  - [tints](#tints)
+    - [Usage](#usage-17)
+    - [Param](#param-17)
     - [Returns](#returns-17)
-    - [Example](#example-20)
-- [Scale Functions](#scale-functions)
-  - [scale.create](#scalecreate)
-    - [Calls](#calls-13)
-    - [Params](#params-15)
+  - [tones](#tones)
+    - [Usage](#usage-18)
+    - [Param](#param-18)
     - [Returns](#returns-18)
-    - [Example](#example-21)
-    - [Notes](#notes-2)
-    - [Named Ratios](#named-ratios)
-  - [scale.update](#scaleupdate)
-    - [Calls](#calls-14)
-    - [Params](#params-16)
+  - [shades](#shades)
+    - [Usage](#usage-19)
+    - [Param](#param-19)
     - [Returns](#returns-19)
-    - [Example](#example-22)
-  - [scale.merge](#scalemerge)
-    - [Call](#call-8)
-    - [Params](#params-17)
-    - [Returns](#returns-20)
-    - [Example](#example-23)
-  - [scale.output](#scaleoutput)
-    - [Calls](#calls-15)
-    - [Params](#params-18)
-    - [Returns](#returns-21)
-    - [Example](#example-24)
-  - [scale.pipe](#scalepipe)
-    - [Calls](#calls-16)
-    - [Params](#params-19)
-    - [Example](#example-25)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-You can [try out all examples on RunKit](https://npm.runkit.com/%40quarksuite%2Fcore).
+You can [try out all examples on RunKit][runkit].
+
+> As of v4, I flattened the API so that each function is exported as a top level module. This makes it easier to use only what you need from the library.
+> 
+> Additionally, the functions no longer come curried. Instead, v4 exposes functional utilities you can use to curry and compose them directly.
+> 
+> Beyond that, the *documentation* still organizes the modules by how they're used to keep things simple.
+
+## Functional Utilities
+
+These are part of advanced use and aren't *required* to use the library. Instead, they make it easier to **use and combine** settings.
+
+### set
+
+`set` allows you to partially apply the arguments of any other function in the library including **new functions created with set**.
+
+#### Usage
+
+```js
+// rotate any color's hue by a third
+const rotateByThird = set(hue, 120);
+
+rotateByThird('red'); // #00ff00
+rotateByThird('lime'); // #0000ff
+rotateByThird('blue'); // #ff0000
+
+// chaining example
+
+// mix colors evenly
+const evenly = set(mix, 50);
+
+// mix any color evenly with coral
+const mixWithCoral = set(evenly, 'coral');
+
+// mix any color evenly with dodgerblue
+const mixWithDodgerblue = set(evenly, 'dodgerblue');
+
+mixWithCoral('springgreen'); // #b4c96a
+mixWithDodgerblue('springgreen') // #15cfc9
+```
+
+#### Param
+
++ `fn`: the function you want to curry
++ `applied`: the arguments you want to apply
+
+#### Returns
+
+A function whose parameters are the `remaining` arguments of `fn`
+
+### pipe
+
+A function that allows you to perform two operations consecutively.
+
+> Giving a variable compose the proper types is a bit of a hassle in TypeScript right now, but `pipe` can still be chained like any other `compose`.
+
+#### Usage
+
+```js
+
+// mix any color evenly with coral AND dodgerblue
+const mixWithCoralAndDodgerblue = pipe(mixWithCoral, mixWithDodgerblue);
+
+mixWithCoralAndDodgerblue('springgreen'); // #81afc3
+
+// chaining example
+
+const mixAndRotate = pipe(mixWithCoralAndDodgerblue, rotateByThird);
+
+mixAndRotate('springgreen'); // #c381af
+```
+
+#### Param
+
++ `f`: first operation
++ `g`: second operation
+
+#### Returns
+
+A new function whose parameter is the data to operate on
+
+## Prototyping Functions
+
+These functions are prototyping helpers and include clrs.cc accessible web defaults and system font stacks.
+
+### clrs
+
+A function that maps a web default with its [clrs.cc accessible match][clrs]. If a match isn't found, it will throw an error.
+
+#### Usage
+
+```js
+clrs('red'); // #ff4136
+clrs('lime'); // #01ff70
+clrs('blue'); // #0074d9
+
+// clrs can be safely converted to other formats
+rgb(clrs('orange')); // rgb(255, 133, 27)
+hsl(clrs('teal')); // hsl(180, 59%, 51.2%)
+```
+
+#### Param
+
+`color`: the web default to map
+
+#### Returns
+
+A new color that is a clrs.cc web default
+
+### systemfonts
+
+A function that maps one or more of `'sans-serif'`, `'serif'`, and/or `'monospace'` to a [defined stack of system fonts][systemfonts].
+
+#### Usage
+
+```js
+// one
+systemfonts('sans-serif'); // [
+//  '-apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif'
+// ]
+
+// two
+systemfonts('sans-serif', 'monospace'); // [
+//  '-apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif',
+//  'Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace'
+// ]
+
+// all
+systemfonts('sans-serif', 'serif', 'monospace'); // [
+//  '-apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif',
+//  'Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol',
+//  'Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace'
+// ]
+```
+
+#### Param
+
+`fonts`: one or more arguments targeting the desired stacks
+
+#### Returns
+
+An array of font stacks matching each defined family
 
 ## Color Functions
 
-The color functions accept a `color` of any valid CSS format (hex, rgb, hsl, w3c named colors). Keep in mind that there is no processing of alpha transparency. 
+These functions work exclusively on any valid CSS color (even those with transparency) to convert to another format or modify via adjustment or mixture. Color functions also check the format and will throw errors if your color is invalid.
 
-Additionally, all the color functions will error with an invalid color.
+### hex
 
-*Also, for simplicity, `hsl()` values don't currently wrap negative hue values. This means `hsl(-30, 58%, 50%)` will throw an error in this version even though it's a valid CSS color.*
+Converts a color to its hexadecimal equivalent.
 
-*I'll implement the negative hue syntax, if it's truly needed, in a future update. [Let me know in the issues](https://github.com/quarksuite/core/issues) or you can submit a pull request.* 
-
-### color.pipe
-
-This function executes operations in a right to left order on a color.
-
-#### Call
-
-+ `color.pipe(...operations)(color)`
-
-#### Params
-
-+ `operations: Function[]`: The chain of functions to execute
-+ `color: string`: the color to transform
-
-#### Returns
-
-`string | Error`: the color after all transformations are applied or an error
-
-#### Example
+#### Usage
 
 ```js
-const swatch = color.a11y('orange');
-const desat = color.saturation(-10);
-const mixRed = color.mix(color.a11y('red'), 45);
+// RGB[A] -> hex
+hex('rgb(110, 255, 25)'); // #6fff19
+hex('rgb(50%, 25%, 75%)'); // #8040bf
+hex('rgb(220 195 70)'); // #dcc346
+hex('rgba(46, 110, 0, 0.8)'); // #2e6e00cc
+hex('rgba(20 186 19 / 20.9%)'); // #14ba1335
 
-// color -> desaturate color by 10% -> mix 45% with red -> color
-color.pipe(mixRed, desat)(swatch)
+// HSL[A] -> hex
+hex('hsl(300, 50%, 80%)'); // #e6b3e6
+hex('hsla(90, 87%, 40%, 0.9)'); // #66bf0de6
 ```
-
-#### Notes
-
-+ It's better to perform color adjustments before mixtures
-+ Pay special attention to the result of hue adjustments **after** mixtures
-
-### color.a11y
-
-This function matches the colors [defined on clrs.cc](http://clrs.cc) to provide more accessible web defaults.
-
-#### Call
-
-+ `color.a11y(color)`
 
 #### Param
 
-`color: string`: the color to query for its accessible counterpart
+`color`: the color to convert to hex
 
 #### Returns
 
-`string | Error`: the found color or an error
+The input color converted to its hexadecimal format
 
-#### Example
+### rgb
+
+Converts a color to its RGB equivalent.
+
+#### Usage
 
 ```js
-// Use clrs.cc teal
-color.a11y('teal');
+// hex -> RGB[A]
+rgb('#abcdef'); // rgb(171, 205, 239)
+rgb('#ded'); // rgb(221, 238, 221)
+rgb('#face'); // rgb(255, 170, 204, 0.933)
+rgb('#3acc0ecd'); // rgb(58, 204, 14, 0.804)
 
-// Use clrs.cc orange
-color.a11y('orange');
-
-// Use clrs.cc yellow
-color.a11y('yellow');
+// HSL[A] -> RGB[A]
+rgb('hsl(105, 33%, 60%)'); // rgb(136, 187, 119)
+rgb('hsla(190, 70%, 10%, 0.8)'); // rgba(8, 37, 43, 0.8)
 ```
 
-### color.adjust
+#### Param
 
-This function allows you to adjust the properties of a color with a modifier function. As of v3.2,
-you should use this for complex adjustments __not__ covered by `color.hue`, `color.saturation`, or `color.lightness`.
-
-#### Calls
-
-+ `color.adjust(property)(modifier)(color)`
-+ `color.adjust(property)(modifier, color)`
-+ `color.adjust(property, modifier)(color)`
-+ `color.adjust(property, modifier, color)`
-
-#### Params
-
-+ `property: string`: the property of the color you want to modify (`hue`, `saturation`, `lightness`)
-+ `modifier: (current: number) => number`: modifier function to adjust the property
-+ `color: string`: the color to modify
+`color`: the color to convert to rgb
 
 #### Returns
 
-`string | Error`: the adjusted color or an error
+The input color converted to its RGB format
 
-#### Example
+### hsl
+
+Converts a color to its HSL equivalent.
+
+#### Usage
 
 ```js
-// rotate the hue of a color 90 degrees
-const swatch = 'dodgerblue';
-const hue = color.adjust('hue' h => h + 90);
+// RGB[A] -> HSL[A]
+hsl('rgb(31, 115, 25)'); // hsl(116, 64.3%, 27.5%)
+hsl('rgb(80 110 220)'); // hsl(227, 66.7%, 58.9%)
+hsl('rgb(30%, 50%, 10%)'); // hsl(90, 66.2%, 30.2%)
+hsl('rgba(244, 210, 200, 0.72)'); // hsla(14, 668.8%, 87.1%, 0.72)
 
-hueBy90(swatch);
+// hex -> HSL[A]
+hsl('#deaded'); // hsl(286, 63.9, 80.4%)
+hsl('#ace'); // hsl(210, 66.5%, 80%)
+hsl('#face'); // hsl(336, 100%, 83.4%, 0.933)
+hsl('#faac110c'); // hsl(40, 95.8%, 52.3%, 0.0471)
 
-// desaturate by 20%
-const desat20 = color.adjust('saturation', s => s - 20);
-
-desat20(swatch);
-
-// lighten by 15%
-const lighten15 = color.adjust('lightness', l => l + 15);
-
-lighten15(swatch);
 ```
 
-#### Notes
+#### Param
 
-+ Hue adjustments have a lower bound of `0` and an upper bound of `720`. This is to allow multiple rotations. A result below or exceeding sets the hue to 0 or 360
-+ Saturation adjustments have a lower bound of `0` and an upper bound of `100`. A modifier that returns a number below will yield pure gray. A modifier that exceeds the limit will yield a fully saturated color.
-+ Lightness adjustments have the same bounds as saturation. A modifier that returns a number below yields pure black. A modifier that exceeds the limit will yield pure white
-
-### color.hue (alias: h)
-
-This function is for adjusting the hue of a color. As of v3.2, this is the preferred method.
-
-#### Calls
-
-+ `color.hue(degrees)(color)`
-+ `color.hue(degrees, color)`
-+ `color.h(degrees)(color)`
-+ `color.h(degrees, color)`
-
-#### Params
-
-+ `degrees: number`: how many degrees to adjust the hue
-+ `color: string`: the color to modify
+`color`: the color to convert to hsl
 
 #### Returns
 
-`string | Error`: the adjusted color or an error
+The input color converted to its HSL format
 
-#### Example
+### hue
+
+A function that adjusts the hue of any valid CSS color.
+
+> The hue adjustment is bound to one full revolution. Any adjustment with a negative hue result or a value >360 is corrected.
+
+#### Usage
 
 ```js
-color.hue(45, '#348ec9'); // rotate hue right
-color.hue(-25, '#348ec9'); // rotate hue left
+// a positive value rotates the hue right
+hue(102, 'coral'); // '#56ff50';
 
-color.h(13, 'rgb(30, 110, 12)');
+// a negative value rotates the hue left
+hue(-45, 'coral'); // #ff50a5
+
+// hue adjustment is relative to the input color
+hue(0, 'coral'); // #ff7f50
+hue(360, 'coral'); // #ff7f50
 ```
 
-### color.saturation (alias: s)
+#### Param
 
-This function is for adjusting the saturation of a color. As of v3.2, this is the preferred method.
-
-#### Calls
-
-+ `color.saturation(amount)(color)`
-+ `color.saturation(amount, color)`
-+ `color.s(amount)(color)`
-+ `color.s(amount, color)`
-
-#### Params
-
-+ `amount: number`: the percentage to adjust saturation
-+ `color: string`: the color to modify
++ `n`: the amount to shift the hue
++ `color`: the color to adjust
 
 #### Returns
 
-`string | Error`: the adjusted color or an error
+A new color that is the result of adjusting the hue of the input color
 
-#### Example
+### saturation
+
+A function that adjusts the saturation of any valid CSS color
+
+> The saturation adjustment is bound between a range of 0-100% and will lock at either depending how on the adjustment value goes out of bounds
+
+#### Usage
 
 ```js
-color.saturation(10, '#348ec9'); // increase saturation
-color.saturation(-20, '#348ec9'); // decrease saturation
+// positive value saturates
+saturation(30, 'rgb(31, 220, 25)'); // rgb(8, 245, 0)
 
-color.s(13, 'rgb(30, 110, 12)');
+// negative value desaturates
+saturation(-25, 'crimson'); // #be324e
+
+// >100 locks at full saturation
+saturation(300, 'hsl(40, 35%, 70%)'); // hsl(40, 100%, 70%)
+
+// <=0 locks at no saturation
+saturation(-250, '#44cc00'); // #666666
 ```
 
-### color.lightness (aliases: luminance, l)
+#### Param
 
-This function is for adjusting the lightness of a color. As of v3.2, this is the preferred method.
-
-#### Calls
-
-+ `color.lightness(amount)(color)`
-+ `color.lightness(amount, color)`
-+ `color.luminance(amount)(color)`
-+ `color.luminance(amount, color)`
-+ `color.l(amount)(color)`
-+ `color.l(amount, color)`
-
-#### Params
-
-+ `amount: number`: the percentage to adjust lightness
-+ `color: string`: the color to modify
++ `n`: the amount to shift the saturation
++ `color`: the color to adjust
 
 #### Returns
 
-`string | Error`: the adjusted color or an error
+A new color that is the result of adjusting the saturation of the input color
 
-#### Example
+### lightness
+
+A function that adjusts the lightness/luminance of any valid CSS color
+
+> The lightness adjustment is bound between a range of 0-100% and will lock at either depending how on the adjustment value goes out of bounds
+
+#### Usage
 
 ```js
-color.lightness(30, '#348ec9'); // lighten
-color.lightness(-12, '#348ec9'); // darken
+// positive value brightens
+lightness(40, 'dodgerblue'); // #ebf5ff
 
-color.luminance(13, 'rgb(30, 110, 12)');
+// negative value darkens
+lightness(-25, 'dodgerblue'); // #004f9e
 
-color.l(5, 'hsl(128, 32%, 48%)')
+// >100 locks at white
+lightness(100, 'rgb(31, 200, 100)'); // rgb(255, 255, 255)
+
+// <=0 locks at black
+lightness(-100, 'hsl(336, 70%, 40%)'); // hsl(336, 70%, 0%)
 ```
 
-### color.mix
+#### Param
 
-This function mixes a color with a target by a given amount.
-
-#### Calls
-
-+ `color.mix(target)(amount)(color)`
-+ `color.mix(target)(amount, color)`
-+ `color.mix(target, amount)(color)`
-+ `color.mix(target, amount, color)`
-
-
-#### Params
-
-+ `target: string`: the target color to mix with
-+ `amount: number`: how much to mix with the target (as a percentage)
-+ `color: string`: the color to mix
++ `n`: the amount to shift the lightness
++ `color`: the color to adjust
 
 #### Returns
 
-`string`: the mixture result as `rgb()`
+A new color that is the result of adjusting the lightness of the input color
 
-#### Example
+### alpha
+
+A function that adjusts the alpha/transparency of any valid CSS color
+
+> The alpha adjustment is bound between a range of 0-100% and will lock at either depending how on the adjustment value goes out of bounds
+
+#### Usage
 
 ```js
-const swatch = 'rgb(30%, 35%, 90%)';
-const target = 'yellowgreen';
+// positive value increases
+alpha(20, '#faec'); // #ffaaee
 
-const mixYellowGreen = color.mix(target);
+// negative value decreases
+alpha(-50, '#face'); // #ffaacc6e
 
+// >100 means opaque
+alpha(100, 'rgba(100, 220, 100, 0.8)'); // rgb(100, 220, 100)
+
+// <=0 means fully transparent
+alpha(-100, 'hsla(33, 100%, 39%, 70%)'); // hsla(33, 100%, 39%, 0)
+```
+
+#### Param
+
++ `n`: the amount to shift the alpha
++ `color`: the color to adjust
+
+#### Returns
+
+A new color that is the result of adjusting the alpha of the input color
+
+### mix
+
+A function that mixes a target color with any valid CSS color by a given percentage.
+
+> The `mix` function will throw an error if either the target or input color is invalid
+
+#### Usage
+
+```js
 // evenly
-mixYellowGreen(50, swatch);
+mix(50, 'red', 'blue'); // #b400b4
 
-// less with target
-mixYellowGreen(32, swatch);
+// mix less of target
+mix(25, 'red', 'blue'); // #8000dd
 
-// more with target
-mixYellowGreen(85, swatch);
+// mix more of target
+mix(75, 'red', blue); // #dd0080
+
+// 0% mix is input color
+mix(0, 'red', 'blue'); // #0000ff
+
+// 100% mix is target color
+mix(100, 'red', 'blue'); // #ff0000
 ```
-
-### color.complement
-
-This function fetches the complement of a color.
-
-#### Call
-
-+ `color.complement(color)`
 
 #### Param
 
-+ `color: string`: the input color
++ `amount`: percentage to mix input with target
++ `target`: the color to mix in
++ `color`: the input color
 
 #### Returns
 
-`string`: the color complement as `rgb()`
-
-#### Example
-
-```js
-const swatch = '#c0ffee';
-
-color.complement(swatch);
-
-// equivalent
-color.adjust('hue', h => h + 180)(swatch);
-```
-
-### color.negate
-
-This function neutralizes a color with its complement.
-
-#### Call
-
-+ `color.negate(color)`
-
-#### Param
-
-+ `color: string`: the input color
-
-#### Returns
-
-`string`: the negated color
-
-#### Example
-
-```js
-
-const swatch = 'hsl(42, 80%, 40%)';
-
-color.negate(swatch);
-
-// equivalent
-color.mix(color.complement(swatch), 50)(swatch);
-```
-
-## Conversion Functions
-
-*v3.1 split the former color.convert function into discrete format functions reflecting how they were used anyway*
-
-### color.toHex
-
-This function converts a color to a hexadecimal format.
-
-#### Call
-
-+ `color.toHex(color)`
-
-#### Param
-
-+  `color: string`: the input color
-
-#### Return
-
-`string | Error`: the converted color (or unchanged input color if same format), otherwise throw an error for invalid color
-
-#### Example
-
-```js
-color.toHex('red');
-```
-
-### color.toHSL
-
-This function converts a color to HSL format.
-
-#### Call
-
-+ `color.toHSL(color)`
-
-#### Param
-
-+  `color: string`: the input color
-
-#### Return
-
-`string | Error`: the converted color (or unchanged input color if same format), otherwise throw an error for invalid color
-
-#### Example
-
-```js
-color.toHSL('#c0ffee');
-```
-
-### color.toRGB
-
-This function converts a color to RGB format.
-
-#### Call
-
-+ `color.toRGB(color)`
-
-#### Param
-
-+  `color: string`: the input color
-
-#### Return
-
-`string | Error`: the converted color (or unchanged input color if same format), otherwise throw an error for invalid color
-
-#### Example
-
-```js
-color.toRGB('#deaded');
-```
+A new color that is the result of two colors mixed together.
 
 ## Scheme Functions
 
-As with the color module, alpha transparency is not processed and output is `rgb()`. These functions are responsible for generating base hues for schemes. For monochromatic schemes, [see the variant module](#variant).
+These functions work on any valid CSS color to create basic complementary, analogous, triadic, or tetradic schemes.
 
-### scheme.complementary
+The scheme functions also include a completely custom scheme creation function for more complex scheme configurations.
 
-This function creates a complementary scheme.
+> Be aware that the scheme functions output base *hues*. Tints, tones, and shades to complete your palette are for the next section.
 
-#### Call
+### complementary
 
-+ `scheme.complementary(color)`
+A function that creates a complementary color scheme from any valid CSS color.
 
-#### Params
+> A complementary scheme is a high contrast color scheme made of a color and its opposite on the color wheel.
 
-+ `color: string`: the input color to create a scheme
+#### Usage
+
+```js
+complementary('red'); // [ '#ff0000', '#00ffff' ]
+complementary('lime'); // [ '#00ff00', '#ff00ff' ]
+complementary('blue'); // [ '#0000ff' '#ffff00' ]
+```
+
+#### Param
+
++ `color`: the input color
 
 #### Returns
 
-`[color, complement]`: the complementary scheme
+An array of: `[color, opposite]`
 
-#### Example
+### analogous
+
+A function that creates an analogous color scheme from any valid CSS color.
+
+An analogous scheme is a low to high contrast scheme made of a color and two colors next to it on the color wheel.
+
+> The contrast varies by the arc between a color and its adjacent colors. A smaller arc means lower contrast between your hues while a larger arc means higher contrast.
+> 
+> An arc of 60 is the maximum before the colors become too different to maintain an analogous harmony.
+
+#### Usage
 
 ```js
-// create a complementary scheme
-scheme.complementary('#bad');
+// low contrast analogous
+analogous(30, 'red'); // [ '#ff0000', '#ff0080', '#ff8000' ]
+
+// mid contrast analogous
+analogous(45, 'lime'); // [ '#00ff00', '#bfff00', '#00ffbf' ]
+
+// high contrast analogous
+analogous(60, 'blue'); // [ '#0000ff', '#00ffff', '#ff00ff' ]
 ```
 
-### scheme.analogous
+#### Param
 
-This function creates an analogous scheme.
-
-#### Calls
-
-+ `scheme.analogous(offset)(color)`
-+ `scheme.analogous(offset, color)`
-
-#### Params
-
-+ `offset: number`: the degree of split from the input color
-+ `color: string`: the input color
++ `arc`: the distance between the input color and its adjacent hues
++ `color`: the input color
 
 #### Returns
 
-`[leftOfColor, color, rightOfColor]`: the analogous scheme
+An array of: `[color, leftOf, rightOf]`
 
-#### Example
+### triad
+
+A function that creates a three color scheme from any valid CSS color.
+
+A triadic scheme is a balanced to high contrast scheme made of a color and two colors next to its **opposite** on the color wheel.
+
+> The contrast varies by the same arc variable as an analogous scheme, but the arc is split from the other side of the wheel.
+> 
+> An arc of 60 evenly spaces all the colors on the wheel and creates a equilateral triad (also known as a regular triadic scheme).
+> 
+> An arc between 30-45 makes the usual split complementary. An arc of 90 creates a triadic clash.
+
+#### Usage
 
 ```js
-const swatch = 'rgb(33, 66, 120)';
+// mid contrast split complement
+triad(30, 'red'); // [ '#ff0000', '#00ff80', '#0080ff' ]
 
-// create low, mid, and high contrast analogous schemes
-const lowContrastAnalogous = scheme.analogous(15);
-const midContrastAnalogous = scheme.analogous(30);
-const highCOntrastAnalogous = scheme.analogous(45);
+// high contrast split complement
+triad(45, 'lime'); // [ '#00ff00', '#4000ff', '#ff0040' ]
 
-lowContrastAnalogous(swatch);
-midContrastAnalogous(swatch);
-highContrastAnalogous(swatch);
+// equilateral triad (triadic)
+triad(60, 'blue'); // [ '#0000ff', '#ff0000', '#00ff00' ]
+
+// triadic clash
+triad(90, 'rgb(11, 77, 119)'); // [ 
+//   'rgb(11, 78, 119)', 
+//   'rgb(106, 11, 119)', 
+//   'rgb(24, 119, 11)' 
+// ]
 ```
 
-### scheme.triad
+#### Param
 
-This function creates a color triad.
-
-#### Calls
-
-+ `scheme.triad(offset)(color)`
-+ `scheme.triad(offset, color)`
-
-#### Params
-
-+ `offset: number`: the degree of split from the complement of input color
-+ `color: string`: the input color
++ `arc`: distance between the *complement* of the input color and its adjacent hues
++ `color`: the input color
 
 #### Returns
 
-`[color, leftOfComplement, rightOfComplement]`: the triadic scheme
+An array of: `[color, leftOfOpposite, rightOfOpposite]`
 
-#### Example
+### tetrad
+
+A function that creates a four color scheme from any valid CSS color.
+
+A tetradic scheme is made of a color, its opposite, and two hues between them. A tetrad is also called a dual color scheme.
+
+> A tetrad is an inherently balanced scheme. Much like four legs on a table, it provides your palette a sense of sturdiness.
+> 
+> Rather than arc, the contrast that can exist in a tetrad varies by the rotation of the the input color and its complement.
+> 
+> Rotated 90 degrees, the four colors are spaced evenly around the wheel and create a square.
+
+#### Usage
 
 ```js
-const swatch = 'seagreen';
+// mid contrast tetrad
+tetrad(30, 'red'); // [ '#ff0000', '#00ffff', '#ff8000', '#0080ff' ]
 
-// create a triadic and split complementary scheme
-const triadic = scheme.triad(60);
-const split = scheme.triad(30);
+// high contrast tetrad 
+tetrad(15, 'lime'); // [ '#00ff00', '#ff00ff', '#00ff40', '#ff00bf' ]
 
-triadic(swatch);
-split(swatch);
+// balanced tetrad
+tetrad(60, 'blue'); // [ '#0000ff', '#ffff00', '#ff00ff', '#00ff00' ]
+
+// square
+tetrad(90, 'hsl(33, 100%, 30%)'); // [
+//    'hsl(33, 100%, 30%)',
+//    'hsl(213, 100%, 30%)',
+//    'hsl(123, 100%, 30%)',
+//    'hsl(303, 100%, 30%)'
+// ]
 ```
 
-### scheme.tetrad
+#### Param
 
-This function creates a color tetrad.
-
-#### Calls
-
-+ `scheme.tetrad(offset)(color)`
-+ `scheme.tetrad(offset, color)`
-
-#### Params
-
-`offset: number`: the degree of rotation from input color and complement
-`color: string`: the input color
++ `rotation`: degrees of rotation from input color and complement
++ `color`: the input color
 
 #### Returns
 
-`[color, complement, offsetFromColor, offsetFromComplement]`: the tetradic scheme
+An array of: `[color, opposite, colorRotation, oppositeRotation]`
 
-#### Example
+### custom
+
+A function that creates a custom scheme from any valid CSS color.
+
+You can use this function to create five, six, or `n` hue color schemes.
+
+> If any of the output hues would return the same value, the duplicates are removed.
+
+#### Usage
 
 ```js
-const swatch = 'hsl(188, 28%, 48%)';
+// five hue
+custom({ hues: 5, arc: 72}, 'red'); // [ 
+//   '#ff0000',
+//   '#ccff00',
+// 	 '#00ff66',
+//   '#0066ff',
+//   '#cc00ff'
+// ]
 
-// create a square and tetradic scheme
-const square = scheme.tetrad(90);
-const tetradic = scheme.tetrad(45);
+// six hue
+custom({ hues: 6, arc: 45 }, 'lime'); // [
+//   '#00ff00',
+//   '#00ffbf',
+//   '#0080ff',
+//   '#4000ff',
+//   '#ff00ff',
+//   '#ff0040'
+// ]
 
-square(swatch);
-tetradic(swatch);
+// 4 hues, 72 degree split, rotated 60 degrees
+custom({ hues: 4, arc: 72, rotation: 60}, 'blue'); // [
+//   '#0000ff',
+//   '#ff00ff',
+//   '#ff3300',
+//   '#99ff00'
+// ]
 ```
+
+
+#### Param
+
++ `options`: custom color scheme options
+	* `hues`: number of output hues
+	* `arc`: distance between hues on the color wheel
+	* `rotation?`: an optional rotational offset for the hues
++ `color`: the input color
+
+#### Returns
+
+An array of: `[color, ...generatedHues]`
 
 ## Variant Functions
 
-The variant functions create blends, tints, tones, and shades. These complete your palette. You can adjust the contrast of the output as well as set a limit.
+These functions work on any valid CSS color to create tints, tones, and shades to complete your palettes.
 
-As with the previous modules for color, variant does not process alpha transparency.
+As with the other functions that operate on colors, an invalid color will throw an error.
 
-### variant.blend
+### tints
 
-This function creates blends from your input color and a target color.
+A function that creates tints from any valid CSS color.
 
-#### Calls
+> A tint is made of a color mixed with pure white.
 
-+ `variant.blend(target)(contrast)(limit)(color)`
-+ `variant.blend(target)(contrast, limit, color)`
-+ `variant.blend(target, contrast)(limit, color)`
-+ `variant.blend(target, contrast, limit)(color)`
-+ `variant.blend(target, contrast, limit, color)`
+#### Usage
 
-#### Params
+```js
+// 4 high contrast tints
+tints(4, 99, 'red'); // [ '#ff7f7f', '#ffb3b3', '#ffdcdc', '#fffefe' ]
 
-+ `target: string`: the target color to blend with
-+ `contrast: number`: overall blend contrast (as a percentage)
-+ `limit: number`: the number of blends to output
-+ `color: string`: the input color
+// 3 mid contrast tints
+tints(3, 64, 'lime'); // [ '#76ff76', '#a7ffa7', '#ccffcc' ]
+
+// 2 low contrast tints
+tints(2, 32, 'blue'); // [ '#6666ff', '#9090ff' ]
+```
+
+#### Param
+
++ `count`: number of tints to create
++ `contrast`: percentage of contrast between tints
++ `color`: the input color
 
 #### Returns
 
-`string[]`: an array of blend variants from least blended with target to most
+An array of tints ordered from light to lightest.
 
-#### Example
+### tones
+
+A function that creates tones from any valid CSS color.
+
+> A tone is made of a color mixed with pure gray.
+
+#### Usage
 
 ```js
-const swatch = '#348ec9';
+// 4 high contrast tones
+tones(4, 99, 'red'); // [ '#e64040', '#ca5a5a', '#aa6e6e', '#827f7f' ]
 
-// create ten lime blends, and five aqua blends
-const blendLime = variant.blend(color.a11y('lime'), 75, 10);
-const blendAqua = variant.blend(color.a11y('aqua'), 75, 5);
+// 3 mid contrast tones
+tones(3, 64, 'lime'); // [ '#3bea3b', '#54d254', '#66b866' ]
 
-blendLime(swatch);
-blendAqua(swatch);
+// 2 low contrast tones
+tones(2, 32, 'blue'); // [ '#3333ef', '#4848de' ]
 ```
 
-### variant.tints
+#### Param
 
-Creates tints for a color.
-
-#### Calls
-
-+ `variant.tints(contrast)(limit)(color)`
-+ `variant.tints(contrast, limit)(color)`
-+ `variant.tints(contrast, limit, color)`
-
-#### Params
-
-+ `contrast: number`: overall tint contrast (as a percentage)
-+ `limit: number`: the number of tints to output
-+ `color: string`: the input color
++ `count`: number of tones to create
++ `contrast`: percentage of contrast between tones
++ `color`: the input color
 
 #### Returns
 
-`string[]`: an array of tints from light to lightest
+An array of tones ordered from least to most muted.
 
-#### Example
+### shades
+
+A function that creates shades from any valid CSS color.
+
+> A shade is made of a color mixed with pure black.
+
+#### Usage
 
 ```js
-const swatch = '#bada55';
+// 4 high contrast shades
+shades(4, 99, 'red'); // [ '#dd0000', '#b50000', '#810000', '#1a0000' ]
 
-// create 4 tints with 95% contrast
-const tint = variant.tints(95, 4);
+// 3 mid contrast shades
+shades(3, 64, 'lime'); // [ '#00e200', '#00c100', '#009900' ]
 
-tint(swatch);
+// 2 low contrast shades
+shades(2, 32, 'blue'); // [ '#0000ea', '#0000d2' ]
 ```
 
-### variant.tones
+#### Param
 
-Creates tones for a color.
-
-#### Calls
-
-+ `variant.tones(contrast)(limit)(color)`
-+ `variant.tones(contrast, limit)(color)`
-+ `variant.tones(contrast, limit, color)`
-
-#### Params
-
-+ `contrast: number`: overall tone contrast (as a percentage)
-+ `limit: number`: the number of tones to output
-+ `color: string`: the input color
++ `count`: number of shades to create
++ `contrast`: percentage of contrast between shades
++ `color`: the input color
 
 #### Returns
 
-`string[]`: an array of tones from least to most saturated
-
-#### Example
-
-```js
-const swatch = '#bada55';
-
-// create 3 tones with 70% contrast
-const tone = variant.tones(70, 3);
-
-tone(swatch);
-```
-
-### variant.shades
-
-Creates shades for a color.
-
-#### Calls
-
-+ `variant.shades(contrast)(limit)(color)`
-+ `variant.shades(contrast, limit)(color)`
-+ `variant.shades(contrast, limit, color)`
-
-#### Params
-
-+ `contrast: number`: overall shade contrast (as a percentage)
-+ `limit: number`: the number of shades to output
-+ `color: string`: the input color
-
-#### Returns
-
-`string[]`: an array of shades from dark to darkest
-
-#### Example
-
-```js
-const swatch = '#bada55';
-
-// create 2 shades with 90% contrast
-const shade = variant.shades(90, 2);
-
-shade(swatch);
-```
-
-## Typography Functions
-
-The typography module contains a sole function `system()` that creates system font stacks.
-
-### typography.system
-
-This function outputs [OS font stacks](http://systemfontstack.com) based on the keys passed in.
-
-#### Calls
-
-+ `typography.system(...fonts)`
-+ `typography.system()`
-
-#### Params
-
-+ `fonts: string | string[] | undefined`: the font stacks you want (`sans`, `serif`, `monospace`)
-
-#### Returns
-
-`string | string[]`: your OS stacks as arrays or a string if only one parameter
-
-#### Example
-
-```js
-// single stack
-const stack = typography.system('sans');
-
-// multiple
-const [sans, mono] = typography.system('sans', 'monospace');
-
-// all
-const [sans, serif, mono] = typography.system()
-```
-
-## Scale Functions
-
-Scale functions allow you to create, update, merge, and output [modular scales](https://modularscale.com). You can use them for your content, layout, proportion, or anywhere else in your design that requires consistent values.
-
-### scale.create
-
-This function creates a new modular scale.
-
-#### Calls
-
-+ `scale.create(ratio)(limit)(base)`
-+ `scale.create(ratio, limit)(base)`
-+ `scale.create(ratio, limit, base)`
-
-#### Params
-
-+ `ratio: string | number`: any named ratio or custom ratio
-+ `limit: number`: the number of values to output
-+ `base: number`: base scale value (can be integer or decimal)
-
-#### Returns
-
-`number[]`: values of a modular scale (base included)
-
-#### Example
-
-```js
-const base = 1;
-
-// create a modular scale using the golden ratio with 6 values
-const s = scale.create('golden', 6);
-
-s(base);
-```
-
-#### Notes
-
-+ No internal conversions are performed on the base value. It trusts that you know exactly what you want.
-
-#### Named Ratios
-
-Below is a table of all the available named ratios you can use when creating a scale.
-
-
-| ratio =             | value                      |
-| ------------------- | -------------------------- |
-| `min2nd`            | `1.067`                    |
-| `maj2nd`            | `1.125`                    |
-| `min3rd`            | `1.2`                      |
-| `maj3rd`            | `1.25`                     |
-| `perf4th`           | `1.333`                    |
-| `aug4th`/`dim5th`   | `1.414`                    |
-| `perf5th`           | `1.5`                      |
-| `min6th`            | `1.6`                      |
-| `golden`            | `1.6180371352785146`       |
-| `maj6th`            | `1.667`                    |
-| `min7th`            | `1.778`                    |
-| `maj7th`            | `1.875`                    |
-| `octave`            | `2`                        |
-| `maj10th`           | `2.5`                      |
-| `maj12th`           | `3`                        |
-| `x2octave`          | `4`                        |
-
-### scale.update
-
-This function processes scale values with a modifier and outputs a new, updated scale.
-
-#### Calls
-
-+ `scale.update(modifier)(scale)`
-+ `scale.update(modifier, scale)`
-
-#### Params
-
-+ `modifier: (value: number) => number`: the function to modify each scale value
-+ `scale: number[]`: the scale to update
-
-#### Returns
-
-`number[]`: a new updated scale as raw values
-
-#### Example 
-
-```js
-const base = 1
-const original = scale.create('maj3rd', 8);
-
-// double each value
-const double = scale.update(v => v * 2, original(base));
-```
-
-### scale.merge
-
-This function takes two or more scales and merges them into a single scale with unique values.
-
-#### Call
-
-+ `scale.merge(...scales)`
-
-#### Params
-
-+ `scales: number[][]`: the scales to merge
-
-#### Returns
-
-`number[]`: the merged scales
-
-#### Example
-
-```js
-const base = 1;
-
-const shared = scale.create('golden', 6);
-
-// merge two scales with the same ratio and limit, but different base values
-const first = shared(base);
-const second = shared(base * 2);
-
-const multithread = scale.merge;
-
-multithread(first, second);
-```
-
-### scale.output
-
-This function takes a raw scale and attaches any valid CSS unit to each value.
-
-#### Calls
-
-+ `scale.output(unit)(scale)`
-+ `scale.output(unit, scale)`
-
-#### Params
-
-+ `unit: string`: any valid CSS unit
-+ `scale`: the scale to transform
-
-#### Returns
-
-`string[]`: a ready-to-use modular scale
-
-#### Example
-
-```js
-const content = scale.create('perf5th', 8, 16);
-
-// output scale as px
-const asPixels = scale.output('px');
-
-asPixels(content);
-```
-
-### scale.pipe
-
-This function executes a chain of operations from right to left on a scale.
-
-#### Calls
-
-+ `scale.pipe(...operations)(scale)`
-
-#### Params
-
-+ `operations: Function[]`: the chain of functions to execute on a scale
-+ `scale: number[]`: the scale to be operated on
-
-#### Example
-
-```js
-const base = 1;
-const original = scale.create('maj3rd', 8, base);
-
-const update = scale.update(v => v / 3);
-const asRems = scale.output('rem');
-
-// pipe operations to end up with a rem value output
-scale.pipe(asRems, update)(original)
-```
+An array of shades ordered from dark to darkest.
+
+[runkit]: https://npm.runkit.com/%40quarksuite%2Fcore
+[clrs]: https://clrs.cc
+[systemfonts]: https://systemfontstack.com
