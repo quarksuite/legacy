@@ -9,7 +9,7 @@
 
 ![Quarksuite Logo](assets/logo.png)
 
-![Demo](assets/basic-usage.gif)
+[![Basic Demonstration](assets/basic-usage.gif)](https://asciinema.org/a/oJ2Avxd0MbVTLrWFsuKznLnhY?t=5)
 
 > Note: v4 is now in its pre-release stage and will launch after extensive testing, bug fixes, and documentation
 > updates around **10/5**. The API itself is now complete and stable and no more **breaking** changes will be made.
