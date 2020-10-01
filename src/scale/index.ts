@@ -12,7 +12,7 @@ import {
 } from "./types";
 
 /**
- * Creates modular scales you can use for typography, layout viewports
+ * Creates modular scales you can use for typography, layout,
  * or other composition concerns.
  *
  * ## Usage
@@ -26,8 +26,8 @@ import {
  * your scales with `update` and `merge`
  *
  * @param values - the number of values you want in your scale (the range)
- * @param ratio - the number each value in the scale will be multiplied
- * @param base - the initial value of the scale
+ * @param ratio - number raised to the power of a value's index
+ * @param base - initial scale value (multiplied by the ratio calculated at each index)
  * @returns an array of raw modular scale values
  */
 export const ms = (
@@ -110,13 +110,13 @@ export const partition = (
 ): RawScaleValues[] => {
   const store = Array.from(scale);
 
-  return store.reduce(
+  return store.reduceRight(
     (
       acc: RawScaleValues[],
-      _,
-      index: number,
+      _v,
+      _i,
       array: RawScaleValues
-    ): RawScaleValues[] => [...acc, array.splice(index, size)],
+    ): RawScaleValues[] => [...acc, array.splice(0, size)],
     []
   );
 };
