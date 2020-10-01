@@ -75,7 +75,7 @@ export const update = (
  * This function is lets you create multithreaded scales.
  *
  * @param scales - the scales you want to merge
- * @return a new scale with the merged values
+ * @returns a new scale with the merged values
  * ```
  */
 export const merge = (...scales: RawScaleValues[]): RawScaleValues => {
@@ -134,6 +134,11 @@ export const partition = (
  * Be aware that this library trusts you to know the scale values you intend.
  * This function does **no** internal conversion of units. No rem -> px.
  * Calculations are for the `update` function
+ *
+ * @param precision - the maximum number of significant digits each value can have
+ * @param unit - any valid CSS relative or absolute unit
+ * @param scale - the scale to output
+ * @returns A new scale of the given units ready for use:q
  */
 export const units = (
   precision: SignificantDigits,

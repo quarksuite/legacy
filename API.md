@@ -89,6 +89,27 @@
     - [Usage](#usage-19)
     - [Param](#param-19)
     - [Returns](#returns-19)
+- [Scale Functions](#scale-functions)
+  - [ms](#ms)
+    - [Usage](#usage-20)
+    - [Param](#param-20)
+    - [Returns](#returns-20)
+  - [update](#update)
+    - [Usage](#usage-21)
+    - [Param](#param-21)
+    - [Returns](#returns-21)
+  - [merge](#merge)
+    - [Usage](#usage-22)
+    - [Param](#param-22)
+    - [Returns](#returns-22)
+  - [partition](#partition)
+    - [Usage](#usage-23)
+    - [Param](#param-23)
+    - [Returns](#returns-23)
+  - [units](#units)
+    - [Usage](#usage-24)
+    - [Param](#param-24)
+    - [Returns](#returns-24)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -566,9 +587,9 @@ triad(60, 'blue'); // [ '#0000ff', '#ff0000', '#00ff00' ]
 
 // triadic clash
 triad(90, 'rgb(11, 77, 119)'); // [ 
-//   'rgb(11, 78, 119)', 
-//   'rgb(106, 11, 119)', 
-//   'rgb(24, 119, 11)' 
+//  'rgb(11, 78, 119)', 
+//  'rgb(106, 11, 119)', 
+//  'rgb(24, 119, 11)' 
 // ]
 ```
 
@@ -608,10 +629,10 @@ tetrad(60, 'blue'); // [ '#0000ff', '#ffff00', '#ff00ff', '#00ff00' ]
 
 // square
 tetrad(90, 'hsl(33, 100%, 30%)'); // [
-//    'hsl(33, 100%, 30%)',
-//    'hsl(213, 100%, 30%)',
-//    'hsl(123, 100%, 30%)',
-//    'hsl(303, 100%, 30%)'
+//  'hsl(33, 100%, 30%)',
+//  'hsl(213, 100%, 30%)',
+//  'hsl(123, 100%, 30%)',
+//  'hsl(303, 100%, 30%)'
 // ]
 ```
 
@@ -622,7 +643,7 @@ tetrad(90, 'hsl(33, 100%, 30%)'); // [
 
 #### Returns
 
-An array of: `[color, opposite, colorRotation, oppositeRotation]`
+An array of: `[color, opposite, colorOffset, oppositeOffset]`
 
 ### custom
 
@@ -637,29 +658,29 @@ You can use this function to create five, six, or `n` hue color schemes.
 ```js
 // five hue
 custom({ hues: 5, arc: 72}, 'red'); // [ 
-//   '#ff0000',
-//   '#ccff00',
-// 	 '#00ff66',
-//   '#0066ff',
-//   '#cc00ff'
+//  '#ff0000',
+//  '#ccff00',
+// 	'#00ff66',
+//  '#0066ff',
+//  '#cc00ff'
 // ]
 
 // six hue
 custom({ hues: 6, arc: 45 }, 'lime'); // [
-//   '#00ff00',
-//   '#00ffbf',
-//   '#0080ff',
-//   '#4000ff',
-//   '#ff00ff',
-//   '#ff0040'
+//  '#00ff00',
+//  '#00ffbf',
+//  '#0080ff',
+//  '#4000ff',
+//  '#ff00ff',
+//  '#ff0040'
 // ]
 
 // 4 hues, 72 degree split, rotated 60 degrees
 custom({ hues: 4, arc: 72, rotation: 60}, 'blue'); // [
-//   '#0000ff',
-//   '#ff00ff',
-//   '#ff3300',
-//   '#99ff00'
+//  '#0000ff',
+//  '#ff00ff',
+//  '#ff3300',
+//  '#99ff00'
 // ]
 ```
 
@@ -768,6 +789,210 @@ shades(2, 32, 'blue'); // [ '#0000ea', '#0000d2' ]
 #### Returns
 
 An array of shades ordered from dark to darkest.
+
+## Scale Functions
+
+These functions are your means of creating and modifying modular scales. Also included are functions to merge, slice, and attach units with a desired precision.
+
+### ms
+
+This is main scale creation function. All the other functions in this domain operate on the raw values returned by this one.
+
+You can use modular scales for your typography, layout, or other composition concerns.
+
+> Formula: `base * ratio ** n` where `n` is the current index.
+> 
+> For example: a four value scale with a ratio of 2 and a base of 1
+> 
+> `1 * 2 ** 0 = 1 * 1 = 1`
+> 
+> `1 * 2 ** 1 = 1 * 2 = 2`
+> 
+> `1 * 2 ** 2 = 1 * 2 * 2 = 4`
+> 
+> `1 * 2 ** 3 = 1 * 2 * 2 * 2 = 8`
+
+#### Usage
+
+```js
+// 8 value scale with an approximate golden ratio
+ms(8, 1.618, 1); // [
+//  1,
+//  1.618,
+//  2.6179240000000004,
+//  4.235801032000001,
+//  6.853526069776001,
+//  11.089005180897573,
+//  17.94201038269227,
+//  29.030172799196098
+// ]
+
+// 5 value scale with an octave ratio
+ms(5, 2, 1); // [ 1, 2, 4, 8, 16 ]
+```
+
+#### Param
+
++ `values`: number of values to include in your scale
++ `ratio`: number raised to the power of the value's index
++ `base`: initial scale value (multiplied by the ratio calculated at each index)
+
+#### Returns
+
+An array of raw modular scale values.
+
+### update
+
+A function that updates a scale with a calculation applied to each value.
+
+#### Usage
+
+```js
+// initial scale
+const scale = ms(5, 2, 1);
+
+// multiply each value by 0.25
+update(n => n * 0.25, scale); // [ 0.25, 0.5, 1, 2, 4 ]
+
+// add 8 to each value
+update(n => n + 8, scale); // [ 9, 10, 12, 16, 24 ]
+
+// cube each value
+update(n => n ** 3, scale); // [ 1, 8, 64, 512, 4096 ]
+
+// divide each value by 10
+update(n => n / 10, scale); // [ 0.1, 0.2, 0.4, 0.8, 1.6 ]
+```
+
+#### Param
+
++ `calc`: a function that will be mapped to each `n` in the scale
++ `scale`: the scale you want to update
+
+#### Returns
+
+A new scale with updated values.
+
+### merge
+
+A function that takes two or more scales and merges their unique values. You can use this to create multithreaded scales.
+
+#### Usage
+
+```js
+// set initial scales
+const a = ms(8, 1.5, 1);
+const b = ms(10, 1.25, 1);
+
+// create multithreaded scale
+merge(a, b); // [
+//  1,
+//  1.5,
+//  1.5625,
+//  1.953125,
+//  2.25,
+//  2.44140625,
+//  3.0517578125,
+//  3.375,
+//  ...
+// ]
+```
+
+#### Param
+
++ `scales`: the scales you want to merge
+
+#### Returns
+
+A new scale resulting from the merge
+
+### partition
+
+A function that lets you split a large scale into a series of smaller ones.
+You can use this to create a staggered scale or context-dependent modular scales.
+
+#### Usage
+
+```js
+// Start with a large scale
+const globalScale = ms(18, 1.5, 1);
+
+// split it up
+const [small, med, large] = partition(6, globalScale);
+
+small; // [ 1, 1.5, 2.25, 3.375, 5.0625, 7.59375 ]
+med; // [
+//  11.390625,
+//  17.0859375,
+//  25.62890625,
+//  38.443359375,
+//  57.6650390625,
+//  86.49755859375
+// ]
+large // [
+//  129.746337890625,
+//  194.6195068359375,
+//  291.92926025390625,
+//  437.8938903808594,
+//  656.8408355712891,
+//  985.2612533569336
+// ]
+```
+
+#### Param
+
++ `size`: the size of each split
++ `scale`: the scale you want to partition
+
+#### Returns
+
+A new scale containing chunked values
+
+### units
+
+A function that prepares a raw scale to be used in CSS. This is the final step in scale creation
+
+> Accepts all absolute and relative units. Does no internal conversion between units. I trust you know the values you want.
+
+#### Usage
+
+```js
+const scale = ms(8, 1.618, 1);
+
+// as rem units with greater precision
+units(6, 'rem', scale); // [
+//  '1rem',
+//  '1.618rem',
+//  '2.61792rem',
+//  '4.2358rem',
+//  '6.85353rem',
+//  '11.089rem',
+//  '17.942rem',
+//  '29.0302rem'
+// ]
+
+// as em units with less precision
+units(3, 'em', scale); // [
+//  '1em',
+//  '1.62em',
+//  '2.62em',
+//  '4.24em',
+//  '6.85em',
+//  '11.1em',
+//  '17.9em',
+//  '29em'
+// ]
+```
+
+#### Param
+
++ `precision`: the maximum number of digits each scale value can have
++ `unit`: any valid CSS relative or absolute unit
++ `scale`: the scale to output
+
+#### Returns
+
+A new scale with the given unit attached ready for use.
 
 [runkit]: https://npm.runkit.com/%40quarksuite%2Fcore
 [clrs]: https://clrs.cc
