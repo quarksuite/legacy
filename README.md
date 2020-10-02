@@ -11,9 +11,6 @@
 
 [![Basic Demonstration](assets/basic-usage.gif)](https://asciinema.org/a/oJ2Avxd0MbVTLrWFsuKznLnhY?t=5)
 
-> Note: v4 is now in its pre-release stage and will launch after extensive testing, bug fixes, and documentation
-> updates around **10/5**. The API itself is now complete and stable and no more **breaking** changes will be made.
-
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 Table of Contents
@@ -24,9 +21,9 @@ Table of Contents
   - [As a Module](#as-a-module)
   - [In the Browser](#in-the-browser)
 - [Usage Examples](#usage-examples)
-  - [Minimal](#minimal)
+  - [Minimal Prototype](#minimal-prototype)
   - [Shaped Like Itself](#shaped-like-itself)
-  - [Multi-stage](#multi-stage)
+  - [Design System Starter](#design-system-starter)
     - [Axioms](#axioms)
     - [Palette](#palette)
     - [Content](#content)
@@ -39,29 +36,30 @@ Table of Contents
   - [Small, Nimble, Adaptive](#small-nimble-adaptive)
   - [Works the Way You Work](#works-the-way-you-work)
   - [Zero Lock-In](#zero-lock-in)
-  - [Ease of use](#ease-of-use)
-- [Thanks to:](#thanks-to)
+  - [Simplicity](#simplicity)
+- [Showcase](#showcase)
+- [Inspired By](#inspired-by)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Summary
 
-Quarksuite is a toolkit for developers, designers, and front-end designers with a focus on designing UI with data.
+Quarksuite is a kit for developers, designers, and front-end designers with a focus on building consistent, evolving baselines for prototyping and design systems.
 
 ## Features
 
-+ make solid baselines to jumpstart your design systems
-+ adjust colors, generate schemes, and build full palettes with tints, tones, and/or shades
-+ create robust modular scales for your content, layout, and composition
-+ use handy system font stacks to aid prototyping
-+ flat, declarative API allowing you to use only what you need
-+ no framework, no problem
++ set a solid foundation for your projects
++ [adjust colors](https://github.com/quarksuite/core/blob/master/API.md#color-functions), [generate schemes](https://github.com/quarksuite/core/blob/master/API.md#scheme-functions), and [build full palettes](https://github.com/quarksuite/core/blob/master/API.md#variant-functions) with tints, tones, and/or shades
++ [create modular scales](https://github.com/quarksuite/core/blob/master/API.md#scale-functions) for your content, layout, and composition
++ [use handy system font stacks and better web defaults](https://github.com/quarksuite/core/blob/master/API.md#prototyping-functions) in your prototypes
++ use what you need and leave the rest
++ framework not required
 
 ## Installation
 
 ### As a Module
 
-> You’ll require at least Node.js LTS (v6+) to use Quarksuite as a module.
+> You’ll require at least Node.js LTS (v10+) to use Quarksuite as a module.
 
 ```bash
 npm install @quarksuite/core
@@ -105,7 +103,7 @@ npx snowpack
 ```js
 import { hex, tints, shades, systemfonts, ms, units } from '/web_modules/@quarksuite/core.js';
 
-// Your data
+// Your baseline
 ```
 
 OR
@@ -121,7 +119,7 @@ OR
     <script type="module">
       import { hex, tints, shades, systemfonts, ms, units } from "https://unpkg.com/@quarksuite/core"
       
-      // Your baseline system
+      // Your baseline
     </script>
   </body>
 </html>
@@ -129,7 +127,7 @@ OR
 
 ## Usage Examples
 
-### Minimal
+### Minimal Prototype
 
 ```js
 import { hex, tints, shades, systemfonts, ms, units } from '@quarksuite/core';
@@ -182,7 +180,7 @@ export const composition = {
 };
 ```
 
-### Multi-stage
+### Design System Starter
 
 #### Axioms
 
@@ -225,7 +223,7 @@ const contentInversion = (v: number) => base / v;
 const fractionOfMeasure = (v: number) => measure / v;
 
 // content fonts
-const [sans, , mono] = systemfonts();
+const [sans, mono] = systemfonts('sans-serif', 'monospace');
 
 export const fonts = {
   sans: {
@@ -339,7 +337,7 @@ Each data set created with Quarksuite is vanilla JavaScript, so it'll work:
 
 ## API
 
-You can [read the full API documentation](https://github.com/quarksuite/core/blob/master/API.md) for available function.
+You can [read the full API documentation](https://github.com/quarksuite/core/blob/master/API.md) for available functions.
 
 ## Contributing
 
@@ -351,36 +349,33 @@ Quarksuite is built around the idea that fundamental, **quantifiable** visual el
 
 [This isn't a new idea](https://css-tricks.com/what-are-design-tokens/).
 
-The library's domain is on a similar level&mdash;or just below design tokens. It allows a structure similar to projects like [Styled System](https://styled-system.com/) or [Ether](https://ether.thescenery.co/), but it doesn't require you to use a framework.
+The library's focus is on a similar level&mdash;or just below design tokens. It allows a structure similar to projects like [Styled System](https://styled-system.com/) or [Ether](https://ether.thescenery.co/), but it doesn't require you to use a framework.
 
 ## Project Objectives
 
-These are the principles guiding current and future development of the library. Any changes or feature requests that stray from this road will not be considered at this time.
+These are the constraints guiding current and future development of the kit. Any feature requests that contradict them won't be considered.
 
 ### Small, Nimble, Adaptive
 
-+ Aims to stay compact in size but flexible in use
-+ Ought to be able to scale with the needs of your projects
+This project aims to stay within 3&ndash;6KB minified and gzipped while providing enough flexibility for baselines of any size.
 
 ### Works the Way You Work
 
-+ support in different environments, build systems, bundlers, or with no build at all
+This project should work with many environments and configurations&mdash;any framework, any build, or none at all.
 
 ### Zero Lock-In
 
-+ use what you need and leave the rest behind
-+ library not required to **use** your data
+This project has no dependencies and your data should be easy to detach from the library entirely when you're done. The API is flat to allow as-needed use.
 
-### Ease of use
+### Simplicity
 
-+ simple baselines ought to be simple to build, scalable baselines should also be simple to build 
+The API should remain painless to work with and painless to extend. The smallest of prototype baselines should be able to grow into complex design system foundations.
 
-## Thanks to:
+## Showcase
+  
+If you've built something with Quarksuite, and you want to share, please submit a pull request with a link to your project.
 
-+ [Jon Kantner for: Converting Color Spaces in JavaScript](https://css-tricks.com/converting-color-spaces-in-javascript).  The internal color functions borrow heavily from this article and [color conversion formulas from RapidTables](https://www.rapidtables.com/convert/color/index.html).
+## Inspired By
 
-+ Every developer who gives me moments of clarity as I learn functional programming and **when** to use it. 
-
-+ Every designer who shows me better ways and checks my hubris.
-
-+ You, for giving this a shot.
++ [Ether](https://ether.thescenery.co)
++ [Styled System](https://styled-system.com)

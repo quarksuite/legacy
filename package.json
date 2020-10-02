@@ -1,7 +1,7 @@
 {
   "name": "@quarksuite/core",
   "version": "4.0.0-prerelease",
-  "description": "Quarksuite is a tool for developers, designers, and front-end designers that treats core visual elements as data.",
+  "description": "Quarksuite is a kit for developers, designers, and front-end designers with a focus on building consistent, evolving baselines for prototyping and design systems.",
   "author": "Chatman R. Jr <crjr.code@gmail.com>",
   "repository": {
     "type": "git",
@@ -15,11 +15,11 @@
   },
   "homepage": "https://github.com/quarksuite/core",
   "keywords": [
-    "quarksuite",
-    "toolkit",
     "front-end",
     "design",
-    "functional"
+    "toolkit",
+    "prototyping",
+    "design systems"
   ],
   "license": "MIT",
   "devDependencies": {
