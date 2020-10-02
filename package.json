@@ -1,6 +1,6 @@
 {
   "name": "@quarksuite/core",
-  "version": "4.0.0-prerelease",
+  "version": "4.0.0",
   "description": "Quarksuite is a kit for developers, designers, and front-end designers with a focus on building consistent, evolving baselines for prototyping and design systems.",
   "author": "Chatman R. Jr <crjr.code@gmail.com>",
   "repository": {
@@ -76,9 +76,11 @@
     "pipeline": [
       [
         "@pika/plugin-standard-pkg",
-        { "exclude": [
-          "tests/**/*"
-        ] }
+        {
+          "exclude": [
+            "tests/**/*"
+          ]
+        }
       ],
       [
         "@pika/plugin-build-node"
@@ -91,7 +93,9 @@
       ],
       [
         "@pika/plugin-build-types",
-        { "tsconfig": "./tsconfig.build.json" }
+        {
+          "tsconfig": "./tsconfig.build.json"
+        }
       ],
       [
         "@pika/plugin-copy-assets"
