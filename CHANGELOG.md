@@ -8,20 +8,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Unreleased - 2020-09-25](#unreleased---2020-09-25)
+- [v4.0.0 - 2020-10-02](#v400---2020-10-02)
   - [Removed](#removed)
   - [Added](#added)
     - [General](#general)
     - [Color Formats](#color-formats)
+    - [color functions](#color-functions)
     - [scheme functions](#scheme-functions)
     - [scale functions](#scale-functions)
   - [Changed](#changed)
     - [Color Formats](#color-formats-1)
-    - [color functions](#color-functions)
+    - [prototyping functions](#prototyping-functions)
+    - [color functions](#color-functions-1)
     - [variant functions](#variant-functions)
     - [scale functions](#scale-functions-1)
   - [Fixed](#fixed)
-    - [prototyping functions](#prototyping-functions)
 - [v3.3.0 - 2020-08-16](#v330---2020-08-16)
   - [Removed](#removed-1)
 - [v3.2.1 - 2020-06-05](#v321---2020-06-05)
@@ -91,20 +92,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Unreleased - 2020-09-25
+## v4.0.0 - 2020-10-02
 
-> This project is now in its prerelease stage for v4. No more breaking changes will be written and you can expect launch
-> by **10/5**
-
-The upcoming version is another full rewrite and refinement. The notable changes include a flattened API, functional utilities,
-wider support of CSS color format syntax, and a more intentional workflow. You'll want to check the README and API docs for the full view
+This version is another full rewrite and refinement. The notable changes include a flattened API, explicit functional utilities,
+wider support of CSS color format syntax, and a more intentional workflow. You'll want to check the [README](https://github.com/quarksuite/core/blob/master/README.md) and [API docs](https://github.com/quarksuite/core/blob/master/API.md) for the full view
 of what's new and different.
 
 ### Removed
 
 + higher-order function `color.adjust` was unecessarily complex and error prone
 + `color.negate` and `color.complement` are just conveniences for certain adjustments. Use `hue(180, color)` and `mix(50, hue(180, color), color)`
-+ `variant.blend` functionality is approximately covered by the new `custom` scheme function. That said, generating **gradients** is outside the scope of this project
++ `variant.blend` isn't really needed
 
 ### Added
 
@@ -119,6 +117,8 @@ of what's new and different.
 + `hsl` format now accepts negative hues
 + `hsl` format also accepts hue as gradians (`150grad`)
 
+#### color functions
+
 + `alpha` color adjustment
 
 #### scheme functions
@@ -131,18 +131,22 @@ of what's new and different.
 
 ### Changed
 
-Functions in this library no longer come already curried. It made defining correct types a nightmare, and it also meant
+Functions in this library no longer come already curried. It made defining correct types a *nightmare*, and it also meant
 documentation was needlessly complicated. That said, the new `set` function allows you to initialize any of the of the
 other functions with a few of their arguments. And it can be chained. So... roughly the same thing
 
-
-In addition, every function is now a top level module. The domain module API **will not work** with v4. The rewrite made 
+In addition, every function is now a top level module. The object wrappers **will not work** with v4. The rewrite made 
 encapsulation under domain modules (`color`, `scheme`, `variant`, etc...) cumbersome. 
 
 #### Color Formats
 
 + Alpha transparency is no longer ignored
 + Alpha transparency is removed from color if adjusted to `100` percent
+
+#### prototyping functions
+
++ `color.ally` is now `clrs`
++ `typography.system` is now `systemfonts`
 
 #### color functions
 
@@ -153,7 +157,7 @@ encapsulation under domain modules (`color`, `scheme`, `variant`, etc...) cumber
 
 #### variant functions
 
-+ `tints`, `tones`, `shades` now blend with pure white, gray, and black. Blending them with the clrs.cc defaults was an opinionated choice
++ `tints`, `tones`, `shades` now blend with pure white, gray, and black. Formerly, they used modified mixture targets 
 
 #### scale functions
 
@@ -162,14 +166,10 @@ encapsulation under domain modules (`color`, `scheme`, `variant`, etc...) cumber
 ### Fixed
 
 + Redundant operations were breaking conversion for some hex and named colors (mainly `dodgerblue` and `color.a11y('orange')`)
-+ colors now properly validate **before** they're transformed or generated
++ colors now properly validate *before* they're transformed or generated
 + types now properly built and documented
-+ `merge` was not actually merging. It now correctly removes duplicates
-+ the variant functions were not properly sorting sorting tints, tones, or shades. Now it sorts correctly
-
-#### prototyping functions
-
-+ `typography.system` is now `systemfonts`
++ `merge` was not actually *merging*. It now correctly removes duplicates
++ the variant functions were not properly sorting tints, tones, or shades
 
 ## v3.3.0 - 2020-08-16
 
