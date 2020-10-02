@@ -123,11 +123,11 @@ You can [try out all examples on RunKit][runkit].
 
 ## Functional Utilities
 
-These are part of advanced use and aren't *required* to use the library. Instead, they make it easier to **use and combine** settings.
+These are part of advanced use and aren't *required* to use the library. Instead, they make it easier to **reuse and combine** settings.
 
 ### set
 
-`set` allows you to partially apply the arguments of any other function in the library including **new functions created with set**.
+Allows you to partially apply the arguments of any other function in the library including **new functions created with set**.
 
 #### Usage
 
@@ -375,7 +375,7 @@ A new color that is the result of adjusting the hue of the input color
 
 A function that adjusts the saturation of any valid CSS color
 
-> The saturation adjustment is bound between a range of 0-100% and will lock at either depending how on the adjustment value goes out of bounds
+> The saturation adjustment is bound between a range of 0-100% and will lock at either based on how the adjustment value is out of bounds
 
 #### Usage
 
@@ -389,7 +389,7 @@ saturation(-25, 'crimson'); // #be324e
 // >100 locks at full saturation
 saturation(300, 'hsl(40, 35%, 70%)'); // hsl(40, 100%, 70%)
 
-// <=0 locks at no saturation
+// <=0 locks at full desaturation
 saturation(-250, '#44cc00'); // #666666
 ```
 
@@ -406,7 +406,7 @@ A new color that is the result of adjusting the saturation of the input color
 
 A function that adjusts the lightness/luminance of any valid CSS color
 
-> The lightness adjustment is bound between a range of 0-100% and will lock at either depending how on the adjustment value goes out of bounds
+> The lightness adjustment is bound between a range of 0-100% and will lock at either based on how on the adjustment value is out of bounds
 
 #### Usage
 
@@ -437,7 +437,7 @@ A new color that is the result of adjusting the lightness of the input color
 
 A function that adjusts the alpha/transparency of any valid CSS color
 
-> The alpha adjustment is bound between a range of 0-100% and will lock at either depending how on the adjustment value goes out of bounds
+> The alpha adjustment is bound between a range of 0-100% and will lock at either based on how the adjustment value is out of bounds
 
 #### Usage
 
@@ -537,7 +537,7 @@ An analogous scheme is a low to high contrast scheme made of a color and two col
 
 > The contrast varies by the arc between a color and its adjacent colors. A smaller arc means lower contrast between your hues while a larger arc means higher contrast.
 > 
-> An arc of 60 is the maximum before the colors become too different to maintain an analogous harmony.
+> An arc of 60 is the maximum before the colors break from an analogous harmony.
 
 #### Usage
 
@@ -610,7 +610,7 @@ A tetradic scheme is made of a color, its opposite, and two hues between them. A
 
 > A tetrad is an inherently balanced scheme. Much like four legs on a table, it provides your palette a sense of sturdiness.
 > 
-> Rather than arc, the contrast that can exist in a tetrad varies by the rotation of the the input color and its complement.
+> Rather than arc, the contrast that can exist in a tetrad varies by the degree of rotation from the input color and its complement.
 > 
 > Rotated 90 degrees, the four colors are spaced evenly around the wheel and create a square.
 
@@ -651,7 +651,7 @@ A function that creates a custom scheme from any valid CSS color.
 
 You can use this function to create five, six, or `n` hue color schemes.
 
-> If any of the output hues would return the same value, the duplicates are removed.
+> If any of the output hues would return the same value, the duplicates are removed from output.
 
 #### Usage
 
@@ -688,7 +688,7 @@ custom({ hues: 4, arc: 72, rotation: 60}, 'blue'); // [
 #### Param
 
 + `options`: custom color scheme options
-	* `hues`: number of output hues
+	* `hues`: number of total output hues
 	* `arc`: distance between hues on the color wheel
 	* `rotation?`: an optional rotational offset for the hues
 + `color`: the input color
@@ -796,7 +796,7 @@ These functions are your means of creating and modifying modular scales. Also in
 
 ### ms
 
-This is main scale creation function. All the other functions in this domain operate on the raw values returned by this one.
+This is main scale creation function. All the other functions in this category operate on the raw values returned by this one.
 
 You can use modular scales for your typography, layout, or other composition concerns.
 
@@ -875,7 +875,7 @@ A new scale with updated values.
 
 ### merge
 
-A function that takes two or more scales and merges their unique values. You can use this to create multithreaded scales.
+A function that takes two or more scales and merges their *unique* values. You can use this to create multithreaded scales.
 
 #### Usage
 
@@ -950,7 +950,7 @@ A new scale containing chunked values
 
 ### units
 
-A function that prepares a raw scale to be used in CSS. This is the final step in scale creation
+A function that prepares a raw scale to be used in CSS. This is the final step in scale creation.
 
 > Accepts all absolute and relative units. Does no internal conversion between units. I trust you know the values you want.
 
