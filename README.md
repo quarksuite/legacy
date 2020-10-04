@@ -59,7 +59,7 @@ Quarksuite is a kit for developers, designers, and front-end designers with a fo
 
 ### As a Module
 
-> You’ll require at least Node.js LTS (v10+) to use Quarksuite as a module.
+> You’ll require at least Node.js LTS (v12+) to use Quarksuite as a module.
 
 ```bash
 npm install @quarksuite/core
