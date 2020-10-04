@@ -1,6 +1,6 @@
 {
   "name": "@quarksuite/core",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Quarksuite is a kit for developers, designers, and front-end designers with a focus on building consistent, evolving baselines for prototyping and design systems.",
   "author": "Chatman R. Jr <crjr.code@gmail.com>",
   "repository": {
