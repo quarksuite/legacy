@@ -1,4 +1,4 @@
-import { HierarchyFormat, QSData, QSFormattedData } from "./types";
+import { QSDataModel, QSData, QSFormattedData } from "./types";
 
 /**
  * A formatting utility that prepares raw data for transformation.
@@ -42,15 +42,12 @@ import { HierarchyFormat, QSData, QSFormattedData } from "./types";
  * formatting is preferred in most cases. Multilevel has its uses, though.
  * Like formatting your data all at once.
  *
- * @param hierarchy - an array of strings mapping to the structure of your data
+ * @param model - an array of strings modeling the desired hierarchy of your data
  * @param data - the raw data you want to format
  * @returns a formatted object ready for consumption by the build function
  */
-export const assemble = (
-  hierarchy: HierarchyFormat,
-  data: QSData
-): QSFormattedData =>
-  (hierarchy as Array<string | string[]>).reduce(
+export const assemble = (model: QSDataModel, data: QSData): QSFormattedData =>
+  (model as Array<string | string[]>).reduce(
     (acc: QSFormattedData, key: string | string[], index: number) => {
       const val: string | (string | string[])[] = data[index];
       // checks for base values

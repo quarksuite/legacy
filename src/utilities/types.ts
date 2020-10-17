@@ -1,4 +1,4 @@
-export type HierarchyFormat = (string | string[])[];
+export type QSDataModel = (string | string[])[];
 export type QSData =
   | string[]
   | (string | string[])[][]
