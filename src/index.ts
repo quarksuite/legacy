@@ -32,9 +32,10 @@ export { tints, tones, shades } from "./variant";
  * @param color - the color to convert
  * @returns input color in hex format
  */
-export const hex = (color: CSSColor): Color =>
-  validateColor("Invalid color format: cannot convert to hexadecimal", color) &&
-  toHex(color);
+export const hex = (color: CSSColor): Color => {
+  validateColor("Invalid color format: cannot convert to hexadecimal", color);
+  return toHex(color);
+};
 
 /**
  * Converts any valid CSS color to RGB format.
@@ -54,9 +55,10 @@ export const hex = (color: CSSColor): Color =>
  * @param color - the color to convert
  * @returns input color in rgb format
  */
-export const rgb = (color: CSSColor): Color =>
-  validateColor("Invalid color format: cannot convert to RGB", color) &&
-  toRGB(color);
+export const rgb = (color: CSSColor): Color => {
+  validateColor("Invalid color format: cannot convert to hexadecimal", color);
+  return toRGB(color);
+};
 
 /**
  * Converts any valid CSS color to HSL format.
@@ -76,9 +78,10 @@ export const rgb = (color: CSSColor): Color =>
  * @param color - the color to convert
  * @returns input color in hsl format
  */
-export const hsl = (color: CSSColor): Color =>
-  validateColor("Invalid color format: cannot convert to HSL", color) &&
-  toHSL(color);
+export const hsl = (color: CSSColor): Color => {
+  validateColor("Invalid color format: cannot convert to hexadecimal", color);
+  return toHSL(color);
+};
 
 /**
  * Allows you to use the {@link https://clrs.cc | clrs.cc} color definitions
@@ -100,7 +103,7 @@ export const clrs = (color: Clrs): Color => {
 // system font stacks
 
 /**
- * Allows you use system font stacks for quick prototyping or lending a more native
+ * Allows you use {@link https://systemfontstack.com | system font stacks} for quick prototyping or lending a more native
  * OS feel to your web project.
  *
  * ## Usage
@@ -129,4 +132,8 @@ export const systemfonts = (...fonts: string[]): string[] => {
   return fonts.map((stack: string) => families[stack]);
 };
 
+// Scale creation and modification functions
 export { ms, update, merge, partition, units } from "./scale";
+
+// Data assembly and output functions
+export { assemble } from "./utilities/assemble";

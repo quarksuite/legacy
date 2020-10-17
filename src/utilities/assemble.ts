@@ -46,7 +46,10 @@ import { HierarchyFormat, QSData, QSFormattedData } from "./types";
  * @param data - the raw data you want to format
  * @returns a formatted object ready for consumption by the build function
  */
-export default (hierarchy: HierarchyFormat, data: QSData): QSFormattedData =>
+export const assemble = (
+  hierarchy: HierarchyFormat,
+  data: QSData
+): QSFormattedData =>
   (hierarchy as Array<string | string[]>).reduce(
     (acc: QSFormattedData, key: string | string[], index: number) => {
       const val: string | (string | string[])[] = data[index];

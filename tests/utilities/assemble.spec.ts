@@ -1,4 +1,4 @@
-import assemble from "@utilities/assemble";
+import { assemble } from "@utilities/assemble";
 
 describe("Data assembly utilities", () => {
   describe("assemble :: [string] -> object", () => {
