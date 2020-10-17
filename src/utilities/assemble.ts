@@ -1,4 +1,4 @@
-import { QSDataModel, QSData, QSFormattedData } from "./types";
+import { QSDataModel, QSRawData, QSFormattedData } from "./types";
 
 /**
  * A formatting utility that prepares raw data for transformation.
@@ -46,7 +46,10 @@ import { QSDataModel, QSData, QSFormattedData } from "./types";
  * @param data - the raw data you want to format
  * @returns a formatted object ready for consumption by the build function
  */
-export const assemble = (model: QSDataModel, data: QSData): QSFormattedData =>
+export const assemble = (
+  model: QSDataModel,
+  data: QSRawData
+): QSFormattedData =>
   (model as Array<string | string[]>).reduce(
     (acc: QSFormattedData, key: string | string[], index: number) => {
       const val: string | (string | string[])[] = data[index];
