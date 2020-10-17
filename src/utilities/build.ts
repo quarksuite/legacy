@@ -205,12 +205,15 @@ ${constructData({ context, prefix: "@", padding: 0 }, data)}
       `.trimEnd();
     case "styl":
       return `
-${constructData({ context, prefix: "", operator: " = ", padding: 0 }, data)}
+${constructData(
+  { context, prefix: "", operator: " = ", padding: 0, suffix: "\n" },
+  data
+)}
       `.trimEnd();
     case "json":
       return JSON.stringify({ [context]: data }, null, 2);
     case "style-dictionary":
-      return sd(context, data);
+      return JSON.stringify(sd(context, data), null, 2);
     default:
       throw Error(`
 Format or filetype unsupported
