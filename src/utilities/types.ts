@@ -19,7 +19,7 @@ export interface ConstructionOpts {
   padding?: number;
 }
 
-export type Filetypes = "css" | "scss" | "less" | "styl" | "json";
+export type Filetypes = "css" | "scss" | "less" | "styl" | "json" | "yaml";
 export type DataRecipes = "style-dictionary";
 
 export interface StyleDictFormat {
