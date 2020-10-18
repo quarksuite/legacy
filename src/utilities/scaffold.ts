@@ -1,4 +1,8 @@
-import { QSFormattedData, ConstructionOpts, StyleDictFormat } from "./types";
+import {
+  FormattedDesignData,
+  ConstructionOpts,
+  StyleDictFormat,
+} from "./types";
 
 const prop = (
   padding: number,
@@ -17,7 +21,7 @@ export const constructData = (
     suffix = ";\n",
     padding = 2,
   }: ConstructionOpts,
-  data: QSFormattedData
+  data: FormattedDesignData
 ): string => {
   return Object.entries(data)
     .reduce((str, entries) => {
@@ -62,7 +66,7 @@ export const constructData = (
     .trimEnd();
 };
 
-export const yaml = (context: string, data: QSFormattedData): string =>
+export const yaml = (context: string, data: FormattedDesignData): string =>
   `
 ${context}:
 ${Object.entries(data).reduce((str, entries) => {
@@ -108,7 +112,7 @@ ${Object.entries(data).reduce((str, entries) => {
 
 export const sd = (
   context: string,
-  data: QSFormattedData
+  data: FormattedDesignData
 ): StyleDictFormat => ({
   [context]: {
     ...Object.entries(data).reduce((acc, entries) => {
@@ -126,24 +130,29 @@ export const sd = (
           ...acc,
           ...{
             [category]: {
-              ...Object.entries(data).reduce((a, [subcategory, inner]) => {
-                if (subcategory === "base")
-                  return { ...a, ...{ [subcategory]: { value: inner } } };
-                return {
-                  ...a,
-                  ...{
-                    [subcategory]: {
-                      ...Object.values(inner).reduce(
-                        (aa, value, i) => ({
-                          ...aa,
-                          ...{ [i]: { value } },
-                        }),
-                        {}
-                      ),
+              ...Object.entries(data).reduce(
+                (a, [subcategory, inner]: [string, unknown]) => {
+                  if (subcategory === "base")
+                    return { ...a, ...{ [subcategory]: { value: inner } } };
+                  return {
+                    ...a,
+                    ...{
+                      [subcategory]: {
+                        ...Object.values(
+                          inner as { [index: string]: string }
+                        ).reduce(
+                          (aa, value, i) => ({
+                            ...aa,
+                            ...{ [i]: { value } },
+                          }),
+                          {}
+                        ),
+                      },
                     },
-                  },
-                };
-              }, {}),
+                  };
+                },
+                {}
+              ),
             },
           },
         };

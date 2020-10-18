@@ -136,5 +136,5 @@ export const systemfonts = (...fonts: string[]): string[] => {
 export { ms, update, merge, partition, units } from "./scale";
 
 // Data assembly and build functions
-export { assemble } from "./utilities/assemble";
+export { define } from "./utilities/define";
 export { build } from "./utilities/build";

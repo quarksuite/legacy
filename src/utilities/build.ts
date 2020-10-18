@@ -1,8 +1,8 @@
 import { constructData, sd, yaml } from "./scaffold";
-import { QSFormattedData, OutputTypes, Output } from "./types";
+import { FormattedDesignData, SupportedFormats, DesignTokens } from "./types";
 
 /**
- * A function that processes assembled Quarksuite data and outputs variables/design tokens
+ * A function that processes formatted design data and outputs variables/design tokens
  * of various filetypes. Also included is a data recipe for integrating with
  * {@link https://amzn.github.io/style-dictionary | Style Dictionary}
  *
@@ -42,16 +42,16 @@ import { QSFormattedData, OutputTypes, Output } from "./types";
  *
  * This function will throw an error if your target isn't supported.
  *
- * @param context - a string representing the namespace or root category the passed data
+ * @param context - a string representing the namespace or root category of your data
  * @param target - a string representing the target filetype or data recipe to output
- * @param data - An object representing assembled data ready for processing
+ * @param data - An object representing formatted design data
  * @returns a string containing your variables/design tokens or an object created from a data recipe
  */
 export const build = (
   context: string,
-  target: OutputTypes,
-  data: QSFormattedData
-): Output => {
+  target: SupportedFormats,
+  data: FormattedDesignData
+): DesignTokens => {
   switch (target) {
     case "css":
       return `:root {
@@ -81,8 +81,8 @@ ${constructData(
       return JSON.stringify(sd(context, data), null, 2);
     default:
       throw Error(`
-Format or filetype unsupported
-==============================
+Format unsupported:
+===============================================================================
 Available filetypes: "css", "scss", "less", "styl", "json", "yaml" | "yml"
 Available tool integrations: "style-dictionary"
 `);

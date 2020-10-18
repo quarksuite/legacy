@@ -25,7 +25,7 @@ import {
   merge,
   partition,
   units,
-  assemble,
+  define,
 } from "@api/index";
 import { RelativeUnits } from "@api/scale/types";
 
@@ -319,12 +319,12 @@ describe("API flow testing", () => {
       153.93679428100586,
     ]);
   });
-  describe("v4.1 feature: data assembly", () => {
+  describe("v5 feature: design language definition", () => {
     const swatch = rgb("dodgerblue");
-    test("can prepare raw data for processing and use", () => {
+    test("can map design data to corresponding design language", () => {
       const color = [swatch, tints(3, 99, swatch), shades(2, 99, swatch)];
 
-      const output = assemble(["main", "tint", "shade"], color);
+      const output = define(["main", "tint", "shade"], color);
 
       expect(output).toStrictEqual({
         main: "rgb(30, 144, 255)",
@@ -339,21 +339,18 @@ describe("API flow testing", () => {
         },
       });
     });
-    test("data can be multilevel", () => {
+    test("hierarchy can be multilevel", () => {
       const color = analogous(45, swatch).map((value) => [
         value,
         tints(2, 99, value),
         shades(2, 99, value),
       ]);
 
-      const output = assemble(
-        [
-          ["main", "tint", "shade"],
-          ["secondary", "tint", "shade"],
-          ["tertiary", "tint", "shade"],
-        ],
-        color
-      );
+      const output = define([
+        ["main", "tint", "shade"],
+        ["secondary", "tint", "shade"],
+        ["tertiary", "tint", "shade"],
+      ], color);
 
       expect(output).toStrictEqual({
         main: {
@@ -391,7 +388,7 @@ describe("API flow testing", () => {
         },
       });
     });
-    test("data can be blended", () => {
+    test("hierarchy can be blended", () => {
       const [main, secondary, accent] = analogous(60, swatch);
       const color = [
         ...[main].map((value) => [
@@ -402,10 +399,11 @@ describe("API flow testing", () => {
         secondary,
         accent,
       ];
-      const output = assemble(
-        [["main", "tint", "shade"], "secondary", "accent"],
-        color
-      );
+      const output = define([
+        ["main", "tint", "shade"],
+        "secondary",
+        "accent",
+      ], color);
 
       expect(output).toStrictEqual({
         main: {

@@ -1,7 +1,7 @@
-import { QSDataModel, QSRawData, QSFormattedData } from "./types";
+import { DesignLanguage, DesignData, FormattedDesignData } from "./types";
 
 /**
- * A formatting utility that prepares raw data for transformation.
+ * A utiliity for defining your design language and mapping data to it.
  *
  * ## Usage
  * ```ts
@@ -10,7 +10,7 @@ import { QSDataModel, QSRawData, QSFormattedData } from "./types";
  * // single level data formatting
  * const a = [swatch, tints(3, 99, swatch), shades(3, 99, swatch)];
  *
- * assemble(["main", "tint", "shade"], a);
+ * define(["main", "tint", "shade"], a);
  *
  * // multilevel data formatting
  * const b = analogous(45, swatch).map((c) => [
@@ -18,7 +18,7 @@ import { QSDataModel, QSRawData, QSFormattedData } from "./types";
  *   tints(2, 99, c),
  *   shades(1, 99, c),
  * ]);
- * assemble([
+ * define([
  *   ["main", "tint", "shade"],
  *   ["secondary", "tint", "shade"],
  *   ["tertiary", "tint", "shade"]
@@ -34,24 +34,19 @@ import { QSDataModel, QSRawData, QSFormattedData } from "./types";
  *   analogous(45, swatch)[1],
  *   analogous(45, swatch)[2]
  * ];
- * assemble([["main", "tint", "shade"], "secondary", "tertiary"], c);
+ * define([["main", "tint", "shade"], "secondary", "tertiary"], c);
  * ```
  *
- * @remarks
- * To keep your data as portable as possible and for ease of use, single layer data
- * formatting is preferred in most cases. Multilevel has its uses, though.
- * Like formatting your data all at once.
- *
- * @param model - an array of strings modeling the desired hierarchy of your data
- * @param data - the raw data you want to format
- * @returns a formatted object ready for consumption by the build function
+ * @param model - an array of strings modeling the design language your system
+ * @param data - the raw data you want to map
+ * @returns an object representing your data mapped to the model
  */
-export const assemble = (
-  model: QSDataModel,
-  data: QSRawData
-): QSFormattedData =>
+export const define = (
+  model: DesignLanguage,
+  data: DesignData
+): FormattedDesignData =>
   (model as Array<string | string[]>).reduce(
-    (acc: QSFormattedData, key: string | string[], index: number) => {
+    (acc: FormattedDesignData, key: string | string[], index: number) => {
       const val: string | (string | string[])[] = data[index];
       // checks for base values
 

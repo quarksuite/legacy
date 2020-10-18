@@ -1,11 +1,11 @@
-// Assembly types
-export type QSDataModel = (string | string[])[];
-export type QSRawData =
+// Definitiion types
+export type DesignLanguage = (string | string[])[];
+export type DesignData =
   | string[]
   | (string | string[])[][]
   | (string | (string | string[])[])[];
 
-export interface QSFormattedData {
+export interface FormattedDesignData {
   [index: string]:
     | string
     | {
@@ -27,9 +27,9 @@ type CSSCustomProperties = "css";
 type CSSPreprocessors = "scss" | "less" | "styl";
 type GenPurposeData = "json" | "yaml" | "yml";
 type ToolIntegration = "style-dictionary";
-type Unsupported = Error;
+type UnsupportedFormatError = Error;
 
-export type OutputTypes =
+export type SupportedFormats =
   | CSSCustomProperties
   | CSSPreprocessors
   | GenPurposeData
@@ -45,4 +45,4 @@ export interface StyleDictFormat {
       };
 }
 
-export type Output = string | StyleDictFormat | Unsupported;
+export type DesignTokens = string | StyleDictFormat | UnsupportedFormatError;
