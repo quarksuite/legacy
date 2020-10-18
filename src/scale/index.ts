@@ -132,7 +132,7 @@ export const partition = (
  *
  * @remarks
  * Be aware that this library trusts you to know the scale values you intend.
- * This function does **no** internal conversion of units. No rem -> px.
+ * This function does **no** internal conversion of units. No rem -\> px.
  * Calculations are for the `update` function
  *
  * @param precision - the maximum number of significant digits each value can have

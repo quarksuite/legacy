@@ -19,10 +19,10 @@ import { hue } from "../color/adjust";
  * ```
  *
  * @remarks
- * > Be aware that this library constructs palettes through a two stage process.
- * >
- * > Schemes generate the **base hues** which you then can generate your `tints`,
- * > `tones`, and/or `shades` to complete your palette.
+ * \> Be aware that this library constructs palettes through a two stage process.
+ * \>
+ * \> Schemes generate the **base hues** which you then can generate your `tints`,
+ * \> `tones`, and/or `shades` to complete your palette.
  *
  * A complementary color scheme is a high contrast scheme that combines a warm
  * or cool hue with its opposite.
@@ -53,10 +53,10 @@ export const complementary = (color: CSSColor): Complementary => [
  * ```
  *
  * @remarks
- * > Be aware that this library constructs palettes through a two stage process.
- * >
- * > Schemes generate the **base hues** which you then can generate your `tints`,
- * > `tones`, and/or `shades` to complete your palette.
+ * \> Be aware that this library constructs palettes through a two stage process.
+ * \>
+ * \> Schemes generate the **base hues** which you then can generate your `tints`,
+ * \> `tones`, and/or `shades` to complete your palette.
  *
  * An analogous color scheme is a low to high contrast warm or cool scheme. As implied by
  * the name, it's created from an origin color and two hues that are
@@ -90,10 +90,10 @@ export const analogous = (arc: Angle, color: CSSColor): Analogous => [
  * ```
  *
  * @remarks
- * > Be aware that this library constructs palettes through a two stage process.
- * >
- * > Schemes generate the **base hues** which you then can generate your `tints`,
- * > `tones`, and/or `shades` to complete your palette.
+ * \> Be aware that this library constructs palettes through a two stage process.
+ * \>
+ * \> Schemes generate the **base hues** which you then can generate your `tints`,
+ * \> `tones`, and/or `shades` to complete your palette.
  *
  * A triadic scheme is a three color scheme that can be balanced to high contrast.
  *
@@ -133,10 +133,10 @@ export const triad = (arc: Angle, color: CSSColor): Triadic => [
  * ```
  *
  * @remarks
- * > Be aware that this library constructs palettes through a two stage process.
- * >
- * > Schemes generate the **base hues** which you then can generate your `tints`,
- * > `tones`, and/or `shades` to complete your palette.
+ * \> Be aware that this library constructs palettes through a two stage process.
+ * \>
+ * \> Schemes generate the **base hues** which you then can generate your `tints`,
+ * \> `tones`, and/or `shades` to complete your palette.
  *
  * A tetradic scheme is a four color scheme made of the origin, its complement,
  * and two hues between them. You may hear a tetrad also referred to as a dual
@@ -175,10 +175,10 @@ export const tetrad = (rotation: Angle, color: CSSColor): Tetradic => [
  * ```
  *
  * @remarks
- * > Be aware that this library constructs palettes through a two stage process.
- * >
- * > Schemes generate the **base hues** which you then can generate your `tints`,
- * > `tones`, and/or `shades` to complete your palette.
+ * \> Be aware that this library constructs palettes through a two stage process.
+ * \>
+ * \> Schemes generate the **base hues** which you then can generate your `tints`,
+ * \> `tones`, and/or `shades` to complete your palette.
  *
  * The basic schemes will get you going, but they can't account for every possible
  * scheme configuration you may want. So as of v4, this library provides a custom

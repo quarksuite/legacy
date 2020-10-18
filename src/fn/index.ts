@@ -24,9 +24,9 @@ export type Variadic<T extends unknown[], U extends unknown[], R> = (
  * @returns `h(x)`
  *
  * @remarks
- * If function `arity > 1`, you'll have to curry it to `1`.
+ * If function `arity \> 1`, you'll have to curry it to `1`.
  *
- * For simplicity's sake, this is a classic f => g => h(x) composition. If you
+ * For simplicity's sake, this is a classic f =\> g =\> h(x) composition. If you
  * pass more than two functions, it will whine at you.
  */
 export const compose = <T, U, R>(
