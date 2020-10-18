@@ -1,3 +1,4 @@
+// Assembly types
 export type QSDataModel = (string | string[])[];
 export type QSRawData =
   | string[]
@@ -7,7 +8,9 @@ export type QSRawData =
 export interface QSFormattedData {
   [index: string]:
     | string
-    | { [index: string]: { base: string; [index: string]: string } };
+    | {
+        [index: string]: string | { [index: string]: string };
+      };
 }
 
 export interface ConstructionOpts {
@@ -19,18 +22,27 @@ export interface ConstructionOpts {
   padding?: number;
 }
 
-export type Filetypes = "css" | "scss" | "less" | "styl" | "json" | "yaml";
-export type DataRecipes = "style-dictionary";
+// Build types
+type CSSCustomProperties = "css";
+type CSSPreprocessors = "scss" | "less" | "styl";
+type GenPurposeData = "json" | "yaml" | "yml";
+type ToolIntegration = "style-dictionary";
+type Unsupported = Error;
+
+export type OutputTypes =
+  | CSSCustomProperties
+  | CSSPreprocessors
+  | GenPurposeData
+  | ToolIntegration;
 
 export interface StyleDictFormat {
   [index: string]:
     | { value: string }
     | {
-        [index: string]: {
-          base: { value: string };
-          [index: string]: { value: string };
-        };
+        [index: string]:
+          | { value: string }
+          | { [index: string]: { value: string } };
       };
 }
 
-export type Output = string | StyleDictFormat;
+export type Output = string | StyleDictFormat | Unsupported;

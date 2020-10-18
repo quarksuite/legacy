@@ -1,5 +1,5 @@
 import { constructData, sd, yaml } from "./scaffold";
-import { QSFormattedData, Filetypes, DataRecipes, Output } from "./types";
+import { QSFormattedData, OutputTypes, Output } from "./types";
 
 /**
  * A function that processes assembled Quarksuite data and outputs variables/design tokens
@@ -29,7 +29,7 @@ import { QSFormattedData, Filetypes, DataRecipes, Output } from "./types";
  * // -------------------------------------------
  * // color:
  * //   main: #bada55
- * build('color', 'yaml', data)
+ * build('color', 'yaml' // or 'yml', data)
  *
  * // Style Dictionary Property ({ "color": { "main": { "value": "#bada55" } } })
  * build('color', 'style-dictionary', data)
@@ -49,7 +49,7 @@ import { QSFormattedData, Filetypes, DataRecipes, Output } from "./types";
  */
 export const build = (
   context: string,
-  target: Filetypes | DataRecipes,
+  target: OutputTypes,
   data: QSFormattedData
 ): Output => {
   switch (target) {
@@ -75,6 +75,7 @@ ${constructData(
     case "json":
       return JSON.stringify({ [context]: data }, null, 2);
     case "yaml":
+    case "yml":
       return yaml(context, data);
     case "style-dictionary":
       return JSON.stringify(sd(context, data), null, 2);
@@ -82,8 +83,8 @@ ${constructData(
       throw Error(`
 Format or filetype unsupported
 ==============================
-Available filetypes: "css", "scss", "less", "styl", "json"
-Available recipes: "style-dictionary"
+Available filetypes: "css", "scss", "less", "styl", "json", "yaml" | "yml"
+Available tool integrations: "style-dictionary"
 `);
   }
 };
