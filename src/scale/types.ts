@@ -18,7 +18,10 @@ export type RelativeUnits =
   | "vw"
   | "vh"
   | "vmin"
-  | "vmax";
+  | "vmax"
+  | "%";
+
+export type Units = AbsoluteUnits | RelativeUnits;
 
 // Scale assembly
 export type RawScaleValues = number[];

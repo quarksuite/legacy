@@ -1,8 +1,7 @@
 import {
   RawScaleValues,
   Scale,
-  AbsoluteUnits,
-  RelativeUnits,
+  Units,
   SignificantDigits,
   ValueRange,
   Ratio,
@@ -142,7 +141,7 @@ export const partition = (
  */
 export const units = (
   precision: SignificantDigits,
-  unit: AbsoluteUnits | RelativeUnits,
+  unit: Units,
   scale: RawScaleValues
 ): Scale => {
   return scale.map((value: number) =>
