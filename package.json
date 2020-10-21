@@ -1,6 +1,6 @@
 {
   "name": "@quarksuite/core",
-  "version": "5.0.0-prerelease",
+  "version": "4.1.0-prerelease",
   "description": "Quarksuite is a kit for front-end prototyping and data-driven design systems.",
   "author": "Chatman R. Jr <crjr.code@gmail.com>",
   "repository": {
