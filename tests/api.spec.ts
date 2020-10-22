@@ -25,7 +25,6 @@ import {
   merge,
   partition,
   units,
-  define,
 } from "@api/index";
 import { RelativeUnits } from "@api/scale/types";
 
@@ -318,110 +317,6 @@ describe("API flow testing", () => {
       87.96388244628906,
       153.93679428100586,
     ]);
-  });
-  describe("v5 feature: design language definition", () => {
-    const swatch = rgb("dodgerblue");
-    test("can map design data to corresponding design language", () => {
-      const color = [swatch, tints(3, 99, swatch), shades(2, 99, swatch)];
-
-      const output = define(["main", "tint", "shade"], color);
-
-      expect(output).toStrictEqual({
-        main: "rgb(30, 144, 255)",
-        tint: {
-          "0": "rgb(149, 188, 255)",
-          "1": "rgb(208, 224, 255)",
-          "2": "rgb(254, 254, 255)",
-        },
-        shade: {
-          "0": "rgb(21, 102, 181)",
-          "1": "rgb(3, 14, 26)",
-        },
-      });
-    });
-    test("hierarchy can be multilevel", () => {
-      const color = analogous(45, swatch).map((value) => [
-        value,
-        tints(2, 99, value),
-        shades(2, 99, value),
-      ]);
-
-      const output = define([
-        ["main", "tint", "shade"],
-        ["secondary", "tint", "shade"],
-        ["tertiary", "tint", "shade"],
-      ], color);
-
-      expect(output).toStrictEqual({
-        main: {
-          base: "rgb(30, 143, 255)",
-          tint: {
-            "0": "rgb(181, 206, 255)",
-            "1": "rgb(254, 254, 255)",
-          },
-          shade: {
-            "0": "rgb(21, 102, 181)",
-            "1": "rgb(3, 14, 26)",
-          },
-        },
-        secondary: {
-          base: "rgb(30, 255, 199)",
-          tint: {
-            "0": "rgb(181, 255, 228)",
-            "1": "rgb(254, 255, 255)",
-          },
-          shade: {
-            "0": "rgb(21, 181, 141)",
-            "1": "rgb(3, 26, 20)",
-          },
-        },
-        tertiary: {
-          base: "rgb(86, 30, 255)",
-          tint: {
-            "0": "rgb(190, 181, 255)",
-            "1": "rgb(254, 254, 255)",
-          },
-          shade: {
-            "0": "rgb(61, 21, 181)",
-            "1": "rgb(9, 3, 26)",
-          },
-        },
-      });
-    });
-    test("hierarchy can be blended", () => {
-      const [main, secondary, accent] = analogous(60, swatch);
-      const color = [
-        ...[main].map((value) => [
-          value,
-          tints(3, 99, value),
-          shades(2, 99, value),
-        ]),
-        secondary,
-        accent,
-      ];
-      const output = define([
-        ["main", "tint", "shade"],
-        "secondary",
-        "accent",
-      ], color);
-
-      expect(output).toStrictEqual({
-        main: {
-          base: "rgb(30, 143, 255)",
-          shade: {
-            "0": "rgb(21, 102, 181)",
-            "1": "rgb(3, 14, 26)",
-          },
-          tint: {
-            "0": "rgb(149, 188, 255)",
-            "1": "rgb(208, 223, 255)",
-            "2": "rgb(254, 254, 255)",
-          },
-        },
-        secondary: "rgb(30, 255, 143)",
-        accent: "rgb(143, 30, 255)",
-      });
-    });
   });
 });
 

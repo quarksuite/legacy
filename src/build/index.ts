@@ -1,5 +1,6 @@
-import { constructData, sd, yaml } from "./scaffold";
-import { FormattedDesignData, SupportedFormats, DesignTokens } from "./types";
+import css from "./css";
+import styleDictionary from "./integrations";
+import { DesignData, DesignTokens, SupportedFormats } from "./types";
 
 /**
  * A function that processes formatted design data and outputs variables/design tokens
@@ -10,10 +11,11 @@ import { FormattedDesignData, SupportedFormats, DesignTokens } from "./types";
  * ```ts
  * // Assuming a palette is already defined and formatted
  *
- * // CSS (:root { --color-main: #bada55; })
- * build('color', 'css', data);
+ * // CSS custom properties (:root { --color-main: #bada55; })
+ * build('color', 'custom-properties', data);
  *
  * // Sass ($color-main: #bada55;)
+ * build('color', 'sass', data);
  * build('color', 'scss', data);
  *
  * // Less (@color-main: #bada55;)
@@ -24,12 +26,6 @@ import { FormattedDesignData, SupportedFormats, DesignTokens } from "./types";
  *
  * // JSON ({ "color": { "main": "#bada55" } })
  * build('color', 'json', data);
- *
- * // YAML
- * // -------------------------------------------
- * // color:
- * //   main: #bada55
- * build('color', 'yaml' // or 'yml', data)
  *
  * // Style Dictionary Property ({ "color": { "main": { "value": "#bada55" } } })
  * build('color', 'style-dictionary', data)
@@ -50,41 +46,27 @@ import { FormattedDesignData, SupportedFormats, DesignTokens } from "./types";
 export const build = (
   context: string,
   target: SupportedFormats,
-  data: FormattedDesignData
+  data: DesignData
 ): DesignTokens => {
-  switch (target) {
-    case "css":
-      return `:root {
-${constructData({ context }, data)}
-}`.trim();
-    case "scss":
-      return `
-${constructData({ context, prefix: "$", padding: 0 }, data)}
-      `.trimEnd();
-    case "less":
-      return `
-${constructData({ context, prefix: "@", padding: 0 }, data)}
-      `.trimEnd();
-    case "styl":
-      return `
-${constructData(
-  { context, prefix: "", operator: " = ", padding: 0, suffix: "\n" },
-  data
-)}
-      `.trimEnd();
-    case "json":
-      return JSON.stringify({ [context]: data }, null, 2);
-    case "yaml":
-    case "yml":
-      return yaml(context, data);
-    case "style-dictionary":
-      return JSON.stringify(sd(context, data), null, 2);
-    default:
-      throw Error(`
-Format unsupported:
-===============================================================================
-Available filetypes: "css", "scss", "less", "styl", "json", "yaml" | "yml"
-Available tool integrations: "style-dictionary"
+  if (target === "css" || target === "custom-properties")
+    return `
+:root {
+${css({ context, padding: 2 }, data)}
+}
+    `;
+  if (target === "sass" || target === "scss")
+    return css({ context, prefix: "$" }, data);
+  if (target === "less") return css({ context, prefix: "@" }, data);
+  if (target === "styl")
+    return css({ context, prefix: "", operator: " = ", suffix: "" }, data);
+  if (target === "json") return JSON.stringify({ [context]: data }, null, 2);
+  if (target === "style-dictionary") return styleDictionary(context, data);
+  throw Error(`
+Error: unsupported format ${target}
+==================================================
+Available targets:
+  css - "custom-properties", "sass", "scss", "less", "styl"
+  data - "json", "yaml", "yml",
+  integrations - "style-dictionary"
 `);
-  }
 };

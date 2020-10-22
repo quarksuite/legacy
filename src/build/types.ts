@@ -1,30 +1,27 @@
-// Definitiion types
-export type DesignLanguage = (string | string[])[];
-export type DesignData =
-  | string[]
-  | (string | string[])[][]
-  | (string | (string | string[])[])[];
-
-export interface FormattedDesignData {
-  [index: string]:
-    | string
-    | {
-        [index: string]: string | { [index: string]: string };
-      };
-}
-
-export interface ConstructionOpts {
+// Build types
+export interface CSSConstructionOpts {
   context: string;
   separator?: string;
   prefix?: string;
   operator?: string;
   suffix?: string;
   padding?: number;
+  terminator?: string;
 }
 
-// Build types
-type CSSCustomProperties = "css";
-type CSSPreprocessors = "scss" | "less" | "styl";
+export interface DataSubcategory {
+  [index: string]: {
+    base: string;
+    [index: string]: string | string[];
+  };
+}
+
+export interface DesignData {
+  [index: string]: string | string[] | DataSubcategory;
+}
+
+type CSSCustomProperties = "css" | "custom-properties";
+type CSSPreprocessors = "sass" | "scss" | "less" | "styl";
 type GenPurposeData = "json" | "yaml" | "yml";
 type ToolIntegration = "style-dictionary";
 type UnsupportedFormatError = Error;
