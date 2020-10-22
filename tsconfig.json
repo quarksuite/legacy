@@ -16,7 +16,7 @@
       "@variant/*": ["variant/*"],
       "@typography/*": ["typography/*"],
       "@scale/*": ["scale/*"],
-      "@utilities/*": ["utilities/*"]
+      "@build/*": ["build/*"]
     }
   },
   "exclude": ["node_modules", "pkg"]

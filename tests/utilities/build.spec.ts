@@ -1,4 +1,4 @@
-import { build } from "@utilities/build";
+import { build } from "@build/index";
 
 describe("Data building utility", () => {
   describe("build :: string -> string -> object -> string | object", () => {
@@ -7,61 +7,67 @@ describe("Data building utility", () => {
       secondary: "lime",
       tertiary: "blue",
     };
+
+    const singleVariants = {
+      main: "red",
+      secondary: ["springgreen", "seagreen"],
+      tertiary: ["skyblue", "dodgerblue"],
+    };
+
     const multi = {
       main: {
         base: "red",
-        tint: {
-          "0": "coral",
-          "1": "navajowhite",
-        },
-        shade: {
-          "0": "crimson",
-          "1": "firebrick",
-        },
+        tint: ["coral", "navajowhite"],
+        shade: ["crimson", "firebrick"],
       },
       secondary: {
         base: "lime",
-        tint: {
-          "0": "springgreen",
-          "1": "lightseagreen",
-        },
-        shade: {
-          "0": "chartreuse",
-          "1": "forestgreen",
-        },
+        tint: ["springgreen", "lightseagreen"],
+        shade: ["chartreuse", "forestgreen"],
       },
     };
+
     const blended = {
       main: {
         base: "red",
-        tint: {
-          "0": "coral",
-          "1": "navajowhite",
-        },
-        shade: {
-          "0": "crimson",
-          "1": "firebrick",
-        },
+        tint: ["coral", "navajowhite"],
+        shade: ["crimson", "firebrick"],
       },
       secondary: "lime",
     };
+
     describe("can build CSS custom properties", () => {
       test("from single layer data", () =>
         expect(build("color", "css", single)).toStrictEqual(
           expect.stringContaining(
             `
-  :root {
+:root {
   --color-main: red;
   --color-secondary: lime;
   --color-tertiary: blue;
-}`.trimStart()
+}
+`
+          )
+        ));
+      test("from single layer variant data", () =>
+        expect(build("color", "css", singleVariants)).toStrictEqual(
+          expect.stringContaining(
+            `
+:root {
+  --color-main: red;
+  --color-main-secondary-0: springgreen;
+  --color-main-secondary-1: seagreen;
+  --color-main-tertiary-0: skyblue;
+  --color-main-tertiary-1: dodgerblue;
+}
+`
           )
         ));
       test("from multilayer data", () =>
         expect(build("color", "css", multi)).toStrictEqual(
           expect.stringContaining(
             `
-  :root {
+:root {
   --color-main: red;
   --color-main-tint-0: coral;
   --color-main-tint-1: navajowhite;
@@ -72,21 +78,21 @@ describe("Data building utility", () => {
   --color-secondary-tint-1: lightseagreen;
   --color-secondary-shade-0: chartreuse;
   --color-secondary-shade-1: forestgreen;
-}`.trimStart()
+}`
           )
         ));
       test("from blended data", () =>
         expect(build("color", "css", blended)).toStrictEqual(
           expect.stringContaining(
             `
-  :root {
+:root {
   --color-main: red;
   --color-main-tint-0: coral;
   --color-main-tint-1: navajowhite;
   --color-main-shade-0: crimson;
   --color-main-shade-1: firebrick;
   --color-secondary: lime;
-}`.trimStart()
+}`
           )
         ));
     });
@@ -207,25 +213,13 @@ color-secondary = lime`)
           color: {
             main: {
               base: "red",
-              shade: {
-                "0": "crimson",
-                "1": "firebrick",
-              },
-              tint: {
-                "0": "coral",
-                "1": "navajowhite",
-              },
+              shade: ["crimson", "firebrick"],
+              tint: ["coral", "navajowhite"],
             },
             secondary: {
               base: "lime",
-              shade: {
-                "0": "chartreuse",
-                "1": "forestgreen",
-              },
-              tint: {
-                "0": "springgreen",
-                "1": "lightseagreen",
-              },
+              shade: ["chartreuse", "forestgreen"],
+              tint: ["springgreen", "lightseagreen"],
             },
           },
         }));
@@ -236,63 +230,12 @@ color-secondary = lime`)
           color: {
             main: {
               base: "red",
-              shade: {
-                "0": "crimson",
-                "1": "firebrick",
-              },
-              tint: {
-                "0": "coral",
-                "1": "navajowhite",
-              },
+              shade: ["crimson", "firebrick"],
+              tint: ["coral", "navajowhite"],
             },
             secondary: "lime",
           },
         }));
-    });
-    describe("can build YAML", () => {
-      test("from single layer data", () =>
-        expect(build("color", "yaml", single)).toStrictEqual(
-          expect.stringContaining(`
-color:
-  main: red
-  secondary: lime
-  tertiary: blue`)
-        ));
-      test("from multilayer data", () =>
-        expect(build("color", "yaml", multi)).toStrictEqual(
-          expect.stringContaining(`
-color:
-  main:
-    base: red
-    tint:
-      - coral
-      - navajowhite
-    shade:
-      - crimson
-      - firebrick
-  secondary:
-    base: lime
-    tint:
-      - springgreen
-      - lightseagreen
-    shade:
-      - chartreuse
-      - forestgreen`)
-        ));
-      test("from blended data", () =>
-        expect(build("color", "yaml", blended)).toStrictEqual(
-          expect.stringContaining(`
-color:
-  main:
-    base: red
-    tint:
-      - coral
-      - navajowhite
-    shade:
-      - crimson
-      - firebrick
-  secondary: lime`)
-        ));
     });
     describe("can build Style Dictionary data for handoff", () => {
       test("from single layer data", () =>
@@ -308,6 +251,34 @@ color:
             },
             tertiary: {
               value: "blue",
+            },
+          },
+        }));
+      test("from single layer variant data", () =>
+        expect(
+          JSON.parse(
+            build("color", "style-dictionary", singleVariants) as string
+          )
+        ).toStrictEqual({
+          color: {
+            main: {
+              value: "red",
+            },
+            secondary: {
+              "0": {
+                value: "springgreen",
+              },
+              "1": {
+                value: "seagreen",
+              },
+            },
+            tertiary: {
+              "0": {
+                value: "skyblue",
+              },
+              "1": {
+                value: "dodgerblue",
+              },
             },
           },
         }));

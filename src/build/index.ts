@@ -49,18 +49,15 @@ export const build = (
   data: DesignData
 ): DesignTokens => {
   if (target === "css" || target === "custom-properties")
-    return `
-:root {
-${css({ context, padding: 2 }, data)}
-}
-    `;
+    return `\n:root {${css({ context, padding: 2 }, data)}\n}\n`;
   if (target === "sass" || target === "scss")
     return css({ context, prefix: "$" }, data);
   if (target === "less") return css({ context, prefix: "@" }, data);
   if (target === "styl")
     return css({ context, prefix: "", operator: " = ", suffix: "" }, data);
   if (target === "json") return JSON.stringify({ [context]: data }, null, 2);
-  if (target === "style-dictionary") return styleDictionary(context, data);
+  if (target === "style-dictionary")
+    return JSON.stringify(styleDictionary(context, data), null, 2);
   throw Error(`
 Error: unsupported format ${target}
 ==================================================

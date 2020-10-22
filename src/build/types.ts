@@ -10,14 +10,12 @@ export interface CSSConstructionOpts {
 }
 
 export interface DataSubcategory {
-  [index: string]: {
-    base: string;
-    [index: string]: string | string[];
-  };
+  base: string;
+  [index: string]: string | string[];
 }
 
 export interface DesignData {
-  [index: string]: string | string[] | DataSubcategory;
+  [index: string]: (string | string[]) | DataSubcategory;
 }
 
 type CSSCustomProperties = "css" | "custom-properties";

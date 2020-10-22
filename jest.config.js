@@ -21,6 +21,6 @@ module.exports = {
     "^@variant(.*)$": "<rootDir>/src/variant$1",
     "^@typography(.*)$": "<rootDir>/src/typography$1",
     "^@scale(.*)$": "<rootDir>/src/scale$1",
-    "^@utilities(.*)$": "<rootDir>/src/utilities$1",
+    "^@build(.*)$": "<rootDir>/src/build$1",
   },
 };

@@ -6,8 +6,6 @@ export default (context: string, data: DesignData): StyleDictFormat => ({
       string,
       string | string[] | DataSubcategory
     ] = entries;
-    console.log(entries);
-
     const isCategory = typeof value === "string";
     const isSubcategory = typeof value === "object" && !Array.isArray(value);
 
