@@ -50,28 +50,6 @@ export interface CustomSchemeOpts {
   rotation?: Angle;
 }
 
-// Palette assembly
-export type Color = CSSColor;
-export type Complementary = [origin: Color, opposite: Color];
-export type Analogous = [
-  origin: Color,
-  leftOfOrigin: Color,
-  rightOfOrigin: Color
-];
-export type Triadic = [
-  origin: Color,
-  leftOfOpposite: Color,
-  rightOfOpposite: Color
-];
-export type Tetradic = [
-  origin: Color,
-  opposite: Color,
-  rotationFromOrigin: Color,
-  rotationFromOpposite: Color
-];
-export type Custom = [...hue: [...Color[]]];
-export type Variant = [...variant: [...Color[]]];
-
 // Utility types
 export type Clrs =
   | "navy"
@@ -92,3 +70,33 @@ export type Clrs =
   | "grey"
   | "silver"
   | "white";
+
+// Palette assembly
+export type Color = CSSColor | Clrs;
+
+export type Complementary = [origin: Color, opposite: Color];
+export type Analogous = [
+  origin: Color,
+  leftOfOrigin: Color,
+  rightOfOrigin: Color
+];
+export type Triadic = [
+  origin: Color,
+  leftOfOpposite: Color,
+  rightOfOpposite: Color
+];
+export type Tetradic = [
+  origin: Color,
+  opposite: Color,
+  rotationFromOrigin: Color,
+  rotationFromOpposite: Color
+];
+export type Custom = [...hues: [...Color[]]];
+
+export type Scheme = (Complementary & Analogous & Triadic & Tetradic) | Custom;
+
+export type Tints = [...tints: [...Color[]]];
+export type Tones = [...tones: [...Color[]]];
+export type Shades = [...shades: [...Color[]]];
+
+export type Variants = Tints | Tones | Shades;

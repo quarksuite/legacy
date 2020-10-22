@@ -1,10 +1,4 @@
-import {
-  Channel,
-  CSSColor,
-  HexData,
-  HexFragment,
-  RawColor,
-} from "../data/types";
+import { Channel, CSSColor, HexData, HexFragment, RawColor } from "../types";
 import { compose } from "../../fn";
 import { hexToInt, matchValues } from "../formatting";
 import { channelAsFraction } from "../math";

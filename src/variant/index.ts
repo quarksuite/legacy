@@ -4,8 +4,11 @@ import {
   Contrast,
   CSSColor,
   NumOfVariants,
-  Variant,
-} from "../color/data/types";
+  Tints,
+  Tones,
+  Shades,
+  Variants,
+} from "../color/types";
 import { mix } from "../color/mix";
 
 const generate = (
@@ -13,7 +16,7 @@ const generate = (
   contrast: number,
   target: CSSColor,
   color: CSSColor
-): Variant =>
+): Variants =>
   Array.from(Array(limit).fill(color)).map(
     (base: string, index: number): Color => {
       const amount = contrast - (contrast / limit) * index;
@@ -41,7 +44,7 @@ export const tints = (
   count: NumOfVariants,
   contrast: Contrast,
   color: CSSColor
-): Variant =>
+): Tints =>
   generate(count, contrast, "white", color)
     .map((tint) => toHex(tint))
     .sort()
@@ -67,7 +70,7 @@ export const tones = (
   count: NumOfVariants,
   contrast: Contrast,
   color: CSSColor
-): Variant => generate(count, contrast, "gray", color).reverse();
+): Tones => generate(count, contrast, "gray", color).reverse();
 
 /**
  * Generates shades from any valid CSS color.
@@ -89,7 +92,7 @@ export const shades = (
   count: NumOfVariants,
   contrast: Contrast,
   color: CSSColor
-): Variant =>
+): Shades =>
   generate(count, contrast, "black", color)
     .map((shade) => toHex(shade))
     .sort((a, b) => b.localeCompare(a))

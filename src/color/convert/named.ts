@@ -1,4 +1,4 @@
-import { CSSColor, RawColor } from "../data/types";
+import { CSSColor, RawColor } from "../types";
 import { compose } from "../../fn";
 import { w3c } from "../data/w3c-x11";
 import { toRGB as rgb, toHSL as hsl } from "./hex";

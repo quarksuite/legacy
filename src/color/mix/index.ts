@@ -8,7 +8,7 @@ import {
 import { validateColor } from "../validate";
 import { toRGB, preserveFormat } from "../convert";
 import { extractRGB } from "../convert/rgb";
-import { BlendValue, Color, CSSColor, RGBData } from "../data/types";
+import { BlendValue, Color, CSSColor, RGBData } from "../types";
 
 const calculateMix = (
   original: RGBData,

@@ -7,7 +7,7 @@ import {
   Lightness,
   Alpha,
   CSSColor,
-} from "./data/types";
+} from "./types";
 
 // hex, rgb, hsl
 export const matchValues = (s: CSSColor): ColorValues =>

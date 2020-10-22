@@ -4,7 +4,7 @@ import { toRGB as hex2RGB, toHSL as hex2HSL } from "./hex";
 import { toHex as r2Hex, toHSL as r2HSL } from "./rgb";
 import { toRGB as hsl2RGB, toHex as hsl2Hex } from "./hsl";
 import { toHex as n2Hex, toRGB as n2RGB, toHSL as n2HSL } from "./named";
-import { CSSColor, RawColor } from "../data/types";
+import { CSSColor, RawColor } from "../types";
 
 const queryConversionDict = curry2(
   (target: CSSColor, color: CSSColor): RawColor => {

@@ -1,4 +1,4 @@
-import { Clrs } from "@api/color/data/types";
+import { Clrs } from "@api/color/types";
 import {
   pipe,
   set,

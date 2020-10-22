@@ -7,7 +7,7 @@ import {
   Lightness,
   RawColor,
   Saturation,
-} from "../data/types";
+} from "../types";
 import { compose } from "../../fn";
 import { extractNumber, matchValues } from "../formatting";
 import {

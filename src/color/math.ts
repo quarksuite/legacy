@@ -1,11 +1,5 @@
 import { compose, curry2 } from "../fn";
-import {
-  HueCalc,
-  SatCalc,
-  LumCalc,
-  AlphaCalc,
-  ChannelCalc,
-} from "./data/types";
+import { HueCalc, SatCalc, LumCalc, AlphaCalc, ChannelCalc } from "./types";
 import { intToHex } from "./formatting";
 
 // Arithmetic

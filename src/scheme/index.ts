@@ -7,7 +7,7 @@ import {
   Triadic,
   Tetradic,
   Custom,
-} from "../color/data/types";
+} from "../color/types";
 import { hue } from "../color/adjust";
 
 /**

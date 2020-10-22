@@ -1,5 +1,5 @@
 import { clrs as a11y } from "./color/data/clrs";
-import { Color, CSSColor, Clrs } from "./color/data/types";
+import { Color, CSSColor, Clrs } from "./color/types";
 import { validateColor } from "./color/validate";
 import { toHex, toRGB, toHSL, preserveFormat } from "./color/convert";
 

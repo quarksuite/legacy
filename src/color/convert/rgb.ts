@@ -9,7 +9,7 @@ import {
   RawColor,
   RGBData,
   Saturation,
-} from "../data/types";
+} from "../types";
 import { matchValues, extractNumber, intToHex } from "../formatting";
 import {
   percentAsFraction,

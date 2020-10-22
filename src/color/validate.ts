@@ -1,5 +1,5 @@
 import { w3c } from "../color/data/w3c-x11";
-import { ColorError, ColorFormats, CSSColor } from "./data/types";
+import { ColorError, ColorFormats, CSSColor } from "./types";
 
 const InvalidColorError = (message: string): Error => {
   throw Error(message);

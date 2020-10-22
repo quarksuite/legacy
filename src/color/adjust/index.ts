@@ -9,7 +9,7 @@ import {
 import { validateColor } from "../validate";
 import { extractHSL } from "../convert/hsl";
 import { toHSL, preserveFormat } from "../convert";
-import { AdjustmentValue, Color, CSSColor } from "../data/types";
+import { AdjustmentValue, Color, CSSColor } from "../types";
 
 /**
  * Allows hue adjustment of any color.
@@ -32,7 +32,7 @@ import { AdjustmentValue, Color, CSSColor } from "../data/types";
  * The hue adjustment is **relative** to the input color. So a value of `0` or one
  * equal to a full revolution will return the input color
  *
- * If the resulting hue is > 360, it'll be adjusted left to the correct value
+ * If the resulting hue is \> 360, it'll be adjusted left to the correct value
  * If the resulting hue is negative, it'll be adjusted right to the correct value
  *
  * @param n - the value for adjustment
