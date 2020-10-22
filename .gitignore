@@ -127,4 +127,7 @@ tags
 # Hide build directory
 pkg
 
+# Hide sandbox
+repl
+
 # End of https://www.gitignore.io/api/vim,node,code
