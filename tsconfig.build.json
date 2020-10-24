@@ -5,6 +5,7 @@
   ],
   "exclude": [
     "pkg",
+    "scratchpad/**/*.ts",
     "tests/**/*.spec.ts"
   ]
 }

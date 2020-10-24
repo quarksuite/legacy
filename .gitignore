@@ -130,4 +130,7 @@ pkg
 # Hide sandbox
 repl
 
+# Hide scratchpad
+scratchpad
+
 # End of https://www.gitignore.io/api/vim,node,code
