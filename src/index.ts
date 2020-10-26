@@ -135,5 +135,5 @@ export const systemfonts = (...fonts: string[]): string[] => {
 // Scale creation and modification functions
 export { ms, update, merge, partition, units } from "./scale";
 
-// Data building function (new to v4.1)
-export { build } from "./build";
+// Data building function (new to v5)
+export { css, sass, less, stylus, json, styleProps } from "./build";
