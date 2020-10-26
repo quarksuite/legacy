@@ -1,6 +1,13 @@
-import { DesignData, StyleDictFormat, DataSubcategory } from "./types";
+import {
+  DesignData,
+  StyleDictionaryProperties,
+  DataSubcategory,
+} from "./types";
 
-export default (context: string, data: DesignData): StyleDictFormat => ({
+export default (
+  context: string,
+  data: DesignData
+): StyleDictionaryProperties => ({
   [context]: Object.entries(data).reduce((acc, entries) => {
     const [category, value]: [
       string,

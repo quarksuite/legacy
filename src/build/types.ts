@@ -22,7 +22,6 @@ type CSSCustomProperties = "css" | "custom-properties";
 type CSSPreprocessors = "sass" | "scss" | "less" | "styl";
 type GenPurposeData = "json" | "yaml" | "yml";
 type ToolIntegration = "style-dictionary";
-type UnsupportedFormatError = Error;
 
 export type SupportedFormats =
   | CSSCustomProperties
@@ -30,7 +29,7 @@ export type SupportedFormats =
   | GenPurposeData
   | ToolIntegration;
 
-export interface StyleDictFormat {
+export interface StyleDictionaryProperties {
   [index: string]:
     | { value: string }
     | {
@@ -40,4 +39,4 @@ export interface StyleDictFormat {
       };
 }
 
-export type DesignTokens = string | StyleDictFormat | UnsupportedFormatError;
+export type DesignTokens = string;
