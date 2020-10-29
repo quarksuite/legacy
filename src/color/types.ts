@@ -15,20 +15,18 @@ export type ChannelCalc = (x: Channel) => Channel;
 
 // Color formatting
 export type ColorFragment = string;
-export type ColorValues = [
-  r: ColorFragment,
-  g: ColorFragment,
-  b: ColorFragment,
-  a?: ColorFragment
-];
-export type HexData = [
-  r: HexFragment,
-  g: HexFragment,
-  b: HexFragment,
-  a?: HexFragment
-];
-export type RGBData = [r: Channel, g: Channel, b: Channel, a?: Alpha];
-export type HSLData = [h: Hue, s: Saturation, l: Lightness, a?: Alpha];
+export type ColorValues =
+  | [ColorFragment, ColorFragment, ColorFragment]
+  | [ColorFragment, ColorFragment, ColorFragment, ColorFragment];
+export type HexData =
+  | [HexFragment, HexFragment, HexFragment]
+  | [HexFragment, HexFragment, HexFragment, HexFragment];
+export type RGBData =
+  | [Channel, Channel, Channel]
+  | [Channel, Channel, Channel, Alpha];
+export type HSLData =
+  | [Hue, Saturation, Lightness]
+  | [Hue, Saturation, Lightness, Alpha];
 
 export type ColorFormats = "hex" | "rgb" | "hsl" | "named";
 
@@ -74,29 +72,16 @@ export type Clrs =
 // Palette assembly
 export type Color = CSSColor | Clrs;
 
-export type Complementary = [origin: Color, opposite: Color];
-export type Analogous = [
-  origin: Color,
-  leftOfOrigin: Color,
-  rightOfOrigin: Color
-];
-export type Triadic = [
-  origin: Color,
-  leftOfOpposite: Color,
-  rightOfOpposite: Color
-];
-export type Tetradic = [
-  origin: Color,
-  opposite: Color,
-  rotationFromOrigin: Color,
-  rotationFromOpposite: Color
-];
-export type Custom = [...hues: [...Color[]]];
+export type Complementary = [Color, Color];
+export type Analogous = [Color, Color, Color];
+export type Triadic = [Color, Color, Color];
+export type Tetradic = [Color, Color, Color, Color];
+export type Custom = [...Color[]];
 
 export type Scheme = (Complementary & Analogous & Triadic & Tetradic) | Custom;
 
-export type Tints = [...tints: [...Color[]]];
-export type Tones = [...tones: [...Color[]]];
-export type Shades = [...shades: [...Color[]]];
+export type Tints = [...Color[]];
+export type Tones = [...Color[]];
+export type Shades = [...Color[]];
 
 export type Variants = Tints | Tones | Shades;
