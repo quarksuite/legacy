@@ -71,32 +71,3 @@ export const curry2 = <T, U, R>(fn: Binary<T, U, R>) => (y: U) => (x: T): R =>
 export const curry3 = <T, U, V, R>(fn: Ternary<T, U, V, R>) => (z: V) => (
   y: U
 ) => (x: T): R => fn(z, y, x);
-
-/**
- * A higher order function that accepts a function and allows partial application
- * of its arguments.
- *
- * In the public API, this function is exposed as `set`
- *
- * ## Usage
- * ```ts
- * const mixWithGreen = set(mix, 32, 'lime');
- * mixWithGreen('skyblue');
- *
- * // chaining will fully curry a function
- * const scale = ms(5, 2, 1);
- * const significantDigits = set(units, 3);
- * const rems = set(significantDigits, "rem");
- * rems(scale);
- * ```
- *
- * @param fn - the function to curry
- * @param applied - initial arguments
- * @param remaining - remaining arguments
- * @returns the args of `fn` as a sequence of two calls of its arguments
- *
- */
-export const curryN = <T extends unknown[], U extends unknown[], R>(
-  fn: Variadic<T, U, R>,
-  ...applied: T
-) => (...remaining: U): R => fn(...applied, ...remaining);

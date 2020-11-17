@@ -1,91 +1,56 @@
-import { DesignData, CSSConstructionOpts, DataSubcategory } from "./types";
+import { CSSFormatOpts, TokenDictionary } from "./types";
 
-const prop = (
-  padding: number,
-  prefix: string,
-  separator: string,
-  operator: string,
-  suffix: string,
-  terminator: string
-) => (str: string, keys: (string | number)[], value: string): string =>
+const format = (
+  {
+    padding = 0,
+    prefix = "--",
+    separator = "-",
+    operator = ": ",
+    suffix = ";",
+    eol = "\n",
+  }: CSSFormatOpts,
+  hierarchy: (string | number)[],
+  value: string,
+  str: string
+): string =>
   str.concat(
     "".padStart(padding, " "),
     prefix,
-    keys.join(separator),
+    hierarchy.join(separator),
     operator,
     value,
     suffix,
-    terminator
+    eol
   );
 
-export default (
-  {
-    context,
-    separator = "-",
-    prefix = "--",
-    operator = ": ",
-    suffix = ";",
-    padding = 0,
-    terminator = "\n",
-  }: CSSConstructionOpts,
-  data: DesignData
+export const construct = (
+  options: CSSFormatOpts,
+  data: TokenDictionary
 ): string =>
-  "\n"
-    .concat(
-      Object.entries(data).reduce((str, entries) => {
-        const [category, value]: [
-          string,
-          string | string[] | DataSubcategory
-        ] = entries;
-        const construct = prop(
-          padding,
-          prefix,
-          separator,
-          operator,
-          suffix,
-          terminator
-        );
+  "".concat(
+    ...Object.entries(data).map(([context, tokens]) => {
+      return Object.entries(tokens).reduce((str, [category, value]) => {
+        // Single values are directly mapped
+        if (typeof value === "string")
+          return format(options, [context, category], value, str);
 
-        const isCategory = typeof value === "string";
-        const isSubcategory =
-          typeof value === "object" && !Array.isArray(value);
-
-        if (isSubcategory) {
-          return str.concat(
-            Object.entries(value).reduce(
-              (s: string, [subcategory, v]: [string, string | string[]]) => {
-                return subcategory === "base"
-                  ? construct(s, [context, category], v as string)
-                  : s.concat(
-                      (v as string[]).reduce(
-                        (ss: string, vv: string, index: number) =>
-                          construct(
-                            ss,
-                            [context, category, subcategory, index],
-                            vv
-                          ),
-                        ""
-                      )
-                    );
-              },
-              ""
-            )
-          );
-        }
-
-        if (isCategory) {
-          return construct(str, [context, category], value as string);
-        }
-
-        const base = Object.entries(data).filter(
-          ([, value]) => typeof value === "string"
-        )[0][0];
+        // Subcategories are parsed
         return str.concat(
-          (value as string[]).reduce(
-            (s, v, index) => construct(s, [context, base, category, index], v),
+          Object.entries(value).reduce(
+            (s, [k, v]: [string, string | string[]]) => {
+              if (typeof v === "string")
+                return format(options, [context, category], v, s);
+              return s.concat(
+                v.reduce(
+                  (ss, vv, index) =>
+                    format(options, [context, category, k, index], vv, ss),
+                  ""
+                )
+              );
+            },
             ""
           )
         );
-      }, "")
-    )
-    .trimEnd();
+      }, "\n");
+    })
+  );

@@ -1,4 +1,4 @@
-import { compose, curry2, curry3, curryN } from "@fn/index";
+import { compose, curry2, curry3 } from "@fn/index";
 
 describe("Functional helpers", () => {
   test("compose :: [Fn] -> Arg", () => {
@@ -30,20 +30,5 @@ describe("Functional helpers", () => {
     expect(a(42)(75)).toBe(217);
     expect(b(97)).toBe(225);
     expect(c).toBe(170);
-  });
-
-  test("curryN :: (Fn) -> [b] -> [a] -> x", () => {
-    const aggregate = (...values: number[]): number =>
-      values.reduce((a: number, b: number): number => a + b);
-
-    const $aggregate1 = curryN(aggregate, 1);
-    const $aggregate2 = curryN(aggregate, 1, 2);
-    const $aggregate3 = curryN(aggregate, 1, 2, 4);
-    const $aggregateAll = curryN(aggregate, 1, 2, 4, 8);
-
-    expect($aggregate1(2, 4, 8)).toBe(15);
-    expect($aggregate2(4, 8)).toBe(15);
-    expect($aggregate3(8)).toBe(15);
-    expect($aggregateAll()).toBe(15);
   });
 });

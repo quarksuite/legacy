@@ -1,21 +1,22 @@
 // Build types
-export interface CSSConstructionOpts {
-  context: string;
-  separator?: string;
+export interface CSSFormatOpts {
+  padding?: number;
   prefix?: string;
+  separator?: string;
   operator?: string;
   suffix?: string;
-  padding?: number;
-  terminator?: string;
+  eol?: string;
 }
 
-export interface DataSubcategory {
+export interface Subcategory {
   base: string;
   [index: string]: string | string[];
 }
 
-export interface DesignData {
-  [index: string]: (string | string[]) | DataSubcategory;
+export interface TokenDictionary {
+  [index: string]: {
+    [index: string]: string | Subcategory;
+  };
 }
 
 type CSSCustomProperties = "css" | "custom-properties";
@@ -38,5 +39,3 @@ export interface StyleDictionaryProperties {
           | { [index: string]: { value: string } };
       };
 }
-
-export type DesignTokens = string;

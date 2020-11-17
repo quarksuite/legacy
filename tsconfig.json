@@ -11,6 +11,7 @@
     "paths": {
       "@api/*": ["*"],
       "@fn/*": ["fn/*"],
+      "@utilities/*": ["utilities/*"],
       "@color/*": ["color/*"],
       "@scheme/*": ["scheme/*"],
       "@variant/*": ["variant/*"],

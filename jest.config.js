@@ -16,6 +16,7 @@ module.exports = {
   moduleNameMapper: {
     "^@api(.*)$": "<rootDir>/src/$1",
     "^@fn(.*)$": "<rootDir>/src/fn$1",
+    "^@utilities(.*)$": "<rootDir>/src/utilities$1",
     "^@color(.*)$": "<rootDir>/src/color$1",
     "^@scheme(.*)$": "<rootDir>/src/scheme$1",
     "^@variant(.*)$": "<rootDir>/src/variant$1",

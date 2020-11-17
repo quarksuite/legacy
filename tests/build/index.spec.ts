@@ -1,68 +1,53 @@
-import { css, sass, less, stylus, json, styleProps } from "@build/index";
+import { css, sass, less, styl, json, sd } from "@build/index";
 
-const single = {
-  main: "red",
-  secondary: "lime",
-  tertiary: "blue",
-};
-
-const singleVariants = {
-  main: "red",
-  secondary: ["springgreen", "seagreen"],
-  tertiary: ["skyblue", "dodgerblue"],
-};
-
-const multi = {
-  main: {
-    base: "red",
-    tint: ["coral", "navajowhite"],
-    shade: ["crimson", "firebrick"],
+const values = {
+  color: {
+    main: "red",
+    secondary: "lime",
+    tertiary: "blue",
   },
-  secondary: {
-    base: "lime",
-    tint: ["springgreen", "lightseagreen"],
-    shade: ["chartreuse", "forestgreen"],
+};
+
+const subcategories = {
+  color: {
+    main: {
+      base: "red",
+      tint: ["coral", "navajowhite"],
+      shade: ["crimson", "firebrick"],
+    },
+    secondary: {
+      base: "lime",
+      tint: ["springgreen", "lightseagreen"],
+      shade: ["chartreuse", "forestgreen"],
+    },
   },
 };
 
 const blended = {
-  main: {
-    base: "red",
-    tint: ["coral", "navajowhite"],
-    shade: ["crimson", "firebrick"],
+  color: {
+    main: {
+      base: "red",
+      tint: ["coral", "navajowhite"],
+      shade: ["crimson", "firebrick"],
+    },
+    secondary: "lime",
   },
-  secondary: "lime",
 };
 
-describe("css :: string -> object -> string", () => {
-  test("can build CSS custom properties from single layer data", () =>
-    expect(css("color", single)).toStrictEqual(
+describe("css :: object -> string", () => {
+  test("can build CSS custom properties from a dictionary of values", () =>
+    expect(css(values)).toStrictEqual(
       expect.stringContaining(
         `
 :root {
   --color-main: red;
   --color-secondary: lime;
   --color-tertiary: blue;
-}
-`
+}`
       )
     ));
-  test("can build CSS custom properties from single layer variant data", () =>
-    expect(css("color", singleVariants)).toStrictEqual(
-      expect.stringContaining(
-        `
-:root {
-  --color-main: red;
-  --color-main-secondary-0: springgreen;
-  --color-main-secondary-1: seagreen;
-  --color-main-tertiary-0: skyblue;
-  --color-main-tertiary-1: dodgerblue;
-}
-`
-      )
-    ));
-  test("can build CSS custom properties from multilayer data", () =>
-    expect(css("color", multi)).toStrictEqual(
+  test("can build CSS custom properties from a dictionary of subcategories", () =>
+    expect(css(subcategories)).toStrictEqual(
       expect.stringContaining(
         `
 :root {
@@ -79,8 +64,8 @@ describe("css :: string -> object -> string", () => {
 }`
       )
     ));
-  test("can build CSS custom properties from blended data", () =>
-    expect(css("color", blended)).toStrictEqual(
+  test("can build CSS custom properties from values and subcategories", () =>
+    expect(css(blended)).toStrictEqual(
       expect.stringContaining(
         `
 :root {
@@ -95,16 +80,16 @@ describe("css :: string -> object -> string", () => {
     ));
 });
 
-describe("sass :: string -> object -> string", () => {
-  test("can build Sass variables from single layer data", () =>
-    expect(sass("color", single)).toStrictEqual(
+describe("sass :: object -> string", () => {
+  test("can build Sass variables from a dictionary of values", () =>
+    expect(sass(values)).toStrictEqual(
       expect.stringContaining(`
 $color-main: red;
 $color-secondary: lime;
 $color-tertiary: blue;`)
     ));
-  test("can build Sass variables from multilayer data", () =>
-    expect(sass("color", multi)).toStrictEqual(
+  test("can build Sass variables from a dictionary of subcategories", () =>
+    expect(sass(subcategories)).toStrictEqual(
       expect.stringContaining(`
 $color-main: red;
 $color-main-tint-0: coral;
@@ -117,8 +102,8 @@ $color-secondary-tint-1: lightseagreen;
 $color-secondary-shade-0: chartreuse;
 $color-secondary-shade-1: forestgreen;`)
     ));
-  test("can build Sass variables from blended data", () =>
-    expect(sass("color", blended)).toStrictEqual(
+  test("can build Sass variables from values and subcategories", () =>
+    expect(sass(blended)).toStrictEqual(
       expect.stringContaining(`
 $color-main: red;
 $color-main-tint-0: coral;
@@ -129,16 +114,16 @@ $color-secondary: lime;`)
     ));
 });
 
-describe("less :: string -> object -> string", () => {
-  test("can build Less variables from single layer data", () =>
-    expect(less("color", single)).toStrictEqual(
+describe("less :: object -> string", () => {
+  test("can build Less variables from a dictionary of values", () =>
+    expect(less(values)).toStrictEqual(
       expect.stringContaining(`
 @color-main: red;
 @color-secondary: lime;
 @color-tertiary: blue;`)
     ));
-  test("can build Less variables from multilayer data", () =>
-    expect(less("color", multi)).toStrictEqual(
+  test("can build Less variables from a dictionary of subcategories", () =>
+    expect(less(subcategories)).toStrictEqual(
       expect.stringContaining(`
 @color-main: red;
 @color-main-tint-0: coral;
@@ -151,8 +136,8 @@ describe("less :: string -> object -> string", () => {
 @color-secondary-shade-0: chartreuse;
 @color-secondary-shade-1: forestgreen;`)
     ));
-  test("can build Less variables from blended data", () =>
-    expect(less("color", blended)).toStrictEqual(
+  test("can build Less variables from values and subcategories", () =>
+    expect(less(blended)).toStrictEqual(
       expect.stringContaining(`
 @color-main: red;
 @color-main-tint-0: coral;
@@ -163,16 +148,16 @@ describe("less :: string -> object -> string", () => {
     ));
 });
 
-describe("stylus :: string -> object -> string", () => {
-  test("from single layer data", () =>
-    expect(stylus("color", single)).toStrictEqual(
+describe("styl :: object -> string", () => {
+  test("can build Stylus variables from dictionary of values", () =>
+    expect(styl(values)).toStrictEqual(
       expect.stringContaining(`
 color-main = red
 color-secondary = lime
 color-tertiary = blue`)
     ));
-  test("from multilayer data", () =>
-    expect(stylus("color", multi)).toStrictEqual(
+  test("can build Stylus variables from dictionary of subcategories", () =>
+    expect(styl(subcategories)).toStrictEqual(
       expect.stringContaining(`
 color-main = red
 color-main-tint-0 = coral
@@ -185,8 +170,8 @@ color-secondary-tint-1 = lightseagreen
 color-secondary-shade-0 = chartreuse
 color-secondary-shade-1 = forestgreen`)
     ));
-  test("from blended data", () =>
-    expect(stylus("color", blended)).toStrictEqual(
+  test("can build stylus variables from values and subcategories", () =>
+    expect(styl(blended)).toStrictEqual(
       expect.stringContaining(`
 color-main = red
 color-main-tint-0 = coral
@@ -197,17 +182,17 @@ color-secondary = lime`)
     ));
 });
 
-describe("json :: string -> object -> string", () => {
-  test("can build JSON from single layer data", () =>
-    expect(JSON.parse(json("color", single))).toStrictEqual({
+describe("json :: object -> string", () => {
+  test("can build JSON from a dictionary of values", () =>
+    expect(JSON.parse(json(values))).toStrictEqual({
       color: {
         main: "red",
         secondary: "lime",
         tertiary: "blue",
       },
     }));
-  test("can build JSON from multilayer data", () =>
-    expect(JSON.parse(json("color", multi))).toStrictEqual({
+  test("can build JSON from a dictionary of subcategories", () =>
+    expect(JSON.parse(json(subcategories))).toStrictEqual({
       color: {
         main: {
           base: "red",
@@ -221,8 +206,8 @@ describe("json :: string -> object -> string", () => {
         },
       },
     }));
-  test("can build JSON from blended data", () =>
-    expect(JSON.parse(json("color", blended))).toStrictEqual({
+  test("can build JSON from values and subcategories", () =>
+    expect(JSON.parse(json(blended))).toStrictEqual({
       color: {
         main: {
           base: "red",
@@ -234,9 +219,9 @@ describe("json :: string -> object -> string", () => {
     }));
 });
 
-describe("styleProps :: string -> object -> object", () => {
-  test("from single layer data", () =>
-    expect(styleProps("color", single)).toStrictEqual({
+describe("sd :: object -> object", () => {
+  test("can build Style Dictionary properties from a dictionary of values", () =>
+    expect(sd(values)).toStrictEqual({
       color: {
         main: {
           value: "red",
@@ -249,32 +234,8 @@ describe("styleProps :: string -> object -> object", () => {
         },
       },
     }));
-  test("from single layer variant data", () =>
-    expect(styleProps("color", singleVariants)).toStrictEqual({
-      color: {
-        main: {
-          value: "red",
-        },
-        secondary: {
-          "0": {
-            value: "springgreen",
-          },
-          "1": {
-            value: "seagreen",
-          },
-        },
-        tertiary: {
-          "0": {
-            value: "skyblue",
-          },
-          "1": {
-            value: "dodgerblue",
-          },
-        },
-      },
-    }));
-  test("from multilayer data", () =>
-    expect(styleProps("color", multi)).toStrictEqual({
+  test("can build Style Dictionary properties from a dictionary of subcategories", () =>
+    expect(sd(subcategories)).toStrictEqual({
       color: {
         main: {
           base: {
@@ -318,8 +279,8 @@ describe("styleProps :: string -> object -> object", () => {
         },
       },
     }));
-  test("from blended data", () =>
-    expect(styleProps("color", blended)).toStrictEqual({
+  test("can build Style Dictionary properties from values and subcategories", () =>
+    expect(sd(blended)).toStrictEqual({
       color: {
         main: {
           base: {
