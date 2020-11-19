@@ -1,11 +1,11 @@
-import { Variadic, Unary } from "../fn";
+import { Unary, Variadic } from "../fn";
 import { clrs as a11y } from "../color/data/clrs";
 import { Color, CSSColor, Clrs } from "../color/types";
 import { validateColor } from "../color/validate";
 import { toHex, toRGB, toHSL, preserveFormat } from "../color/convert";
 
 /**
- * A higher order function that accepts a function and allows partial application
+ * A higher order function that accepts a utility and allows partial application
  * of its modifiers.
  *
  * ## Usage
@@ -13,7 +13,7 @@ import { toHex, toRGB, toHSL, preserveFormat } from "../color/convert";
  * const mixWithGreen = set(mix, 32, 'lime');
  * mixWithGreen('skyblue');
  *
- * // chaining will fully curry a function
+ * // chaining allows reuse of multiple modifiers
  * const scale = ms(5, 2, 1);
  * const significantDigits = set(units, 3);
  * const rems = set(significantDigits, "rem");
@@ -21,7 +21,7 @@ import { toHex, toRGB, toHSL, preserveFormat } from "../color/convert";
  * ```
  *
  * @param fn - the function to curry
- * @param modif - initial arguments
+ * @param applied - initial arguments
  * @param remaining - remaining arguments
  * @returns the args of `fn` as a sequence of two calls of its arguments
  *
@@ -32,30 +32,25 @@ export const set = <T extends unknown[], U extends unknown[], R>(
 ) => (...remaining: U): R => fn(...applied, ...remaining);
 
 /**
- * Composes two **unary** functions of any return type.
+ * Pipes data through consecutive calls of utilities.
  *
  * ## Usage
  * ```ts
- * const thirdOfCircle = set(hue, 360 / 3);
- * const muteByHalf = set(saturation, 100 / 2);
+ * const thirdOfCircle = set(hue, 120);
+ * const muteByHalf = set(saturation, -50);
  *
- * pipe(thirdOfCircle, muteByHalf)('royalblue');
+ * pipe('royalblue', thirdOfCircle, muteByHalf);
  * ```
  *
- * @param g - second function
- * @param f - first function
- * @param x - the value to be composed
- * @returns `h(x)`
+ * @param x - the data to be piped
+ * @param fns - the functions to process the data
+ * @returns the value after consecutive operations
  *
- * @remarks
- * If function `arity \> 1`, you'll have to curry it to `1`.
- *
- * For simplicity's sake, this is a classic f =\> g =\> h(x) composition. If you
- * pass more than two functions, it will whine at you.
  */
-export const pipe = <T, U, R>(f: Unary<U, T>, g: Unary<T, R>): Unary<U, R> => (
-  x: U
-): R => g(f(x));
+export const pipe = <T extends unknown, R extends unknown>(
+  x: T,
+  ...fns: Unary<T, R>[]
+): R => fns.reduce((y, f) => f(y) as T, x) as R;
 
 /**
  * Converts any valid CSS color to hexadecimal format.

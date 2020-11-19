@@ -1,4 +1,28 @@
-import { hex, rgb, hsl, clrs, systemfonts } from "@api/index";
+import { set, pipe, hex, rgb, hsl, clrs, systemfonts } from "@utilities/index";
+import { hue, saturation, lightness, alpha } from "@api/index";
+
+describe("Functional utilities", () => {
+  const h = set(hue, 75);
+  const s = set(saturation, -30);
+  const l = set(lightness, 25);
+  const a = set(alpha, -8);
+
+  describe("set", () => {
+    test("stores utility modifiers for reuse", () => {
+      const swatch = hex("dodgerblue");
+      expect(h(swatch)).toBe("#c71eff");
+      expect(s(swatch)).toBe("#408fdd");
+      expect(l(swatch)).toBe("#9ecfff");
+      expect(a(swatch)).toBe("#1e8fffeb");
+    });
+  });
+  describe("pipe", () => {
+    test("executes consecutive operations on a value", () => {
+      const swatch = pipe("blue", clrs, rgb);
+      expect(pipe(swatch, h, s, l)).toBe("rgb(198, 117, 230)");
+    });
+  });
+});
 
 describe("Color utilities", () => {
   describe("hex :: string -> string", () => {
