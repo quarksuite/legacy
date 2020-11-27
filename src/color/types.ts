@@ -45,7 +45,7 @@ export type NumOfVariants = number;
 export interface CustomSchemeOpts {
   hues: NumOfHues;
   arc: Angle;
-  rotation?: Angle;
+  offset?: Angle;
 }
 
 // Utility types

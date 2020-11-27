@@ -32,9 +32,6 @@ const generate = (
  * tints(4, 98, 'royalblue');
  * ```
  *
- * @remarks
- * In color theory, a tint is a hue mixed with pure white.
- *
  * @param count - the number of tints you want
  * @param contrast - the percent of contrast between tints
  * @param color - any valid CSS color
@@ -58,9 +55,6 @@ export const tints = (
  * tones(4, 98, 'royalblue');
  * ```
  *
- * @remarks
- * In color theory, a tone is a hue mixed with pure gray.
- *
  * @param count - the number of tones you want
  * @param contrast - the percent of contrast between tones
  * @param color - any valid CSS color
@@ -79,9 +73,6 @@ export const tones = (
  * ```ts
  * shades(4, 98, 'royalblue');
  * ```
- *
- * @remarks
- * In color theory, a shade is a hue mixed with pure black.
  *
  * @param count - the number of shades you want
  * @param contrast - the percent of contrast between shades

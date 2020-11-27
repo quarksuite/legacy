@@ -11,18 +11,12 @@ import {
 } from "./types";
 
 /**
- * Creates modular scales you can use for typography, layout,
- * or other composition concerns.
+ * Creates modular scales.
  *
  * ## Usage
  * ```ts
  * ms(6, 1.5, 1);
  * ```
- *
- * @remarks
- * This is your starting point for creating modular scales. From there, you can
- * either directly output a CSS-ready value set with `units` or further modify
- * your scales with `update` and `merge`
  *
  * @param values - the number of values you want in your scale (the range)
  * @param ratio - number raised to the power of a value's index
@@ -42,7 +36,7 @@ export const ms = (
 };
 
 /**
- * Update scale with a calculation that maps to each value.
+ * Update a scale with a calculation that maps to each value.
  *
  * ## Usage
  * ```ts
@@ -60,7 +54,7 @@ export const update = (
 ): RawScaleValues => scale.map((value: number) => calc(value));
 
 /**
- * Merge two or more scales into one.
+ * Merge two or more scales into a scale of unique values.
  *
  * ## Usage
  * ```ts
@@ -68,13 +62,8 @@ export const update = (
  * const b = ms(8, 1.25, 1);
  * merge(a, b);
  *
- * @remarks
- * Any duplicate values are stripped from the merged scale.
- *
- * This function is lets you create multithreaded scales.
- *
  * @param scales - the scales you want to merge
- * @returns a new scale with the merged values
+ * @returns a new scale of unique values
  * ```
  */
 export const merge = (...scales: RawScaleValues[]): RawScaleValues => {
@@ -91,13 +80,6 @@ export const merge = (...scales: RawScaleValues[]): RawScaleValues => {
  * const content = ms(30, 1.414, 1);
  * partition(6, content);
  * ```
- *
- * @remarks
- * The main use case for this function is when you have a large scale
- * that you want to break into smaller bits.
- *
- * A good example would be for content breakpoints or when you want
- * to stagger over a certain range of values
  *
  * @param size - the number of values in each partition
  * @param scale - the scale you want to break up
@@ -130,13 +112,12 @@ export const partition = (
  * ```
  *
  * @remarks
- * Be aware that this library trusts you to know the scale values you intend.
- * This function does **no** internal conversion of units. No rem -\> px.
- * Calculations are for the `update` function
+ * This function only attaches values for output. Perform any calculations and
+ * updates on you raw values.
  *
  * @param precision - the maximum number of significant digits each value can have
  * @param unit - any valid CSS relative or absolute unit
- * @param scale - the scale to output
+ * @param scale - the raw values to process
  * @returns A new scale of the given units ready for use:q
  */
 export const units = (

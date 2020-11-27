@@ -85,7 +85,7 @@ export const toHex = (rgb: CSSColor): RawColor => {
   const [r, g, b, a] = extractRGB(rgb);
 
   const [R, G, B] = [r, g, b].map((n: Channel): HexFragment => intToHex(n));
-  const A = a != null ? alphaAsHex(a) : alphaAsHex(1);
+  const A = alphaAsHex(a != null ? a : 1);
 
   return A === "ff" ? ["#", R, G, B].join("") : ["#", R, G, B, A].join("");
 };

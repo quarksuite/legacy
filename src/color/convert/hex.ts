@@ -19,10 +19,11 @@ export const extractHexChannels = (hex: CSSColor): HexData => {
 
 export const toRGB = (hex: CSSColor): RawColor => {
   const [r, g, b, a] = extractHexChannels(hex);
+
   const [R, G, B] = [r, g, b].map(
     (channel: HexFragment): Channel => hexToInt(channel)
   );
-  const A = a != null ? channelAsFraction(hexToInt(a)) : 1;
+  const A = a != null ? compose(hexToInt, channelAsFraction)(a) : 1;
 
   return A === 1 ? `rgb(${R}, ${G}, ${B})` : `rgba(${R}, ${G}, ${B}, ${A})`;
 };

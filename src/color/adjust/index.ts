@@ -12,7 +12,7 @@ import { toHSL, preserveFormat } from "../convert";
 import { AdjustmentValue, Color, CSSColor } from "../types";
 
 /**
- * Allows hue adjustment of any color.
+ * Adjust the hue of any valid CSS color.
  *
  * ## Usage
  * ```ts
@@ -25,19 +25,11 @@ import { AdjustmentValue, Color, CSSColor } from "../types";
  * ```
  *
  * @remarks
- * The output format of an adjustment matches its input. No need to explicitly convert.
- *
- * The hue is bound by modular arithmetic to one full revolution in either direction.
- *
- * The hue adjustment is **relative** to the input color. So a value of `0` or one
- * equal to a full revolution will return the input color
- *
- * If the resulting hue is \> 360, it'll be adjusted left to the correct value
- * If the resulting hue is negative, it'll be adjusted right to the correct value
+ * The adjusted color matches the input format. No need to explicitly convert.
  *
  * @param n - the value for adjustment
  * @param color - the color to adjust
- * @returns The adjust color or an error if invalid
+ * @returns The adjusted color or an error if invalid
  *
  */
 export const hue = (n: AdjustmentValue, color: CSSColor): Color => {
@@ -67,7 +59,7 @@ export const hue = (n: AdjustmentValue, color: CSSColor): Color => {
 };
 
 /**
- * Allows saturation adjustment of any color.
+ * Adjust the saturation of any valid CSS color.
  *
  * ## Usage
  * ```ts
@@ -79,16 +71,13 @@ export const hue = (n: AdjustmentValue, color: CSSColor): Color => {
  * ```
  *
  * @remarks
- * The output format of an adjustment matches its input. No need to explicitly convert.
+ * The adjusted color matches the input format. No need to explicitly convert.
  *
- * The saturation is bound between minimum and maximum values by linear normalization.
- *
- * This means any adjustment that would result in a negative value will return the
- * minimum of `0` and any that exceeds the maximum will instead return `100`
+ * The output range is locked at minimum or maximum saturation.
  *
  * @param n - the value for adjustment
  * @param color - the color to adjust
- * @returns The adjust color or an error if invalid
+ * @returns The adjusted color or an error if invalid
  *
  */
 export const saturation = (n: AdjustmentValue, color: CSSColor): Color => {
@@ -109,7 +98,7 @@ export const saturation = (n: AdjustmentValue, color: CSSColor): Color => {
 };
 
 /**
- * Allows lightness adjustment of any color.
+ * Adjust the lightness of any valid CSS color.
  *
  * ## Usage
  * ```ts
@@ -121,16 +110,13 @@ export const saturation = (n: AdjustmentValue, color: CSSColor): Color => {
  * ```
  *
  * @remarks
- * The output format of an adjustment matches its input. No need to explicitly convert.
+ * The adjusted color matches the input format. No need to explicitly convert.
  *
- * The lightness is bound between minimum and maximum values by linear normalization.
- *
- * This means any adjustment that would result in a negative value will return the
- * minimum of `0` and any that exceeds the maximum will instead return `100`
+ * The output range is bound at minimum or maximum lightness.
  *
  * @param n - the value for adjustment
  * @param color - the color to adjust
- * @returns The adjust color or an error if invalid
+ * @returns The adjusted color or an error if invalid
  *
  */
 export const lightness = (n: AdjustmentValue, color: CSSColor): Color => {
@@ -151,7 +137,7 @@ export const lightness = (n: AdjustmentValue, color: CSSColor): Color => {
 };
 
 /**
- * Allows alpha transparency adjustment of any color.
+ * Adjust the transparency of any valid CSS color.
  *
  * ## Usage
  * ```ts
@@ -163,13 +149,9 @@ export const lightness = (n: AdjustmentValue, color: CSSColor): Color => {
  * ```
  *
  * @remarks
- * The alpha is bound between minimum and maximum values by linear normalization.
+ * The adjusted color matches the input format. No need to explicitly convert.
  *
- * This means any adjustment that would result in a negative value will return the
- * minimum of `0` and any that exceeds the maximum will instead return `100`
- *
- * Following the spec, an alpha adjustment `>= 100` means a solid color. So the alpha
- * is removed.
+ * The output range is bound at fully transparent or fully solid.
  *
  * @param n - the value for adjustment
  * @param color - the color to adjust
@@ -185,7 +167,7 @@ export const alpha = (n: AdjustmentValue, color: CSSColor): Color => {
   const H = h;
   const [S, L] = [s, l].map((value) => `${percentAsFloat(value)}%`);
   const A = percentAsFraction(
-    normalization(0, 100, a != null ? percentAsFloat(a) + n : 100 + n)
+    normalization(0, 100, percentAsFloat(a != null ? a : 1) + n)
   );
 
   const target =

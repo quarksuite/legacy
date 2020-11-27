@@ -60,13 +60,6 @@ export const pipe = <T extends unknown, R extends unknown>(
  * hex('rgb(0, 110, 200)');
  * ```
  *
- * @remarks
- * The main use of conversion functions with this library is to **coerce** a
- * change to the desired format.
- *
- * All color, scheme, and variant functions output their data in the same format
- * of their input color, so if you convert your base color, it will update everywhere.
- *
  * @param color - the color to convert
  * @returns input color in hex format
  */
@@ -83,13 +76,6 @@ export const hex = (color: CSSColor): Color => {
  * rgb('#face');
  * ```
  *
- * @remarks
- * The main use of conversion functions with this library is to **coerce** a
- * change to the desired format.
- *
- * All color, scheme, and variant functions output their data in the same format
- * of their input color, so if you convert your base color, it will update everywhere.
- *
  * @param color - the color to convert
  * @returns input color in rgb format
  */
@@ -105,13 +91,6 @@ export const rgb = (color: CSSColor): Color => {
  * ```ts
  * hsl('papayawhip');
  * ```
- *
- * @remarks
- * The main use of conversion functions with this library is to **coerce** a
- * change to the desired format.
- *
- * All color, scheme, and variant functions output their data in the same format
- * of their input color, so if you convert your base color, it will update everywhere.
  *
  * @param color - the color to convert
  * @returns input color in hsl format

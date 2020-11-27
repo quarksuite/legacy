@@ -45,12 +45,10 @@ const calculateMix = (
  *
  * // more
  * mix(75, 'blue', 'white');
+ *
+ * // negative values invert the blend target
+ * mix(-25, "blue", "white");
  * ```
- *
- * @remarks
- * The amount should be passed in as an integer or float.
- *
- * `79` rather than '0.79'
  *
  * @param amount - the percentage to blend with target
  * @param target - the color you want to blend

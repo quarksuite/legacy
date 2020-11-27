@@ -15,11 +15,16 @@ import {
  *
  * ## Usage
  * ```
- * // Assuming a data set is prepared
- * css(data);
+ * css({
+ *   color: {
+ *     main: "red",
+ *     accent: "green",
+ *     highlight: "blue"
+ *   }
+ * });
  * ```
  *
- * @param tree - the dictionary or dictionaries to process
+ * @param tree - the dictionary to process
  * @returns a string of custom properties wrapped in a :root selector
  */
 export const css = (tree: TokenDictionary): CSS =>
@@ -30,11 +35,16 @@ export const css = (tree: TokenDictionary): CSS =>
  *
  * ## Usage
  * ```
- * // Assuming a data set is prepared
- * sass(data);
+ * sass({
+ *   color: {
+ *     main: "red",
+ *     accent: "green",
+ *     highlight: "blue"
+ *   }
+ * });
  * ```
  *
- * @param tree - the dictionary or dictionaries to process
+ * @param tree - the dictionary to process
  * @returns a string of Sass variables, one per line
  */
 export const sass = (tree: TokenDictionary): SassVariables =>
@@ -45,11 +55,16 @@ export const sass = (tree: TokenDictionary): SassVariables =>
  *
  * ## Usage
  * ```
- * // Assuming a data set is prepared
- * less(data);
+ * less({
+ *   color: {
+ *     main: "red",
+ *     accent: "green",
+ *     highlight: "blue"
+ *   }
+ * });
  * ```
  *
- * @param tree - the dictionary or dictionaries to process
+ * @param tree - the dictionary to process
  * @returns a string of Less variables, one per line
  */
 export const less = (tree: TokenDictionary): LessVariables =>
@@ -60,11 +75,16 @@ export const less = (tree: TokenDictionary): LessVariables =>
  *
  * ## Usage
  * ```
- * // Assuming a data set is prepared
- * styl(data);
+ * styl({
+ *   color: {
+ *     main: "red",
+ *     accent: "green",
+ *     highlight: "blue"
+ *   }
+ * });
  * ```
  *
- * @param tree - the dictionary or dictionaries to process
+ * @param tree - the dictionary to process
  * @returns a string of Stylus variables, one per line
  */
 export const styl = (tree: TokenDictionary): StylusVariables =>
@@ -72,13 +92,19 @@ export const styl = (tree: TokenDictionary): StylusVariables =>
 
 /**
  * A function that converts design token dictionaries to JSON.
+ *
  * ## Usage
  * ```
- * // Assuming a data set is prepared
- * json(data);
+ * json({
+ *   color: {
+ *     main: "red",
+ *     accent: "green",
+ *     highlight: "blue"
+ *   }
+ * });
  * ```
  *
- * @param tree - the dictionary or dictionaries to process
+ * @param tree - the dictionary to process
  * @returns JSON formatted with two spaces
  */
 export const json = (tree: TokenDictionary): TokenData =>
@@ -90,11 +116,16 @@ export const json = (tree: TokenDictionary): TokenData =>
  *
  * ## Usage
  * ```
- * // Assuming a data set is prepared
- * sd(data);
+ * sd({
+ *   color: {
+ *     main: "red",
+ *     accent: "green",
+ *     highlight: "blue"
+ *   }
+ * });
  * ```
  *
- * @param tree - the dictionary or dictionaries to process
+ * @param tree - the dictionary to process
  * @returns Style Dictionary properties to pass along for further building
  */
 export const sd = (tree: TokenDictionary): StyleDictionaryProperties =>
@@ -109,12 +140,23 @@ export const sd = (tree: TokenDictionary): StyleDictionaryProperties =>
  *
  * ## Usage
  * ```
- * // Assuming a data set is prepared
- * tw(data);
+ * tw({
+ *   content: {
+ *      size: {
+ *        base: "1rem";
+ *        x: ["1.5rem", "2rem", "2.5rem", "3rem", "3.5rem"]
+ *      }
+ *   }
+ * });
  * ```
  *
- * @param data - the data to transform
- * @returns Style Dictionary properties ready for processing
+ *  @remarks
+ *  This function isn't required to use data dictionaries with Tailwind. It's
+ *  more a shortcut for processing scale tokens without changing the structure
+ *  of a dictionary
+ *
+ * @param data - the dictionary to process
+ * @returns Tailwind data ready to be dropped into a config
  */
 export const tw = (tree: TokenDictionary): TailwindUtilityData =>
   Object.entries(tree).reduce((acc, [key, value]) => {
