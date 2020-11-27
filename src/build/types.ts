@@ -1,6 +1,6 @@
 // Build types
 export interface CSSFormatOpts {
-  padding?: number;
+  padding?: string;
   prefix?: string;
   separator?: string;
   operator?: string;
@@ -14,21 +14,15 @@ export interface Subcategory {
 }
 
 export interface TokenDictionary {
-  [index: string]: {
-    [index: string]: string | Subcategory;
-  };
+  [index: string]: string | string[] | Subcategory | TokenDictionary;
 }
 
-type CSSCustomProperties = "css" | "custom-properties";
-type CSSPreprocessors = "sass" | "scss" | "less" | "styl";
-type GenPurposeData = "json" | "yaml" | "yml";
-type ToolIntegration = "style-dictionary";
-
-export type SupportedFormats =
-  | CSSCustomProperties
-  | CSSPreprocessors
-  | GenPurposeData
-  | ToolIntegration;
+// Output formats
+export type CSS = string;
+export type SassVariables = string;
+export type LessVariables = string;
+export type StylusVariables = string;
+export type TokenData = string;
 
 export interface StyleDictionaryProperties {
   [index: string]:
@@ -37,5 +31,13 @@ export interface StyleDictionaryProperties {
         [index: string]:
           | { value: string }
           | { [index: string]: { value: string } };
-      };
+      }
+    | StyleDictionaryProperties;
+}
+
+export interface TailwindUtilityData {
+  [index: string]:
+    | string
+    | { DEFAULT: string; [index: string]: string }
+    | TailwindUtilityData;
 }

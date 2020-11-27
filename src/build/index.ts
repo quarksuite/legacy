@@ -1,8 +1,17 @@
-import { construct } from "./css";
-import { StyleDictionaryProperties, TokenDictionary } from "./types";
+import { properties } from "./css";
+import {
+  TokenDictionary,
+  CSS,
+  SassVariables,
+  LessVariables,
+  StylusVariables,
+  TokenData,
+  StyleDictionaryProperties,
+  TailwindUtilityData,
+} from "./types";
 
 /**
- * A function that builds design tokens as CSS custom properties.
+ * A function that builds design token dictionaries as CSS custom properties.
  *
  * ## Usage
  * ```
@@ -10,14 +19,14 @@ import { StyleDictionaryProperties, TokenDictionary } from "./types";
  * css(data);
  * ```
  *
- * @param data - the data to transform
+ * @param tree - the dictionary or dictionaries to process
  * @returns a string of custom properties wrapped in a :root selector
  */
-export const css = (data: TokenDictionary): string =>
-  `\n:root {${construct({ padding: 2 }, data)}}`;
+export const css = (tree: TokenDictionary): CSS =>
+  `\n:root {${properties(tree, { padding: "  " })}}`;
 
 /**
- * A function that builds design tokens as Sass variables.
+ * A function that builds design token dictionaries as Sass variables.
  *
  * ## Usage
  * ```
@@ -25,14 +34,14 @@ export const css = (data: TokenDictionary): string =>
  * sass(data);
  * ```
  *
- * @param data - the data to transform
+ * @param tree - the dictionary or dictionaries to process
  * @returns a string of Sass variables, one per line
  */
-export const sass = (data: TokenDictionary): string =>
-  construct({ prefix: "$" }, data);
+export const sass = (tree: TokenDictionary): SassVariables =>
+  properties(tree, { prefix: "$" });
 
 /**
- * A function that builds design tokens as Less variables.
+ * A function that builds design token dictionaries as Less variables.
  *
  * ## Usage
  * ```
@@ -40,14 +49,14 @@ export const sass = (data: TokenDictionary): string =>
  * less(data);
  * ```
  *
- * @param data - the data to transform
+ * @param tree - the dictionary or dictionaries to process
  * @returns a string of Less variables, one per line
  */
-export const less = (data: TokenDictionary): string =>
-  construct({ prefix: "@" }, data);
+export const less = (tree: TokenDictionary): LessVariables =>
+  properties(tree, { prefix: "@" });
 
 /**
- * A function that builds design tokens as Stylus variables wrapped in its context.
+ * A function that builds design token dictionaries as Stylus variables.
  *
  * ## Usage
  * ```
@@ -55,67 +64,70 @@ export const less = (data: TokenDictionary): string =>
  * styl(data);
  * ```
  *
- * @param context - the root key or namespace of your data
- * @param data - the data to transform
+ * @param tree - the dictionary or dictionaries to process
  * @returns a string of Stylus variables, one per line
  */
-export const styl = (data: TokenDictionary): string =>
-  construct({ prefix: "", operator: " = ", suffix: "" }, data);
+export const styl = (tree: TokenDictionary): StylusVariables =>
+  properties(tree, { prefix: "", operator: " = ", suffix: "" });
 
 /**
- * A function that translates your data to JSON.
+ * A function that converts design token dictionaries to JSON.
  * ## Usage
  * ```
  * // Assuming a data set is prepared
  * json(data);
  * ```
  *
- * @param data - the data to transform
- * @returns JSON data formatted with two spaces
+ * @param tree - the dictionary or dictionaries to process
+ * @returns JSON formatted with two spaces
  */
-export const json = (data: TokenDictionary): string =>
-  JSON.stringify(data, null, 2);
+export const json = (tree: TokenDictionary): TokenData =>
+  JSON.stringify(tree, null, 2);
 
 /**
- * A function that builds your data as {@link https://amzn.github.io/style-dictionary | Style Dictionary} properties for
- * additional processing.
+ * A function that converts design token dictionaries to {@link https://amzn.github.io/style-dictionary | Style Dictionary properties}
+ * for additional processing.
+ *
  * ## Usage
  * ```
  * // Assuming a data set is prepared
  * sd(data);
  * ```
  *
+ * @param tree - the dictionary or dictionaries to process
+ * @returns Style Dictionary properties to pass along for further building
+ */
+export const sd = (tree: TokenDictionary): StyleDictionaryProperties =>
+  Object.entries(tree).reduce((acc, [key, value]) => {
+    if (typeof value === "object")
+      return { ...acc, [key]: sd(value as TokenDictionary) };
+    return { ...acc, [key]: { value } };
+  }, {});
+
+/**
+ * A function that converts dictionary subcategories into Tailwind utility data.
+ *
+ * ## Usage
+ * ```
+ * // Assuming a data set is prepared
+ * tw(data);
+ * ```
+ *
  * @param data - the data to transform
  * @returns Style Dictionary properties ready for processing
  */
-export const sd = (data: TokenDictionary): StyleDictionaryProperties =>
-  Object.entries(data).reduce((acc, [context, tokens]) => {
-    return {
-      ...acc,
-      ...{
-        [context]: Object.entries(tokens).reduce((a, [category, value]) => {
-          if (typeof value === "string")
-            return { ...a, ...{ [category]: { value } } };
-          return {
-            ...a,
-            ...{
-              [category]: Object.entries(value).reduce(
-                (aa, [k, v]: [string, string | string[]]) => {
-                  if (typeof v === "string")
-                    return { ...aa, ...{ [k]: { value: v } } };
-                  return {
-                    ...aa,
-                    [k]: v.reduce(
-                      (aaa, v, i) => ({ ...aaa, [i]: { value: v } }),
-                      {}
-                    ),
-                  };
-                },
-                {}
-              ),
-            },
-          };
-        }, {}),
-      },
-    };
+export const tw = (tree: TokenDictionary): TailwindUtilityData =>
+  Object.entries(tree).reduce((acc, [key, value]) => {
+    if (key === "base") return { ...acc, DEFAULT: value };
+    if (Array.isArray(value))
+      return {
+        ...acc,
+        ...{
+          ...value.reduce((a, v, i: number) => {
+            return { ...a, [[key, i + 2].join("")]: v };
+          }, {}),
+        },
+      };
+    if (typeof value === "object") return { ...acc, [key]: tw(value) };
+    return { ...acc, [key]: value };
   }, {});

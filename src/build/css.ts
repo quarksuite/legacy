@@ -1,56 +1,46 @@
 import { CSSFormatOpts, TokenDictionary } from "./types";
 
-const format = (
-  {
-    padding = 0,
-    prefix = "--",
-    separator = "-",
-    operator = ": ",
-    suffix = ";",
-    eol = "\n",
-  }: CSSFormatOpts,
-  hierarchy: (string | number)[],
-  value: string,
-  str: string
-): string =>
-  str.concat(
-    "".padStart(padding, " "),
-    prefix,
-    hierarchy.join(separator),
-    operator,
-    value,
-    suffix,
-    eol
-  );
+const formatter = ({
+  padding = "",
+  prefix = "--",
+  operator = ": ",
+  suffix = ";",
+  eol = "\n",
+}: CSSFormatOpts) => (collector: string, key: string, value: string): string =>
+  collector.concat(padding, prefix, key, operator, value, suffix, eol);
 
-export const construct = (
-  options: CSSFormatOpts,
-  data: TokenDictionary
+const variable = (
+  collected: string,
+  current: string,
+  delimiter: string
 ): string =>
-  "".concat(
-    ...Object.entries(data).map(([context, tokens]) => {
-      return Object.entries(tokens).reduce((str, [category, value]) => {
-        // Single values are directly mapped
-        if (typeof value === "string")
-          return format(options, [context, category], value, str);
+  current === "base"
+    ? collected
+    : collected
+    ? [collected, current].join(delimiter)
+    : current;
 
-        // Subcategories are parsed
-        return str.concat(
-          Object.entries(value).reduce(
-            (s, [k, v]: [string, string | string[]]) => {
-              if (typeof v === "string")
-                return format(options, [context, category], v, s);
-              return s.concat(
-                v.reduce(
-                  (ss, vv, index) =>
-                    format(options, [context, category, k, index], vv, ss),
-                  ""
-                )
-              );
-            },
-            ""
+export const properties = (
+  tree: TokenDictionary,
+  settings: CSSFormatOpts
+): string => {
+  const aggregator = (node = {}, head = ""): string =>
+    Object.entries(node).reduce((product, [key, value]: [string, unknown]) => {
+      const format = formatter(settings);
+      const delimiter = "-";
+
+      // Walk the tree
+      if (typeof value === "object")
+        return product.concat(
+          aggregator(
+            value as Record<string, unknown>,
+            variable(head, key, delimiter)
           )
         );
-      }, "\n");
-    })
-  );
+
+      // Assemble the result
+      return format(product, variable(head, key, delimiter), value as string);
+    }, "");
+
+  return "".concat("\n", aggregator(tree));
+};
