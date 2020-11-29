@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { Unary, Variadic } from "../fn";
 import { clrs as a11y } from "../color/data/clrs";
 import { Color, CSSColor, Clrs } from "../color/types";
@@ -20,16 +22,27 @@ import { toHex, toRGB, toHSL, preserveFormat } from "../color/convert";
  * rems(scale);
  * ```
  *
- * @param fn - the function to curry
- * @param applied - initial arguments
- * @param remaining - remaining arguments
- * @returns the args of `fn` as a sequence of two calls of its arguments
+ * @param utility - the utility to set
+ * @param initial - initial arguments to apply
+ * @param pending - remaining arguments
+ * @returns a function with the remaining args as parameters
  *
  */
 export const set = <T extends unknown[], U extends unknown[], R>(
-  fn: Variadic<T, U, R>,
-  ...applied: T
-) => (...remaining: U): R => fn(...applied, ...remaining);
+  utility: Variadic<T, U, R>,
+  ...initial: T
+) => (...pending: U): R => utility(...initial, ...pending);
+
+// Adapted from: https://dev.to/miracleblue/how-2-typescript-get-the-last-item-type-from-a-tuple-of-types-3fh3
+type LengthOf<T extends unknown[]> = T extends { length: infer L } ? L : never;
+type Operations<T extends unknown[]> = LengthOf<T>;
+type EndOf<T extends number> = [-1, 0, 1, 2, 3, 4, 5][T];
+
+// Extracts the final value type after piping
+type ResultOf<Fns extends Unary<unknown, unknown>[]> = Extract<
+  ReturnType<Fns[EndOf<Operations<Fns>>]>,
+  ReturnType<Fns[number]>
+>;
 
 /**
  * Pipes data through consecutive calls of utilities.
@@ -42,15 +55,19 @@ export const set = <T extends unknown[], U extends unknown[], R>(
  * pipe('royalblue', thirdOfCircle, muteByHalf);
  * ```
  *
- * @param x - the data to be piped
- * @param fns - the functions to process the data
+ * @param value - the value to pipe
+ * @param utilities - the functions to process the data
  * @returns the value after consecutive operations
  *
  */
-export const pipe = <T extends unknown, R extends unknown>(
-  x: T,
-  ...fns: Unary<T, R>[]
-): R => fns.reduce((y, f) => f(y) as T, x) as R;
+export const pipe = <
+  Input,
+  Sequence extends Unary<any, any>[],
+  Output extends ResultOf<Sequence>
+>(
+  value: Input,
+  ...fns: Sequence
+): Output => fns.reduce((y, f) => f(y) as never, value) as never;
 
 /**
  * Converts any valid CSS color to hexadecimal format.

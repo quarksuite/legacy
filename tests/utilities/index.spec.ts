@@ -1,5 +1,13 @@
 import { set, pipe, hex, rgb, hsl, clrs, systemfonts } from "@utilities/index";
-import { hue, saturation, lightness, alpha } from "@api/index";
+import {
+  hue,
+  saturation,
+  lightness,
+  alpha,
+  ms,
+  update,
+  units,
+} from "@api/index";
 
 describe("Functional utilities", () => {
   const h = set(hue, 75);
@@ -19,7 +27,25 @@ describe("Functional utilities", () => {
   describe("pipe", () => {
     test("executes consecutive operations on a value", () => {
       const swatch = pipe("blue", clrs, rgb);
-      expect(pipe(swatch, h, s, l)).toBe("rgb(198, 117, 230)");
+      const color = pipe(swatch, h, s, l);
+      expect(color).toBe("rgb(198, 117, 230)");
+    });
+    test("the return type of these operations can change", () => {
+      const scale = ms(8, 2, 1);
+      const invert = set(update, (v) => 1 / v);
+      const rem = set(units, 4, "rem");
+      const output = pipe(scale, invert, rem);
+
+      expect(output).toStrictEqual([
+        "1rem",
+        "0.5rem",
+        "0.25rem",
+        "0.125rem",
+        "0.0625rem",
+        "0.03125rem",
+        "0.01563rem",
+        "0.007813rem",
+      ]);
     });
   });
 });
