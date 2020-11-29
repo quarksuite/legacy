@@ -33,14 +33,18 @@ export const set = <T extends unknown[], U extends unknown[], R>(
   ...initial: T
 ) => (...pending: U): R => utility(...initial, ...pending);
 
-// Adapted from: https://dev.to/miracleblue/how-2-typescript-get-the-last-item-type-from-a-tuple-of-types-3fh3
+// Modification by: https://dev.to/menocomp/comment/14l59
+type Tail<T extends unknown[]> = T extends [head: unknown, ...tail: infer U]
+  ? U
+  : T;
+
+// Adapted from: https://dev.to/kjleitz/comment/gb5d
 type LengthOf<T extends unknown[]> = T extends { length: infer L } ? L : never;
-type Operations<T extends unknown[]> = LengthOf<T>;
-type EndOf<T extends number> = [-1, 0, 1, 2, 3, 4, 5][T];
+type Last<T extends unknown[]> = T[LengthOf<Tail<T>>];
 
 // Extracts the final value type after piping
 type ResultOf<Fns extends Unary<unknown, unknown>[]> = Extract<
-  ReturnType<Fns[EndOf<Operations<Fns>>]>,
+  ReturnType<Last<Fns>>,
   ReturnType<Fns[number]>
 >;
 
