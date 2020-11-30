@@ -115,7 +115,7 @@ export const tetrad = (rotation: Angle, color: CSSColor): Tetradic => [
  * custom({hues: 8, arc: 45}, 'rgb(120, 230, 72)')
  *
  *  // shifted
- *  custom({ hues: 4, arc: 25, rotation: 15 }, "royalblue")
+ *  custom({ hues: 4, arc: 25, offset: 15 }, "royalblue")
  * ```
  *
  * @param options - a configuration object defining desired hues, spread, and offset
