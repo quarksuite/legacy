@@ -1,4 +1,4 @@
-import { set, pipe, hex, rgb, hsl, clrs, systemfonts } from "@utilities/index";
+import { bind, pipe, hex, rgb, hsl, clrs, systemfonts } from "@utilities/index";
 import {
   hue,
   saturation,
@@ -10,13 +10,13 @@ import {
 } from "@api/index";
 
 describe("Functional utilities", () => {
-  const h = set(hue, 75);
-  const s = set(saturation, -30);
-  const l = set(lightness, 25);
-  const a = set(alpha, -8);
+  const h = bind(hue, 75);
+  const s = bind(saturation, -30);
+  const l = bind(lightness, 25);
+  const a = bind(alpha, -8);
 
-  describe("set", () => {
-    test("stores utility modifiers for reuse", () => {
+  describe("bind", () => {
+    test("allows binding of initial arguments", () => {
       const swatch = hex("dodgerblue");
       expect(h(swatch)).toBe("#c71eff");
       expect(s(swatch)).toBe("#408fdd");
@@ -32,8 +32,8 @@ describe("Functional utilities", () => {
     });
     test("the return type of these operations can change", () => {
       const scale = ms(8, 2, 1);
-      const invert = set(update, (v) => 1 / v);
-      const rem = set(units, 4, "rem");
+      const invert = bind(update, (v: number) => 1 / v);
+      const rem = bind(units, 4, "rem");
       const output = pipe(scale, invert, rem);
 
       expect(output).toStrictEqual([

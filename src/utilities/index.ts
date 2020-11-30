@@ -7,18 +7,18 @@ import { validateColor } from "../color/validate";
 import { toHex, toRGB, toHSL, preserveFormat } from "../color/convert";
 
 /**
- * A higher order function that accepts a utility and allows partial application
- * of its modifiers.
+ * A higher order function that accepts a utility and allows you to bind
+ * some initial arguments.
  *
  * ## Usage
  * ```ts
- * const mixWithGreen = set(mix, 32, 'lime');
+ * const mixWithGreen = bind(mix, 32, 'lime');
  * mixWithGreen('skyblue');
  *
  * // chaining allows reuse of multiple modifiers
  * const scale = ms(5, 2, 1);
- * const significantDigits = set(units, 3);
- * const rems = set(significantDigits, "rem");
+ * const significantDigits = bind(units, 3);
+ * const rems = bind(significantDigits, "rem");
  * rems(scale);
  * ```
  *
@@ -28,7 +28,7 @@ import { toHex, toRGB, toHSL, preserveFormat } from "../color/convert";
  * @returns a function with the remaining args as parameters
  *
  */
-export const set = <T extends unknown[], U extends unknown[], R>(
+export const bind = <T extends unknown[], U extends unknown[], R>(
   utility: Variadic<T, U, R>,
   ...initial: T
 ) => (...pending: U): R => utility(...initial, ...pending);

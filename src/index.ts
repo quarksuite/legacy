@@ -1,5 +1,5 @@
 // Functional utilities
-export { pipe, set } from "./utilities";
+export { bind, pipe } from "./utilities";
 
 // color, scheme, and variant functions
 export { hue, saturation, lightness, alpha } from "./color/adjust";
