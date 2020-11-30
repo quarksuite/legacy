@@ -128,3 +128,4 @@ tags
 pkg
 
 # End of https://www.gitignore.io/api/vim,node,code
+/.gtm/

@@ -49,11 +49,13 @@
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-tsdoc": "^0.2.7",
-    "husky": "^4.3.0",
+    "husky": "^5.0.4",
+    "is-ci": "^2.0.0",
     "jest": "^26.6.3",
     "lint-staged": "^10.5.1",
     "npm-run-all": "^4.1.5",
     "onchange": "^7.1.0",
+    "pinst": "^2.1.1",
     "prettier": "^2.1.2",
     "ts-jest": "^26.4.4",
     "tsc": "^1.20150623.0",
@@ -63,11 +65,15 @@
   "scripts": {
     "dev": "onchange 'src/**/*.ts' 'tests/**/*.ts' -- yarn test",
     "lint:dev": "onchange 'src/**/*.ts' -- yarn lint",
-    "build": "run-s -n test pika:build",
+    "build": "run-s -n lint test docs pika:build",
+    "docs": "doctoc *.md",
     "lint": "eslint src/**/*.ts",
     "pika:build": "pika build",
     "test": "jest",
-    "version": "npm run build"
+    "version": "npm run build",
+    "postinstall": "is-ci || husky install",
+    "prepublish": "pinst --disable",
+    "postpublish": "pinst --enable"
   },
   "browserslist": [
     "since 2017-06"
@@ -101,11 +107,6 @@
         "@pika/plugin-copy-assets"
       ]
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "*.md": [
