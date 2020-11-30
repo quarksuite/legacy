@@ -42,10 +42,19 @@ type Tail<T extends unknown[]> = T extends [head: unknown, ...tail: infer U]
 type LengthOf<T extends unknown[]> = T extends { length: infer L } ? L : never;
 type Last<T extends unknown[]> = T[LengthOf<Tail<T>>];
 
-// Extracts the final value type after piping
-type ResultOf<Fns extends Unary<unknown, unknown>[]> = Extract<
-  ReturnType<Last<Fns>>,
-  ReturnType<Fns[number]>
+// Get the type and return of piped fns through inference
+type Parse<Fn extends (x: any) => any> = Fn extends (x: infer P) => infer R
+  ? [...Parameters<Unary<P, R>>, ReturnType<Unary<P, R>>]
+  : never;
+
+// Read the types captured
+type ReadTypes<Fn extends (x: any) => any, Index extends number> = Parse<
+  Fn
+>[Index];
+
+type Result<Fns extends ((x: any) => any)[]> = Extract<
+  ReadTypes<Last<Fns>, 1>,
+  ReadTypes<Fns[number], 1>
 >;
 
 /**
@@ -65,13 +74,19 @@ type ResultOf<Fns extends Unary<unknown, unknown>[]> = Extract<
  *
  */
 export const pipe = <
-  Input,
-  Sequence extends Unary<any, any>[],
-  Output extends ResultOf<Sequence>
+  Input extends unknown,
+  Sequence extends ((x: any) => any)[],
+  Output extends Result<Sequence>
 >(
   value: Input,
   ...fns: Sequence
-): Output => fns.reduce((y, f) => f(y) as never, value) as never;
+): Output => {
+  // Trusting that this output is always correct. Submit an issue if you notice
+  // any bugs. Thanks
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return fns.reduce((y, f) => f(y), value) as Output;
+};
 
 /**
  * Converts any valid CSS color to hexadecimal format.
