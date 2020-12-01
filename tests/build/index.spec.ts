@@ -1,4 +1,4 @@
-import { css, sass, less, styl, json, sd, tw } from "@build/index";
+import { css, sass, less, styl, raw, sd, tw } from "@build/index";
 
 const values = {
   color: {
@@ -525,6 +525,120 @@ project-layout-grid-n-2 = value
 project-layout-grid-n-3 = value
 `)
     ));
+});
+
+describe("raw :: TokenDictionary -> TokenData", () => {
+  test("can build values", () =>
+    expect(JSON.parse(raw(values))).toStrictEqual({
+      color: {
+        main: "value",
+        secondary: "value",
+        tertiary: "value",
+      },
+    }));
+  test("can build subcategories", () =>
+    expect(JSON.parse(raw(subcategory))).toStrictEqual({
+      color: {
+        main: {
+          base: "value",
+          shade: ["value", "value"],
+          tint: ["value", "value"],
+        },
+      },
+    }));
+  test("allows nesting", () =>
+    expect(JSON.parse(raw(nested))).toStrictEqual({
+      color: {
+        dark: {
+          main: {
+            "100": "value",
+            "200": "value",
+            "300": "value",
+            "400": "value",
+            "50": "value",
+            "500": "value",
+            "600": "value",
+            "700": "value",
+            "800": "value",
+            "900": "value",
+          },
+          secondary: {
+            "100": "value",
+            "200": "value",
+            "300": "value",
+            "400": "value",
+            "50": "value",
+            "500": "value",
+            "600": "value",
+            "700": "value",
+            "800": "value",
+            "900": "value",
+          },
+        },
+        light: {
+          main: {
+            "100": "value",
+            "200": "value",
+            "300": "value",
+            "400": "value",
+            "50": "value",
+            "500": "value",
+            "600": "value",
+            "700": "value",
+            "800": "value",
+            "900": "value",
+          },
+          secondary: {
+            "100": "value",
+            "200": "value",
+            "300": "value",
+            "400": "value",
+            "50": "value",
+            "500": "value",
+            "600": "value",
+            "700": "value",
+            "800": "value",
+            "900": "value",
+          },
+        },
+      },
+    }));
+  test("allows namespacing", () =>
+    expect(JSON.parse(raw(namespacing))).toStrictEqual({
+      project: {
+        color: {
+          accent: "value",
+          highlight: "value",
+          main: "value",
+        },
+        content: {
+          measure: {
+            base: "value",
+            xd: ["value", "value", "value", "value"],
+          },
+          size: {
+            base: "value",
+            x: ["value", "value", "value", "value"],
+            xd: ["value", "value", "value", "value"],
+          },
+        },
+        font: {
+          body: "value",
+          code: "value",
+          headings: "value",
+        },
+        layout: {
+          grid: {
+            base: "value",
+            n: ["value", "value", "value", "value"],
+          },
+          spacing: {
+            base: "value",
+            xd: ["value", "value", "value", "value"],
+          },
+        },
+      },
+    }));
 });
 
 describe("sd :: TokenDictionary -> StyleDictionaryProperties", () => {

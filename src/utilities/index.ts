@@ -69,7 +69,7 @@ type Result<Fns extends ((x: any) => any)[]> = Extract<
  * ```
  *
  * @param value - the value to pipe
- * @param utilities - the functions to process the data
+ * @param fns - the functions to process the data
  * @returns the value after consecutive operations
  *
  */

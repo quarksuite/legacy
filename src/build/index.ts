@@ -95,7 +95,7 @@ export const styl = (tree: TokenDictionary): StylusVariables =>
  *
  * ## Usage
  * ```
- * json({
+ * raw({
  *   color: {
  *     main: "red",
  *     accent: "green",
@@ -107,7 +107,7 @@ export const styl = (tree: TokenDictionary): StylusVariables =>
  * @param tree - the dictionary to process
  * @returns JSON formatted with two spaces
  */
-export const json = (tree: TokenDictionary): TokenData =>
+export const raw = (tree: TokenDictionary): TokenData =>
   JSON.stringify(tree, null, 2);
 
 /**

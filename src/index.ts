@@ -17,4 +17,4 @@ export { systemfonts } from "./utilities";
 export { ms, update, merge, partition, units } from "./scale";
 
 // Data building functions (new to v5)
-export { css, sass, less, styl, json, sd, tw } from "./build";
+export { css, sass, less, styl, raw, sd, tw } from "./build";
