@@ -5,11 +5,11 @@
 [![Minzipped bundle](https://img.shields.io/bundlephobia/minzip/@quarksuite/core?style=for-the-badge)](https://bundlephobia.com/result?p=@quarksuite/core)
 [![License: MIT](https://img.shields.io/github/license/quarksuite/core?style=for-the-badge)](https://github.com/quarksuite/core/blob/master/LICENSE)
 
-# Quarksuite
+# QuarkSuite
 
-![Quarksuite Logo](assets/logo.png)
+![QuarkSuite Logo](assets/logo.png)
 
-[![Basic Demonstration](assets/basic-usage.gif)](https://asciinema.org/a/oJ2Avxd0MbVTLrWFsuKznLnhY?t=5)
+[![Basic Demonstration](assets/demo.gif)](https://asciinema.org/a/oJ2Avxd0MbVTLrWFsuKznLnhY?t=5)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -17,49 +17,69 @@ Table of Contents
 
 - [Summary](#summary)
 - [Features](#features)
+  - [Superpowers](#superpowers)
+- [Use QuarkSuite](#use-quarksuite)
+- [Don't Use QuarkSuite](#dont-use-quarksuite)
 - [Installation](#installation)
   - [As a Module](#as-a-module)
   - [In the Browser](#in-the-browser)
-- [Usage Examples](#usage-examples)
-  - [Minimal Prototype](#minimal-prototype)
-  - [Shaped Like Itself](#shaped-like-itself)
-  - [Design System Starter](#design-system-starter)
-    - [Axioms](#axioms)
-    - [Palette](#palette)
-    - [Content](#content)
-    - [Layout](#layout)
-- [What's Next?](#whats-next)
+- [Minimal Example](#minimal-example)
+- [Usage](#usage)
 - [API](#api)
 - [Contributing](#contributing)
 - [Concept](#concept)
 - [Project Objectives](#project-objectives)
-  - [Small, Nimble, Adaptive](#small-nimble-adaptive)
+  - [Design as a Module](#design-as-a-module)
   - [Works the Way You Work](#works-the-way-you-work)
-  - [Zero Lock-In](#zero-lock-in)
+  - [Zero Friction](#zero-friction)
   - [Simplicity](#simplicity)
-- [Showcase](#showcase)
+  - [Interop](#interop)
+- [What's In a Name?](#whats-in-a-name)
+  - [Quark + Suite](#quark--suite)
 - [Inspired By](#inspired-by)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Summary
 
-Quarksuite is a kit for developers, designers, and front-end designers with a focus on building consistent, evolving baselines for prototyping and design systems.
+QuarkSuite is a utility kit for creating, composing, and building [design tokens](https://css-tricks.com/what-are-design-tokens/). Driven by data 
+and web technologies.
 
 ## Features
 
-+ set a solid foundation for your projects
 + [adjust colors](https://github.com/quarksuite/core/blob/master/API.md#color-functions), [generate schemes](https://github.com/quarksuite/core/blob/master/API.md#scheme-functions), and [build full palettes](https://github.com/quarksuite/core/blob/master/API.md#variant-functions) with tints, tones, and/or shades
-+ [create modular scales](https://github.com/quarksuite/core/blob/master/API.md#scale-functions) for your content, layout, and composition
++ [create and modifiy modular scales](https://github.com/quarksuite/core/blob/master/API.md#scale-functions) for your content, layout, and composition
 + [use handy system font stacks and better web defaults](https://github.com/quarksuite/core/blob/master/API.md#prototyping-functions) in your prototypes
-+ use what you need and leave the rest
-+ framework not required
++ [build your tokens](https://github.com/quarksuite/core/blob/master/API.md#build-formats) **(added in v5)**
+	+ as css custom properties
+	+ preprocessor variables (Sass, Less, Stylus supported)
+	+ raw JSON data 
+	+ Style Dictionary properties for complex builds or unsupported formats
+	+ Tailind data for theming
+
+### Superpowers
+
++ `bind` utilities as settings for reuse
++ `pipe` data through your settings
++ `bind` whole pipelines to create data presets
+
+## Use QuarkSuite
+
++ for small projects that need to be up and running quickly
++ for distributed design data sets you can use between projects
++ for a consistent, flexible design system foundation
+
+## Don't Use QuarkSuite
+
++ if your design token demands are much more complex than creating and building data to scale
++ if you prefer tools built around batteries-included configuration
++ if you have output demands beyond web technologies
 
 ## Installation
 
 ### As a Module
 
-> You’ll require at least Node.js LTS (v12+) to use Quarksuite as a module.
+> You’ll require at least Node.js LTS (v12+) to use QuarkSuite as a module.
 
 ```bash
 npm install @quarksuite/core
@@ -72,41 +92,14 @@ yarn add @quarksuite/core
 Then in any file:
 
 ```js
-const { hex, tints, shades, systemfonts, ms, units } = require('@quarksuite/core');
+const { hex, tints, shades, systemfonts, ms, units, css } = require('@quarksuite/core');
 
-// OR w/ ES Modules, Webpack, Parcel
+// OR w/ Snowpack, Webpack, Parcel
 
-import { hex, tints, shades, systemfonts, ms, units } from '@quarksuite/core';
+import { hex, tints, shades, systemfonts, ms, units, css } from '@quarksuite/core';
 ```
 
 ### In the Browser
-
-Do the above, then:
-
-```bash
-npx snowpack
-```
-
-```html
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>Quarksuite Example</title>
-  </head>
-  <body>
-    <script type="module" src="/index.js"></script>
-  </body>
-</html>
-```
-
-```js
-import { hex, tints, shades, systemfonts, ms, units } from '/web_modules/@quarksuite/core.js';
-
-// Your baseline
-```
-
-OR
 
 ```html
 <html lang="en">
@@ -117,7 +110,7 @@ OR
   </head>
   <body>
     <script type="module">
-      import { hex, tints, shades, systemfonts, ms, units } from "https://unpkg.com/@quarksuite/core"
+      import { hex, tints, shades, systemfonts, ms, units, css } from "https://unpkg.com/@quarksuite/core"
       
       // Your baseline
     </script>
@@ -125,215 +118,82 @@ OR
 </html>
 ```
 
-## Usage Examples
-
-### Minimal Prototype
+## Minimal Example
 
 ```js
-import { hex, tints, shades, systemfonts, ms, units } from '@quarksuite/core';
+// tokens.js
 
-const main = hex('gainsboro');
+const {
+  hex,
+  tints,
+  shades,
+  systemfonts,
+  ms,
+  units,
+  css,
+} = require("@quarksuite/core");
+
+const main = hex("gainsboro");
 const tint = tints(4, 100, main);
 const shade = shades(4, 100, main);
 
-export const palette = { main, 'main-tint': tint, 'main-shade': shade };
-
-const [sans, mono] = systemfonts('sans-serif', 'monospace');
-
-export const fonts = { sans, mono };
-
-const scale = ms(8, 1.618, 1);
-const rems = units(4, 'rem', scale);
-
-export const composition = { scale: rems };
-```
-
-
-### Shaped Like Itself
-
-```js
-import { set, rgb, triad, tints, shades, systemfonts, ms, units } from "@quarksuite/core";
-
-const color = rgb("#348ec9");
-
-const [main, accent, highlight] = triad(60, color);
-
-const tint = set(tints, 3, 98);
-const shade = set(shades, 2, 98);
-
-export const palette = {
-  brand: main,
-  "brand-tint": tint(main),
-  "brand-shade": shade(main),
-  "brand-accent": accent,
-  "brand-highlight": highlight,
+const color = {
+  main: { base: main, tint, shade },
 };
 
 const [sans, mono] = systemfonts("sans-serif", "monospace");
 
-export const fonts = { sans, mono };
+const font = { sans, mono };
 
-const scale = ms(5, 2, 1);
+const init = ms(8, 1.618, 1);
+const [base, ...scale] = units(4, "rem", init);
 
-export const composition = {
-  ms: units(4, "rem", scale),
+const content = {
+  ms: { base, x: scale },
 };
+
+exports.tokens = css({ color, font, content });
 ```
-
-### Design System Starter
-
-#### Axioms
 
 ```js
-export const base = 1;
-export const ratio = 1.5;
-export const measure = 72;
-export const maximum = 100;
-export const range = 4;
-export const outputPrecision = 4;
+// build.js
+import { outputFileSync } from "fs-extra";
+import { tokens } from "./tokens.js";
+
+outputFileSync("tokens/index.css", tokens);
 ```
 
-#### Palette
+```css
+/* tokens/index.css */
 
-```js
-import { clrs } from '@quarksuite/core';
+:root {
+  --color-main: #dcdcdc;
+  --color-main-tint-0: #e5e5e5;
+  --color-main-tint-1: #eeeeee;
+  --color-main-tint-2: #f7f7f7;
+  --color-main-tint-3: #ffffff;
+  --color-main-shade-0: #bfbfbf;
+  --color-main-shade-1: #9c9c9c;
+  --color-main-shade-2: #6e6e6e;
+  --color-main-shade-3: #000000;
 
-export const palette = {
-  ...[
-  "navy", "blue", "aqua", "teal",
-  "olive", "green", "lime",
-  "yellow", "orange", "red",
-  "maroon", "fuchsia", "purple",
-  "black", "gray", "silver", "white",
-  ].reduce((acc, c) => ({ ...acc, ...{ [c]: clrs(c) } }), {}),
-};
+  --font-sans: -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif;
+  --font-mono: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
+
+  --content-ms: 1rem;
+  --content-ms-x-0: 1.618rem;
+  --content-ms-x-1: 2.618rem;
+  --content-ms-x-2: 4.236rem;
+  --content-ms-x-3: 6.854rem;
+  --content-ms-x-4: 11.09rem;
+  --content-ms-x-5: 17.94rem;
+  --content-ms-x-6: 29.03rem;
+}
 ```
 
-#### Content
+## Usage
 
-```js
-import { set, systemfonts, ms, update, units } from '@quarksuite/core';
-
-const initial = set(ms, range, ratio);
-
-const isNotBaseValue = (v: number) => v !== base;
-const isNotMaximumCPL = (v: number) => v !== measure;
-
-const contentInversion = (v: number) => base / v;
-const fractionOfMeasure = (v: number) => measure / v;
-
-// content fonts
-const [sans, mono] = systemfonts('sans-serif', 'monospace');
-
-export const fonts = {
-  sans: {
-    name: "Roboto",
-    stack: ["Roboto", sans].join(", "),
-    weights: ["300", "400", "400i", "700", "900"],
-  },
-  mono: {
-    name: "Roboto Mono",
-    stack: ["Roboto Mono", mono].join(", "),
-    weights: ["400", "700"],
-  },
-};
-
-// content size
-const rems = set(units, outputPrecision, "rem");
-const ems = set(units, outputPrecision, "em");
-
-const sizes = initial(base).filter(isNotBaseValue);
-
-export const size = {
-  base: rems([base])[0],
-  x: rems(sizes),
-  dx: ems(update(contentInversion, sizes)),
-};
-
-// measure (characters per line)
-const ch = set(units, outputPrecision, "ch");
-
-const lineLength = update(fractionOfMeasure, initial(base));
-
-export const line = {
-  base: ch([measure])[0],
-  dx: ch(lineLength.filter(isNotMaximumCPL)),
-};
-
-// content spacing
-const ex = set(units, outputPrecision, "ex");
-
-const vr = initial(base).filter(isNotBaseValue);
-
-export const spacing = {
-  base: ex([base])[0],
-  x: ex(vr),
-  dx: ex(update(contentInversion, vr)),
-};
-```
-
-#### Layout 
-
-```js
-import { set, ms, update, units } from '@quarksuite/core';
-
-const initial = set(ms, range, ratio);
-
-const isNotBaseFraction = (n: number) => n !== base;
-const isNotViewportMaximum = (v: number) => v !== maximum;
-
-// layout grid
-const fr = set(units, outputPrecision, "fr");
-
-const gu = initial(base);
-
-export const grid = {
-  base: fr(gu)[0],
-  n: fr(gu.filter(isNotBaseFraction)),
-};
-
-// layout viewport
-const [vw, vh, vmin, vmax] = [
-  "vw",
-  "vh",
-  "vmin",
-  "vmax",
-].map((viewport: string) =>
-  set(units, outputPrecision, viewport)
-);
-
-const vp = update((v: number) => v * 10, initial(base)).filter(
-  isNotViewportMaximum
-);
-
-export const viewport = {
-  vw: {
-    base: vw([maximum])[0],
-    dx: vw(vp),
-  },
-  vh: {
-    base: vh([maximum])[0],
-    dx: vh(vp),
-  },
-  vmin: {
-    base: vmin([maximum])[0],
-    dx: vmin(vp),
-  },
-  vmax: {
-    base: vmax([maximum])[0],
-    dx: vmax(vp),
-  },
-};
-```
-
-## What's Next?
-
-Each data set created with Quarksuite is vanilla JavaScript, so it'll work:
-
-+ with any [CSS-in-JS approach](https://github.com/MicheleBertoli/css-in-js) 
-+ with [Tailwind](https://tailwindcss.com/) 
-+ as design tokens when transformed with [Style Dictionary](https://github.com/amzn/style-dictionary) or [Theo](https://github.com/salesforce-ux/theo)
-+ right in a new browser tab
+As of v5, usage has its own documentation. So you'll [want to head over there](https://github.com/quarksuite/core/blob/master/USAGE.md) now.
 
 ## API
 
@@ -341,41 +201,57 @@ You can [read the full API documentation](https://github.com/quarksuite/core/blo
 
 ## Contributing
 
-You can read about [how to contribute](https://github.com/quarksuite/core/blob/master/CONTRIBUTING.md) and the guidelines for this project.
+You can read about [community and contribution](https://github.com/quarksuite/core/blob/master/CONTRIBUTING.md) and the guidelines for this project.
 
 ## Concept
 
-Quarksuite is built around the idea that fundamental, **quantifiable** visual elements can be represented as another category of data about our interfaces.
+QuarkSuite is built around [design tokens](https://css-tricks.com/what-are-design-tokens/) and the idea that authoring them shouldn't require a 
+particular stack or framework.
 
-[This isn't a new idea](https://css-tricks.com/what-are-design-tokens/).
-
-The library's focus is on a similar level&mdash;or just below design tokens. It allows a structure similar to projects like [Styled System](https://styled-system.com/) or [Ether](https://ether.thescenery.co/), but it doesn't require you to use a framework.
+The library's focus is on reuse and composition of design data and the API favors a data-last
+functional approach.
 
 ## Project Objectives
 
-These are the constraints guiding current and future development of the kit. Any feature requests that contradict them won't be considered.
+These are the constraints guiding current and future development of this kit. Any feature requests that contradict 
+them won't be considered.
 
-### Small, Nimble, Adaptive
+### Design as a Module
 
-This project aims to stay within 3&ndash;6KB minified and gzipped while providing enough flexibility for baselines of any size.
+QuarkSuite is structured to take advantage of its functional API to allow creating and composing common sets of design data you can use across projects.
+
+The main advantage of this approach for design token authoring is that you can focus on what's *different* across your projects rather than bothering with the same plumbing and electricity you set up for **every. single. job**.
 
 ### Works the Way You Work
 
-This project should work with many environments and configurations&mdash;any framework, any build, or none at all.
+This project holds no opinions or comments about your web stack. Integrate your tokens at any stage that naturally works for your process.
 
-### Zero Lock-In
+### Zero Friction
 
-This project has no dependencies and your data should be easy to detach from the library entirely when you're done. The API is flat to allow as-needed use.
+This project has no dependencies and the included build functions detach  from it at your discretion.
 
 ### Simplicity
 
-The API should remain painless to work with and painless to extend. The smallest of prototype baselines should be able to grow into complex design system foundations.
+Each function has a particular job. Functionality that *breaks* the flow becomes a candidate for eventual removal.
 
-## Showcase
-  
-If you've built something with Quarksuite, and you want to share, please submit a pull request with a link to your project.
+### Interop
+
+This project is built to leverage **what already exists** in the design token authoring and UI theming space.
+
+QuarkSuite performs well enough on its own with small projects, but large teams will want to integrate it with meatier 
+tools like [Tailwind](https://tailwindcss.com/) or [Theme UI](https://theme-ui.com).
+
+## What's In a Name?
+
+QuarkSuite in its earlier stages went by the name Quarksilver in referring to how quickly you could build your tokens.
+
+### Quark + Suite
+
+In atomic design terminology, the level below atoms could be considered the subatomic parts of a design system.
+I noticed quarks and ions was popping up a lot as an analogy for design tokens, so I went with that.
 
 ## Inspired By
 
 + [Ether](https://ether.thescenery.co)
 + [Styled System](https://styled-system.com)
++ [Style Dictionary](https://amzn.github.io/style-dictionary)
