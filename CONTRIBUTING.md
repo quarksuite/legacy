@@ -1,3 +1,18 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [How to Contribute to Quarksuite](#how-to-contribute-to-quarksuite)
+  - [Introduction](#introduction)
+  - [Contributions Welcome](#contributions-welcome)
+  - [Caveats](#caveats)
+  - [Ground Rules](#ground-rules)
+  - [How to Report a Bug](#how-to-report-a-bug)
+  - [Review Schedule](#review-schedule)
+  - [Code Style](#code-style)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # How to Contribute to Quarksuite
 
 *I'm still really new to maintaining open source projects. I won't attempt to write my own contribution guidelines from scratch. Instead these guidelines are lifted in part from @nayafia's [contributing template](https://github.com/nayafia/contributing-template).*

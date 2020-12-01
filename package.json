@@ -110,7 +110,8 @@
   },
   "lint-staged": {
     "*.md": [
-      "doctoc"
+      "doctoc",
+      "pika build"
     ],
     "*.ts": [
       "eslint --fix",

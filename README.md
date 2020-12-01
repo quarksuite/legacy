@@ -9,7 +9,7 @@
 
 ![QuarkSuite Logo](assets/logo.png)
 
-[![Basic Demonstration](assets/demo.gif)](https://asciinema.org/a/oJ2Avxd0MbVTLrWFsuKznLnhY?t=5)
+[![Basic Demonstration in a REPL](assets/demo.gif)](https://asciinema.org/a/oJ2Avxd0MbVTLrWFsuKznLnhY?t=5)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
