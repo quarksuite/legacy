@@ -8,17 +8,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [v4.0.1 - 2020-10-03](#v401---2020-10-03)
+- [Unreleased - 2020-12-01](#unreleased---2020-12-01)
+  - [Added](#added)
+    - [token dictionary structure](#token-dictionary-structure)
+    - [build formats](#build-formats)
+      - [tool integrations](#tool-integrations)
   - [Changed](#changed)
+    - [types](#types)
+    - [functional utilities](#functional-utilities)
+- [v4.0.1 - 2020-10-03](#v401---2020-10-03)
+  - [Changed](#changed-1)
 - [v4.0.0 - 2020-10-02](#v400---2020-10-02)
   - [Removed](#removed)
-  - [Added](#added)
+  - [Added](#added-1)
     - [General](#general)
     - [Color Formats](#color-formats)
     - [color functions](#color-functions)
     - [scheme functions](#scheme-functions)
     - [scale functions](#scale-functions)
-  - [Changed](#changed-1)
+  - [Changed](#changed-2)
     - [Color Formats](#color-formats-1)
     - [prototyping functions](#prototyping-functions)
     - [color functions](#color-functions-1)
@@ -28,71 +36,118 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - [v3.3.0 - 2020-08-16](#v330---2020-08-16)
   - [Removed](#removed-1)
 - [v3.2.1 - 2020-06-05](#v321---2020-06-05)
-  - [Added](#added-1)
-- [v3.2.0 - 2020-05-07](#v320---2020-05-07)
   - [Added](#added-2)
-  - [Changed](#changed-2)
+- [v3.2.0 - 2020-05-07](#v320---2020-05-07)
+  - [Added](#added-3)
+  - [Changed](#changed-3)
   - [Fixed](#fixed-1)
 - [v3.1.0](#v310)
-  - [Changed](#changed-3)
+  - [Changed](#changed-4)
   - [Fixed](#fixed-2)
 - [v3.0.0](#v300)
-  - [Changed](#changed-4)
-  - [Added](#added-3)
+  - [Changed](#changed-5)
+  - [Added](#added-4)
   - [Fixed](#fixed-3)
 - [v2.4.1](#v241)
   - [Fixed](#fixed-4)
 - [v.2.4.0](#v240)
-  - [Changed](#changed-5)
+  - [Changed](#changed-6)
 - [v2.3.2](#v232)
   - [Fixed](#fixed-5)
 - [v2.3.0](#v230)
-  - [Changed](#changed-6)
-  - [Added](#added-4)
+  - [Changed](#changed-7)
+  - [Added](#added-5)
   - [Fixed](#fixed-6)
   - [Removed](#removed-2)
 - [v2.2.0](#v220)
-  - [Changed](#changed-7)
-- [v2.1.0](#v210)
   - [Changed](#changed-8)
+- [v2.1.0](#v210)
+  - [Changed](#changed-9)
   - [Removed](#removed-3)
 - [v2.0.3](#v203)
   - [Fixed](#fixed-7)
 - [v2.0.2](#v202)
   - [Fixed](#fixed-8)
 - [v2.0.1](#v201)
-  - [Changed](#changed-9)
-- [v2.0.0](#v200)
-  - [Added](#added-5)
-  - [Removed](#removed-4)
   - [Changed](#changed-10)
-- [v1.4.1](#v141)
-  - [Changed](#changed-11)
-- [v1.4.0](#v140)
+- [v2.0.0](#v200)
   - [Added](#added-6)
+  - [Removed](#removed-4)
+  - [Changed](#changed-11)
+- [v1.4.1](#v141)
+  - [Changed](#changed-12)
+- [v1.4.0](#v140)
+  - [Added](#added-7)
   - [Removed](#removed-5)
 - [v1.3.0](#v130)
-  - [Changed](#changed-12)
+  - [Changed](#changed-13)
 - [v1.2.0](#v120)
   - [Fixed](#fixed-9)
 - [v1.1.1](#v111)
-  - [Added](#added-7)
-- [v1.1.0](#v110)
-  - [Changed](#changed-13)
-- [v1.0.0](#v100)
   - [Added](#added-8)
+- [v1.1.0](#v110)
   - [Changed](#changed-14)
+- [v1.0.0](#v100)
+  - [Added](#added-9)
+  - [Changed](#changed-15)
   - [Fixed](#fixed-10)
   - [Removed](#removed-6)
 - [v0.2.3](#v023)
-  - [Added](#added-9)
+  - [Added](#added-10)
 - [v0.2.2](#v022)
-  - [Changed](#changed-15)
+  - [Changed](#changed-16)
   - [Fixed](#fixed-11)
 - [v0.1.0](#v010)
-  - [Added](#added-10)
+  - [Added](#added-11)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## Unreleased - 2020-12-01
+
+This version is a major release adding [build functions for various formats](https://github.com/quarksuite/core/blob/master/API.md#build-formats) to the workflow as well as [
+integration utilities](https://github.com/quarksuite/core/blob/master/API.md#integration-formats) for working with Style Dictionary and Tailwind.
+
+The reworks to the functional utilities (`bind` and `pipe`) allow the binding of settings and the ability to bind
+pipelines to create data presets. Combining these enhancements: QuarkSuite's API now allows a 
+**nearly pointfree** functional workflow.
+
+This version also introduces a *standard* [structure](https://github.com/quarksuite/core/blob/master/API.md#token-dictionaries) 
+to assemble design tokens that allows nesting and namespacing.
+
+Internally, it leverages a few TypeScript 4 features to make the high-order function utilities (mainly `pipe`) more 
+flexible, so keep in mind you may get strange type definitions if using an older version.
+
+### Added
+
+#### token dictionary structure
+
+Raw data must be built into [token dictionaries](https://github.com/quarksuite/core/blob/master/API.md#token-dictionaries) if you want to use the following build formats.
+
+#### build formats
+
++ `css` for CSS custom properties
++ `sass` for Sass variables
++ `less` for Less variables
++ `styl` for Stylus variables
++ `raw` for JSON
+
+##### tool integrations
+
++ `sd` for Style Dictionary properties
++ `tw` for Tailwind theming
+
+### Changed
+
+#### types
+
++ `Variant` type split into `Tints`, `Tones`, `Shades` types
+
+#### functional utilities
+
++ `set` renamed as `bind` to better describe its purpose
++ `pipe` functional utility upgraded
+	* type signature: `(value: any, ...fns: (x: any) => any) => any`
+	* example: `pipe("dodgerblue", setHue, mixRed, lighten)`
 
 ## v4.0.1 - 2020-10-03
 
@@ -140,11 +195,11 @@ of what's new and different.
 ### Changed
 
 Functions in this library no longer come already curried. It made defining correct types a *nightmare*, and it also meant
-documentation was needlessly complicated. That said, the new `set` function allows you to initialize any of the of the
+documentation was needlessly complicated. That said, the new `set` function allows you to initialize any of the
 other functions with a few of their arguments. And it can be chained. So... roughly the same thing
 
 In addition, every function is now a top level module. The object wrappers **will not work** with v4. The rewrite made 
-encapsulation under domain modules (`color`, `scheme`, `variant`, etc...) cumbersome. 
+encapsulation under domain modules (`color`, `scheme`, `variant`, etc...) seem extra. 
 
 #### Color Formats
 
@@ -153,7 +208,7 @@ encapsulation under domain modules (`color`, `scheme`, `variant`, etc...) cumber
 
 #### prototyping functions
 
-+ `color.ally` is now `clrs`
++ `color.a11y` is now `clrs`
 + `typography.system` is now `systemfonts`
 
 #### color functions

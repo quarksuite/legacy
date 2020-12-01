@@ -1,115 +1,162 @@
-# Quarksuite API (v4.0.0)
+# Quarksuite API (v5.0.0)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Functional Utilities](#functional-utilities)
-  - [set](#set)
+- [Settings and Presets](#settings-and-presets)
+  - [bind](#bind)
     - [Usage](#usage)
-    - [Param](#param)
+    - [Params](#params)
     - [Returns](#returns)
   - [pipe](#pipe)
     - [Usage](#usage-1)
-    - [Param](#param-1)
+    - [Params](#params-1)
     - [Returns](#returns-1)
 - [Prototyping Functions](#prototyping-functions)
   - [clrs](#clrs)
     - [Usage](#usage-2)
-    - [Param](#param-2)
+    - [Param](#param)
     - [Returns](#returns-2)
   - [systemfonts](#systemfonts)
     - [Usage](#usage-3)
-    - [Param](#param-3)
+    - [Param](#param-1)
     - [Returns](#returns-3)
 - [Color Functions](#color-functions)
   - [hex](#hex)
     - [Usage](#usage-4)
-    - [Param](#param-4)
+    - [Param](#param-2)
     - [Returns](#returns-4)
   - [rgb](#rgb)
     - [Usage](#usage-5)
-    - [Param](#param-5)
+    - [Param](#param-3)
     - [Returns](#returns-5)
   - [hsl](#hsl)
     - [Usage](#usage-6)
-    - [Param](#param-6)
+    - [Param](#param-4)
     - [Returns](#returns-6)
   - [hue](#hue)
     - [Usage](#usage-7)
-    - [Param](#param-7)
+    - [Params](#params-2)
     - [Returns](#returns-7)
   - [saturation](#saturation)
     - [Usage](#usage-8)
-    - [Param](#param-8)
+    - [Params](#params-3)
     - [Returns](#returns-8)
   - [lightness](#lightness)
     - [Usage](#usage-9)
-    - [Param](#param-9)
+    - [Params](#params-4)
     - [Returns](#returns-9)
   - [alpha](#alpha)
     - [Usage](#usage-10)
-    - [Param](#param-10)
+    - [Params](#params-5)
     - [Returns](#returns-10)
   - [mix](#mix)
     - [Usage](#usage-11)
-    - [Param](#param-11)
+    - [Params](#params-6)
     - [Returns](#returns-11)
 - [Scheme Functions](#scheme-functions)
   - [complementary](#complementary)
     - [Usage](#usage-12)
-    - [Param](#param-12)
+    - [Param](#param-5)
     - [Returns](#returns-12)
   - [analogous](#analogous)
     - [Usage](#usage-13)
-    - [Param](#param-13)
+    - [Params](#params-7)
     - [Returns](#returns-13)
   - [triad](#triad)
     - [Usage](#usage-14)
-    - [Param](#param-14)
+    - [Params](#params-8)
     - [Returns](#returns-14)
   - [tetrad](#tetrad)
     - [Usage](#usage-15)
-    - [Param](#param-15)
+    - [Params](#params-9)
     - [Returns](#returns-15)
   - [custom](#custom)
     - [Usage](#usage-16)
-    - [Param](#param-16)
+    - [Params](#params-10)
     - [Returns](#returns-16)
 - [Variant Functions](#variant-functions)
   - [tints](#tints)
     - [Usage](#usage-17)
-    - [Param](#param-17)
+    - [Params](#params-11)
     - [Returns](#returns-17)
   - [tones](#tones)
     - [Usage](#usage-18)
-    - [Param](#param-18)
+    - [Params](#params-12)
     - [Returns](#returns-18)
   - [shades](#shades)
     - [Usage](#usage-19)
-    - [Param](#param-19)
+    - [Params](#params-13)
     - [Returns](#returns-19)
 - [Scale Functions](#scale-functions)
   - [ms](#ms)
     - [Usage](#usage-20)
-    - [Param](#param-20)
+    - [Params](#params-14)
     - [Returns](#returns-20)
   - [update](#update)
     - [Usage](#usage-21)
-    - [Param](#param-21)
+    - [Params](#params-15)
     - [Returns](#returns-21)
   - [merge](#merge)
     - [Usage](#usage-22)
-    - [Param](#param-22)
+    - [Param](#param-6)
     - [Returns](#returns-22)
   - [partition](#partition)
     - [Usage](#usage-23)
-    - [Param](#param-23)
+    - [Params](#params-16)
     - [Returns](#returns-23)
   - [units](#units)
     - [Usage](#usage-24)
-    - [Param](#param-24)
+    - [Params](#params-17)
     - [Returns](#returns-24)
+- [Token Dictionaries](#token-dictionaries)
+  - [values](#values)
+  - [scales](#scales)
+  - [subcategories](#subcategories)
+  - [nesting](#nesting)
+  - [namespacing](#namespacing)
+- [Build formats](#build-formats)
+  - [css](#css)
+    - [Usage](#usage-25)
+      - [Input](#input)
+      - [Output](#output)
+    - [Param](#param-7)
+    - [Returns](#returns-25)
+  - [sass](#sass)
+    - [Usage](#usage-26)
+      - [Input](#input-1)
+      - [Output](#output-1)
+    - [Param](#param-8)
+    - [Returns](#returns-26)
+  - [less](#less)
+    - [Usage](#usage-27)
+      - [Input](#input-2)
+      - [Output](#output-2)
+    - [Param](#param-9)
+    - [Returns](#returns-27)
+  - [styl](#styl)
+    - [Usage](#usage-28)
+      - [Input](#input-3)
+      - [Output](#output-3)
+    - [Param](#param-10)
+    - [Returns](#returns-28)
+  - [raw](#raw)
+    - [Usage](#usage-29)
+      - [Input](#input-4)
+      - [Output](#output-4)
+    - [Param](#param-11)
+    - [Returns](#returns-29)
+  - [sd](#sd)
+    - [Usage](#usage-30)
+      - [Input](#input-5)
+      - [Output](#output-5)
+  - [tw](#tw)
+    - [Usage](#usage-31)
+      - [Input](#input-6)
+      - [Output](#output-6)
+    - [Param](#param-12)
+    - [Returns](#returns-30)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -117,23 +164,27 @@ You can [try out all examples on RunKit][runkit].
 
 > As of v4, I flattened the API so that each function is exported as a top level module. This makes it easier to use only what you need from the library.
 > 
-> Additionally, the functions no longer come curried. Instead, v4 exposes functional utilities you can use to curry and compose them directly.
+> Additionally, the functions no longer come curried. Instead, v4 exposed functional utilities you can use to `bind` and `pipe` them.
 > 
-> Beyond that, the *documentation* still organizes the modules by how they're used to keep things simple.
+> Beyond that, the *documentation* still organizes modules by usage to make it simpler to search.
 
-## Functional Utilities
 
-These are part of advanced use and aren't *required* to use the library. Instead, they make it easier to **reuse and combine** settings.
 
-### set
+## Settings and Presets
 
-Allows you to partially apply the arguments of any other function in the library including **new functions created with set**.
+These are part of advanced usage and aren't *required* to use the library. Instead, they make it easier to bind **settings** and define **presets**.
+
+### bind
+
+Allows you to bind any other utility in the library; allows **chaining**.
+
+> The precise name for what this does: partial application. A function with a type signature of `(z, y, x) => any` becomes `(z, y) => (x) => any` or `(z) => (y) => (x) => any` if each arg is bound one at a time.
 
 #### Usage
 
 ```js
 // rotate any color's hue by a third
-const rotateByThird = set(hue, 120);
+const rotateByThird = bind(hue, 120);
 
 rotateByThird('red'); // #00ff00
 rotateByThird('lime'); // #0000ff
@@ -142,57 +193,79 @@ rotateByThird('blue'); // #ff0000
 // chaining example
 
 // mix colors evenly
-const evenly = set(mix, 50);
+const evenly = bind(mix, 50);
 
 // mix any color evenly with coral
-const mixWithCoral = set(evenly, 'coral');
+const mixWithCoral = bind(evenly, 'coral');
 
 // mix any color evenly with dodgerblue
-const mixWithDodgerblue = set(evenly, 'dodgerblue');
+const mixWithDodgerblue = bind(evenly, 'dodgerblue');
 
 mixWithCoral('springgreen'); // #b4c96a
 mixWithDodgerblue('springgreen') // #15cfc9
 ```
 
-#### Param
+#### Params
 
-+ `fn`: the function you want to curry
-+ `applied`: the arguments you want to apply
++ `utility`: the utility to bind
++ `...initial`: the initial arguments you want to bind
 
 #### Returns
 
-A function whose parameters are the `remaining` arguments of `fn`
+A function whose parameters are the `...pending` or unbound arguments of `utility`
 
 ### pipe
 
-A function that allows you to perform two operations consecutively.
+> As of v5, pipe is no longer limited to two operations. It's also chainable and **presets** can be created with `bind`.
 
-> Giving a variable compose the proper types is a bit of a hassle in TypeScript right now, but `pipe` can still be chained like any other `compose`.
+A function that takes a value and pipes it through a chain of bound operations. 
+
+The main use case is transforming a value with a sequence of n operations to get a different value.
+
+Keep in mind that the functions you pass in *must* be bound until only data remains.
 
 #### Usage
 
 ```js
 
-// mix any color evenly with coral AND dodgerblue
-const mixWithCoralAndDodgerblue = pipe(mixWithCoral, mixWithDodgerblue);
+const color = "springgreen";
 
-mixWithCoralAndDodgerblue('springgreen'); // #81afc3
+// bound settings that accept a color as data
 
-// chaining example
+const lighten = bind(lightness, 10);
+const darken = bind(lightness, -10);
+const sat = bind(saturation, 15);
+const desat = bind(saturation, -30);
+const fade = bind(alpha, -4);
+const mixInBlue = bind(mix, 25, clrs("blue"));
+const mixInGreen = bind(mix, 10, clrs("lime"));
 
-const mixAndRotate = pipe(mixWithCoralAndDodgerblue, rotateByThird);
+// lighten and desaturate a color with bound settings
 
-mixAndRotate('springgreen'); // #c381af
+pipe(color, lighten, desat); // #43ef99
+
+// darken a color, mix in clrs.blue, lighten with bound settings
+
+pipe(color, darken, mixInBlue, lighten); // #05ffb8
+
+// A bound pipe operation AKA a preset
+
+const brand = bind(pipe, color, darken, mixInBlue);
+
+// preset modifications
+
+brand(lighten, mixInGreen, desat); // #19ebac
+brand(darken, mixInGreen, mixInBlue, fade, fade); // #00b09beb
 ```
 
-#### Param
+#### Params
 
-+ `f`: first operation
-+ `g`: second operation
++ `value`: the value you want to pipe
++ `...fns`: The functions to pipe the value through
 
 #### Returns
 
-A new function whose parameter is the data to operate on
+The transformed value at the end of the chain
 
 ## Prototyping Functions
 
@@ -200,7 +273,7 @@ These functions are prototyping helpers and include clrs.cc accessible web defau
 
 ### clrs
 
-A function that maps a web default with its [clrs.cc accessible match][clrs]. If a match isn't found, it will throw an error.
+A function that maps a web default with its [Colors/clrs.cc accessible match][clrs]. If a match isn't found, it will throw an error.
 
 #### Usage
 
@@ -250,7 +323,7 @@ systemfonts('sans-serif', 'serif', 'monospace'); // [
 
 #### Param
 
-`fonts`: one or more arguments targeting the desired stacks
+`...fonts`: one or more arguments targeting the desired stacks
 
 #### Returns
 
@@ -259,6 +332,10 @@ An array of font stacks matching each defined family
 ## Color Functions
 
 These functions work exclusively on any valid CSS color (even those with transparency) to convert to another format or modify via adjustment or mixture. Color functions also check the format and will throw errors if your color is invalid.
+
+> **Color is hard**. I'm not gonna pretend otherwise. Pinpoint color accuracy isn't the aim for this library as much as palette *sensibility*. I highly recommend using a dedicated color library for your palettes if accuracy isn't optional or you need access to more color spaces.
+ 
+> Might I suggest two former dependencies of this library: [chroma.js][chroma-js] or [TinyColor][tinycolor]. 
 
 ### hex
 
@@ -362,7 +439,7 @@ hue(0, 'coral'); // #ff7f50
 hue(360, 'coral'); // #ff7f50
 ```
 
-#### Param
+#### Params
 
 + `n`: the amount to shift the hue
 + `color`: the color to adjust
@@ -374,8 +451,6 @@ A new color that is the result of adjusting the hue of the input color
 ### saturation
 
 A function that adjusts the saturation of any valid CSS color
-
-> The saturation adjustment is bound between a range of 0-100% and will lock at either based on how the adjustment value is out of bounds
 
 #### Usage
 
@@ -393,7 +468,7 @@ saturation(300, 'hsl(40, 35%, 70%)'); // hsl(40, 100%, 70%)
 saturation(-250, '#44cc00'); // #666666
 ```
 
-#### Param
+#### Params
 
 + `n`: the amount to shift the saturation
 + `color`: the color to adjust
@@ -405,8 +480,6 @@ A new color that is the result of adjusting the saturation of the input color
 ### lightness
 
 A function that adjusts the lightness/luminance of any valid CSS color
-
-> The lightness adjustment is bound between a range of 0-100% and will lock at either based on how on the adjustment value is out of bounds
 
 #### Usage
 
@@ -424,7 +497,7 @@ lightness(100, 'rgb(31, 200, 100)'); // rgb(255, 255, 255)
 lightness(-100, 'hsl(336, 70%, 40%)'); // hsl(336, 70%, 0%)
 ```
 
-#### Param
+#### Params
 
 + `n`: the amount to shift the lightness
 + `color`: the color to adjust
@@ -435,9 +508,7 @@ A new color that is the result of adjusting the lightness of the input color
 
 ### alpha
 
-A function that adjusts the alpha/transparency of any valid CSS color
-
-> The alpha adjustment is bound between a range of 0-100% and will lock at either based on how the adjustment value is out of bounds
+A function that adjusts the transparency of any valid CSS color.
 
 #### Usage
 
@@ -455,7 +526,7 @@ alpha(100, 'rgba(100, 220, 100, 0.8)'); // rgb(100, 220, 100)
 alpha(-100, 'hsla(33, 100%, 39%, 70%)'); // hsla(33, 100%, 39%, 0)
 ```
 
-#### Param
+#### Params
 
 + `n`: the amount to shift the alpha
 + `color`: the color to adjust
@@ -467,8 +538,6 @@ A new color that is the result of adjusting the alpha of the input color
 ### mix
 
 A function that mixes a target color with any valid CSS color by a given percentage.
-
-> The `mix` function will throw an error if either the target or input color is invalid
 
 #### Usage
 
@@ -487,9 +556,10 @@ mix(0, 'red', 'blue'); // #0000ff
 
 // 100% mix is target color
 mix(100, 'red', 'blue'); // #ff0000
+
 ```
 
-#### Param
+#### Params
 
 + `amount`: percentage to mix input with target
 + `target`: the color to mix in
@@ -552,7 +622,7 @@ analogous(45, 'lime'); // [ '#00ff00', '#bfff00', '#00ffbf' ]
 analogous(60, 'blue'); // [ '#0000ff', '#00ffff', '#ff00ff' ]
 ```
 
-#### Param
+#### Params
 
 + `arc`: the distance between the input color and its adjacent hues
 + `color`: the input color
@@ -593,7 +663,7 @@ triad(90, 'rgb(11, 77, 119)'); // [
 // ]
 ```
 
-#### Param
+#### Params
 
 + `arc`: distance between the *complement* of the input color and its adjacent hues
 + `color`: the input color
@@ -636,7 +706,7 @@ tetrad(90, 'hsl(33, 100%, 30%)'); // [
 // ]
 ```
 
-#### Param
+#### Params
 
 + `rotation`: degrees of rotation from input color and complement
 + `color`: the input color
@@ -685,12 +755,12 @@ custom({ hues: 4, arc: 72, rotation: 60}, 'blue'); // [
 ```
 
 
-#### Param
+#### Params
 
 + `options`: custom color scheme options
 	* `hues`: number of total output hues
 	* `arc`: distance between hues on the color wheel
-	* `rotation?`: an optional rotational offset for the hues
+	* `offset?`: an optional offset from the origin
 + `color`: the input color
 
 #### Returns
@@ -722,7 +792,7 @@ tints(3, 64, 'lime'); // [ '#76ff76', '#a7ffa7', '#ccffcc' ]
 tints(2, 32, 'blue'); // [ '#6666ff', '#9090ff' ]
 ```
 
-#### Param
+#### Params
 
 + `count`: number of tints to create
 + `contrast`: percentage of contrast between tints
@@ -751,7 +821,7 @@ tones(3, 64, 'lime'); // [ '#3bea3b', '#54d254', '#66b866' ]
 tones(2, 32, 'blue'); // [ '#3333ef', '#4848de' ]
 ```
 
-#### Param
+#### Params
 
 + `count`: number of tones to create
 + `contrast`: percentage of contrast between tones
@@ -780,7 +850,7 @@ shades(3, 64, 'lime'); // [ '#00e200', '#00c100', '#009900' ]
 shades(2, 32, 'blue'); // [ '#0000ea', '#0000d2' ]
 ```
 
-#### Param
+#### Params
 
 + `count`: number of shades to create
 + `contrast`: percentage of contrast between shades
@@ -792,7 +862,7 @@ An array of shades ordered from dark to darkest.
 
 ## Scale Functions
 
-These functions are your means of creating and modifying modular scales. Also included are functions to merge, slice, and attach units with a desired precision.
+These functions are your means of creating and changing modular scales. Also included are functions to merge, slice, and attach units with a desired precision.
 
 ### ms
 
@@ -831,7 +901,7 @@ ms(8, 1.618, 1); // [
 ms(5, 2, 1); // [ 1, 2, 4, 8, 16 ]
 ```
 
-#### Param
+#### Params
 
 + `values`: number of values to include in your scale
 + `ratio`: number raised to the power of the value's index
@@ -864,7 +934,7 @@ update(n => n ** 3, scale); // [ 1, 8, 64, 512, 4096 ]
 update(n => n / 10, scale); // [ 0.1, 0.2, 0.4, 0.8, 1.6 ]
 ```
 
-#### Param
+#### Params
 
 + `calc`: a function that will be mapped to each `n` in the scale
 + `scale`: the scale you want to update
@@ -875,7 +945,7 @@ A new scale with updated values.
 
 ### merge
 
-A function that takes two or more scales and merges their *unique* values. You can use this to create multithreaded scales.
+A function that takes two or more scales and merges their *unique* values. You can use this to create multistranded scales.
 
 #### Usage
 
@@ -904,7 +974,7 @@ merge(a, b); // [
 
 #### Returns
 
-A new scale resulting from the merge
+A new scale of unique values from the merge
 
 ### partition
 
@@ -939,7 +1009,7 @@ large // [
 // ]
 ```
 
-#### Param
+#### Params
 
 + `size`: the size of each split
 + `scale`: the scale you want to partition
@@ -952,7 +1022,7 @@ A new scale containing chunked values
 
 A function that prepares a raw scale to be used in CSS. This is the final step in scale creation.
 
-> Accepts all absolute and relative units. Does no internal conversion between units. I trust you know the values you want.
+> Accepts all absolute and relative units. Does **no** internal conversion between units.
 
 #### Usage
 
@@ -984,7 +1054,7 @@ units(3, 'em', scale); // [
 // ]
 ```
 
-#### Param
+#### Params
 
 + `precision`: the maximum number of digits each scale value can have
 + `unit`: any valid CSS relative or absolute unit
@@ -992,8 +1062,347 @@ units(3, 'em', scale); // [
 
 #### Returns
 
-A new scale with the given unit attached ready for use.
+A new scale of CSS valid values
+
+## Token Dictionaries
+
+> This new part of the API landed in v5. It's a data structure that prepares your quarks for output in 
+> various formats. 
+
+> If you have your own way of generating your tokens, **this is not required**.
+
+Values can be of type `string` or `string[]`. A collection with a `base` property is special and will be processed as a subcategory. When output, the base property is ignored or transformed in most formats.
+
+### values
+
+```js
+const dict = {
+  color: {
+    main: "red",
+    accent: "lime",
+    highlight: "cyan",
+  }
+}
+```
+
+### scales
+
+```js
+const dict = {
+  color: {
+    main: "red",
+    accent: ["crimson", "firebrick"]
+  }
+}
+```
+
+### subcategories
+
+```js
+const dict = {
+  color: {
+    main: {
+      base: "red",
+      shade: ["crimson", "firebrick"]
+    }
+    accent: "cyan",
+  }
+}
+```
+
+### nesting
+
+```js
+const dict = {
+  color: {
+    light: {
+      main: {
+        base: "red",
+        shade: ["crimson", "firebrick"]
+      }
+    },
+    dark: {
+      main: {
+        base: "lime",
+        shade: ["forestgreen", "darkgreen"]
+      }
+    }
+  }
+}
+```
+
+### namespacing
+
+```js
+const dict = {
+  project: {
+    color: {
+      main: "red",
+      accent: "cyan"
+    },
+    font: {
+      body: "sans-serif",
+      heading: "serif",
+      code: "monospace"
+    }
+  }
+}
+```
+
+## Build formats
+
+These functions build your data into strings of various file formats ready to download with the native filesystem API or library of your choice. The currently supported formats include `css` custom properties, `sass`, `less`, `styl` variables, and raw `json`.
+
+Also included in this section are integration formats that build your data to be consumable by other design token or UI theming tools. For now, only [Style Dictionary properties][styleD] (`sd`) and [Tailwind theme data][tailwind] (`tw`) are supported.
+
+Once built, your tokens are completely ready to use.
+
+> Every build format and integration accepts the standard token dictionary format documented in the previous section. The examples use the simplest possible dictionaries for demonstration.
+
+### css
+
+Builds a token dictionary as [CSS custom properties][css].
+
+#### Usage
+
+##### Input
+
+```js
+css({
+  color: { main: "red", accent: "lime", highlight: "cyan" }
+})
+```
+
+##### Output
+
+```css
+:root {
+  --color-main: "red";
+  --color-accent: "lime";
+  --color-highlight: "cyan";
+}
+```
+
+#### Param
+
++ `tree`: the token dictionary to parse
+
+#### Returns
+
+A string containing a collection of CSS custom properties wrapped in a `:root` selector.
+
+### sass
+
+Builds a token dictionary as [Sass variables][sass].
+
+#### Usage
+
+##### Input
+
+```js
+sass({
+  color: { main: "red", accent: "lime", highlight: "cyan" }
+})
+```
+
+##### Output
+
+```scss
+$color-main: "red";
+$color-accent: "lime";
+$color-highlight: "cyan";
+```
+
+#### Param
+
++ `tree`: the token dictionary to parse
+
+#### Returns
+
+A string containing a collection of Sass variables.
+
+### less
+
+Builds a token dictionary as [Less variables][less].
+
+#### Usage
+
+##### Input
+
+```js
+less({
+  color: { main: "red", accent: "lime", highlight: "cyan" }
+})
+```
+
+##### Output
+
+```less
+@color-main: "red";
+@color-accent: "lime";
+@color-highlight: "cyan";
+```
+
+#### Param
+
++ `tree`: the token dictionary to parse
+
+#### Returns
+
+A string containing a collection of Less variables.
+
+### styl
+
+Builds a token dictionary as [Stylus variables][stylus].
+
+#### Usage
+
+##### Input
+
+```js
+styl({
+  color: { main: "red", accent: "lime", highlight: "cyan" }
+})
+```
+
+##### Output
+
+```styl
+color-main = "red"
+color-accent = "lime"
+color-highlight = "cyan"
+```
+
+#### Param
+
++ `tree`: the token dictionary to parse
+
+#### Returns
+
+A string containing a collection of Stylus variables.
+
+### raw
+
+Builds a token dictionary as JSON.
+
+> This function is a wrapper around `JSON.stringify` with some pretty printing. It translates data directly from token dictionaries for general use. A good use case is to convert your data to another data format like YAML.
+
+#### Usage
+
+##### Input
+
+```js
+raw({
+  color: { main: "red", accent: "lime", highlight: "cyan" }
+})
+```
+
+##### Output
+
+```json
+{
+  "color": {
+    "main": "red",
+    "accent": "lime",
+    "highlight": "cyan"
+  }
+}
+```
+
+#### Param
+
++ `tree`: the token dictionary to parse
+
+#### Returns
+
+A string containing token dictionary data as pretty-printed JSON.
+
+### sd
+
+An integration format that converts a token dictionary into Style Dictionary properties.
+
+> Unlke the other build formats, `sd` preserves a subcategory's `base` 
+> property because that's what Style Dictionary anticipates from its 
+> recommended CTI property structure.
+> 
+> The main use case is to port your data for more complex design token
+> building than this library allows. Such as iOS and Android support.
+
+#### Usage
+
+##### Input
+
+```js
+sd({
+  color: { main: "red", accent: "lime", highlight: "cyan" }
+})
+```
+
+##### Output
+
+```js
+{
+  color: {
+    main: { value: "red" }, 
+    accent: { value: "lime" }, 
+    highlight: { value: "cyan" }
+  }
+}
+```
+
+### tw
+
+An integration format that converts a token dictionary according to Tailwind theme specification. 
+
+Keep in mind that it follows the **v2** theme structure.
+
+> Its main purpose is transforming subcategories into values. Values are already valid for Tailwind.
+
+#### Usage
+
+##### Input
+
+```js
+tw({
+  fontSize: {
+    base: "1rem",
+    x: ["1.5rem", "2rem", "2.5rem", "3rem", "3.5rem"]  
+  }
+})
+```
+
+##### Output
+
+```js
+{
+  fontSize: {
+    DEFAULT: "1rem",
+    x2: "1.5rem",
+    x3: "2rem",
+    x4: "2.5rem",
+    x5: "3rem",
+    x6: "3.5rem"
+  }
+}
+```
+
+
+#### Param
+
++ `tree`: the token dictionary to parse
+
+#### Returns
+
+A token dictionary with its subcategories formatted to valid Tailwind utility data.
 
 [runkit]: https://npm.runkit.com/%40quarksuite%2Fcore
 [clrs]: https://clrs.cc
 [systemfonts]: https://systemfontstack.com
+[chroma-js]: https://gka.github.io/chroma.js/
+[tinycolor]: https://bgrins.github.io/TinyColor/
+[styleD]: https://amzn.github.io/style-dictionary/#/properties
+[tailwind]: https://tailwindcss.com
+[css]: https://developer.mozilla.org/en-US/docs/Web/CSS/--*
+[sass]: https://sass-lang.com/documentation/variables
+[less]: http://lesscss.org/features/#variables-feature
+[stylus]: https://stylus-lang.com/docs/variables.html
