@@ -121,8 +121,6 @@ import { hex, tints, shades, systemfonts, ms, units, css } from '@quarksuite/cor
 ## Minimal Example
 
 ```js
-// tokens.js
-
 const {
   hex,
   tints,
@@ -132,37 +130,29 @@ const {
   units,
   css,
 } = require("@quarksuite/core");
+const { outputFileSync } = require("fs-extra");
 
+// Palette
 const main = hex("gainsboro");
 const tint = tints(4, 100, main);
 const shade = shades(4, 100, main);
 
-const color = {
-  main: { base: main, tint, shade },
-};
-
+// Fonts
 const [sans, mono] = systemfonts("sans-serif", "monospace");
 
-const font = { sans, mono };
-
+// Size
 const init = ms(8, 1.618, 1);
 const [base, ...scale] = units(4, "rem", init);
 
-const content = {
-  ms: { base, x: scale },
-};
-
-exports.tokens = css({ color, font, content });
+outputFileSync(
+  `${__dirname}/tokens/index.css`,
+  css({
+    color: { main: { base: main, tint, shade } },
+    font: { sans, mono },
+    content: { size: { base, x: scale } },
+  })
+);
 ```
-
-```js
-// build.js
-import { outputFileSync } from "fs-extra";
-import { tokens } from "./tokens.js";
-
-outputFileSync("tokens/index.css", tokens);
-```
-
 ```css
 /* tokens/index.css */
 
@@ -176,18 +166,16 @@ outputFileSync("tokens/index.css", tokens);
   --color-main-shade-1: #9c9c9c;
   --color-main-shade-2: #6e6e6e;
   --color-main-shade-3: #000000;
-
   --font-sans: -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif;
   --font-mono: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
-
-  --content-ms: 1rem;
-  --content-ms-x-0: 1.618rem;
-  --content-ms-x-1: 2.618rem;
-  --content-ms-x-2: 4.236rem;
-  --content-ms-x-3: 6.854rem;
-  --content-ms-x-4: 11.09rem;
-  --content-ms-x-5: 17.94rem;
-  --content-ms-x-6: 29.03rem;
+  --content-size: 1rem;
+  --content-size-x-0: 1.618rem;
+  --content-size-x-1: 2.618rem;
+  --content-size-x-2: 4.236rem;
+  --content-size-x-3: 6.854rem;
+  --content-size-x-4: 11.09rem;
+  --content-size-x-5: 17.94rem;
+  --content-size-x-6: 29.03rem;
 }
 ```
 
