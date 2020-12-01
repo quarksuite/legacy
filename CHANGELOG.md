@@ -105,7 +105,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## Unreleased - 2020-12-01
 
 This version is a major release adding [build functions for various formats](https://github.com/quarksuite/core/blob/master/API.md#build-formats) to the workflow as well as [
-integration utilities](https://github.com/quarksuite/core/blob/master/API.md#integration-formats) for working with Style Dictionary and Tailwind.
+integration formats](https://github.com/quarksuite/core/blob/master/API.md#integration-formats) for working with Style Dictionary and Tailwind.
 
 The reworks to the functional utilities (`bind` and `pipe`) allow the binding of settings and the ability to bind
 pipelines to create data presets. Combining these enhancements: QuarkSuite's API now allows a 
