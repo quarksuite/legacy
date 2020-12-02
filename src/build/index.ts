@@ -132,7 +132,7 @@ export const sd = (tree: TokenDictionary): StyleDictionaryProperties =>
   Object.entries(tree).reduce((acc, [key, value]) => {
     if (typeof value === "object")
       return { ...acc, [key]: sd(value as TokenDictionary) };
-    return { ...acc, [key]: { value } };
+    return { ...acc, [key]: { value: String(value) } };
   }, {});
 
 /**

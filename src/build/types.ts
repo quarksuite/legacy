@@ -8,13 +8,16 @@ export interface CSSFormatOpts {
   eol?: string;
 }
 
-export interface Subcategory {
-  base: string;
-  [index: string]: string | string[];
+export type ValueToken = string | number;
+export type ValueScale = ValueToken[];
+
+export interface TokenSubcategory {
+  base: ValueToken;
+  [index: string]: ValueToken | ValueScale;
 }
 
 export interface TokenDictionary {
-  [index: string]: string | string[] | Subcategory | TokenDictionary;
+  [index: string]: ValueToken | ValueScale | TokenSubcategory | TokenDictionary;
 }
 
 // Output formats
