@@ -72,8 +72,8 @@ export const analogous = (arc: Angle, color: CSSColor): Analogous => [
  */
 export const triad = (arc: Angle, color: CSSColor): Triadic => [
   hue(0, color),
-  hue(180 + -arc, color),
   hue(180 + arc, color),
+  hue(180 + -arc, color),
 ];
 
 /**
