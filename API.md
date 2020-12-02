@@ -110,12 +110,6 @@
     - [Usage](#usage-24)
     - [Params](#params-17)
     - [Returns](#returns-24)
-- [Token Dictionaries](#token-dictionaries)
-  - [values](#values)
-  - [scales](#scales)
-  - [subcategories](#subcategories)
-  - [nesting](#nesting)
-  - [namespacing](#namespacing)
 - [Build formats](#build-formats)
   - [css](#css)
     - [Usage](#usage-25)
@@ -647,19 +641,19 @@ A triadic scheme is a balanced to high contrast scheme made of a color and two c
 
 ```js
 // mid contrast split complement
-triad(30, 'red'); // [ '#ff0000', '#00ff80', '#0080ff' ]
+triad(30, 'red'); // [ '#ff0000',  '#0080ff', '#00ff80' ]
 
 // high contrast split complement
-triad(45, 'lime'); // [ '#00ff00', '#4000ff', '#ff0040' ]
+triad(45, 'lime'); // [ '#00ff00', '#ff0040', '#4000ff' ]
 
 // equilateral triad (triadic)
-triad(60, 'blue'); // [ '#0000ff', '#ff0000', '#00ff00' ]
+triad(60, 'blue'); // [ '#0000ff', '#00ff00', '#ff0000' ]
 
 // triadic clash
-triad(90, 'rgb(11, 77, 119)'); // [ 
-//  'rgb(11, 78, 119)', 
-//  'rgb(106, 11, 119)', 
-//  'rgb(24, 119, 11)' 
+triad(90, 'rgb(111, 222, 111)'); // [ 
+//  'rgb(111, 222, 111)', 
+//  'rgb(222, 167, 111)', 
+//  'rgb(111, 167, 222)' 
 // ]
 ```
 
@@ -670,7 +664,7 @@ triad(90, 'rgb(11, 77, 119)'); // [
 
 #### Returns
 
-An array of: `[color, leftOfOpposite, rightOfOpposite]`
+An array of: `[color, rightOfComplement, leftOfComplement]`
 
 ### tetrad
 
@@ -1064,91 +1058,6 @@ units(3, 'em', scale); // [
 
 A new scale of CSS valid values
 
-## Token Dictionaries
-
-> This new part of the API landed in v5. It's a data structure that prepares your quarks for output in 
-> various formats. 
-
-> If you have your own way of generating your tokens, **this is not required**.
-
-Values can be of type `string` or `string[]`. A collection with a `base` property is special and will be processed as a subcategory. When output, the base property is ignored or transformed in most formats.
-
-### values
-
-```js
-const dict = {
-  color: {
-    main: "red",
-    accent: "lime",
-    highlight: "cyan",
-  }
-}
-```
-
-### scales
-
-```js
-const dict = {
-  color: {
-    main: "red",
-    accent: ["crimson", "firebrick"]
-  }
-}
-```
-
-### subcategories
-
-```js
-const dict = {
-  color: {
-    main: {
-      base: "red",
-      shade: ["crimson", "firebrick"]
-    }
-    accent: "cyan",
-  }
-}
-```
-
-### nesting
-
-```js
-const dict = {
-  color: {
-    light: {
-      main: {
-        base: "red",
-        shade: ["crimson", "firebrick"]
-      }
-    },
-    dark: {
-      main: {
-        base: "lime",
-        shade: ["forestgreen", "darkgreen"]
-      }
-    }
-  }
-}
-```
-
-### namespacing
-
-```js
-const dict = {
-  project: {
-    color: {
-      main: "red",
-      accent: "cyan"
-    },
-    font: {
-      body: "sans-serif",
-      heading: "serif",
-      code: "monospace"
-    }
-  }
-}
-```
-
 ## Build formats
 
 These functions build your data into strings of various file formats ready to download with the native filesystem API or library of your choice. The currently supported formats include `css` custom properties, `sass`, `less`, `styl` variables, and raw `json`.
@@ -1157,7 +1066,9 @@ Also included in this section are integration formats that build your data to be
 
 Once built, your tokens are completely ready to use.
 
-> Every build format and integration accepts the standard token dictionary format documented in the previous section. The examples use the simplest possible dictionaries for demonstration.
+> Every build format and integration uses the standard token dictionary object. You can [read about the spec](tdspec) in the
+> usage documentation.
+The examples use the simplest possible dictionaries for demonstration.
 
 ### css
 
@@ -1406,3 +1317,4 @@ A token dictionary with its subcategories formatted to valid Tailwind utility da
 [sass]: https://sass-lang.com/documentation/variables
 [less]: http://lesscss.org/features/#variables-feature
 [stylus]: https://stylus-lang.com/docs/variables.html
+[tdspec]: https://github.com/quarksuite/core/blob/master/USAGE.md#token-dictionary-spec
