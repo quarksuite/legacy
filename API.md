@@ -1235,6 +1235,8 @@ An integration format that converts a token dictionary into Style Dictionary pro
 > Unlke the other build formats, `sd` preserves a subcategory's `base` 
 > property because that's what Style Dictionary anticipates from its 
 > recommended CTI property structure.
+>
+> Additionally, if you pass a number value in, it will be converted to a string value.
 > 
 > The main use case is to port your data for more complex design token
 > building than this library allows. Such as iOS and Android support.
