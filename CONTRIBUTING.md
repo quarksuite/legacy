@@ -1,19 +1,18 @@
+# How to Contribute to Quarksuite
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [How to Contribute to Quarksuite](#how-to-contribute-to-quarksuite)
-  - [Introduction](#introduction)
-  - [Contributions Welcome](#contributions-welcome)
-  - [Caveats](#caveats)
-  - [Ground Rules](#ground-rules)
-  - [How to Report a Bug](#how-to-report-a-bug)
-  - [Review Schedule](#review-schedule)
-  - [Code Style](#code-style)
+
+- [Introduction](#introduction)
+- [Contributions Welcome](#contributions-welcome)
+- [Caveats](#caveats)
+- [Ground Rules](#ground-rules)
+- [How to Report a Bug](#how-to-report-a-bug)
+- [Review Schedule](#review-schedule)
+- [Code Style](#code-style)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# How to Contribute to Quarksuite
 
 *I'm still really new to maintaining open source projects. I won't attempt to write my own contribution guidelines from scratch. Instead these guidelines are lifted in part from @nayafia's [contributing template](https://github.com/nayafia/contributing-template).*
 
@@ -35,11 +34,9 @@ Some contributions will be accepted or rejected on a case-by-case basis.
 
 I'm not currently looking for feature requests as I have a solid idea of this library's intended features and architecture. Unless it's something the community demands and shows that it would improve the experience and workflow.
 
-Especially important to me is keeping the size of the library ~3-5KB (minified and gzipped). Any changes that jump this threshold, unless they demonstrate they well justify the exception, will not be considered.
+Any changes that fall outside any of the [project's objectives][project obj] will also not be considered.
 
-Any changes that fall outside any of the [project's other objectives][project obj] will also not be considered.
-
-None of the above is really a hard rejection. I'm just asking that you put a little more thought into why they would be necessary changes.
+None of the above is really a hard rejection. I'm asking that you put a little more thought into why they would be necessary changes.
 
 ## Ground Rules
 

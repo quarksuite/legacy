@@ -18,8 +18,6 @@ Table of Contents
 - [Summary](#summary)
 - [Features](#features)
   - [Superpowers](#superpowers)
-- [Use QuarkSuite](#use-quarksuite)
-- [Don't Use QuarkSuite](#dont-use-quarksuite)
 - [Installation](#installation)
   - [As a Module](#as-a-module)
   - [In the Browser](#in-the-browser)
@@ -34,6 +32,8 @@ Table of Contents
   - [Zero Friction](#zero-friction)
   - [Simplicity](#simplicity)
   - [Interop](#interop)
+- [Use QuarkSuite](#use-quarksuite)
+- [Don't Use QuarkSuite](#dont-use-quarksuite)
 - [What's In a Name?](#whats-in-a-name)
   - [Quark + Suite](#quark--suite)
 - [Inspired By](#inspired-by)
@@ -62,18 +62,6 @@ and web technologies.
 + `bind` utilities as settings for reuse
 + `pipe` data through your settings
 + `bind` whole pipelines to create data presets
-
-## Use QuarkSuite
-
-+ for small projects that need to be up and running quickly
-+ for distributed design data sets you can use between projects
-+ for a consistent, flexible design system foundation
-
-## Don't Use QuarkSuite
-
-+ if your design token demands are much more complex than creating and building data to scale
-+ if you prefer tools built around batteries-included configuration
-+ if you have output demands beyond web technologies
 
 ## Installation
 
@@ -228,6 +216,18 @@ This project is built to leverage **what already exists** in the design token au
 
 QuarkSuite performs well enough on its own with small projects, but large teams will want to integrate it with meatier 
 tools like [Tailwind](https://tailwindcss.com/) or [Theme UI](https://theme-ui.com).
+
+## Use QuarkSuite
+
++ for small projects that need to be up and running quickly
++ for distributed design data sets you can use between projects
++ for a consistent, flexible design system foundation
+
+## Don't Use QuarkSuite
+
++ if your design token demands are much more complex than creating and building data to scale
++ if you prefer tools built around batteries-included configuration
++ if you have output demands beyond web technologies
 
 ## What's In a Name?
 
