@@ -55,32 +55,32 @@ describe("Public color scheme generator functions", () => {
   });
   describe("triad :: number -> string -> [string]", () => {
     test("can generate triadic color schemes", () => {
-      expect(triad(60, "red")).toStrictEqual(["#ff0000", "#00ff00", "#0000ff"]);
+      expect(triad(60, "red")).toStrictEqual(["#ff0000", "#0000ff", "#00ff00"]);
       expect(triad(60, "lime")).toStrictEqual([
         "#00ff00",
-        "#0000ff",
         "#ff0000",
+        "#0000ff",
       ]);
       expect(triad(60, "blue")).toStrictEqual([
         "#0000ff",
-        "#ff0000",
         "#00ff00",
+        "#ff0000",
       ]);
 
       expect(triad(45, "papayawhip")).toStrictEqual([
         "#ffefd5",
-        "#d5fff9",
         "#e5d5ff",
+        "#d5fff9",
       ]);
       expect(triad(45, "#abcedef9")).toStrictEqual([
         "#abcedef9",
-        "#deabc1f9",
         "#dbdeabf9",
+        "#deabc1f9",
       ]);
       expect(triad(45, "hsl(0.35turn, 40%, 70%)")).toStrictEqual([
         "hsl(126, 40%, 70%)",
-        "hsl(261, 40%, 70%)",
         "hsl(351, 40%, 70%)",
+        "hsl(261, 40%, 70%)",
       ]);
     });
   });
@@ -175,12 +175,12 @@ describe("Public color scheme generator functions", () => {
         "#ff0000",
         "#8000ff",
       ]);
-      expect(
-        custom({ hues: 4, arc: 30, offset: -60 }, "lime")
-      ).toStrictEqual(["#00ff00", "#ffff00", "#80ff00"]);
-      expect(
-        custom({ hues: 8, arc: 15, offset: -30 }, "blue")
-      ).toStrictEqual([
+      expect(custom({ hues: 4, arc: 30, offset: -60 }, "lime")).toStrictEqual([
+        "#00ff00",
+        "#ffff00",
+        "#80ff00",
+      ]);
+      expect(custom({ hues: 8, arc: 15, offset: -30 }, "blue")).toStrictEqual([
         "#0000ff",
         "#0080ff",
         "#0040ff",
