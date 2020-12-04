@@ -43,7 +43,7 @@
   - [Subcategory](#subcategory)
   - [Nesting](#nesting)
   - [Namespacing](#namespacing)
-- [QuarkSuite +](#quarksuite-)
+- [QuarkSuite Interop](#quarksuite-interop)
   - [Style Dictionary](#style-dictionary)
     - [build.js](#buildjs)
     - [output](#output)
@@ -1332,7 +1332,7 @@ const dict = {
 }
 ```
 
-## QuarkSuite +
+## QuarkSuite Interop
 
 If you've been following along this far, you see QuarkSuite does quite a lot on its own for authoring and building design tokens. That said, it's also designed to connect with tools many of us already use.
 
