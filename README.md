@@ -22,7 +22,7 @@ Table of Contents
   - [As a Module](#as-a-module)
   - [In the Browser](#in-the-browser)
 - [Minimal Example](#minimal-example)
-- [Usage](#usage)
+- [User Guide](#user-guide)
 - [API](#api)
 - [Contributing](#contributing)
 - [Concept](#concept)
@@ -59,9 +59,11 @@ and web technologies.
 
 ### Superpowers
 
-+ `bind` utilities as settings for reuse
-+ `pipe` data through your settings
-+ `bind` whole pipelines to create data presets
++ advanced functional utilities allow one-off projects to grow into project starters
++ embed the common expectations and patterns of your design tokens into shareable configurations
++ system-wide token configurations allow you to focus on what *changes* between your projects
+
+For details, [see the user guide](https://github.com/quarksuite/core/blob/master/USAGE.md#enhancements).
 
 ## Installation
 
@@ -167,36 +169,33 @@ outputFileSync(
 }
 ```
 
-## Usage
+## User Guide
 
-As of v5, usage has its own documentation. So you'll [want to head over there](https://github.com/quarksuite/core/blob/master/USAGE.md) now.
+As of v5, I've written a user guide that will take you through from basic setup to integration with other design token and UI approaches. [It's a great place to start](https://github.com/quarksuite/core/blob/master/USAGE.md) if you're new.
 
 ## API
 
-You can [read the full API documentation](https://github.com/quarksuite/core/blob/master/API.md) for available functions.
+You can also [read the full API](https://github.com/quarksuite/core/blob/master/API.md) for a technical overview of all of this library's features.
 
 ## Contributing
 
-You can read about [community and contribution](https://github.com/quarksuite/core/blob/master/CONTRIBUTING.md) and the guidelines for this project.
+You can read the [community and contribution guidelines](https://github.com/quarksuite/core/blob/master/CONTRIBUTING.md) for this project.
 
 ## Concept
 
-QuarkSuite is built around [design tokens](https://css-tricks.com/what-are-design-tokens/) and the idea that authoring them shouldn't require a 
-particular stack or framework.
+QuarkSuite is built around [design tokens](https://css-tricks.com/what-are-design-tokens/) and the idea that authoring them shouldn't require a particular stack or framework.
 
-The library's focus is on reuse and composition of design data and the API favors a data-last
-functional approach.
+The library's focus is on reuse and composition of [token dictionaries](https://github.com/quarksuite/core/blob/master/USAGE.md#token-dictionary-spec) and the API favors a data-last functional approach.
 
 ## Project Objectives
 
-These are the constraints guiding current and future development of this kit. Any feature requests that contradict 
-them won't be considered.
+QuarkSuite is guided by the following objectives. Any feature requests that contradict them won't be considered at the moment.
 
 ### Design as a Module
 
 QuarkSuite is structured to take advantage of its functional API to allow creating and composing common sets of design data you can use across projects.
 
-The main advantage of this approach for design token authoring is that you can focus on what's *different* across your projects rather than bothering with the same plumbing and electricity you set up for **every. single. job**.
+The main advantage of this approach for design token authoring is that you can focus on what's *different* across your projects rather than bothering with the same plumbing and electricity.
 
 ### Works the Way You Work
 
@@ -204,18 +203,17 @@ This project holds no opinions or comments about your web stack. Integrate your 
 
 ### Zero Friction
 
-This project has no dependencies and the included build functions detach  from it at your discretion.
+This project has no dependencies and the included build formats detach output from data at your discretion.
 
 ### Simplicity
 
-Each function has a particular job. Functionality that *breaks* the flow becomes a candidate for eventual removal.
+Each function has a particular job. Functionality that proves to *break* the flow will become a candidate for eventual removal.
 
 ### Interop
 
-This project is built to leverage **what already exists** in the design token authoring and UI theming space.
+This project is built to leverage what already exists in the design token authoring and UI theming space.
 
-QuarkSuite performs well enough on its own with small projects, but large teams will want to integrate it with meatier 
-tools like [Tailwind](https://tailwindcss.com/) or [Theme UI](https://theme-ui.com).
+QuarkSuite performs well enough on its own with small projects, but large teams will want to [integrate it with meatier tools](https://github.com/quarksuite/core/blob/master/USAGE.md#quarksuite-interop).
 
 ## Use QuarkSuite
 
@@ -235,8 +233,7 @@ QuarkSuite in its earlier stages went by the name Quarksilver in referring to ho
 
 ### Quark + Suite
 
-In atomic design terminology, the level below atoms could be considered the subatomic parts of a design system.
-I noticed quarks and ions was popping up a lot as an analogy for design tokens, so I went with that.
+In atomic design terminology, the level below atoms could be considered the subatomic parts of a design system. I noticed quarks and ions was popping up a lot as an analogy for design tokens, so I went with that.
 
 ## Inspired By
 
