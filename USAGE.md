@@ -1726,7 +1726,7 @@ export default {
 };
 ```
 
-Then, to plug in the theme to [Next.js](https://nextjs.org):
+Then, to plug in the theme with [Next.js](https://nextjs.org):
 
 ```js
 import Head from "next/head";

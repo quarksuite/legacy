@@ -8,14 +8,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Unreleased - 2020-12-01](#unreleased---2020-12-01)
+- [Unreleased - 2020-12-04](#unreleased---2020-12-04)
   - [Added](#added)
-    - [token dictionary structure](#token-dictionary-structure)
+    - [token dictionary spec](#token-dictionary-spec)
     - [build formats](#build-formats)
       - [tool integrations](#tool-integrations)
   - [Changed](#changed)
     - [types](#types)
     - [functional utilities](#functional-utilities)
+    - [scheme functions](#scheme-functions)
 - [v4.0.1 - 2020-10-03](#v401---2020-10-03)
   - [Changed](#changed-1)
 - [v4.0.0 - 2020-10-02](#v400---2020-10-02)
@@ -24,7 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
     - [General](#general)
     - [Color Formats](#color-formats)
     - [color functions](#color-functions)
-    - [scheme functions](#scheme-functions)
+    - [scheme functions](#scheme-functions-1)
     - [scale functions](#scale-functions)
   - [Changed](#changed-2)
     - [Color Formats](#color-formats-1)
@@ -102,7 +103,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Unreleased - 2020-12-01
+## Unreleased - 2020-12-04
 
 This version is a major release adding [build functions for various formats](https://github.com/quarksuite/core/blob/master/API.md#build-formats) to the workflow as well as [
 integration formats](https://github.com/quarksuite/core/blob/master/API.md#integration-formats) for working with Style Dictionary and Tailwind.
@@ -117,9 +118,13 @@ to assemble design tokens that allows nesting and namespacing.
 Internally, it leverages a few TypeScript 4 features to make the high-order function utilities (mainly `pipe`) more 
 flexible, so keep in mind you may get strange type definitions if using an older version.
 
+Finally, [I've written a user guide](https://github.com/quarksuite/core/blob/master/USAGE.md) that walks you through
+everything about the library from setting up a baseline token dictionary to refactoring with advanced features and 
+interop examples with related tools.
+
 ### Added
 
-#### token dictionary structure
+#### token dictionary spec
 
 Raw data must be built into [token dictionaries](https://github.com/quarksuite/core/blob/master/API.md#token-dictionaries) if you want to use the following build formats.
 
@@ -148,6 +153,10 @@ Raw data must be built into [token dictionaries](https://github.com/quarksuite/c
 + `pipe` functional utility upgraded
 	* type signature: `(value: any, ...fns: (x: any) => any) => any`
 	* example: `pipe("dodgerblue", setHue, mixRed, lighten)`
+
+#### scheme functions
+
++ `triad` updated to switch the order of output hues: `[color, rightOfOpposite, leftOfOpposite]`
 
 ## v4.0.1 - 2020-10-03
 
