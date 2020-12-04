@@ -55,7 +55,7 @@ and web technologies.
 	+ preprocessor variables (Sass, Less, Stylus supported)
 	+ raw JSON data 
 	+ Style Dictionary properties for complex builds or unsupported formats
-	+ Tailind data for theming
+	+ Tailwind data for theming
 
 ### Superpowers
 
