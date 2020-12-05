@@ -928,8 +928,8 @@ const color = {
 };
 
 const text = {
-  body: Font("Zilla Slab"),
-  headings: Font("Rubik", "sans-serif"),
+  body: Font("Zilla Slab", "serif"),
+  headings: Font("Rubik"),
   code: Font("Space Mono", "monospace"),
   leading: { base: 1.5, tight: 1.25, loose: 1.75 },
   size: {
@@ -1035,7 +1035,6 @@ Now, let's look at what QuarkSuite did.
 #### css
 
 ```css
-
 :root {
   --qs-color-main: rgb(52, 141, 201);
   --qs-color-main-tint-0: rgb(153, 186, 220);
@@ -1049,7 +1048,7 @@ Now, let's look at what QuarkSuite did.
   --qs-color-highlight: rgb(201, 52, 141);
   --qs-color-highlight-shade-0: rgb(146, 38, 102);
   --qs-color-highlight-shade-1: rgb(45, 12, 32);
-  --qs-text-body: Zilla Slab, -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif;
+  --qs-text-body: Zilla Slab, Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
   --qs-text-headings: Rubik, -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif;
   --qs-text-code: Space Mono, Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
   --qs-text-leading: 1.5;
@@ -1154,7 +1153,7 @@ $qs-color-accent-shade-1: rgb(32, 45, 12);
 $qs-color-highlight: rgb(201, 52, 141);
 $qs-color-highlight-shade-0: rgb(146, 38, 102);
 $qs-color-highlight-shade-1: rgb(45, 12, 32);
-$qs-text-body: Zilla Slab, -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif;
+$qs-text-body: Zilla Slab, Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
 $qs-text-headings: Rubik, -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif;
 $qs-text-code: Space Mono, Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
 $qs-text-leading: 1.5;
@@ -1277,7 +1276,7 @@ $qs-viewport-maximum-d-5: 24.06vmax;
       }
     },
     "text": {
-      "body": "Zilla Slab, -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif",
+      "body": "Zilla Slab, Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol",
       "headings": "Rubik, -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif",
       "code": "Space Mono, Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace",
       "leading": {
@@ -1599,7 +1598,7 @@ And the files:
 ```scss
 
 // Do not edit directly
-// Generated on Sat, 05 Dec 2020 18:50:22 GMT
+// Generated on Sat, 05 Dec 2020 20:02:42 GMT
 
 $qs-content-space-base: 1ex;
 $qs-content-space-x-0: 1.5ex;
@@ -1644,7 +1643,7 @@ $qs-color-accent-shade-1: #202d0c;
 $qs-color-highlight-base: #c9348d;
 $qs-color-highlight-shade-0: #922666;
 $qs-color-highlight-shade-1: #2d0c20;
-$qs-text-body: Zilla Slab, -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif;
+$qs-text-body: Zilla Slab, Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
 $qs-text-headings: Rubik, -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif;
 $qs-text-code: Space Mono, Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
 $qs-text-leading-base: 1.5;
