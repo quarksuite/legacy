@@ -5,7 +5,7 @@
 
 
 - [Summary](#summary)
-- [Baseline](#baseline)
+- [The Basics](#the-basics)
   - [Color](#color)
     - [1. set a base color](#1-set-a-base-color)
     - [2. pick a color scheme](#2-pick-a-color-scheme)
@@ -16,13 +16,6 @@
   - [Layout](#layout)
     - [1. create whitespace and rhythm scales](#1-create-whitespace-and-rhythm-scales)
     - [2. create a measure/line length scale](#2-create-a-measureline-length-scale)
-- [Build](#build)
-  - [1. Add a namespace](#1-add-a-namespace)
-  - [2. Set build formats](#2-set-build-formats)
-  - [3. Run the build](#3-run-the-build)
-    - [variables.css](#variablescss)
-    - [_variables.scss](#_variablesscss)
-    - [tokens.json](#tokensjson)
 - [Enhancements](#enhancements)
   - [Settings](#settings)
     - [Color](#color-1)
@@ -34,9 +27,14 @@
     - [Measure](#measure)
     - [Bonus: `fr` grid scale](#bonus-fr-grid-scale)
   - [Configurations](#configurations)
-  - [Reduce, Reuse, Recycle](#reduce-reuse-recycle)
+  - [Formulae](#formulae)
     - [config.js](#configjs)
     - [tokens.js](#tokensjs)
+- [Building](#building)
+    - [build.js](#buildjs)
+    - [css](#css)
+    - [scss](#scss)
+    - [json](#json)
 - [Token Dictionary Spec](#token-dictionary-spec)
   - [Value](#value)
   - [Scale](#scale)
@@ -45,7 +43,7 @@
   - [Namespacing](#namespacing)
 - [QuarkSuite Interop](#quarksuite-interop)
   - [Style Dictionary](#style-dictionary)
-    - [build.js](#buildjs)
+    - [build.js](#buildjs-1)
     - [output](#output)
     - [config.json](#configjson)
     - [build](#build)
@@ -77,7 +75,7 @@ It's here to help you get the most out of this kit while introducing you to its 
 
 > Full disclosure: the below tutorial is the actual process for building QuarkSuite's *own* design tokens which are used on the upcoming website.
 
-## Baseline
+## The Basics
 
 We'll begin with a basic setup. These token categories show up in nearly every modern web project, so they're a good starting point for a baseline.
 
@@ -169,6 +167,8 @@ The next set of tokens to create are for typography.
 QuarkSuite isn't worried about what fonts you use or how you serve them. Instead, for your font tokens it provides a utility for attaching robust system fallbacks. Let's define `body` and `heading` values for our `text` dictionary. This is also the place to define our expected leading and weights.
 
 ```js
+const [serif, sans] = systemfonts("serif", "sans-serif");
+
 const text = {
   body: ["Zilla Slab", serif].join(", "),
   headings: ["Rubik", sans].join(", "),
@@ -188,6 +188,8 @@ Modular scales are an effective way to define consistent values for your content
 For our example, we'll be creating a 10 `value` scale with a `ratio` of 1.5 with a `base` of 1.
 
 ```js
+const [serif, sans] = systemfonts("serif", "sans-serif");
+
 const base = 1;
 const ratio = 1.5;
 const values = 10;
@@ -201,7 +203,7 @@ const [, ...sxd] = units(4, "em", inverse);
 
 The [way QuarkSuite does scales](https://github.com/quarksuite/core/blob/master/API.md#scale-functions) is starting you off with raw values to let you do all your calculations and conversions. And then you attach your units when you're done.
 
-So instead of another library that fiddles with conversion math, QuarkSuite trusts the web to respond to its *own* units accurately. So use the values you actually intend.
+So instead of another library that fiddles with conversion math, QuarkSuite trusts the web to respond to its own units. So use the values you intend.
 
 Now, we'll update our `font` dictionary with a `size` subcategory:
 
@@ -219,11 +221,11 @@ const text = {
 
 ### Layout
 
-The final set of data will define layout. And here's where our example may depart from the usual approaches.
+The final set of tokens will define layout. And here's where our example may depart from the usual approaches.
 
 Think about how the web is structured.
 
-Every web project begins with content. The web itself started as a text medium. So why not make layout a **content concern**?
+Every web project begins with content. The web itself started as a text medium. Layout considerations on the web also strike me as content considerations.
 
 Therefore, in our baseline, layout is contained under the `content` dictionary.
 
@@ -284,335 +286,9 @@ const measure = {
 };
 ```
 
-## Build
-
-Now with our tokens assembled, we're ready to build the whole dictionary to implement in our UI. Our example will output a `token` directory containing CSS custom properties, Sass variables, and raw JSON. But first...
-
-### 1. Add a namespace
-
-A project design token collection will generally want to have each token prefixed with a namespace. So let's do that.
-
-```js
-const qs = { color, text, content: { ...content, measure } };
-```
-
-If you were wondering why `measure` was defined apart from content, it's to demonstrate that token dictionaries are simply JS objects. They can be composed and nested without issue.
-
-### 2. Set build formats
-
-The final step is our output. For this, QuarkSuite provides [a set of build formats](https://github.com/quarksuite/core/blob/master/API.md#build-formats). For our example we're gonna output some CSS custom properties, Sass variables, and raw data.
-
-```js
-require("fs-extra").outputFileSync(
-  `${__dirname}/tokens/variables.css`,
-  css({ qs })
-);
-
-require("fs-extra").outputFileSync(
-  `${__dirname}/tokens/_variables.scss`,
-  sass({ qs })
-);
-
-require("fs-extra").outputFileSync(
-  `${__dirname}/tokens/tokens.json`,
-  raw({ qs })
-);
-```
-
-You can use any filesystem library (or Node's native `fs` module), but I like `fs-extra` because it also creates the directory.  
-
-### 3. Run the build
-
-Finally, you run the script to build your tokens:
-
-```bash
-node tokens // or your own script
-```
-
-Your output directory will sit in the same directory as your token dictionaries.
-
-Let's see our files:
-
-```bash
-tokens
-├── tokens.json
-├── variables.css
-└── _variables.scss
-```
-
-#### variables.css
-
-```css
-:root {
-  --qs-color-main: rgb(52, 141, 201);
-  --qs-color-main-tint-0: rgb(153, 186, 220);
-  --qs-color-main-tint-1: rgb(209, 223, 238);
-  --qs-color-main-tint-2: rgb(254, 254, 255);
-  --qs-color-main-shade-0: rgb(37, 100, 143);
-  --qs-color-main-shade-1: rgb(5, 14, 20);
-  --qs-color-accent: rgb(141, 201, 52);
-  --qs-color-accent-shade-0: rgb(100, 143, 37);
-  --qs-color-accent-shade-1: rgb(14, 20, 5);
-  --qs-color-highlight: rgb(201, 52, 141);
-  --qs-color-highlight-shade-0: rgb(143, 37, 100);
-  --qs-color-highlight-shade-1: rgb(20, 5, 14);
-  --qs-text-body: Zilla Slab, Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
-  --qs-text-headings: Rubik, -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif;
-  --qs-text-leading: 1.5;
-  --qs-text-leading-tight: 1.25;
-  --qs-text-leading-loose: 1.75;
-  --qs-text-size: 1rem;
-  --qs-text-size-x-0: 1.5rem;
-  --qs-text-size-x-1: 2.25rem;
-  --qs-text-size-x-2: 3.375rem;
-  --qs-text-size-x-3: 5.063rem;
-  --qs-text-size-x-4: 7.594rem;
-  --qs-text-size-x-5: 11.39rem;
-  --qs-text-size-x-6: 17.09rem;
-  --qs-text-size-x-7: 25.63rem;
-  --qs-text-size-x-8: 38.44rem;
-  --qs-text-size-xd-0: 0.6667em;
-  --qs-text-size-xd-1: 0.4444em;
-  --qs-text-size-xd-2: 0.2963em;
-  --qs-text-size-xd-3: 0.1975em;
-  --qs-text-size-xd-4: 0.1317em;
-  --qs-text-size-xd-5: 0.08779em;
-  --qs-text-size-xd-6: 0.05853em;
-  --qs-text-size-xd-7: 0.03902em;
-  --qs-text-size-xd-8: 0.02601em;
-  --qs-text-style-regular: 400;
-  --qs-text-style-bold: 700;
-  --qs-text-style-black: 900;
-  --qs-content-space: 1ex;
-  --qs-content-space-x-0: 1.5ex;
-  --qs-content-space-x-1: 2.25ex;
-  --qs-content-space-x-2: 3.375ex;
-  --qs-content-space-x-3: 5.063ex;
-  --qs-content-space-x-4: 7.594ex;
-  --qs-content-space-x-5: 11.39ex;
-  --qs-content-space-x-6: 17.09ex;
-  --qs-content-space-x-7: 25.63ex;
-  --qs-content-space-x-8: 38.44ex;
-  --qs-content-space-xd-0: 0.6667ex;
-  --qs-content-space-xd-1: 0.4444ex;
-  --qs-content-space-xd-2: 0.2963ex;
-  --qs-content-space-xd-3: 0.1975ex;
-  --qs-content-space-xd-4: 0.1317ex;
-  --qs-content-space-xd-5: 0.08779ex;
-  --qs-content-space-xd-6: 0.05853ex;
-  --qs-content-space-xd-7: 0.03902ex;
-  --qs-content-space-xd-8: 0.02601ex;
-  --qs-content-measure: 75ch;
-  --qs-content-measure-xd-0: 74ch;
-  --qs-content-measure-xd-1: 73ch;
-  --qs-content-measure-xd-2: 72ch;
-  --qs-content-measure-xd-3: 71ch;
-  --qs-content-measure-xd-4: 69ch;
-  --qs-content-measure-xd-5: 67ch;
-  --qs-content-measure-xd-6: 63ch;
-  --qs-content-measure-xd-7: 57ch;
-  --qs-content-measure-xd-8: 49ch;
-  --qs-content-measure-min: 45ch;
-}
-```
-
-#### _variables.scss
-
-```scss
-$qs-color-main: rgb(52, 141, 201);
-$qs-color-main-tint-0: rgb(153, 186, 220);
-$qs-color-main-tint-1: rgb(209, 223, 238);
-$qs-color-main-tint-2: rgb(254, 254, 255);
-$qs-color-main-shade-0: rgb(37, 100, 143);
-$qs-color-main-shade-1: rgb(5, 14, 20);
-$qs-color-accent: rgb(141, 201, 52);
-$qs-color-accent-shade-0: rgb(100, 143, 37);
-$qs-color-accent-shade-1: rgb(14, 20, 5);
-$qs-color-highlight: rgb(201, 52, 141);
-$qs-color-highlight-shade-0: rgb(143, 37, 100);
-$qs-color-highlight-shade-1: rgb(20, 5, 14);
-$qs-text-body: Zilla Slab, Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
-$qs-text-headings: Rubik, -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif;
-$qs-text-leading: 1.5;
-$qs-text-leading-tight: 1.25;
-$qs-text-leading-loose: 1.75;
-$qs-text-size: 1rem;
-$qs-text-size-x-0: 1.5rem;
-$qs-text-size-x-1: 2.25rem;
-$qs-text-size-x-2: 3.375rem;
-$qs-text-size-x-3: 5.063rem;
-$qs-text-size-x-4: 7.594rem;
-$qs-text-size-x-5: 11.39rem;
-$qs-text-size-x-6: 17.09rem;
-$qs-text-size-x-7: 25.63rem;
-$qs-text-size-x-8: 38.44rem;
-$qs-text-size-xd-0: 0.6667em;
-$qs-text-size-xd-1: 0.4444em;
-$qs-text-size-xd-2: 0.2963em;
-$qs-text-size-xd-3: 0.1975em;
-$qs-text-size-xd-4: 0.1317em;
-$qs-text-size-xd-5: 0.08779em;
-$qs-text-size-xd-6: 0.05853em;
-$qs-text-size-xd-7: 0.03902em;
-$qs-text-size-xd-8: 0.02601em;
-$qs-text-style-regular: 400;
-$qs-text-style-bold: 700;
-$qs-text-style-black: 900;
-$qs-content-space: 1ex;
-$qs-content-space-x-0: 1.5ex;
-$qs-content-space-x-1: 2.25ex;
-$qs-content-space-x-2: 3.375ex;
-$qs-content-space-x-3: 5.063ex;
-$qs-content-space-x-4: 7.594ex;
-$qs-content-space-x-5: 11.39ex;
-$qs-content-space-x-6: 17.09ex;
-$qs-content-space-x-7: 25.63ex;
-$qs-content-space-x-8: 38.44ex;
-$qs-content-space-xd-0: 0.6667ex;
-$qs-content-space-xd-1: 0.4444ex;
-$qs-content-space-xd-2: 0.2963ex;
-$qs-content-space-xd-3: 0.1975ex;
-$qs-content-space-xd-4: 0.1317ex;
-$qs-content-space-xd-5: 0.08779ex;
-$qs-content-space-xd-6: 0.05853ex;
-$qs-content-space-xd-7: 0.03902ex;
-$qs-content-space-xd-8: 0.02601ex;
-$qs-content-measure: 75ch;
-$qs-content-measure-xd-0: 74ch;
-$qs-content-measure-xd-1: 73ch;
-$qs-content-measure-xd-2: 72ch;
-$qs-content-measure-xd-3: 71ch;
-$qs-content-measure-xd-4: 69ch;
-$qs-content-measure-xd-5: 67ch;
-$qs-content-measure-xd-6: 63ch;
-$qs-content-measure-xd-7: 57ch;
-$qs-content-measure-xd-8: 49ch;
-$qs-content-measure-min: 45ch;
-```
-
-#### tokens.json
-
-```json
-{
-  "qs": {
-    "color": {
-      "main": {
-        "base": "rgb(52, 141, 201)",
-        "tint": [
-          "rgb(153, 186, 220)",
-          "rgb(209, 223, 238)",
-          "rgb(254, 254, 255)"
-        ],
-        "shade": [
-          "rgb(37, 100, 143)",
-          "rgb(5, 14, 20)"
-        ]
-      },
-      "accent": {
-        "base": "rgb(141, 201, 52)",
-        "shade": [
-          "rgb(100, 143, 37)",
-          "rgb(14, 20, 5)"
-        ]
-      },
-      "highlight": {
-        "base": "rgb(201, 52, 141)",
-        "shade": [
-          "rgb(143, 37, 100)",
-          "rgb(20, 5, 14)"
-        ]
-      }
-    },
-    "text": {
-      "body": "Zilla Slab, Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol",
-      "headings": "Rubik, -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif",
-      "leading": {
-        "base": 1.5,
-        "tight": 1.25,
-        "loose": 1.75
-      },
-      "size": {
-        "base": "1rem",
-        "x": [
-          "1.5rem",
-          "2.25rem",
-          "3.375rem",
-          "5.063rem",
-          "7.594rem",
-          "11.39rem",
-          "17.09rem",
-          "25.63rem",
-          "38.44rem"
-        ],
-        "xd": [
-          "0.6667em",
-          "0.4444em",
-          "0.2963em",
-          "0.1975em",
-          "0.1317em",
-          "0.08779em",
-          "0.05853em",
-          "0.03902em",
-          "0.02601em"
-        ]
-      },
-      "style": {
-        "regular": 400,
-        "bold": 700,
-        "black": 900
-      }
-    },
-    "content": {
-      "space": {
-        "base": "1ex",
-        "x": [
-          "1.5ex",
-          "2.25ex",
-          "3.375ex",
-          "5.063ex",
-          "7.594ex",
-          "11.39ex",
-          "17.09ex",
-          "25.63ex",
-          "38.44ex"
-        ],
-        "xd": [
-          "0.6667ex",
-          "0.4444ex",
-          "0.2963ex",
-          "0.1975ex",
-          "0.1317ex",
-          "0.08779ex",
-          "0.05853ex",
-          "0.03902ex",
-          "0.02601ex"
-        ]
-      },
-      "measure": {
-        "base": "75ch",
-        "xd": [
-          "74ch",
-          "73ch",
-          "72ch",
-          "71ch",
-          "69ch",
-          "67ch",
-          "63ch",
-          "57ch",
-          "49ch"
-        ],
-        "min": "45ch"
-      }
-    }
-  }
-}
-```
-
-Brilliant.
+## Enhancements
 
 Now, you may wondering why the token construction process was so laborious and repetitive. And if the basic utilities were all this library included, I couldn't argue with that.
-
-## Enhancements
 
 QuarkSuite's major strength in authoring design tokens rests in its functional API. Which would be underwhelming on its own without the [`bind` and `pipe` utilities](https://github.com/quarksuite/core/blob/master/API.md#functional-utilities) augmenting its might.
 
@@ -622,6 +298,7 @@ So we're gonna get into the advanced features:
 2. Factory Settings
 3. Presets
 4. Configurations
+5. Formulae
 
 Let's rework our baseline. And in the process, I shall show you **true power**.
 
@@ -725,7 +402,7 @@ The use case for factory settings is when you have settings you want to carry ac
 
 Now I'll introduce presets. This feature allows `pipe` to show off its abilities. In fact, you've already seen one: `content = pipe(base, scale);` is actually a minimal preset.
 
-Presets can safely be the starting value for other presets. Thus we can rework our baseline scales into a *chain* of presets that make use of our factory settings.
+Presets can safely be the starting value other other presets. Thus we can rework our scales into a *chain* of presets that make use of our factory settings.
 
 #### Font Size
 
@@ -890,9 +567,9 @@ const text = {
   headings: ["Rubik", sans].join(", "),
   leading: { base: 1.5, tight: 1.25, loose: 1.75 },
   size: {
-    base: setValue(base),
-    x: setScale(content),
-    xd: setScale(content, "em", true),
+    base: Value(base),
+    x: Scale(content),
+    xd: Scale(content, "em", true),
   },
   style: {
     regular: 400,
@@ -903,33 +580,55 @@ const text = {
 
 const content = {
   space: {
-    base: setValue(base, "ex"),
-    x: setScale(content, "ex"),
-    xd: setScale(content, "ex", true),
+    base: Value(base, "ex"),
+    s: Scale(content, "ex"),
+    xd: Scale(content, "ex", true),
   },
   measure: {
-    base: setValue(max, "ch"),
-    xd: setIntermediateMeasure(content),
-    min: setValue(min, "ch"),
+    base: Value(max, "ch"),
+    xd: IntermediateMeasure(content),
+    min: Scale(min, "ch"),
   },
   grid: {
-    base: setValue(base, "fr"),
-    n: setScale(content, "fr"),
+    base: Value(base, "fr"),
+    n: Scale(content, "fr"),
   },
 };
 
 const qs = { color, text, content };
 ```
 
-### Reduce, Reuse, Recycle
+### Formulae
 
-All of the above enhancements leave a lot of code for one file. So our last refactor is separating our token dictionary and build code from our settings and configurations.
+The final advanced concept I'll introduce is formulae.
 
-This is also a good time remind you of the [main project objective](https://github.com/quarksuite/core/blob/master/README.md#project-objectives): **"Design as a Module"**. Configurations allow you to make programmatic statements about your design expectations, patterns, and idioms that inform *most* of your web design projects so you can change only what *needs* to change across them.
+This is the end of the QuarkSuite composition chain. Formulae can be described as *contextual* configurations. They're bits of logic intended for a specific kind of output.
+
+For example, a `Size` formula to capture the expectation that the units for size will always be `"rems"` unless `inversion = true` in which case it will be divided and assigned `"ems"`.
+
+```js
+// My font size scales nearly always use em units for inversions, and I usually
+// set them as subcategories, so I need a toggle to generate the base value
+exports.Size = ({
+  base = 1,
+  initial = false,
+  inversion,
+  precision,
+  values,
+  ratio,
+} = {}) =>
+  initial
+    ? Value(base, { precision })
+    : inversion
+    ? Scale({ base, precision, inversion, values, ratio, unit: "em" })
+    : Scale({ base, precision, values, ratio });
+```
+
+When you've gone this far down the chain, you're ready to break up your logic from your data.
 
 #### config.js
 
-I'll conclude the tutorial with an example of a configuration I'm actually using now.
+This is the full set of data formulae I use for the upcoming QuarkSuite website as well as other web projects. 
 
 ```js
 const {
@@ -947,7 +646,9 @@ const {
   units,
 } = require("@quarksuite/core");
 
-// Configuration setup
+const isNotBaseValue = (_v, i) => i !== 0;
+
+// Settings and factory settings
 const complement = bind(hue, 180);
 
 const light = ({ count = 3, contrast = 99 } = {}) =>
@@ -957,8 +658,6 @@ const muted = ({ count = 2, contrast = 99 } = {}) =>
   bind(tones, count, contrast);
 
 const dark = ({ count = 2, contrast = 95 }) => bind(shades, count, contrast);
-
-const isNotBaseValue = (_v, i) => i !== 0;
 
 const content = ({ values = 10, ratio = 1.5, base = 1 }) =>
   ms(values, ratio, base);
@@ -981,7 +680,7 @@ const viewRange = (boundary = 15) => bind(minimum, boundary);
 const output = ({ precision = 4, unit = "rem" } = {}) =>
   bind(units, precision, unit);
 
-// General purpose value and scale configurations
+// Configurations
 const Value = (base = 1, { precision = 4, unit = "rem" } = {}) =>
   pipe(base, box, output({ precision, unit }), extract);
 
@@ -1023,7 +722,7 @@ const VP = ({
         output({ precision, unit })
       );
 
-// Statements
+// Formulae
 
 // I often start with a neutral base color.
 exports.Neutral = (color) => pipe(color, bind(mix, 50, complement(color)));
@@ -1035,7 +734,7 @@ exports.Tones = (color, { count, contrast } = {}) =>
   pipe(color, muted({ count, contrast }));
 exports.Shades = (color, { count, contrast } = {}) =>
   pipe(color, dark({ count, contrast }));
-  
+
 // For working with Tailwind, I usually switch to a Material Design style
 // numeric scale.
 exports.Material = (color, { contrast = 99 } = {}) =>
@@ -1052,7 +751,6 @@ exports.Material = (color, { contrast = 99 } = {}) =>
     }),
     {}
   );
-
 
 // I usually use Roboto from Google Fonts with a fallback to system sans
 exports.Font = (font = "Roboto", fallback = "sans-serif") =>
@@ -1136,7 +834,8 @@ exports.Viewport = {
     max = 100,
     boundary = 10,
     initial = false,
-  } = {}) => VP({ values, ratio, base, precision, unit: "vw", max, boundary, initial }),
+  } = {}) =>
+    VP({ values, ratio, base, precision, unit: "vw", max, boundary, initial }),
   height: ({
     values,
     ratio,
@@ -1145,11 +844,46 @@ exports.Viewport = {
     max = 100,
     boundary = 15,
     initial = false,
-  } = {}) => VP({ values, ratio, base, precision, unit: "vh", max, boundary, initial }),
-  min: ({ values, ratio, base, precision, max = 100, boundary = 15, initial = false } = {}) =>
-    VP({ values, ratio, base, precision, unit: "vmin", max, boundary, initial }),
-  max: ({ values, ratio, base, precision, max = 100, boundary = 15, initial = false } = {}) =>
-    VP({ values, ratio, base, precision, unit: "vmax", max, boundary, initial }),
+  } = {}) =>
+    VP({ values, ratio, base, precision, unit: "vh", max, boundary, initial }),
+  min: ({
+    values,
+    ratio,
+    base,
+    precision,
+    max = 100,
+    boundary = 15,
+    initial = false,
+  } = {}) =>
+    VP({
+      values,
+      ratio,
+      base,
+      precision,
+      unit: "vmin",
+      max,
+      boundary,
+      initial,
+    }),
+  max: ({
+    values,
+    ratio,
+    base,
+    precision,
+    max = 100,
+    boundary = 15,
+    initial = false,
+  } = {}) =>
+    VP({
+      values,
+      ratio,
+      base,
+      precision,
+      unit: "vmax",
+      max,
+      boundary,
+      initial,
+    }),
 };
 ```
 
@@ -1158,6 +892,8 @@ exports.Viewport = {
 #### tokens.js
 
 And here they are used to build out the full QuarkSuite token dictionary.
+
+You'll notice that formulae are mostly called without modification, except in cases where the output needs to change. Like for grabbing initial values or triggering special behavior.
 
 ```js
 const { rgb, triad } = require("@quarksuite/core");
@@ -1199,7 +935,7 @@ const text = {
   size: {
     base: Size({ initial: true }),
     x: Size(),
-    xd: Size({ inversion: true }),
+    d: Size({ inversion: true }),
   },
   style: {
     regular: 400,
@@ -1212,11 +948,11 @@ const content = {
   space: {
     base: Spacing({ initial: true }),
     x: Spacing(),
-    xd: Spacing({ inversion: true }),
+    d: Spacing({ inversion: true }),
   },
   measure: {
     base: Measure({ isMax: true }),
-    xd: Measure(),
+    d: Measure(),
     min: Measure({ isMin: true }),
   },
   grid: {
@@ -1228,24 +964,455 @@ const content = {
 const viewport = {
   width: {
     base: Viewport.width({ initial: true }),
-    xd: Viewport.width(),
+    d: Viewport.width(),
   },
   height: {
     base: Viewport.height({ initial: true }),
-    xd: Viewport.height(),
+    d: Viewport.height(),
   },
   minimum: {
     base: Viewport.min({ initial: true }),
-    xd: Viewport.min(),
+    d: Viewport.min(),
   },
   maximum: {
     base: Viewport.max({ initial: true }),
-    xd: Viewport.max(),
+    d: Viewport.max(),
   },
 };
 
 module.exports = { color, text, content, viewport };
 ```
+
+## Building
+
+After all of our enhancements, we're ready to see the final form of our token dictionary. QuarkSuite provides a [host of build formats](https://github.com/quarksuite/core/blob/master/API.md#build-formats) for CSS custom properties, popular CSS preprocessor variables, raw JSON, and more.
+
+#### build.js
+
+The QuarkSuite token dictionary gets wrapped in the namespace `qs` before building. And we're using the `css`, `scss`, and `raw` build formats to output our tokens.
+
+You can use any filesystem library (or native `fs` module) to output the files. I like `fs-extra` because it creates the directory as well.
+
+```js
+const { css, sass, raw } = require("@quarksuite/core");
+const qs = require("./tokens");
+
+require("fs-extra").outputFileSync(
+  `${__dirname}/tokens/variables.css`,
+  css({ qs })
+);
+
+require("fs-extra").outputFileSync(
+  `${__dirname}/tokens/_variables.scss`,
+  sass({ qs })
+);
+
+require("fs-extra").outputFileSync(
+  `${__dirname}/tokens/tokens.json`,
+  raw({ qs })
+);
+```
+
+Now, we run our script.
+
+```bash
+node build
+```
+
+And inspect the output directory.
+
+```bash
+tokens
+├── tokens.json
+├── variables.css
+└── _variables.scss
+
+0 directories, 3 files
+```
+
+Now, let's look at what QuarkSuite did.
+
+#### css
+
+```css
+
+:root {
+  --qs-color-main: rgb(52, 141, 201);
+  --qs-color-main-tint-0: rgb(153, 186, 220);
+  --qs-color-main-tint-1: rgb(209, 223, 238);
+  --qs-color-main-tint-2: rgb(254, 254, 255);
+  --qs-color-main-shade-0: rgb(38, 102, 146);
+  --qs-color-main-shade-1: rgb(12, 32, 45);
+  --qs-color-accent: rgb(141, 201, 52);
+  --qs-color-accent-shade-0: rgb(102, 146, 38);
+  --qs-color-accent-shade-1: rgb(32, 45, 12);
+  --qs-color-highlight: rgb(201, 52, 141);
+  --qs-color-highlight-shade-0: rgb(146, 38, 102);
+  --qs-color-highlight-shade-1: rgb(45, 12, 32);
+  --qs-text-body: Zilla Slab, -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif;
+  --qs-text-headings: Rubik, -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif;
+  --qs-text-code: Space Mono, Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
+  --qs-text-leading: 1.5;
+  --qs-text-leading-tight: 1.25;
+  --qs-text-leading-loose: 1.75;
+  --qs-text-size: 1rem;
+  --qs-text-size-x-0: 1.5rem;
+  --qs-text-size-x-1: 2.25rem;
+  --qs-text-size-x-2: 3.375rem;
+  --qs-text-size-x-3: 5.063rem;
+  --qs-text-size-x-4: 7.594rem;
+  --qs-text-size-x-5: 11.39rem;
+  --qs-text-size-x-6: 17.09rem;
+  --qs-text-size-x-7: 25.63rem;
+  --qs-text-size-x-8: 38.44rem;
+  --qs-text-size-d-0: 0.6667em;
+  --qs-text-size-d-1: 0.4444em;
+  --qs-text-size-d-2: 0.2963em;
+  --qs-text-size-d-3: 0.1975em;
+  --qs-text-size-d-4: 0.1317em;
+  --qs-text-size-d-5: 0.08779em;
+  --qs-text-size-d-6: 0.05853em;
+  --qs-text-size-d-7: 0.03902em;
+  --qs-text-size-d-8: 0.02601em;
+  --qs-text-style-regular: 400;
+  --qs-text-style-bold: 700;
+  --qs-text-style-black: 900;
+  --qs-content-space: 1ex;
+  --qs-content-space-x-0: 1.5ex;
+  --qs-content-space-x-1: 2.25ex;
+  --qs-content-space-x-2: 3.375ex;
+  --qs-content-space-x-3: 5.063ex;
+  --qs-content-space-x-4: 7.594ex;
+  --qs-content-space-x-5: 11.39ex;
+  --qs-content-space-x-6: 17.09ex;
+  --qs-content-space-x-7: 25.63ex;
+  --qs-content-space-x-8: 38.44ex;
+  --qs-content-space-d-0: 0.6667ex;
+  --qs-content-space-d-1: 0.4444ex;
+  --qs-content-space-d-2: 0.2963ex;
+  --qs-content-space-d-3: 0.1975ex;
+  --qs-content-space-d-4: 0.1317ex;
+  --qs-content-space-d-5: 0.08779ex;
+  --qs-content-space-d-6: 0.05853ex;
+  --qs-content-space-d-7: 0.03902ex;
+  --qs-content-space-d-8: 0.02601ex;
+  --qs-content-measure: 75ch;
+  --qs-content-measure-min: 45ch;
+  --qs-content-grid: 1fr;
+  --qs-content-grid-n-0: 1.5fr;
+  --qs-content-grid-n-1: 2.25fr;
+  --qs-content-grid-n-2: 3.375fr;
+  --qs-content-grid-n-3: 5.063fr;
+  --qs-content-grid-n-4: 7.594fr;
+  --qs-content-grid-n-5: 11.39fr;
+  --qs-content-grid-n-6: 17.09fr;
+  --qs-content-grid-n-7: 25.63fr;
+  --qs-content-grid-n-8: 38.44fr;
+  --qs-viewport-width: 100vw;
+  --qs-viewport-width-d-0: 90vw;
+  --qs-viewport-width-d-1: 85vw;
+  --qs-viewport-width-d-2: 77.5vw;
+  --qs-viewport-width-d-3: 66.25vw;
+  --qs-viewport-width-d-4: 49.38vw;
+  --qs-viewport-width-d-5: 24.06vw;
+  --qs-viewport-height: 100vh;
+  --qs-viewport-height-d-0: 90vh;
+  --qs-viewport-height-d-1: 85vh;
+  --qs-viewport-height-d-2: 77.5vh;
+  --qs-viewport-height-d-3: 66.25vh;
+  --qs-viewport-height-d-4: 49.38vh;
+  --qs-viewport-height-d-5: 24.06vh;
+  --qs-viewport-minimum: 100vmin;
+  --qs-viewport-minimum-d-0: 90vmin;
+  --qs-viewport-minimum-d-1: 85vmin;
+  --qs-viewport-minimum-d-2: 77.5vmin;
+  --qs-viewport-minimum-d-3: 66.25vmin;
+  --qs-viewport-minimum-d-4: 49.38vmin;
+  --qs-viewport-minimum-d-5: 24.06vmin;
+  --qs-viewport-maximum: 100vmax;
+  --qs-viewport-maximum-d-0: 90vmax;
+  --qs-viewport-maximum-d-1: 85vmax;
+  --qs-viewport-maximum-d-2: 77.5vmax;
+  --qs-viewport-maximum-d-3: 66.25vmax;
+  --qs-viewport-maximum-d-4: 49.38vmax;
+  --qs-viewport-maximum-d-5: 24.06vmax;
+}
+```
+
+#### scss
+
+```scss
+$qs-color-main: rgb(52, 141, 201);
+$qs-color-main-tint-0: rgb(153, 186, 220);
+$qs-color-main-tint-1: rgb(209, 223, 238);
+$qs-color-main-tint-2: rgb(254, 254, 255);
+$qs-color-main-shade-0: rgb(38, 102, 146);
+$qs-color-main-shade-1: rgb(12, 32, 45);
+$qs-color-accent: rgb(141, 201, 52);
+$qs-color-accent-shade-0: rgb(102, 146, 38);
+$qs-color-accent-shade-1: rgb(32, 45, 12);
+$qs-color-highlight: rgb(201, 52, 141);
+$qs-color-highlight-shade-0: rgb(146, 38, 102);
+$qs-color-highlight-shade-1: rgb(45, 12, 32);
+$qs-text-body: Zilla Slab, -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif;
+$qs-text-headings: Rubik, -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif;
+$qs-text-code: Space Mono, Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
+$qs-text-leading: 1.5;
+$qs-text-leading-tight: 1.25;
+$qs-text-leading-loose: 1.75;
+$qs-text-size: 1rem;
+$qs-text-size-x-0: 1.5rem;
+$qs-text-size-x-1: 2.25rem;
+$qs-text-size-x-2: 3.375rem;
+$qs-text-size-x-3: 5.063rem;
+$qs-text-size-x-4: 7.594rem;
+$qs-text-size-x-5: 11.39rem;
+$qs-text-size-x-6: 17.09rem;
+$qs-text-size-x-7: 25.63rem;
+$qs-text-size-x-8: 38.44rem;
+$qs-text-size-d-0: 0.6667em;
+$qs-text-size-d-1: 0.4444em;
+$qs-text-size-d-2: 0.2963em;
+$qs-text-size-d-3: 0.1975em;
+$qs-text-size-d-4: 0.1317em;
+$qs-text-size-d-5: 0.08779em;
+$qs-text-size-d-6: 0.05853em;
+$qs-text-size-d-7: 0.03902em;
+$qs-text-size-d-8: 0.02601em;
+$qs-text-style-regular: 400;
+$qs-text-style-bold: 700;
+$qs-text-style-black: 900;
+$qs-content-space: 1ex;
+$qs-content-space-x-0: 1.5ex;
+$qs-content-space-x-1: 2.25ex;
+$qs-content-space-x-2: 3.375ex;
+$qs-content-space-x-3: 5.063ex;
+$qs-content-space-x-4: 7.594ex;
+$qs-content-space-x-5: 11.39ex;
+$qs-content-space-x-6: 17.09ex;
+$qs-content-space-x-7: 25.63ex;
+$qs-content-space-x-8: 38.44ex;
+$qs-content-space-d-0: 0.6667ex;
+$qs-content-space-d-1: 0.4444ex;
+$qs-content-space-d-2: 0.2963ex;
+$qs-content-space-d-3: 0.1975ex;
+$qs-content-space-d-4: 0.1317ex;
+$qs-content-space-d-5: 0.08779ex;
+$qs-content-space-d-6: 0.05853ex;
+$qs-content-space-d-7: 0.03902ex;
+$qs-content-space-d-8: 0.02601ex;
+$qs-content-measure: 75ch;
+$qs-content-measure-min: 45ch;
+$qs-content-grid: 1fr;
+$qs-content-grid-n-0: 1.5fr;
+$qs-content-grid-n-1: 2.25fr;
+$qs-content-grid-n-2: 3.375fr;
+$qs-content-grid-n-3: 5.063fr;
+$qs-content-grid-n-4: 7.594fr;
+$qs-content-grid-n-5: 11.39fr;
+$qs-content-grid-n-6: 17.09fr;
+$qs-content-grid-n-7: 25.63fr;
+$qs-content-grid-n-8: 38.44fr;
+$qs-viewport-width: 100vw;
+$qs-viewport-width-d-0: 90vw;
+$qs-viewport-width-d-1: 85vw;
+$qs-viewport-width-d-2: 77.5vw;
+$qs-viewport-width-d-3: 66.25vw;
+$qs-viewport-width-d-4: 49.38vw;
+$qs-viewport-width-d-5: 24.06vw;
+$qs-viewport-height: 100vh;
+$qs-viewport-height-d-0: 90vh;
+$qs-viewport-height-d-1: 85vh;
+$qs-viewport-height-d-2: 77.5vh;
+$qs-viewport-height-d-3: 66.25vh;
+$qs-viewport-height-d-4: 49.38vh;
+$qs-viewport-height-d-5: 24.06vh;
+$qs-viewport-minimum: 100vmin;
+$qs-viewport-minimum-d-0: 90vmin;
+$qs-viewport-minimum-d-1: 85vmin;
+$qs-viewport-minimum-d-2: 77.5vmin;
+$qs-viewport-minimum-d-3: 66.25vmin;
+$qs-viewport-minimum-d-4: 49.38vmin;
+$qs-viewport-minimum-d-5: 24.06vmin;
+$qs-viewport-maximum: 100vmax;
+$qs-viewport-maximum-d-0: 90vmax;
+$qs-viewport-maximum-d-1: 85vmax;
+$qs-viewport-maximum-d-2: 77.5vmax;
+$qs-viewport-maximum-d-3: 66.25vmax;
+$qs-viewport-maximum-d-4: 49.38vmax;
+$qs-viewport-maximum-d-5: 24.06vmax;
+```
+
+#### json
+
+```json
+{
+  "qs": {
+    "color": {
+      "main": {
+        "base": "rgb(52, 141, 201)",
+        "tint": [
+          "rgb(153, 186, 220)",
+          "rgb(209, 223, 238)",
+          "rgb(254, 254, 255)"
+        ],
+        "shade": [
+          "rgb(38, 102, 146)",
+          "rgb(12, 32, 45)"
+        ]
+      },
+      "accent": {
+        "base": "rgb(141, 201, 52)",
+        "shade": [
+          "rgb(102, 146, 38)",
+          "rgb(32, 45, 12)"
+        ]
+      },
+      "highlight": {
+        "base": "rgb(201, 52, 141)",
+        "shade": [
+          "rgb(146, 38, 102)",
+          "rgb(45, 12, 32)"
+        ]
+      }
+    },
+    "text": {
+      "body": "Zilla Slab, -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif",
+      "headings": "Rubik, -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif",
+      "code": "Space Mono, Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace",
+      "leading": {
+        "base": 1.5,
+        "tight": 1.25,
+        "loose": 1.75
+      },
+      "size": {
+        "base": "1rem",
+        "x": [
+          "1.5rem",
+          "2.25rem",
+          "3.375rem",
+          "5.063rem",
+          "7.594rem",
+          "11.39rem",
+          "17.09rem",
+          "25.63rem",
+          "38.44rem"
+        ],
+        "d": [
+          "0.6667em",
+          "0.4444em",
+          "0.2963em",
+          "0.1975em",
+          "0.1317em",
+          "0.08779em",
+          "0.05853em",
+          "0.03902em",
+          "0.02601em"
+        ]
+      },
+      "style": {
+        "regular": 400,
+        "bold": 700,
+        "black": 900
+      }
+    },
+    "content": {
+      "space": {
+        "base": "1ex",
+        "x": [
+          "1.5ex",
+          "2.25ex",
+          "3.375ex",
+          "5.063ex",
+          "7.594ex",
+          "11.39ex",
+          "17.09ex",
+          "25.63ex",
+          "38.44ex"
+        ],
+        "d": [
+          "0.6667ex",
+          "0.4444ex",
+          "0.2963ex",
+          "0.1975ex",
+          "0.1317ex",
+          "0.08779ex",
+          "0.05853ex",
+          "0.03902ex",
+          "0.02601ex"
+        ]
+      },
+      "measure": {
+        "base": "75ch",
+        "d": [],
+        "min": "45ch"
+      },
+      "grid": {
+        "base": "1fr",
+        "n": [
+          "1.5fr",
+          "2.25fr",
+          "3.375fr",
+          "5.063fr",
+          "7.594fr",
+          "11.39fr",
+          "17.09fr",
+          "25.63fr",
+          "38.44fr"
+        ]
+      }
+    },
+    "viewport": {
+      "width": {
+        "base": "100vw",
+        "d": [
+          "90vw",
+          "85vw",
+          "77.5vw",
+          "66.25vw",
+          "49.38vw",
+          "24.06vw"
+        ]
+      },
+      "height": {
+        "base": "100vh",
+        "d": [
+          "90vh",
+          "85vh",
+          "77.5vh",
+          "66.25vh",
+          "49.38vh",
+          "24.06vh"
+        ]
+      },
+      "minimum": {
+        "base": "100vmin",
+        "d": [
+          "90vmin",
+          "85vmin",
+          "77.5vmin",
+          "66.25vmin",
+          "49.38vmin",
+          "24.06vmin"
+        ]
+      },
+      "maximum": {
+        "base": "100vmax",
+        "d": [
+          "90vmax",
+          "85vmax",
+          "77.5vmax",
+          "66.25vmax",
+          "49.38vmax",
+          "24.06vmax"
+        ]
+      }
+    }
+  }
+}
+```
+
+Brilliant.
 
 ## Token Dictionary Spec
 
@@ -1257,7 +1424,7 @@ The spec itself draws a lot of inspiration from the [Styled System theme specifi
 
 It begins with the same ideas about values and scales, but borrows its ideas about hierarchy from [Style Dictionary properties](https://amzn.github.io/style-dictionary/#/properties).
 
-Values and scales to enforce consistency + hierarchical structure to allow and encourage composition of design tokens = a format that can cover most design token authoring taxonomies.
+Values and scales enforce consistency. Hierarchical structure to allows and encourages composition of design tokens. Bringing them together results in a format that can handle most design token taxonomies.
 
 ### Value
 
@@ -1336,7 +1503,7 @@ const dict = {
 
 If you've been following along this far, you see QuarkSuite does quite a lot on its own for authoring and building design tokens. That said, it's also designed to connect with tools many of us already use.
 
-> The integration examples use QuarkSuite's own token dictionaries.
+> The integration examples use QuarkSuite's own token dictionaries. Also, be aware that the @quarksuite/config and @quarksuite/tokens modules are being served locally by [yalc](https://github.com/whitecolor/yalc) and aren't on NPM.
 
 ### Style Dictionary
 
@@ -1432,7 +1599,7 @@ And the files:
 ```scss
 
 // Do not edit directly
-// Generated on Fri, 04 Dec 2020 16:26:53 GMT
+// Generated on Sat, 05 Dec 2020 18:50:22 GMT
 
 $qs-content-space-base: 1ex;
 $qs-content-space-x-0: 1.5ex;
@@ -1444,15 +1611,15 @@ $qs-content-space-x-5: 11.39ex;
 $qs-content-space-x-6: 17.09ex;
 $qs-content-space-x-7: 25.63ex;
 $qs-content-space-x-8: 38.44ex;
-$qs-content-space-xd-0: 0.6667ex;
-$qs-content-space-xd-1: 0.4444ex;
-$qs-content-space-xd-2: 0.2963ex;
-$qs-content-space-xd-3: 0.1975ex;
-$qs-content-space-xd-4: 0.1317ex;
-$qs-content-space-xd-5: 0.08779ex;
-$qs-content-space-xd-6: 0.05853ex;
-$qs-content-space-xd-7: 0.03902ex;
-$qs-content-space-xd-8: 0.02601ex;
+$qs-content-space-d-0: 0.6667ex;
+$qs-content-space-d-1: 0.4444ex;
+$qs-content-space-d-2: 0.2963ex;
+$qs-content-space-d-3: 0.1975ex;
+$qs-content-space-d-4: 0.1317ex;
+$qs-content-space-d-5: 0.08779ex;
+$qs-content-space-d-6: 0.05853ex;
+$qs-content-space-d-7: 0.03902ex;
+$qs-content-space-d-8: 0.02601ex;
 $qs-content-measure-base: 75ch;
 $qs-content-measure-min: 45ch;
 $qs-content-grid-base: 1fr;
@@ -1479,6 +1646,7 @@ $qs-color-highlight-shade-0: #922666;
 $qs-color-highlight-shade-1: #2d0c20;
 $qs-text-body: Zilla Slab, -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif;
 $qs-text-headings: Rubik, -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif;
+$qs-text-code: Space Mono, Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
 $qs-text-leading-base: 1.5;
 $qs-text-leading-tight: 1.25;
 $qs-text-leading-loose: 1.75;
@@ -1492,46 +1660,46 @@ $qs-text-size-x-5: 11.39rem;
 $qs-text-size-x-6: 17.09rem;
 $qs-text-size-x-7: 25.63rem;
 $qs-text-size-x-8: 38.44rem;
-$qs-text-size-xd-0: 0.6667em;
-$qs-text-size-xd-1: 0.4444em;
-$qs-text-size-xd-2: 0.2963em;
-$qs-text-size-xd-3: 0.1975em;
-$qs-text-size-xd-4: 0.1317em;
-$qs-text-size-xd-5: 0.08779em;
-$qs-text-size-xd-6: 0.05853em;
-$qs-text-size-xd-7: 0.03902em;
-$qs-text-size-xd-8: 0.02601em;
+$qs-text-size-d-0: 0.6667em;
+$qs-text-size-d-1: 0.4444em;
+$qs-text-size-d-2: 0.2963em;
+$qs-text-size-d-3: 0.1975em;
+$qs-text-size-d-4: 0.1317em;
+$qs-text-size-d-5: 0.08779em;
+$qs-text-size-d-6: 0.05853em;
+$qs-text-size-d-7: 0.03902em;
+$qs-text-size-d-8: 0.02601em;
 $qs-text-style-regular: 400;
 $qs-text-style-bold: 700;
 $qs-text-style-black: 900;
 $qs-viewport-width-base: 100vw;
-$qs-viewport-width-xd-0: 90vw;
-$qs-viewport-width-xd-1: 85vw;
-$qs-viewport-width-xd-2: 77.5vw;
-$qs-viewport-width-xd-3: 66.25vw;
-$qs-viewport-width-xd-4: 49.38vw;
-$qs-viewport-width-xd-5: 24.06vw;
+$qs-viewport-width-d-0: 90vw;
+$qs-viewport-width-d-1: 85vw;
+$qs-viewport-width-d-2: 77.5vw;
+$qs-viewport-width-d-3: 66.25vw;
+$qs-viewport-width-d-4: 49.38vw;
+$qs-viewport-width-d-5: 24.06vw;
 $qs-viewport-height-base: 100vh;
-$qs-viewport-height-xd-0: 90vh;
-$qs-viewport-height-xd-1: 85vh;
-$qs-viewport-height-xd-2: 77.5vh;
-$qs-viewport-height-xd-3: 66.25vh;
-$qs-viewport-height-xd-4: 49.38vh;
-$qs-viewport-height-xd-5: 24.06vh;
+$qs-viewport-height-d-0: 90vh;
+$qs-viewport-height-d-1: 85vh;
+$qs-viewport-height-d-2: 77.5vh;
+$qs-viewport-height-d-3: 66.25vh;
+$qs-viewport-height-d-4: 49.38vh;
+$qs-viewport-height-d-5: 24.06vh;
 $qs-viewport-minimum-base: 100vmin;
-$qs-viewport-minimum-xd-0: 90vmin;
-$qs-viewport-minimum-xd-1: 85vmin;
-$qs-viewport-minimum-xd-2: 77.5vmin;
-$qs-viewport-minimum-xd-3: 66.25vmin;
-$qs-viewport-minimum-xd-4: 49.38vmin;
-$qs-viewport-minimum-xd-5: 24.06vmin;
+$qs-viewport-minimum-d-0: 90vmin;
+$qs-viewport-minimum-d-1: 85vmin;
+$qs-viewport-minimum-d-2: 77.5vmin;
+$qs-viewport-minimum-d-3: 66.25vmin;
+$qs-viewport-minimum-d-4: 49.38vmin;
+$qs-viewport-minimum-d-5: 24.06vmin;
 $qs-viewport-maximum-base: 100vmax;
-$qs-viewport-maximum-xd-0: 90vmax;
-$qs-viewport-maximum-xd-1: 85vmax;
-$qs-viewport-maximum-xd-2: 77.5vmax;
-$qs-viewport-maximum-xd-3: 66.25vmax;
-$qs-viewport-maximum-xd-4: 49.38vmax;
-$qs-viewport-maximum-xd-5: 24.06vmax;
+$qs-viewport-maximum-d-0: 90vmax;
+$qs-viewport-maximum-d-1: 85vmax;
+$qs-viewport-maximum-d-2: 77.5vmax;
+$qs-viewport-maximum-d-3: 66.25vmax;
+$qs-viewport-maximum-d-4: 49.38vmax;
+$qs-viewport-maximum-d-5: 24.06vmax;
 ```
 
 ##### quarksuite_colors.xml
@@ -1716,7 +1884,7 @@ export default {
       borderRadius: "xd.3",
       bg: "lighter",
       color: "accent.base",
-      px: "xd.1",
+      px: "d.1",
     },
     a: {
       color: "highlight.base",
@@ -1754,6 +1922,6 @@ export default function App({ Component, pageProps }) {
 
 ## Support
 
-If you have any questions or suggestions about the user guide and how to improve it, [please submit an issue](https://github.com/quarksuite/core/issues) with the user guide tag.
+If you have any questions or suggestions about the user guide or any of the concepts explained, [please submit an issue](https://github.com/quarksuite/core/issues) with the user guide tag.
 
 Thanks for checking out this library.

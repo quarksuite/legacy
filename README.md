@@ -9,13 +9,15 @@
 
 ![QuarkSuite Logo](assets/logo.png)
 
-![Basic Demonstration in a REPL](assets/demo.gif)
+[![QuarkSuite v5 Demo](https://asciinema.org/a/IFJ6NQXEsTtXthGxNCGg9viif.svg)](https://asciinema.org/a/IFJ6NQXEsTtXthGxNCGg9viif)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 Table of Contents
 
 - [Summary](#summary)
+- [Use QuarkSuite](#use-quarksuite)
+- [Don't Use QuarkSuite](#dont-use-quarksuite)
 - [Features](#features)
   - [Superpowers](#superpowers)
 - [Installation](#installation)
@@ -30,20 +32,27 @@ Table of Contents
   - [Design as a Module](#design-as-a-module)
   - [Works the Way You Work](#works-the-way-you-work)
   - [Zero Friction](#zero-friction)
-  - [Simplicity](#simplicity)
   - [Interop](#interop)
-- [Use QuarkSuite](#use-quarksuite)
-- [Don't Use QuarkSuite](#dont-use-quarksuite)
-- [What's In a Name?](#whats-in-a-name)
-  - [Quark + Suite](#quark--suite)
+- [Quark + Suite](#quark--suite)
 - [Inspired By](#inspired-by)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Summary
 
-QuarkSuite is a utility kit for creating, composing, and building [design tokens](https://css-tricks.com/what-are-design-tokens/). Driven by data 
-and web technologies.
+QuarkSuite is a collection of utilities focused around the creation, assembly, and distribution of [design tokens](https://css-tricks.com/what-are-design-tokens/). Made of and for web technologies.
+
+## Use QuarkSuite
+
++ for small projects that need quick setup
++ for distributed design data sets shared between projects
++ for consistent yet flexible design system scaffolding
+
+## Don't Use QuarkSuite
+
++ if your demands are much more complex than creating and building data to scale
++ if you prefer tools built around batteries-included configuration
++ if you have output demands beyond web technologies
 
 ## Features
 
@@ -53,17 +62,17 @@ and web technologies.
 + [build your tokens](https://github.com/quarksuite/core/blob/master/API.md#build-formats) **(added in v5)**
 	+ as css custom properties
 	+ preprocessor variables (Sass, Less, Stylus supported)
-	+ raw JSON data 
+	+ raw JSON
 	+ Style Dictionary properties for complex builds or unsupported formats
 	+ Tailwind data for theming
 
 ### Superpowers
 
-+ advanced functional utilities allow one-off projects to grow into project starters
-+ embed the common expectations and patterns of your design tokens into shareable configurations
-+ system-wide token configurations allow you to focus on what *changes* between your projects
++ functional utilities help project data sets scale into generic sets
++ embed the idioms and patterns of your design token workflow into shareable modules
++ focus on data that *changes* between your projects
 
-For details, [see the user guide](https://github.com/quarksuite/core/blob/master/USAGE.md#enhancements).
+For details, [see the enhancements section](https://github.com/quarksuite/core/blob/master/USAGE.md#enhancements) of the user guide.
 
 ## Installation
 
@@ -171,11 +180,11 @@ outputFileSync(
 
 ## User Guide
 
-As of v5, I've written a user guide that will take you through from basic setup to integration with other design token and UI approaches. [It's a great place to start](https://github.com/quarksuite/core/blob/master/USAGE.md) if you're new.
+As of v5, I've written a user guide that will take you through from basic setup to integration with related tools. [It's a great place to start](https://github.com/quarksuite/core/blob/master/USAGE.md) if you're new.
 
 ## API
 
-You can also [read the full API](https://github.com/quarksuite/core/blob/master/API.md) for a technical overview of all of this library's features.
+You can also [read the full API](https://github.com/quarksuite/core/blob/master/API.md) for a technical overview of all library features.
 
 ## Contributing
 
@@ -185,7 +194,7 @@ You can read the [community and contribution guidelines](https://github.com/quar
 
 QuarkSuite is built around [design tokens](https://css-tricks.com/what-are-design-tokens/) and the idea that authoring them shouldn't require a particular stack or framework.
 
-The library's focus is on reuse and composition of [token dictionaries](https://github.com/quarksuite/core/blob/master/USAGE.md#token-dictionary-spec) and the API favors a data-last functional approach.
+The library's focus is on reuse and composition of its utilities to assemble [token dictionaries](https://github.com/quarksuite/core/blob/master/USAGE.md#token-dictionary-spec) and the API favors a data-last functional approach.
 
 ## Project Objectives
 
@@ -199,15 +208,12 @@ The main advantage of this approach for design token authoring is that you can f
 
 ### Works the Way You Work
 
-This project holds no opinions or comments about your web stack. Integrate your tokens at any stage that naturally works for your process.
+This project has no opinions or comments about your web stack or tooling. Integrate your tokens at any stage that naturally works for your process.
 
 ### Zero Friction
 
 This project has no dependencies and the included build formats detach output from data at your discretion.
 
-### Simplicity
-
-Each function has a particular job. Functionality that proves to *break* the flow will become a candidate for eventual removal.
 
 ### Interop
 
@@ -215,28 +221,17 @@ This project is built to leverage what already exists in the design token author
 
 QuarkSuite performs well enough on its own with small projects, but large teams will want to [integrate it with meatier tools](https://github.com/quarksuite/core/blob/master/USAGE.md#quarksuite-interop).
 
-## Use QuarkSuite
 
-+ for small projects that need to be up and running quickly
-+ for distributed design data sets you can use between projects
-+ for a consistent, flexible design system foundation
+## Quark + Suite
 
-## Don't Use QuarkSuite
+In atomic design terminology, the level below atoms could be considered the subatomic parts of a design system. Quarks popped up a lot in the community as an analogy for design tokens.
 
-+ if your design token demands are much more complex than creating and building data to scale
-+ if you prefer tools built around batteries-included configuration
-+ if you have output demands beyond web technologies
+A suite is "a group of things forming a unit or constituting a collection" or "a set of computer programs designed to work together".
 
-## What's In a Name?
-
-QuarkSuite in its earlier stages went by the name Quarksilver in referring to how quickly you could build your tokens.
-
-### Quark + Suite
-
-In atomic design terminology, the level below atoms could be considered the subatomic parts of a design system. I noticed quarks and ions was popping up a lot as an analogy for design tokens, so I went with that.
+So, QuarkSuite seemed a good fit.
 
 ## Inspired By
 
 + [Ether](https://ether.thescenery.co)
-+ [Styled System](https://styled-system.com)
++ [Styled System](https://styled-system.com) 
 + [Style Dictionary](https://amzn.github.io/style-dictionary)

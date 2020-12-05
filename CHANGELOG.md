@@ -105,28 +105,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased - 2020-12-04
 
-This version is a major release adding [build functions for various formats](https://github.com/quarksuite/core/blob/master/API.md#build-formats) to the workflow as well as [
-integration formats](https://github.com/quarksuite/core/blob/master/API.md#integration-formats) for working with Style Dictionary and Tailwind.
+This version is a major release adding [build functions for various formats](https://github.com/quarksuite/core/blob/master/API.md#build-formats) to the workflow.
 
-The reworks to the functional utilities (`bind` and `pipe`) allow the binding of settings and the ability to bind
-pipelines to create data presets. Combining these enhancements: QuarkSuite's API now allows a 
+Reworks of the functional utilities (`bind` and `pipe`) allow the binding of settings and the ability to bind pipelines to create data presets. Combining these enhancements: QuarkSuite's API now allows a 
 **nearly pointfree** functional workflow.
 
-This version also introduces a *standard* [structure](https://github.com/quarksuite/core/blob/master/API.md#token-dictionaries) 
-to assemble design tokens that allows nesting and namespacing.
+This version also introduces the [token dictionary spec](https://github.com/quarksuite/core/blob/master/USAGE.md#token-dictionary-spec): a standard object for assembling token data that allows nesting and namespacing. It's used by the new build formats.
 
-Internally, it leverages a few TypeScript 4 features to make the high-order function utilities (mainly `pipe`) more 
-flexible, so keep in mind you may get strange type definitions if using an older version.
+Internally, it leverages a few TypeScript 4 features to make the high-order function utilities (mainly `pipe`) more flexible, so keep in mind you may get strange type definitions if using an older version.
 
-Finally, [I've written a user guide](https://github.com/quarksuite/core/blob/master/USAGE.md) that walks you through
-everything about the library from setting up a baseline token dictionary to refactoring with advanced features and 
-interop examples with related tools.
+Finally, [I've written a user guide](https://github.com/quarksuite/core/blob/master/USAGE.md) that walks you through everything about the library from setting up a baseline token dictionary to refactoring with advanced features and interop examples with related tools.
 
 ### Added
 
 #### token dictionary spec
 
-Raw data must be built into [token dictionaries](https://github.com/quarksuite/core/blob/master/API.md#token-dictionaries) if you want to use the following build formats.
+Raw data must be built into token dictionaries if you want to use the following build formats.
 
 #### build formats
 
@@ -139,7 +133,7 @@ Raw data must be built into [token dictionaries](https://github.com/quarksuite/c
 ##### tool integrations
 
 + `sd` for Style Dictionary properties
-+ `tw` for Tailwind theming
++ `tw` for Tailwind theme data
 
 ### Changed
 
@@ -157,6 +151,8 @@ Raw data must be built into [token dictionaries](https://github.com/quarksuite/c
 #### scheme functions
 
 + `triad` updated to switch the order of output hues: `[color, rightOfOpposite, leftOfOpposite]`
+
+
 
 ## v4.0.1 - 2020-10-03
 

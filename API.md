@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Settings and Presets](#settings-and-presets)
+- [Functional Utilities](#functional-utilities)
   - [bind](#bind)
     - [Usage](#usage)
     - [Params](#params)
@@ -154,23 +154,17 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-You can [try out all examples on RunKit][runkit].
+You can [try out all the examples on RunKit][runkit].
 
-> As of v4, I flattened the API so that each function is exported as a top level module. This makes it easier to use only what you need from the library.
-> 
-> Additionally, the functions no longer come curried. Instead, v4 exposed functional utilities you can use to `bind` and `pipe` them.
-> 
-> Beyond that, the *documentation* still organizes modules by usage to make it simpler to search.
+## Functional Utilities
 
-
-
-## Settings and Presets
-
-These are part of advanced usage and aren't *required* to use the library. Instead, they make it easier to bind **settings** and define **presets**.
+These are part of advanced usage and aren't *required* to use the library. Instead, they make it easier to break up utilities and build complex behavior.
 
 ### bind
 
 Allows you to bind any other utility in the library; allows **chaining**.
+
+Binding is essential to the advanced features of [settings][ug-settings] and [factory settings][ug-factory-settings].
 
 > The precise name for what this does: partial application. A function with a type signature of `(z, y, x) => any` becomes `(z, y) => (x) => any` or `(z) => (y) => (x) => any` if each arg is bound one at a time.
 
@@ -210,13 +204,11 @@ A function whose parameters are the `...pending` or unbound arguments of `utilit
 
 ### pipe
 
-> As of v5, pipe is no longer limited to two operations. It's also chainable and **presets** can be created with `bind`.
+> As of v5, pipe is no longer limited to two operations. It's also chainable.
 
 A function that takes a value and pipes it through a chain of bound operations. 
 
-The main use case is transforming a value with a sequence of n operations to get a different value.
-
-Keep in mind that the functions you pass in *must* be bound until only data remains.
+Essential to the advanced features of [presets][ug-presets] and [configurations][ug-configurations].
 
 #### Usage
 
@@ -242,11 +234,11 @@ pipe(color, lighten, desat); // #43ef99
 
 pipe(color, darken, mixInBlue, lighten); // #05ffb8
 
-// A bound pipe operation AKA a preset
+// A bound pipeline
 
 const brand = bind(pipe, color, darken, mixInBlue);
 
-// preset modifications
+// modifications
 
 brand(lighten, mixInGreen, desat); // #19ebac
 brand(darken, mixInGreen, mixInBlue, fade, fade); // #00b09beb
@@ -327,9 +319,9 @@ An array of font stacks matching each defined family
 
 These functions work exclusively on any valid CSS color (even those with transparency) to convert to another format or modify via adjustment or mixture. Color functions also check the format and will throw errors if your color is invalid.
 
-> **Color is hard**. I'm not gonna pretend otherwise. Pinpoint color accuracy isn't the aim for this library as much as palette *sensibility*. I highly recommend using a dedicated color library for your palettes if accuracy isn't optional or you need access to more color spaces.
- 
-> Might I suggest two former dependencies of this library: [chroma.js][chroma-js] or [TinyColor][tinycolor]. 
+> If you need more from your palette than what the library provides, you're welcome to use a dedicated color library to build your colors. 
+> 
+> [chroma.js][chroma-js] and [TinyColor][tinycolor] are great libraries for color and I've used them both as dependencies in previous versions. 
 
 ### hex
 
@@ -771,8 +763,6 @@ As with the other functions that operate on colors, an invalid color will throw 
 
 A function that creates tints from any valid CSS color.
 
-> A tint is made of a color mixed with pure white.
-
 #### Usage
 
 ```js
@@ -799,8 +789,6 @@ An array of tints ordered from light to lightest.
 ### tones
 
 A function that creates tones from any valid CSS color.
-
-> A tone is made of a color mixed with pure gray.
 
 #### Usage
 
@@ -829,8 +817,6 @@ An array of tones ordered from least to most muted.
 
 A function that creates shades from any valid CSS color.
 
-> A shade is made of a color mixed with pure black.
-
 #### Usage
 
 ```js
@@ -856,13 +842,11 @@ An array of shades ordered from dark to darkest.
 
 ## Scale Functions
 
-These functions are your means of creating and changing modular scales. Also included are functions to merge, slice, and attach units with a desired precision.
+These functions are focused around modular scales. Includes a base function to create them and a suite of functions to modify them. When you've done all of your calculations, you attach your units.
 
 ### ms
 
-This is main scale creation function. All the other functions in this category operate on the raw values returned by this one.
-
-You can use modular scales for your typography, layout, or other composition concerns.
+This is the main scale creation function. All the other functions in this category operate on data returned from this one.
 
 > Formula: `base * ratio ** n` where `n` is the current index.
 > 
@@ -1016,7 +1000,7 @@ A new scale containing chunked values
 
 A function that prepares a raw scale to be used in CSS. This is the final step in scale creation.
 
-> Accepts all absolute and relative units. Does **no** internal conversion between units.
+> Accepts all absolute and relative units. Does **no** unit conversion.
 
 #### Usage
 
@@ -1060,15 +1044,15 @@ A new scale of CSS valid values
 
 ## Build formats
 
-These functions build your data into strings of various file formats ready to download with the native filesystem API or library of your choice. The currently supported formats include `css` custom properties, `sass`, `less`, `styl` variables, and raw `json`.
+These functions build your data into strings of various file formats ready to download with the native filesystem API or library of your choice. The currently supported formats include `css` custom properties, `sass`, `less`, `styl` variables, and `raw` JSON.
 
 Also included in this section are integration formats that build your data to be consumable by other design token or UI theming tools. For now, only [Style Dictionary properties][styleD] (`sd`) and [Tailwind theme data][tailwind] (`tw`) are supported.
 
 Once built, your tokens are completely ready to use.
 
-> Every build format and integration uses the standard token dictionary object. You can [read about the spec](tdspec) in the
-> usage documentation.
-The examples use the simplest possible dictionaries for demonstration.
+> Every build format and integration uses the standard token dictionary object. You can [read about the spec][tdspec] in the usage documentation. 
+> 
+> The examples use the simplest possible dictionaries for demonstration.
 
 ### css
 
@@ -1194,9 +1178,7 @@ A string containing a collection of Stylus variables.
 
 ### raw
 
-Builds a token dictionary as JSON.
-
-> This function is a wrapper around `JSON.stringify` with some pretty printing. It translates data directly from token dictionaries for general use. A good use case is to convert your data to another data format like YAML.
+This function is a wrapper around `JSON.stringify` with some pretty printing.
 
 #### Usage
 
@@ -1232,14 +1214,11 @@ A string containing token dictionary data as pretty-printed JSON.
 
 An integration format that converts a token dictionary into Style Dictionary properties.
 
-> Unlke the other build formats, `sd` preserves a subcategory's `base` 
-> property because that's what Style Dictionary anticipates from its 
-> recommended CTI property structure.
+You can see a more practical [example of Style Dictionary integration][interop-sd] in the user guide.
+
+> Unlke the other build formats, `sd` preserves a subcategory's `base` property because that's what Style Dictionary anticipates.
 >
 > Additionally, if you pass a number value in, it will be converted to a string value.
-> 
-> The main use case is to port your data for more complex design token
-> building than this library allows. Such as iOS and Android support.
 
 #### Usage
 
@@ -1265,11 +1244,11 @@ sd({
 
 ### tw
 
-An integration format that converts a token dictionary according to Tailwind theme specification. 
+An integration format that converts a token dictionary subcategory according to Tailwind theme specifications.
 
-Keep in mind that it follows the **v2** theme structure.
+You can see a more practical [example of Tailwind integration][interop-tw] in the user guide.
 
-> Its main purpose is transforming subcategories into values. Values are already valid for Tailwind.
+> Keep in mind that it follows the **v2** theme format.
 
 #### Usage
 
@@ -1306,9 +1285,13 @@ tw({
 
 #### Returns
 
-A token dictionary with its subcategories formatted to valid Tailwind utility data.
+A token dictionary with its subcategories converted to the valid Tailwind theme format.
 
 [runkit]: https://npm.runkit.com/%40quarksuite%2Fcore
+[ug-settings]: https://github.com/quarksuite/core/blob/master/USAGE.md#settings
+[ug-factory-settings]: https://github.com/quarksuite/core/blob/master/USAGE.md#factory-settings
+[ug-presets]: https://github.com/quarksuite/core/blob/master/USAGE.md#presets
+[ug-configurations]: https://github.com/quarksuite/core/blob/master/USAGE.md#configurations
 [clrs]: https://clrs.cc
 [systemfonts]: https://systemfontstack.com
 [chroma-js]: https://gka.github.io/chroma.js/
@@ -1319,4 +1302,6 @@ A token dictionary with its subcategories formatted to valid Tailwind utility da
 [sass]: https://sass-lang.com/documentation/variables
 [less]: http://lesscss.org/features/#variables-feature
 [stylus]: https://stylus-lang.com/docs/variables.html
+[interop-sd]: https://github.com/quarksuite/core/blob/master/USAGE.md#style-dictionary
+[interop-tw]: https://github.com/quarksuite/core/blob/master/USAGE.md#tailwind
 [tdspec]: https://github.com/quarksuite/core/blob/master/USAGE.md#token-dictionary-spec
