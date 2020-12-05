@@ -164,7 +164,7 @@ The next set of tokens to create are for typography.
 
 #### 1. set font values and styles
 
-QuarkSuite isn't worried about what fonts you use or how you serve them. Instead, for your font tokens it provides a utility for attaching robust system fallbacks. Let's define `body` and `heading` values for our `text` dictionary. This is also the place to define our expected leading and weights.
+QuarkSuite isn't worried about what fonts you use or how you serve them. Instead, for your font tokens it provides a [utility for attaching robust system fallbacks](https://github.com/quarksuite/core/blob/master/API.md#prototyping-functions). Let's define `body` and `heading` values for our `text` dictionary. This is also the place to define our expected leading and weights.
 
 ```js
 const [serif, sans] = systemfonts("serif", "sans-serif");
