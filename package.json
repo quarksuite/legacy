@@ -1,7 +1,7 @@
 {
   "name": "@quarksuite/core",
   "version": "5.0.0-prerelease",
-  "description": "Quarksuite is a data-driven design token utility kit",
+  "description": "QuarkSuite is a collection of utilities focused around the creation, assembly, and distribution of design tokens. Made of and for web technologies.",
   "author": "Chatman R. Jr <crjr.code@gmail.com>",
   "repository": {
     "type": "git",
@@ -15,10 +15,16 @@
   },
   "homepage": "https://github.com/quarksuite/core",
   "keywords": [
-    "modular",
-    "data-driven",
-    "design tokens",
-    "utility"
+    "functional",
+    "design token",
+    "utilities",
+    "css",
+    "custom properties",
+    "preprocessors",
+    "variables",
+    "tailwind",
+    "style dictionary",
+    "theme ui"
   ],
   "license": "MIT",
   "devDependencies": {
