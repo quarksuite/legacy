@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Unreleased - 2020-12-04](#unreleased---2020-12-04)
+- [v5.0.0 - 2020-12-05](#v500---2020-12-05)
   - [Added](#added)
     - [token dictionary spec](#token-dictionary-spec)
     - [build formats](#build-formats)
@@ -103,7 +103,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Unreleased - 2020-12-04
+## v5.0.0 - 2020-12-05
 
 This version is a major release adding [build functions for various formats](https://github.com/quarksuite/core/blob/master/API.md#build-formats) to the workflow.
 
