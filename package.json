@@ -1,6 +1,6 @@
 {
   "name": "@quarksuite/core",
-  "version": "5.0.0-prerelease",
+  "version": "5.0.0",
   "description": "QuarkSuite is a collection of utilities focused around the creation, assembly, and distribution of design tokens. Made of and for web technologies.",
   "author": "Chatman R. Jr <crjr.code@gmail.com>",
   "repository": {
