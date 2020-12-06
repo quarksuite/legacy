@@ -205,7 +205,7 @@ The [way QuarkSuite does scales](https://github.com/quarksuite/core/blob/master/
 
 So instead of another library that fiddles with conversion math, QuarkSuite trusts the web to respond to its own units. So use the values you intend.
 
-Now, we'll update our `font` dictionary with a `size` subcategory:
+Now, we'll update our `text` dictionary with a `size` subcategory:
 
 ```js
 const text = {
