@@ -989,7 +989,7 @@ After all of our enhancements, we're ready to see the final form of our token di
 
 #### build.js
 
-The QuarkSuite token dictionary gets wrapped in the namespace `qs` before building. And we're using the `css`, `scss`, and `raw` build formats to output our tokens.
+The QuarkSuite token dictionary gets wrapped in the namespace `qs` before building. And we're using the `css`, `sass`, and `raw` build formats to output our tokens.
 
 You can use any filesystem library (or native `fs` module) to output the files. I like `fs-extra` because it creates the directory as well.
 
