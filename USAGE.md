@@ -402,7 +402,7 @@ The use case for factory settings is when you have settings you want to carry ac
 
 Now I'll introduce presets. This feature allows `pipe` to show off its abilities. In fact, you've already seen one: `content = pipe(base, scale);` is actually a minimal preset.
 
-Presets can safely be the starting value other other presets. Thus we can rework our scales into a *chain* of presets that make use of our factory settings.
+Presets can safely be the starting value of other presets. Thus we can rework our scales into a *chain* of presets that make use of our factory settings.
 
 #### Font Size
 
