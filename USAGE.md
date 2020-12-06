@@ -380,7 +380,7 @@ Take notice of how the `units` utility is chained. Which creates a fully curried
 
 You'll notice some repetition in the above code. What could we do to resolve that? 
 
-The answer: we'll wrap the bindings with another function accepting a *writable* initial argument. Or we create `factory settings`.
+The answer: we'll wrap the bindings with another function accepting a *writable* initial argument. Or we create **factory settings**.
 
 ```js
 const scale = bind(ms, values, ratio);
