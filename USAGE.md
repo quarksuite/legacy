@@ -1423,7 +1423,7 @@ The spec itself draws a lot of inspiration from the [Styled System theme specifi
 
 It begins with the same ideas about values and scales, but borrows its ideas about hierarchy from [Style Dictionary properties](https://amzn.github.io/style-dictionary/#/properties).
 
-Values and scales enforce consistency. Hierarchical structure to allows and encourages composition of design tokens. Bringing them together results in a format that can handle most design token taxonomies.
+Values and scales enforce consistency. A hierarchical structure allows and encourages composition of design tokens. Bringing them together results in a format that can handle most design token taxonomies.
 
 ### Value
 
