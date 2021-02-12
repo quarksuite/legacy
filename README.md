@@ -1,15 +1,20 @@
+> Note: This repository archives the legacy version of QuarkSuite: QuarkSuite 1.
+> If you're interested in current development, that continues elsewhere.
+>
+> I'll post a link to the new core when it's ready.
+
 [![NPM Version](https://img.shields.io/npm/v/@quarksuite/core?label=release&logo=npm&style=for-the-badge)](https://npmjs.com/package/@quarksuite/core)
-[![Travis CI](https://img.shields.io/travis/quarksuite/core?logo=travis&style=for-the-badge)](https://travis-ci.com/github/quarksuite/core)
-[![Coveralls](https://img.shields.io/coveralls/github/quarksuite/core?logo=coveralls&style=for-the-badge)](https://coveralls.io/github/quarksuite/core)
-![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/quarksuite/core?style=for-the-badge)
+[![Travis CI](https://img.shields.io/travis/quarksuite/legacy?logo=travis&style=for-the-badge)](https://travis-ci.com/github/quarksuite/legacy)
+[![Coveralls](https://img.shields.io/coveralls/github/quarksuite/legacy?logo=coveralls&style=for-the-badge)](https://coveralls.io/github/quarksuite/legacy)
+![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/quarksuite/legacy?style=for-the-badge)
 [![Minzipped bundle](https://img.shields.io/bundlephobia/minzip/@quarksuite/core?style=for-the-badge)](https://bundlephobia.com/result?p=@quarksuite/core)
-[![License: MIT](https://img.shields.io/github/license/quarksuite/core?style=for-the-badge)](https://github.com/quarksuite/core/blob/master/LICENSE)
+[![License: MIT](https://img.shields.io/github/license/quarksuite/legacy?style=for-the-badge)](https://github.com/quarksuite/legacy/blob/master/LICENSE)
 
 # QuarkSuite
 
 ![QuarkSuite Logo](assets/logo.png)
 
-[![QuarkSuite v5 Demo](https://asciinema.org/a/IFJ6NQXEsTtXthGxNCGg9viif.svg)](https://asciinema.org/a/IFJ6NQXEsTtXthGxNCGg9viif)
+[![QuarkSuite 1 Demo](https://asciinema.org/a/IFJ6NQXEsTtXthGxNCGg9viif.svg)](https://asciinema.org/a/IFJ6NQXEsTtXthGxNCGg9viif)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
