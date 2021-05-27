@@ -1,7 +1,7 @@
 > Note: This repository archives the legacy version of QuarkSuite: QuarkSuite 1.
-> If you're interested in current development, that continues elsewhere.
+> If you're interested in current development, [head to the new core repository](https://github.com/quarksuite/core).
 >
-> I'll post a link to the new core when it's ready.
+
 
 [![NPM Version](https://img.shields.io/npm/v/@quarksuite/core?label=release&logo=npm&style=for-the-badge)](https://npmjs.com/package/@quarksuite/core)
 [![Travis CI](https://img.shields.io/travis/quarksuite/legacy?logo=travis&style=for-the-badge)](https://travis-ci.com/github/quarksuite/legacy)
